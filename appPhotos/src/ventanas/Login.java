@@ -43,7 +43,6 @@ public class Login {
 					Login window = new Login();
 					window.frame.setVisible(true);
 					window.frame.getRootPane().requestFocus(false);
-//					window.frame.setFocusableWindowState(false);
 
 				} catch (Exception e) {
 					e.printStackTrace();
