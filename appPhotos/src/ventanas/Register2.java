@@ -7,30 +7,27 @@ import javax.swing.JFrame;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Cursor;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.JComboBox;
+
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
-
 import javax.swing.ScrollPaneConstants;
-import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class Register2 {
@@ -41,6 +38,7 @@ public class Register2 {
 	private JButton btnborrar;
 	private JButton btnMeterImg;
 	private JLabel perfil;
+	private JButton btnRegistrarse;
 
 	/**
 	 * Launch the application.
@@ -78,9 +76,9 @@ public class Register2 {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 35, 0, 0, 35, 50, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 40, 0, 10, 0, 10, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 60, 0, 25, 0, 10, 30, 50, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JLabel nombreApp = new JLabel("appPhotos");
@@ -104,14 +102,18 @@ public class Register2 {
 		});
 		btnMeterImg.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		GridBagConstraints gbc_btnMeterImg = new GridBagConstraints();
-		gbc_btnMeterImg.fill = GridBagConstraints.BOTH;
+		gbc_btnMeterImg.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnMeterImg.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMeterImg.gridx = 2;
 		gbc_btnMeterImg.gridy = 3;
 		frame.getContentPane().add(btnMeterImg, gbc_btnMeterImg);
 		
 		perfil = new JLabel("");
-		perfil.setIcon(new ImageIcon(Register2.class.getResource("/imagenes/perfil.png")));
+		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/face-detection (1).png"));
+		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
+		
+		perfil.setIcon(icono);
+
 		GridBagConstraints gbc_perfil = new GridBagConstraints();
 		gbc_perfil.anchor = GridBagConstraints.EAST;
 		gbc_perfil.insets = new Insets(0, 0, 5, 5);
@@ -131,12 +133,18 @@ public class Register2 {
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		
 		descripcion = new JEditorPane();
-		descripcion.setText("Introduce una breve descripción sobre tus gustos, aficiones, personalidad...");
+		descripcion.setText("Introduce una breve descripción sobre ti...");
 		descripcion.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				if (descripcion.getText().equals("Introduce una breve descripción sobre tus gustos, aficiones, personalidad...")) {
+				if (descripcion.getText().equals("Introduce una breve descripción sobre ti...")) {
 					descripcion.setText("");
+				}
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (descripcion.getText().equals("")) {
+					descripcion.setText("Introduce una breve descripción sobre ti...");
 				}
 			}
 		});
@@ -154,11 +162,37 @@ public class Register2 {
 		});
 		btnborrar.setToolTipText("Elimina todo el texto contenido en el campo de la descripción");
 		GridBagConstraints gbc_btnborrar = new GridBagConstraints();
-		gbc_btnborrar.gridwidth = 2;
+		gbc_btnborrar.anchor = GridBagConstraints.EAST;
 		gbc_btnborrar.insets = new Insets(0, 0, 5, 5);
-		gbc_btnborrar.gridx = 2;
+		gbc_btnborrar.gridx = 3;
 		gbc_btnborrar.gridy = 6;
 		frame.getContentPane().add(btnborrar, gbc_btnborrar);
+		
+		btnRegistrarse = new JButton("REGISTRARSE");
+		btnRegistrarse.setBorderPainted(false);
+		btnRegistrarse.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnRegistrarse.setBackground(new Color(0,128,255));
+				btnRegistrarse.setForeground(new Color(255,255,255));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnRegistrarse.setBackground(new Color(255,255,255));
+				btnRegistrarse.setForeground(new Color(0,128,255));
+				
+			}
+		});
+		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnRegistrarse.setBackground(new Color(255,255,255));
+		btnRegistrarse.setForeground(new Color(0,128,255));
+		GridBagConstraints gbc_btnRegistrarse = new GridBagConstraints();
+		gbc_btnRegistrarse.fill = GridBagConstraints.VERTICAL;
+		gbc_btnRegistrarse.gridwidth = 2;
+		gbc_btnRegistrarse.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRegistrarse.gridx = 2;
+		gbc_btnRegistrarse.gridy = 8;
+		frame.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
 	}
 
 }
