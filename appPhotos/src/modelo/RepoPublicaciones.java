@@ -20,14 +20,14 @@ package modelo;
 		private static RepoPublicaciones unicaInstancia = new RepoPublicaciones();
 		
 		private FactoriaDAO dao;
-		private IAdaptadorClienteDAO adaptadorCliente;
+		private IAdaptadorPublicacionDAO adaptadorPublicacion;
 		
-		private CatalogoClientes() {
+		private RepoPublicaciones() {
 			try {
 	  			dao = FactoriaDAO.getInstancia(FactoriaDAO.DAO_TDS);
-	  			adaptadorCliente = dao.getClienteDAO();
-	  			clientes = new HashMap<String,Cliente>();
-	  			this.cargarCatalogo();
+	  			adaptadorPublicacion = dao.getPublicacionDAO();
+	  			clientes = new HashMap<String,Publicacion>();
+	  			this.cargarRepo();
 	  		} catch (DAOException eDAO) {
 	  			eDAO.printStackTrace();
 	  		}
@@ -56,17 +56,17 @@ package modelo;
 		}
 		
 		public void addCliente(Cliente cli) {
-			clientes.put(cli.getDni(),cli);
+			publicaciones.put(cli.getDni(),cli);
 		}
 		public void removeCliente (Cliente cli) {
-			clientes.remove(cli.getDni());
+			publicaciones.remove(cli.getDni());
 		}
 		
 		/*Recupera todos los clientes para trabajar con ellos en memoria*/
-		private void cargarCatalogo() throws DAOException {
-			 List<Cliente> clientesBD = adaptadorCliente.recuperarTodosClientes();
-			 for (Cliente cli: clientesBD) 
-				     clientes.put(cli.getDni(),cli);
+		private void cargarRepo() throws DAOException {
+			 List<Publicacion> publicacionesBD = adaptadorPublicacion.recuperarTodasPublicaciones();
+			 for (Publicacion publ: publicacionesBD) 
+				     publicaciones.put(publ.getTitulo(),publ);
 		}
 		
 	}
