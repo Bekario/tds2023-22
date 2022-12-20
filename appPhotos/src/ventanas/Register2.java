@@ -173,19 +173,19 @@ public class Register2 {
 		btnRegistrarse.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnRegistrarse.setBackground(new Color(0,128,255));
+				btnRegistrarse.setBackground(new Color(50,239,201));
 				btnRegistrarse.setForeground(new Color(255,255,255));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnRegistrarse.setBackground(new Color(255,255,255));
-				btnRegistrarse.setForeground(new Color(0,128,255));
+				btnRegistrarse.setForeground(new Color(50,239,201));
 				
 			}
 		});
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBackground(new Color(255,255,255));
-		btnRegistrarse.setForeground(new Color(0,128,255));
+		btnRegistrarse.setForeground(new Color(50,239,201));
 		GridBagConstraints gbc_btnRegistrarse = new GridBagConstraints();
 		gbc_btnRegistrarse.fill = GridBagConstraints.VERTICAL;
 		gbc_btnRegistrarse.gridwidth = 2;
