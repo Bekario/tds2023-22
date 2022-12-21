@@ -29,7 +29,7 @@ public class Usuario {
 	
 	//Metodos
 	public float calcularPrecioPremium(){
-		if (descuento == NULL) {
+		if (descuento == null) {
 			return Variables.precioPremium;
 		}
 		return descuento.aplicarDescuento(this);
@@ -72,5 +72,8 @@ public class Usuario {
 		return usuariosSeguidores;
 	}
 	
+	public void setDescuento(Descuento descuento) {
+		this.descuento = descuento;
+	}
 	
 }
