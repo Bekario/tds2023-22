@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import com.toedter.calendar.JCalendarBeanInfo;
 
 public class Register {
 
@@ -35,6 +36,8 @@ public class Register {
 	private JPasswordField confirmar_contraseña;
 	private JButton lblNewLabel;
 	private JButton lblNewLabel_1;
+	private JTextField txtFechaNacimiento;
+	private final JButton btnNewButton = new JButton("· · ·");
 
 	/**
 	 * Launch the application.
@@ -72,10 +75,10 @@ public class Register {
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
-		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 5, 0, 10, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 0, 35, 50, 0 };
+		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
@@ -84,6 +87,7 @@ public class Register {
 		nombreApp.setIcon(null);
 		nombreApp.setFont(new Font("Serif", Font.BOLD, 40));
 		GridBagConstraints gbc_nombreApp = new GridBagConstraints();
+		gbc_nombreApp.gridwidth = 2;
 		gbc_nombreApp.insets = new Insets(0, 0, 5, 5);
 		gbc_nombreApp.gridx = 2;
 		gbc_nombreApp.gridy = 1;
@@ -110,6 +114,7 @@ public class Register {
 		email.setToolTipText("");
 
 		GridBagConstraints gbc_email = new GridBagConstraints();
+		gbc_email.gridwidth = 2;
 		gbc_email.insets = new Insets(0, 0, 5, 5);
 		gbc_email.fill = GridBagConstraints.HORIZONTAL;
 		gbc_email.gridx = 2;
@@ -118,33 +123,6 @@ public class Register {
 		email.setColumns(10);
 
 		nombre = new JTextField();
-
-		nombre = new JTextField();
-		nombre.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (nombre.getText().equals("Nombre")) {
-					nombre.setText("");
-				} else {
-					nombre.selectAll();
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (nombre.getText().equals(""))
-					nombre.setText("Nombre");
-			}
-		});
-		nombre.setText("Nombre");
-		nombre.setToolTipText("");
-		GridBagConstraints gbc_nombre = new GridBagConstraints();
-		gbc_nombre.insets = new Insets(0, 0, 5, 5);
-		gbc_nombre.fill = GridBagConstraints.HORIZONTAL;
-		gbc_nombre.gridx = 2;
-		gbc_nombre.gridy = 4;
-		frame.getContentPane().add(nombre, gbc_nombre);
-		nombre.setColumns(10);
 
 		usuario = new JTextField();
 		usuario = new JTextField();
@@ -164,13 +142,65 @@ public class Register {
 					usuario.setText("Usuario");
 			}
 		});
+		
+				nombre = new JTextField();
+				nombre.addFocusListener(new FocusAdapter() {
+					@Override
+					public void focusGained(FocusEvent e) {
+						if (nombre.getText().equals("Nombre")) {
+							nombre.setText("");
+						} else {
+							nombre.selectAll();
+						}
+					}
+
+					@Override
+					public void focusLost(FocusEvent e) {
+						if (nombre.getText().equals(""))
+							nombre.setText("Nombre");
+					}
+				});
+				nombre.setText("Nombre");
+				nombre.setToolTipText("");
+				GridBagConstraints gbc_nombre = new GridBagConstraints();
+				gbc_nombre.gridwidth = 2;
+				gbc_nombre.insets = new Insets(0, 0, 5, 5);
+				gbc_nombre.fill = GridBagConstraints.HORIZONTAL;
+				gbc_nombre.gridx = 2;
+				gbc_nombre.gridy = 4;
+				frame.getContentPane().add(nombre, gbc_nombre);
+				nombre.setColumns(10);
+		
+		txtFechaNacimiento = new JTextField();
+		txtFechaNacimiento.setText("Fecha Nacimiento");
+		txtFechaNacimiento.setEditable(false);
+		GridBagConstraints gbc_txtFechaNacimiento = new GridBagConstraints();
+		gbc_txtFechaNacimiento.insets = new Insets(0, 0, 5, 5);
+		gbc_txtFechaNacimiento.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFechaNacimiento.gridx = 2;
+		gbc_txtFechaNacimiento.gridy = 5;
+		frame.getContentPane().add(txtFechaNacimiento, gbc_txtFechaNacimiento);
+		txtFechaNacimiento.setColumns(10);
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton.gridx = 3;
+		gbc_btnNewButton.gridy = 5;
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SelectorFechas fechas = new SelectorFechas();
+				frame.dispose();
+			}
+		});
+		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 		usuario.setText("Usuario");
 		usuario.setToolTipText("");
 		GridBagConstraints gbc_usuario = new GridBagConstraints();
+		gbc_usuario.gridwidth = 2;
 		gbc_usuario.insets = new Insets(0, 0, 5, 5);
 		gbc_usuario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_usuario.gridx = 2;
-		gbc_usuario.gridy = 5;
+		gbc_usuario.gridy = 6;
 		frame.getContentPane().add(usuario, gbc_usuario);
 		usuario.setColumns(10);
 
@@ -199,10 +229,11 @@ public class Register {
 		contraseña.setText("Contraseña");
 		contraseña.setEchoChar((char) 0);
 		GridBagConstraints gbc_contraseña = new GridBagConstraints();
+		gbc_contraseña.gridwidth = 2;
 		gbc_contraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_contraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_contraseña.gridx = 2;
-		gbc_contraseña.gridy = 6;
+		gbc_contraseña.gridy = 7;
 		frame.getContentPane().add(contraseña, gbc_contraseña);
 
 		confirmar_contraseña = new JPasswordField();
@@ -260,16 +291,17 @@ public class Register {
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 3;
-		gbc_lblNewLabel.gridy = 6;
+		gbc_lblNewLabel.gridx = 4;
+		gbc_lblNewLabel.gridy = 7;
 		frame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 		confirmar_contraseña.setText("Confirmar contraseña");
 		confirmar_contraseña.setEchoChar((char) 0);
 		GridBagConstraints gbc_confirmar_contraseña = new GridBagConstraints();
+		gbc_confirmar_contraseña.gridwidth = 2;
 		gbc_confirmar_contraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_confirmar_contraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_confirmar_contraseña.gridx = 2;
-		gbc_confirmar_contraseña.gridy = 7;
+		gbc_confirmar_contraseña.gridy = 8;
 		frame.getContentPane().add(confirmar_contraseña, gbc_confirmar_contraseña);
 		
 		lblNewLabel_1 = new JButton("");
@@ -302,8 +334,8 @@ public class Register {
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 3;
-		gbc_lblNewLabel_1.gridy = 7;
+		gbc_lblNewLabel_1.gridx = 4;
+		gbc_lblNewLabel_1.gridy = 8;
 		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 
 		botonRegister = new JButton("");
@@ -312,9 +344,10 @@ public class Register {
 		botonRegister.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		botonRegister.setIcon(new ImageIcon(Register.class.getResource("/imagenes/button (3).png")));
 		GridBagConstraints gbc_botonRegister = new GridBagConstraints();
+		gbc_botonRegister.gridwidth = 2;
 		gbc_botonRegister.insets = new Insets(0, 0, 5, 5);
 		gbc_botonRegister.gridx = 2;
-		gbc_botonRegister.gridy = 9;
+		gbc_botonRegister.gridy = 10;
 		frame.getContentPane().add(botonRegister, gbc_botonRegister);
 	}
 

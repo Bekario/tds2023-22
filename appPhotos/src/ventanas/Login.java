@@ -71,7 +71,7 @@ public class Login {
 		gridBagLayout.columnWidths = new int[]{50, 35, 0, 35, 50, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 50, 0, 0, 5, 0, 10, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JLabel nombreApp = new JLabel("appPhotos");
