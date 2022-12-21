@@ -53,22 +53,22 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 						new Propiedad("premium", usuario.getIsPremium()))));
 
 		// registrar entidad cliente
-		eCliente = servPersistencia.registrarEntidad(eCliente);
+		eUsuario = servPersistencia.registrarEntidad(eUsuario);
 		// asignar identificador unico
 		// Se aprovecha el que genera el servicio de persistencia
-		cliente.setCodigo(eCliente.getId());
+		usuario.setCodigo(eUsuario.getId());
 	}
 
-	public void borrarCliente(Cliente cliente) {
+	public void borrarUsuario(Usuario usuario) {
 		// No se comprueban restricciones de integridad con Venta
-		Entidad eCliente = servPersistencia.recuperarEntidad(cliente.getCodigo());
+		Entidad eCliente = servPersistencia.recuperarEntidad(usuario.getCodigo());
 
 		servPersistencia.borrarEntidad(eCliente);
 	}
 
-	public void modificarCliente(Cliente cliente) {
+	public void modificarUsuario(Usuario cliente) {
 
-		Entidad eCliente = servPersistencia.recuperarEntidad(cliente.getCodigo());
+		Entidad eUsuario = servPersistencia.recuperarEntidad(cliente.getCodigo());
 
 		for (Propiedad prop : eCliente.getPropiedades()) {
 			if (prop.getNombre().equals("codigo")) {
@@ -86,7 +86,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 	}
 
-	public Cliente recuperarCliente(int codigo) {
+	public Usuario recuperarUsuario(int codigo) {
 
 		// Si la entidad est� en el pool la devuelve directamente
 		if (PoolDAO.getUnicaInstancia().contiene(codigo))
@@ -122,7 +122,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		return cliente;
 	}
 
-	public List<Cliente> recuperarTodosClientes() {
+	public List<Usuario> recuperarTodosUsuarios() {
 
 		List<Entidad> eClientes = servPersistencia.recuperarEntidades("cliente");
 		List<Cliente> clientes = new LinkedList<Cliente>();

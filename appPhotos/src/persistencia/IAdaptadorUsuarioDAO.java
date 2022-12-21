@@ -1,7 +1,6 @@
 package persistencia;
 
 import java.util.List;
-import modelo.Cliente;
 import modelo.Usuario;
 
 public interface IAdaptadorUsuarioDAO {

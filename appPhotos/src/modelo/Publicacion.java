@@ -1,23 +1,28 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Publicacion {
+public abstract class Publicacion {
 	private String titulo;
 	private LocalDate fecha;
 	private String descripcion;
 	private int megusta;
 	private List<String> hashtags;
+	private List<Comentario> comentarios;
 	
+	// Constructor
 	public Publicacion(String titulo, String descipcion, List<String> hastags) {
 		this.titulo=titulo;
-		this.fecha=LocalDate.now();
 		this.descripcion=descipcion;
-		this.megusta=0;
 		this.hashtags=hastags;
+		fecha=LocalDate.now();
+		megusta=0;
+		comentarios = new ArrayList<Comentario>();
 	}
 	
+	// Metodos get / set
 	public String getTitulo() {
 		return titulo;
 	}

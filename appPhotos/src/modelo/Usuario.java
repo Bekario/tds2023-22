@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
+	private int codigo;
 	private String nombre;
 	private String email;
 	private String nombreCompleto;
@@ -13,6 +14,7 @@ public class Usuario {
 	private List<Usuario> usuariosSeguidores;
 	private List<Notificacion> notificaciones;
 	private List<Publicacion> fotos;
+	private Descuento descuento;
 	
 	//Constructor
 	public Usuario(String nombre, String email, String nombreCompleto, LocalDate fechaNacimiento) {
@@ -20,8 +22,17 @@ public class Usuario {
 		this.email = email;
 		this.nombreCompleto = nombreCompleto;
 		this.fechaNacimiento = fechaNacimiento;
-		this.isPremium = false; //Inicialmente un usuario no es Premium
-		this.usuariosSeguidores = new ArrayList<Usuario>();
+		isPremium = false; //Inicialmente un usuario no es Premium
+		usuariosSeguidores = new ArrayList<Usuario>();
+		codigo = 0;
+	}
+	
+	//Metodos
+	public float calcularPrecioPremium(){
+		if (descuento == NULL) {
+			return Variables.precioPremium;
+		}
+		return descuento.aplicarDescuento(this);
 	}
 	
 	//Metodos Get / Set
@@ -43,6 +54,22 @@ public class Usuario {
 	
 	public boolean getIsPremium() {
 		return isPremium;
+	}
+	
+	public int getCodigo() {
+		return codigo;
+	}
+	
+	public List<Publicacion> getFotos() {
+		return fotos;
+	}
+	
+	public List<Notificacion> getNotificaciones() {
+		return notificaciones;
+	}
+	
+	public List<Usuario> getUsuariosSeguidores() {
+		return usuariosSeguidores;
 	}
 	
 	

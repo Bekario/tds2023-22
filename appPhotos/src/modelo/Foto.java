@@ -1,10 +1,13 @@
 package modelo;
 
-public class Foto {
+import java.util.List;
+
+public class Foto extends Publicacion{
 	private String path;
 	
 	//Constructor
-	public Foto(String path) {
+	public Foto(String titulo, String descipcion, List<String> hastags, String path) {
+		super(titulo, descipcion, hastags);
 		this.path = path;
 	}
 	

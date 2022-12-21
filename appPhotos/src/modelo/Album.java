@@ -3,11 +3,12 @@ package modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Album {
+public class Album extends Publicacion {
 	private List<Foto> fotos;
 	
 	//Constructor
-	public Album() {
+	public Album(String titulo, String descipcion, List<String> hastags) {
+		super(titulo, descipcion, hastags);
 		this.fotos = new ArrayList<Foto>();
 	}
 	

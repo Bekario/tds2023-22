@@ -1,5 +1,5 @@
 package modelo;
 
-public class Descuento {
-
+public interface Descuento {	
+	public float aplicarDescuento(Usuario usuario);
 }
