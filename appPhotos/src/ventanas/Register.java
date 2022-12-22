@@ -27,6 +27,10 @@ import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 public class Register extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
@@ -37,9 +41,8 @@ public class Register extends JFrame {
 	private JPasswordField confirmar_contraseña;
 	private JButton btnMostrarPass;
 	private JButton btnMostrarPass2;
-	private JLabel lblFechaNacimiento;
-	private final JButton btnSeleccionarFecha = new JButton("· · ·");
 	private JButton btnLogin;
+	private JDateChooser dateChooser;
 
 	/**
 	 * Launch the application.
@@ -87,10 +90,10 @@ public class Register extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 0, 35, 50, 0 };
+		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
 		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 0, 50, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 		
@@ -113,7 +116,6 @@ public class Register extends JFrame {
 		nombreApp.setIcon(null);
 		nombreApp.setFont(new Font("Serif", Font.BOLD, 40));
 		GridBagConstraints gbc_nombreApp = new GridBagConstraints();
-		gbc_nombreApp.gridwidth = 2;
 		gbc_nombreApp.insets = new Insets(0, 0, 5, 5);
 		gbc_nombreApp.gridx = 2;
 		gbc_nombreApp.gridy = 1;
@@ -130,7 +132,6 @@ public class Register extends JFrame {
 		email.setToolTipText("");
 
 		GridBagConstraints gbc_email = new GridBagConstraints();
-		gbc_email.gridwidth = 2;
 		gbc_email.insets = new Insets(0, 0, 5, 5);
 		gbc_email.fill = GridBagConstraints.HORIZONTAL;
 		gbc_email.gridx = 2;
@@ -174,7 +175,6 @@ public class Register extends JFrame {
 		nombre.setText("Nombre");
 		nombre.setToolTipText("");
 		GridBagConstraints gbc_nombre = new GridBagConstraints();
-		gbc_nombre.gridwidth = 2;
 		gbc_nombre.insets = new Insets(0, 0, 5, 5);
 		gbc_nombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nombre.gridx = 2;
@@ -189,11 +189,11 @@ public class Register extends JFrame {
 	 * Crea el usuario field
 	 */
 	private void establecerUsuario() {
+		
 		usuario = new JTextField();
 		usuario.setText("Usuario");
 		usuario.setToolTipText("");
 		GridBagConstraints gbc_usuario = new GridBagConstraints();
-		gbc_usuario.gridwidth = 2;
 		gbc_usuario.insets = new Insets(0, 0, 5, 5);
 		gbc_usuario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_usuario.gridx = 2;
@@ -208,30 +208,39 @@ public class Register extends JFrame {
 	 * Crea el campo para la fecha de nacimiento incluyendo el boton
 	 */
 	private void establecerFechaNacim() {
-		lblFechaNacimiento = new JLabel();
-		lblFechaNacimiento.setText("  Fecha Nacimiento");
-		GridBagConstraints gbc_lblFechaNacimiento = new GridBagConstraints();
-		gbc_lblFechaNacimiento.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFechaNacimiento.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblFechaNacimiento.gridx = 2;
-		gbc_lblFechaNacimiento.gridy = 5;
-		frame.getContentPane().add(lblFechaNacimiento, gbc_lblFechaNacimiento);
-		GridBagConstraints gbc_btnSeleccionarFecha = new GridBagConstraints();
-		gbc_btnSeleccionarFecha.insets = new Insets(0, 0, 5, 5);
-		gbc_btnSeleccionarFecha.gridx = 3;
-		gbc_btnSeleccionarFecha.gridy = 5;
-		frame.getContentPane().add(btnSeleccionarFecha, gbc_btnSeleccionarFecha);
+		JCalendar calendar = new JCalendar();
+		calendar.getDayChooser().setAlwaysFireDayProperty(true);
+		calendar.getDayChooser().setForeground(new Color(255, 255, 255));
+		calendar.getDayChooser().setDecorationBackgroundColor(new Color(255, 255, 255));
+		calendar.getYearChooser().getSpinner().setBackground(new Color(229, 229, 229));
+		calendar.getMonthChooser().getComboBox().setForeground(new Color(0, 0, 0));
+		calendar.getMonthChooser().getComboBox().setBackground(new Color(229, 229, 229));
+		calendar.setForeground(new Color(255, 255, 255));
+		calendar.getYearChooser().setForeground(new Color(0, 0, 0));
+		calendar.getYearChooser().getSpinner().setForeground(new Color(0, 0, 0));
+		calendar.setMaxDayCharacters(3);
+		calendar.setWeekdayForeground(new Color(0, 0, 0));
+		calendar.setWeekOfYearVisible(false);
+		calendar.setSundayForeground(new Color(255, 255, 255));
+		calendar.setDecorationBackgroundColor(new Color(187, 187, 187));
 		
-		addManejadorSeleccionarFecha(btnSeleccionarFecha);
-	}
-	
-	private void addManejadorSeleccionarFecha(JButton boton) {
-		btnSeleccionarFecha.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SelectorFechas selector = new SelectorFechas(frame);
-				selector.mostrarVentana();
-			}
-		});
+		JTextFieldDateEditor campoFecha = new JTextFieldDateEditor();
+		campoFecha.setBackground(new Color(201, 201, 201));
+		campoFecha.setDateFormatString("dd/MM/yyyy");
+		campoFecha.setToolTipText("dd/MM/yyyy");
+		campoFecha.setCaretColor(new Color(218, 200, 41));
+		campoFecha.setForeground(new Color(255, 255, 255));
+		
+		dateChooser = new JDateChooser(calendar, null, "dd/MM/yyyy", campoFecha);
+		
+		dateChooser.setForeground(new Color(255, 255, 255));
+		dateChooser.getCalendarButton().setText("Fecha Nacimiento   ");
+		GridBagConstraints gbc_dateChooser = new GridBagConstraints();
+		gbc_dateChooser.insets = new Insets(0, 0, 5, 5);
+		gbc_dateChooser.fill = GridBagConstraints.BOTH;
+		gbc_dateChooser.gridx = 2;
+		gbc_dateChooser.gridy = 5;
+		frame.getContentPane().add(dateChooser, gbc_dateChooser);
 	}
 	
 	/**
@@ -242,7 +251,6 @@ public class Register extends JFrame {
 		contraseña.setText("Contraseña");
 		contraseña.setEchoChar((char) 0);
 		GridBagConstraints gbc_contraseña = new GridBagConstraints();
-		gbc_contraseña.gridwidth = 2;
 		gbc_contraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_contraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_contraseña.gridx = 2;
@@ -260,13 +268,12 @@ public class Register extends JFrame {
 		GridBagConstraints gbc_btnMostrarPass = new GridBagConstraints();
 		gbc_btnMostrarPass.anchor = GridBagConstraints.WEST;
 		gbc_btnMostrarPass.insets = new Insets(0, 0, 5, 5);
-		gbc_btnMostrarPass.gridx = 4;
+		gbc_btnMostrarPass.gridx = 3;
 		gbc_btnMostrarPass.gridy = 7;
 		frame.getContentPane().add(btnMostrarPass, gbc_btnMostrarPass);
 		confirmar_contraseña.setText("Confirmar Contraseña");
 		confirmar_contraseña.setEchoChar((char) 0);
 		GridBagConstraints gbc_confirmar_contraseña = new GridBagConstraints();
-		gbc_confirmar_contraseña.gridwidth = 2;
 		gbc_confirmar_contraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_confirmar_contraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_confirmar_contraseña.gridx = 2;
@@ -281,7 +288,7 @@ public class Register extends JFrame {
 		GridBagConstraints gbc_btnMostrarPass2 = new GridBagConstraints();
 		gbc_btnMostrarPass2.anchor = GridBagConstraints.WEST;
 		gbc_btnMostrarPass2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnMostrarPass2.gridx = 4;
+		gbc_btnMostrarPass2.gridx = 3;
 		gbc_btnMostrarPass2.gridy = 8;
 		frame.getContentPane().add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
@@ -335,7 +342,6 @@ public class Register extends JFrame {
 					contraseña.setEchoChar((char) 0);
 				}
 			}
-			
 			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -343,8 +349,6 @@ public class Register extends JFrame {
 				if (!contraseña.getText().equals(defecto)) {					
 					contraseña.setEchoChar('●');
 				}
-				
-
 			}
 		});
 	}
@@ -360,7 +364,6 @@ public class Register extends JFrame {
 		btnLogin.setBackground(UIManager.getColor("Button.background"));
 		GridBagConstraints gbc_btnLogin = new GridBagConstraints();
 		gbc_btnLogin.fill = GridBagConstraints.VERTICAL;
-		gbc_btnLogin.gridwidth = 2;
 		gbc_btnLogin.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLogin.gridx = 2;
 		gbc_btnLogin.gridy = 10;
@@ -384,9 +387,7 @@ public class Register extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				boton.setBackground(new Color(78,80,82));
 				boton.setForeground(new Color(218,200,41));
-				
 			}
 		});
 	}
-
 }
