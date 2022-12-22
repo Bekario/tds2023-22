@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import java.awt.Toolkit;
+import java.awt.TrayIcon.MessageType;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.GridBagLayout;
@@ -13,15 +14,19 @@ import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
@@ -376,9 +381,11 @@ public class Register {
 	private void addManejadorBotonContinuar(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Register2 registro2 = new Register2();
-				registro2.mostrarVentana();
-				frame.dispose();
+				if (checkFields()) {
+					Register2 registro2 = new Register2();
+					registro2.mostrarVentana();
+					frame.dispose();
+				}
 			}
 		});
 		
@@ -403,4 +410,56 @@ public class Register {
 			}
 		});
 	}
+	
+	/**
+	 * Comprueba que todos los campos tengan un dato valido
+	 * @return booleano indicando si estan correctos los campos
+	 */
+	private boolean checkFields() {
+		boolean estado = true;
+		Pattern regexEmail = Pattern.compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
+		Pattern regexPass = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{3,16}$");
+		Matcher match = regexEmail.matcher(email.getText());
+		
+		String info = "";
+		
+		//Comprobamos si es un correo basico
+		if(email.getText().equals("Email") || !match.matches()) {
+			estado = false;
+			info = "¡El email no es valido!";
+		}
+		
+		if(nombre.getText().equals("Nombre")) {
+			estado = false;
+			info = "¡El nombre no es valido!";
+		}
+		
+		if(usuario.getText().equals("Usuario")) {
+			estado = false;
+			info = "¡El nombre de usuario no es valido!";
+		}
+		
+		match = regexPass.matcher(new String(contraseña.getPassword()));
+		if(new String(contraseña.getPassword()).equals("Contraseña") /*|| !match.matches()*/) {
+			estado = false;
+			info = "¡La contraseña no es valida!\nUna contraseña valida contiene 3-16 caracteres y mínimo una minúscula, mayúscula y dígito.";
+		}
+		
+		if(new String(confirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || confirmar_contraseña.getPassword().equals(contraseña.getPassword())) {
+			estado = false;
+			info = "¡Las contraseñas no son iguales!";
+		}
+		
+		if(dateChooser.getDate() == null) {
+			estado = false;
+			info = "¡La fecha no es valida!";
+		}
+		
+		if(!estado) {
+			JOptionPane.showMessageDialog(btnLogin, info, "Rellene correctamente los campos", 0);
+		}
+		
+		return estado;
+	}
+	
 }
