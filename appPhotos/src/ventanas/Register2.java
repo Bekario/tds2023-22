@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
@@ -21,6 +22,9 @@ import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -220,9 +224,11 @@ public class Register2 {
 	private void addManejadorRegistrarse(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login ventana = new Login();
-				ventana.mostrarVentana();
-				frame.dispose();
+				if(checkFields()) {
+					Login ventana = new Login();
+					ventana.mostrarVentana();
+					frame.dispose();					
+				}
 			}
 		});
 
@@ -275,6 +281,28 @@ public class Register2 {
 				descripcion.grabFocus();
 			}
 		});
+	}
+	
+	/**
+	 * Comprueba que todos los campos tengan un dato valido
+	 * @return booleano indicando si estan correctos los campos
+	 */
+	private boolean checkFields() {
+		boolean estado = true;
+		
+		String info = "";
+		
+		//Comprobamos si hay una descripcion
+		if(descripcion.getText().equals("Introduce una breve descripción sobre ti...")) {
+			estado = false;
+			info = "¡Escribe una descripcion!";
+		}
+		
+		if(!estado) {
+			JOptionPane.showMessageDialog(btnRegistrarse, info, "Rellene correctamente los campos", 0);
+		}
+		
+		return estado;
 	}
 
 }
