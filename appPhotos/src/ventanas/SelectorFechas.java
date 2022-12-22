@@ -62,8 +62,12 @@ public class SelectorFechas {
 	 */
 	public SelectorFechas() {
 		initialize();
+	}
+	public void mostrarVentana() {
+		frame.setLocationRelativeTo(null);
 		this.frame.setVisible(true);
 		this.frame.getRootPane().requestFocus(false);
+
 	}
 
 	/**
@@ -76,6 +80,12 @@ public class SelectorFechas {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(SelectorFechas.class.getResource("/imagenes/camara-de-fotos.png")));
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		establecerNombre();
+		establecerBoton();
+		establecerCalendario();
+	}
+	private void establecerNombre() {
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 35, 0, 35, 50, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 60, 0, 10, 50, 0, 0};
@@ -92,24 +102,30 @@ public class SelectorFechas {
 		gbc_nombreApp.gridx = 2;
 		gbc_nombreApp.gridy = 1;
 		frame.getContentPane().add(nombreApp, gbc_nombreApp);
-		ImageIcon imagen = new ImageIcon(SelectorFechas.class.getResource("/imagenes/face-detection (1).png"));
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
+	}
+	private void establecerBoton() {
 		
 		btnEstablecer = new JButton("ESTABLECER");
 		btnEstablecer.setBorderPainted(false);
-		btnEstablecer.addMouseListener(new MouseAdapter() {
+		addManejadorBotonColor(btnEstablecer);
+	}
+	private void addManejadorBotonColor(JButton boton) {
+		
+		boton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnEstablecer.setBackground(new Color(218,200,41));
-				btnEstablecer.setForeground(new Color(78,80,82));
+				boton.setBackground(new Color(218,200,41));
+				boton.setForeground(new Color(78,80,82));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				btnEstablecer.setBackground(new Color(78,80,82));
-				btnEstablecer.setForeground(new Color(218,200,41));
+				boton.setBackground(new Color(78,80,82));
+				boton.setForeground(new Color(218,200,41));
 				
 			}
 		});
+	}
+	private void establecerCalendario() {
 		
 		calendar = new JCalendar();
 		calendar.getDayChooser().setAlwaysFireDayProperty(true);
