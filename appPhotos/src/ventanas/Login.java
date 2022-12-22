@@ -46,6 +46,7 @@ public class Login {
 					Login window = new Login();
 					window.frame.setVisible(true);
 					window.frame.getRootPane().requestFocus(false);
+					
 //					window.frame.setFocusableWindowState(false);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -212,6 +213,8 @@ public class Login {
 		frame.getContentPane().add(btnLogin, gbc_btnLogin);
 		
 		btnRegistrarse = new JButton("  REGISTRARSE  ");
+		addManejadorRegistrarse(btnRegistrarse);
+		
 		btnRegistrarse.setForeground(new Color(218, 200, 41));
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBorderPainted(false);
@@ -226,6 +229,17 @@ public class Login {
 		addManejadorBotonColor(btnLogin);
 		addManejadorBotonColor(btnRegistrarse);
 	}
+	
+	private void addManejadorRegistrarse(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Register ventana = new Register();
+				ventana.mostrarVentana();
+				frame.dispose();
+			}
+		});
+	}
+	
 	
 	/**
 	 * Gestiona los cambios de color al pasar el raton encima de un boton
