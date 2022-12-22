@@ -20,7 +20,10 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Cursor;
+import javax.swing.UIManager;
 
 
 public class Login {
@@ -28,9 +31,9 @@ public class Login {
 	private JFrame frame;
 	private JTextField txtUser;
 	private JPasswordField textPasswd;
-	private JButton botonLogin;
-	private JButton botonRegister;
-	private JLabel lblNewLabel_2;
+	private JLabel foto;
+	private JButton btnLogin;
+	private JButton btnRegistrarse;
 
 	/**
 	 * Launch the application.
@@ -44,7 +47,6 @@ public class Login {
 					window.frame.setVisible(true);
 					window.frame.getRootPane().requestFocus(false);
 //					window.frame.setFocusableWindowState(false);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,20 +71,30 @@ public class Login {
 	}
 	
 	/**
-	 * Initialize the contents of the frame.
+	 * Inicializa el frame y el layout
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("Login");
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/camara-de-fotos.png")));
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 35, 0, 35, 50, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 50, 0, 0, 5, 0, 10, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 50, 0, 0, 5, 0, 10, 50, 50, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
+		establecerBotones();
+		establecerFotoTitulo();
+		establecerUsuarioEmail();
+	}
+	
+	/**
+	 * Establece la foto y el titulo de la aplicación
+	 */
+	private void establecerFotoTitulo() {
 		JLabel nombreApp = new JLabel("appPhotos");
 		nombreApp.setForeground(new Color(233, 233, 233));
 		nombreApp.setIcon(null);
@@ -93,15 +105,51 @@ public class Login {
 		gbc_nombreApp.gridy = 1;
 		frame.getContentPane().add(nombreApp, gbc_nombreApp);
 		
-		lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/imagenes/61-camera-gradient (1).gif")));
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 2;
-		gbc_lblNewLabel_2.gridy = 2;
-		frame.getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
-		
+		foto = new JLabel("");
+		foto.setIcon(new ImageIcon(Login.class.getResource("/imagenes/61-camera-gradient (1).gif")));
+		GridBagConstraints gbc_foto = new GridBagConstraints();
+		gbc_foto.insets = new Insets(0, 0, 5, 5);
+		gbc_foto.gridx = 2;
+		gbc_foto.gridy = 2;
+		frame.getContentPane().add(foto, gbc_foto);
+	}
+	
+	/**
+	 * Establece los campos para introducir el usuario e email
+	 */
+	private void establecerUsuarioEmail() {
 		txtUser = new JTextField();
+		txtUser.setText("Usuario");
+		txtUser.setToolTipText("");
+		GridBagConstraints gbc_txtUser = new GridBagConstraints();
+		gbc_txtUser.gridwidth = 3;
+		gbc_txtUser.insets = new Insets(0, 0, 5, 5);
+		gbc_txtUser.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUser.gridx = 1;
+		gbc_txtUser.gridy = 4;
+		frame.getContentPane().add(txtUser, gbc_txtUser);
+		txtUser.setColumns(10);
+		
+		textPasswd = new JPasswordField();
+		textPasswd.setText("Contraseña");
+		textPasswd.setEchoChar((char)0);
+		GridBagConstraints gbc_textPasswd = new GridBagConstraints();
+		gbc_textPasswd.gridwidth = 3;
+		gbc_textPasswd.insets = new Insets(0, 0, 5, 5);
+		gbc_textPasswd.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPasswd.gridx = 1;
+		gbc_textPasswd.gridy = 6;
+		frame.getContentPane().add(textPasswd, gbc_textPasswd);
+		
+		addManejadorContraseña(textPasswd);
+		addManejadorUsuario(txtUser);
+	}
+	
+	/**
+	 * Gestiona las animaciones del campo usuario
+	 * @param txtUser Campo de usuario
+	 */
+	private void addManejadorUsuario(JTextField txtUser) {
 		txtUser.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -118,20 +166,13 @@ public class Login {
 					txtUser.setText("Usuario");
 			}
 		});
-		txtUser.setText("Usuario");
-
-
-		txtUser.setToolTipText("");
-		GridBagConstraints gbc_txtUser = new GridBagConstraints();
-		gbc_txtUser.gridwidth = 3;
-		gbc_txtUser.insets = new Insets(0, 0, 5, 5);
-		gbc_txtUser.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtUser.gridx = 1;
-		gbc_txtUser.gridy = 4;
-		frame.getContentPane().add(txtUser, gbc_txtUser);
-		txtUser.setColumns(10);
-		
-		textPasswd = new JPasswordField();
+	}
+	
+	/**
+	 * Gestiona las animaciones del campo contraseña
+	 * @param textPasswd Campo de contraseña
+	 */
+	private void addManejadorContraseña(JPasswordField textPasswd) {
 		textPasswd.addFocusListener(new FocusAdapter() {
 			@SuppressWarnings("deprecation")
 			@Override
@@ -141,7 +182,7 @@ public class Login {
 					textPasswd.setText("");					
 				}else {
 					textPasswd.selectAll();
-			}
+				}
 			}
 			@SuppressWarnings("deprecation")
 			@Override
@@ -152,44 +193,58 @@ public class Login {
 				}
 			}
 		});
-		textPasswd.setText("Contraseña");
-		textPasswd.setEchoChar((char)0);
-		GridBagConstraints gbc_textPasswd = new GridBagConstraints();
-		gbc_textPasswd.gridwidth = 3;
-		gbc_textPasswd.insets = new Insets(0, 0, 5, 5);
-		gbc_textPasswd.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPasswd.gridx = 1;
-		gbc_textPasswd.gridy = 6;
-		frame.getContentPane().add(textPasswd, gbc_textPasswd);
+	}
+	
+	/**
+	 * Establece los botones para iniciar sesion y registrarse
+	 */
+	private void establecerBotones() {
+		btnLogin = new JButton("INICIAR SESIÓN");
+		btnLogin.setForeground(new Color(218, 200, 41));
+		btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnLogin.setBorderPainted(false);
+		btnLogin.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnLogin = new GridBagConstraints();
+		gbc_btnLogin.fill = GridBagConstraints.VERTICAL;
+		gbc_btnLogin.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLogin.gridx = 2;
+		gbc_btnLogin.gridy = 8;
+		frame.getContentPane().add(btnLogin, gbc_btnLogin);
 		
-		botonLogin = new JButton("");
-		botonLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnRegistrarse = new JButton("REGISTRARSE");
+		btnRegistrarse.setForeground(new Color(218, 200, 41));
+		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnRegistrarse.setBorderPainted(false);
+		btnRegistrarse.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnRegistrarse = new GridBagConstraints();
+		gbc_btnRegistrarse.fill = GridBagConstraints.VERTICAL;
+		gbc_btnRegistrarse.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRegistrarse.gridx = 2;
+		gbc_btnRegistrarse.gridy = 9;
+		frame.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
+		
+		addManejadorBotonColor(btnLogin);
+		addManejadorBotonColor(btnRegistrarse);
+	}
+	
+	/**
+	 * Gestiona los cambios de color al pasar el raton encima de un boton
+	 * @param boton Boton que se desea que aplique el efecto
+	 */
+	private void addManejadorBotonColor(JButton boton) {
+		boton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				boton.setBackground(new Color(218,200,41));
+				boton.setForeground(new Color(78,80,82));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				boton.setBackground(new Color(78,80,82));
+				boton.setForeground(new Color(218,200,41));
+				
 			}
 		});
-
-		botonLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		botonLogin.setContentAreaFilled(false);
-		botonLogin.setBorderPainted(false);
-		botonLogin.setBorder(null);
-		botonLogin.setIcon(new ImageIcon(Login.class.getResource("/imagenes/button.png")));
-		GridBagConstraints gbc_botonLogin = new GridBagConstraints();
-		gbc_botonLogin.fill = GridBagConstraints.VERTICAL;
-		gbc_botonLogin.insets = new Insets(0, 0, 5, 5);
-		gbc_botonLogin.gridx = 2;
-		gbc_botonLogin.gridy = 8;
-		frame.getContentPane().add(botonLogin, gbc_botonLogin);
-		
-		botonRegister = new JButton("");
-		botonRegister.setContentAreaFilled(false);
-		botonRegister.setBorderPainted(false);
-		botonRegister.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		botonRegister.setIcon(new ImageIcon(Login.class.getResource("/imagenes/button (3).png")));
-		GridBagConstraints gbc_botonRegister = new GridBagConstraints();
-		gbc_botonRegister.insets = new Insets(0, 0, 5, 5);
-		gbc_botonRegister.gridx = 2;
-		gbc_botonRegister.gridy = 9;
-		frame.getContentPane().add(botonRegister, gbc_botonRegister);
 	}
 
 }
