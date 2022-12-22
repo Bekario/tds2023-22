@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
@@ -24,6 +25,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.Cursor;
 import javax.swing.UIManager;
 
@@ -277,7 +280,9 @@ public class Login {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//checkfield
-				//if (ok)
+				if (checkFields()) {
+					System.out.println("a");
+				}
 				//VentanaMain ventana = new Register();
 				//ventana.mostrarVentana();
 				//frame.dispose();
@@ -316,6 +321,30 @@ public class Login {
 			}
 		});
 	}
+	private boolean checkFields() {
+		boolean estado = true;
+		
+		String info = "";
+		
+		//Comprobamos si es un correo basico
+		if(txtUser.getText().equals("Usuario")) {
+			estado = false;
+			info = "¡El usuario no es correcto!";
+		}
+		
+		if(new String(textPasswd.getPassword()).equals("Contraseña") /*|| !match.matches()*/) {
+			estado = false;
+			info = "¡La contraseña es incorrecta!";
+		}
+		
+		
+		if(!estado) {
+			JOptionPane.showMessageDialog(btnLogin, info, "Rellene correctamente los campos", 0);
+		}
+		
+		return estado;
+	}
+	
 
 
 }
