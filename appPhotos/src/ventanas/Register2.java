@@ -96,6 +96,9 @@ public class Register2 {
 		establecerDescripcion();
 	}
 	
+	/**
+	 * Establece el titulo de la aplicacion
+	 */
 	private void establecerTitulo() {
 		JLabel nombreApp = new JLabel("appPhotos");
 		nombreApp.setForeground(new Color(233, 233, 233));
@@ -109,6 +112,9 @@ public class Register2 {
 		frame.getContentPane().add(nombreApp, gbc_nombreApp);
 	}
 	
+	/**
+	 * Establece la imagen que mostrara la imagen seleccionada
+	 */
 	private void establecerImagenSubida() {
 		perfil = new JLabel("");
 		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/face-detection (1).png"));
@@ -123,6 +129,9 @@ public class Register2 {
 		frame.getContentPane().add(perfil, gbc_perfil);
 	}
 	
+	/**
+	 * Establece el campo de la descripcion
+	 */
 	private void establecerDescripcion() {
 		scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("Introduce la descripción que será mostrada en tu perfil");
@@ -142,6 +151,10 @@ public class Register2 {
 		addManejadorDescripcion(descripcion);
 	}
 	
+	/**
+	 * Gestiona que el texto se borre alhacer click o se seleccione
+	 * @param descripcion Campo descripcion
+	 */
 	private void addManejadorDescripcion(JEditorPane descripcion) {
 		descripcion.addFocusListener(new FocusAdapter() {
 			@Override
@@ -159,6 +172,9 @@ public class Register2 {
 		});
 	}
 	
+	/**
+	 * Establece el boton de insertar imagen, borrar texto y registrarse
+	 */
 	private void establecerBotones() {
 		//Boton imagen
 		btnMeterImg = new JButton("Añadir Imagen");
@@ -200,6 +216,9 @@ public class Register2 {
 		addManejadorBotonInsertarImagen(btnMeterImg);
 	}
 	
+	/**
+	 * Encargado de seleccionar la imagen del sistema con un JFileChooser
+	 */
 	private void addManejadorBotonInsertarImagen(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -230,6 +249,10 @@ public class Register2 {
 		});
 	}
 	
+	/**
+	 * Encargado de borrar el texto del campo descripcion
+	 * @param boton Boton que provoca la accion
+	 */
 	private void addManejadorBotonBorrar(JButton boton) {
 		//En caso de hacer click en el boton
 		boton.addActionListener(new ActionListener() {
