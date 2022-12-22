@@ -211,7 +211,7 @@ public class Login {
 		gbc_btnLogin.gridy = 8;
 		frame.getContentPane().add(btnLogin, gbc_btnLogin);
 		
-		btnRegistrarse = new JButton("REGISTRARSE");
+		btnRegistrarse = new JButton("  REGISTRARSE  ");
 		btnRegistrarse.setForeground(new Color(218, 200, 41));
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBorderPainted(false);
