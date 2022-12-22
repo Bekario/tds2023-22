@@ -31,7 +31,7 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
-public class Register extends JFrame {
+public class Register {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JTextField email;
@@ -370,7 +370,20 @@ public class Register extends JFrame {
 		frame.getContentPane().add(btnLogin, gbc_btnLogin);
 		
 		addManejadorBotonColor(btnLogin);
+		addManejadorBotonContinuar(btnLogin);
 	}
+	
+	private void addManejadorBotonContinuar(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Register2 registro2 = new Register2();
+				registro2.mostrarVentana();
+				frame.dispose();
+			}
+		});
+		
+	}
+	
 	
 	/**
 	 * Gestiona los cambios de color al pasar el raton encima de un boton
