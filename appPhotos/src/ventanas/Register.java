@@ -64,7 +64,16 @@ public class Register {
 	public Register() {
 		initialize();
 	}
-
+	
+	/**
+	 * Muestra la ventana
+	 */
+	public void mostrarVentana() {
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.getRootPane().requestFocus(false);
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -74,6 +83,7 @@ public class Register {
 				Toolkit.getDefaultToolkit().getImage(Register.class.getResource("/imagenes/camara-de-fotos.png")));
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 0, 35, 50, 0 };
 		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 0, 0, 0, 0 };
@@ -81,7 +91,19 @@ public class Register {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
-
+		establecerTitulo();
+		establecerEmail();
+		establecerNombre();
+		establecerFechaNacim();
+		establecerUsuario();
+		establecerContraseñasYBotones();
+		establecerBotones();
+	}
+	/**
+	 * Crea el titulo
+	 */
+	private void establecerTitulo() {
+		
 		JLabel nombreApp = new JLabel("appPhotos");
 		nombreApp.setForeground(new Color(233, 233, 233));
 		nombreApp.setIcon(null);
@@ -92,7 +114,12 @@ public class Register {
 		gbc_nombreApp.gridx = 2;
 		gbc_nombreApp.gridy = 1;
 		frame.getContentPane().add(nombreApp, gbc_nombreApp);
-
+	}
+	/**
+	 * Crea el email field
+	 */
+	private void establecerEmail() {
+		
 		email = new JTextField();
 		email.addFocusListener(new FocusAdapter() {
 			@Override
@@ -121,27 +148,13 @@ public class Register {
 		gbc_email.gridy = 3;
 		frame.getContentPane().add(email, gbc_email);
 		email.setColumns(10);
-
+	}
+	/**
+	 * Crea el nombre field
+	 */
+	private void establecerNombre() {
+		
 		nombre = new JTextField();
-
-		usuario = new JTextField();
-		usuario = new JTextField();
-		usuario.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (usuario.getText().equals("Usuario")) {
-					usuario.setText("");
-				} else {
-					usuario.selectAll();
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (usuario.getText().equals(""))
-					usuario.setText("Usuario");
-			}
-		});
 		
 				nombre = new JTextField();
 				nombre.addFocusListener(new FocusAdapter() {
@@ -170,6 +183,43 @@ public class Register {
 				gbc_nombre.gridy = 4;
 				frame.getContentPane().add(nombre, gbc_nombre);
 				nombre.setColumns(10);
+	}
+	/**
+	 * Crea el usuario field
+	 */
+	private void establecerUsuario() {
+		usuario = new JTextField();
+		usuario.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (usuario.getText().equals("Usuario")) {
+					usuario.setText("");
+				} else {
+					usuario.selectAll();
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (usuario.getText().equals(""))
+					usuario.setText("Usuario");
+			}
+		});
+		usuario.setText("Usuario");
+		usuario.setToolTipText("");
+		GridBagConstraints gbc_usuario = new GridBagConstraints();
+		gbc_usuario.gridwidth = 2;
+		gbc_usuario.insets = new Insets(0, 0, 5, 5);
+		gbc_usuario.fill = GridBagConstraints.HORIZONTAL;
+		gbc_usuario.gridx = 2;
+		gbc_usuario.gridy = 6;
+		frame.getContentPane().add(usuario, gbc_usuario);
+		usuario.setColumns(10);
+	}
+	/**
+	 * Crea el sistema de calendario
+	 */
+	private void establecerFechaNacim() {
 		
 		txtFechaNacimiento = new JTextField();
 		txtFechaNacimiento.setText("Fecha Nacimiento");
@@ -185,24 +235,21 @@ public class Register {
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 5;
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		/*btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				SelectorFechas fechas = new SelectorFechas();
 				frame.dispose();
 			}
 		});
+	*/
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
-		usuario.setText("Usuario");
-		usuario.setToolTipText("");
-		GridBagConstraints gbc_usuario = new GridBagConstraints();
-		gbc_usuario.gridwidth = 2;
-		gbc_usuario.insets = new Insets(0, 0, 5, 5);
-		gbc_usuario.fill = GridBagConstraints.HORIZONTAL;
-		gbc_usuario.gridx = 2;
-		gbc_usuario.gridy = 6;
-		frame.getContentPane().add(usuario, gbc_usuario);
-		usuario.setColumns(10);
+	}
+	/**
+	 * Crea los field contraseña y confirmar contraseña y sus botones
+	 */
+	private void establecerContraseñasYBotones() {
+
 
 		contraseña = new JPasswordField();
 		contraseña.addFocusListener(new FocusAdapter() {
@@ -337,7 +384,11 @@ public class Register {
 		gbc_lblNewLabel_1.gridx = 4;
 		gbc_lblNewLabel_1.gridy = 8;
 		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
-
+	}
+	/**
+	 * Crea los botones
+	 */
+	private void establecerBotones() {
 		botonRegister = new JButton("");
 		botonRegister.setContentAreaFilled(false);
 		botonRegister.setBorderPainted(false);
