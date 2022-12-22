@@ -65,7 +65,16 @@ public class Register2 {
 	public Register2() {
 		initialize();
 	}
-
+	
+	/**
+	 * Muestra la ventana
+	 */
+	public void mostrarVentana() {
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.getRootPane().requestFocus(false);
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -80,6 +89,9 @@ public class Register2 {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
+	}
+	
+	private 
 		
 		JLabel nombreApp = new JLabel("appPhotos");
 		nombreApp.setForeground(new Color(233, 233, 233));
