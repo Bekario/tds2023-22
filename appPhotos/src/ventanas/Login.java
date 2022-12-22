@@ -7,9 +7,11 @@ import javax.swing.JFrame;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
 import java.awt.Font;
@@ -34,6 +36,7 @@ public class Login {
 	private JLabel foto;
 	private JButton btnLogin;
 	private JButton btnRegistrarse;
+	private JButton btnMostrarPass2;
 
 	/**
 	 * Launch the application.
@@ -141,9 +144,25 @@ public class Login {
 		gbc_textPasswd.gridx = 1;
 		gbc_textPasswd.gridy = 6;
 		frame.getContentPane().add(textPasswd, gbc_textPasswd);
+		btnMostrarPass2 = new JButton("");
+		btnMostrarPass2.setContentAreaFilled(false);
+		btnMostrarPass2.setBorderPainted(false);
+		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/mostrarcont.png"));
+		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+		btnMostrarPass2.setIcon(icono);
+		
+		GridBagConstraints gbc_btnMostrarPass2 = new GridBagConstraints();
+		gbc_btnMostrarPass2.anchor = GridBagConstraints.WEST;
+		gbc_btnMostrarPass2.insets = new Insets(0, 0, 5, 0);
+		gbc_btnMostrarPass2.gridx = 4;
+		gbc_btnMostrarPass2.gridy = 6;
+		
+		
+		frame.getContentPane().add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
 		addManejadorContraseña(textPasswd);
 		addManejadorUsuario(txtUser);
+		addManejadorBotonesMostrarContraseña(btnMostrarPass2, textPasswd, "Contraseña");
 	}
 	
 	/**
@@ -200,7 +219,9 @@ public class Login {
 	 * Establece los botones para iniciar sesion y registrarse
 	 */
 	private void establecerBotones() {
+		
 		btnLogin = new JButton("INICIAR SESIÓN");
+		addManejadorLogin(btnLogin);
 		btnLogin.setForeground(new Color(218, 200, 41));
 		btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnLogin.setBorderPainted(false);
@@ -228,6 +249,41 @@ public class Login {
 		
 		addManejadorBotonColor(btnLogin);
 		addManejadorBotonColor(btnRegistrarse);
+		
+	}
+	
+	private void addManejadorBotonesMostrarContraseña(JButton boton, JPasswordField contraseña, String defecto){
+		boton.addMouseListener(new MouseAdapter() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void mousePressed(MouseEvent e) {
+				boton.setContentAreaFilled(true);
+				if (!contraseña.getText().equals(defecto)) {					
+					contraseña.setEchoChar((char) 0);
+				}
+			}
+			@SuppressWarnings("deprecation")
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				boton.setContentAreaFilled(false);
+				if (!contraseña.getText().equals(defecto)) {					
+					contraseña.setEchoChar('●');
+				}
+			}
+		});
+	}
+
+	private void addManejadorLogin(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//checkfield
+				//if (ok)
+				//VentanaMain ventana = new Register();
+				//ventana.mostrarVentana();
+				//frame.dispose();
+				
+			}
+		});
 	}
 	
 	private void addManejadorRegistrarse(JButton boton) {
@@ -260,5 +316,6 @@ public class Login {
 			}
 		});
 	}
+
 
 }

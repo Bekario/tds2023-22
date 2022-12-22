@@ -199,6 +199,7 @@ public class Register2 {
 		
 		//Boton registrarse
 		btnRegistrarse = new JButton("REGISTRARSE");
+		addManejadorRegistrarse(btnRegistrarse);
 		btnRegistrarse.setBorderPainted(false);
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBackground(new Color(78,80,82));
@@ -214,6 +215,17 @@ public class Register2 {
 		addManejadorBotonColor(btnRegistrarse);
 		addManejadorBotonBorrar(btnborrar);
 		addManejadorBotonInsertarImagen(btnMeterImg);
+	}
+	
+	private void addManejadorRegistrarse(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login ventana = new Login();
+				ventana.mostrarVentana();
+				frame.dispose();
+			}
+		});
+
 	}
 	
 	/**
