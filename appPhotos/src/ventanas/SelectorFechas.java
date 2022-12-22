@@ -1,66 +1,35 @@
 package ventanas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
-import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 import java.awt.Insets;
 import java.awt.Font;
 import java.awt.Color;
-
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
-import java.io.File;
-import javax.swing.ScrollPaneConstants;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Window.Type;
 import com.toedter.calendar.JCalendar;
 
 
-public class SelectorFechas {
-
-	private JFrame frmSeleccioneUnaFecha;
+public class SelectorFechas extends JDialog implements ActionListener{
+	private static final long serialVersionUID = 1L;
 	private JButton btnEstablecer;
 	private JCalendar calendar;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		FlatMonokaiProIJTheme.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SelectorFechas window = new SelectorFechas();
-					window.frmSeleccioneUnaFecha.setVisible(true);
-					window.frmSeleccioneUnaFecha.getRootPane().requestFocus(false);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
-	public SelectorFechas() {
+	public SelectorFechas(JFrame owner) {
+		super(owner, true);
 		initialize();
 	}
 	
@@ -68,23 +37,26 @@ public class SelectorFechas {
 	 * Muestra la ventana
 	 */
 	public void mostrarVentana() {
-		frmSeleccioneUnaFecha.setLocationRelativeTo(null);
-		this.frmSeleccioneUnaFecha.setVisible(true);
-		this.frmSeleccioneUnaFecha.getRootPane().requestFocus(false);
-
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
+	
+	@Override
+	 public void actionPerformed(ActionEvent e) {
+	 this.setVisible(false);
+	 } 
 
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmSeleccioneUnaFecha = new JFrame();
-		frmSeleccioneUnaFecha.setTitle("Seleccione una fecha");
-		frmSeleccioneUnaFecha.setType(Type.POPUP);
-		frmSeleccioneUnaFecha.setAlwaysOnTop(true);
-		frmSeleccioneUnaFecha.setIconImage(Toolkit.getDefaultToolkit().getImage(SelectorFechas.class.getResource("/imagenes/camara-de-fotos.png")));
-		frmSeleccioneUnaFecha.setBounds(100, 100, 380, 490);
-		frmSeleccioneUnaFecha.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Seleccione una fecha");
+		setType(Type.NORMAL);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SelectorFechas.class.getResource("/imagenes/camara-de-fotos.png")));
+		setBounds(100, 100, 380, 490);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 		establecerNombre();
 		establecerBoton();
 		establecerCalendario();
@@ -99,7 +71,7 @@ public class SelectorFechas {
 		gridBagLayout.rowHeights = new int[]{20, 0, 20, 0, 50, 20, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		frmSeleccioneUnaFecha.getContentPane().setLayout(gridBagLayout);
+		getContentPane().setLayout(gridBagLayout);
 		
 		JLabel nombreApp = new JLabel("SELECCIONE UNA FECHA");
 		nombreApp.setForeground(new Color(218, 200, 41));
@@ -109,7 +81,7 @@ public class SelectorFechas {
 		gbc_nombreApp.insets = new Insets(0, 0, 5, 5);
 		gbc_nombreApp.gridx = 1;
 		gbc_nombreApp.gridy = 1;
-		frmSeleccioneUnaFecha.getContentPane().add(nombreApp, gbc_nombreApp);
+		getContentPane().add(nombreApp, gbc_nombreApp);
 	}
 	/**
 	 * Crea el boton establecer
@@ -161,7 +133,7 @@ public class SelectorFechas {
 		gbc_calendar.fill = GridBagConstraints.BOTH;
 		gbc_calendar.gridx = 1;
 		gbc_calendar.gridy = 3;
-		frmSeleccioneUnaFecha.getContentPane().add(calendar, gbc_calendar);
+		getContentPane().add(calendar, gbc_calendar);
 		
 		btnEstablecer = new JButton("ESTABLECER");
 		btnEstablecer.setBorderPainted(false);
@@ -174,7 +146,7 @@ public class SelectorFechas {
 		gbc_btnEstablecer.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEstablecer.gridx = 1;
 		gbc_btnEstablecer.gridy = 4;
-		frmSeleccioneUnaFecha.getContentPane().add(btnEstablecer, gbc_btnEstablecer);
+		getContentPane().add(btnEstablecer, gbc_btnEstablecer);
 	}
 
 }

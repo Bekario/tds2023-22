@@ -18,16 +18,17 @@ import javax.swing.ImageIcon;
 import java.awt.Insets;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Cursor;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import com.toedter.calendar.JCalendarBeanInfo;
+
 import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class Register {
-
+public class Register extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JTextField email;
 	private JTextField nombre;
@@ -37,7 +38,7 @@ public class Register {
 	private JButton btnMostrarPass;
 	private JButton btnMostrarPass2;
 	private JLabel lblFechaNacimiento;
-	private final JButton btnNewButton = new JButton("· · ·");
+	private final JButton btnSeleccionarFecha = new JButton("· · ·");
 	private JButton btnLogin;
 
 	/**
@@ -51,6 +52,7 @@ public class Register {
 					Register window = new Register();
 					window.frame.setVisible(true);
 					window.frame.getRootPane().requestFocus(false);
+					window.frame.setLocationRelativeTo(null);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -80,8 +82,7 @@ public class Register {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(Register.class.getResource("/imagenes/camara-de-fotos.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Register.class.getResource("/imagenes/camara-de-fotos.png")));
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -215,19 +216,22 @@ public class Register {
 		gbc_lblFechaNacimiento.gridx = 2;
 		gbc_lblFechaNacimiento.gridy = 5;
 		frame.getContentPane().add(lblFechaNacimiento, gbc_lblFechaNacimiento);
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 3;
-		gbc_btnNewButton.gridy = 5;
-		/*btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				SelectorFechas fechas = new SelectorFechas();
-				frame.dispose();
+		GridBagConstraints gbc_btnSeleccionarFecha = new GridBagConstraints();
+		gbc_btnSeleccionarFecha.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSeleccionarFecha.gridx = 3;
+		gbc_btnSeleccionarFecha.gridy = 5;
+		frame.getContentPane().add(btnSeleccionarFecha, gbc_btnSeleccionarFecha);
+		
+		addManejadorSeleccionarFecha(btnSeleccionarFecha);
+	}
+	
+	private void addManejadorSeleccionarFecha(JButton boton) {
+		btnSeleccionarFecha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectorFechas selector = new SelectorFechas(frame);
+				selector.mostrarVentana();
 			}
 		});
-	*/
-		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 	}
 	
 	/**
