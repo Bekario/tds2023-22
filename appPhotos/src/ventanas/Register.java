@@ -24,20 +24,21 @@ import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import com.toedter.calendar.JCalendarBeanInfo;
+import javax.swing.UIManager;
 
 public class Register {
 
 	private JFrame frame;
-	private JButton botonRegister;
 	private JTextField email;
 	private JTextField nombre;
 	private JTextField usuario;
 	private JPasswordField contraseña;
 	private JPasswordField confirmar_contraseña;
-	private JButton lblNewLabel;
-	private JButton lblNewLabel_1;
-	private JTextField txtFechaNacimiento;
+	private JButton btnMostrarPass;
+	private JButton btnMostrarPass2;
+	private JLabel lblFechaNacimiento;
 	private final JButton btnNewButton = new JButton("· · ·");
+	private JButton btnLogin;
 
 	/**
 	 * Launch the application.
@@ -86,19 +87,21 @@ public class Register {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 0, 35, 50, 0 };
-		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 0, 50, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
+		
 		establecerTitulo();
 		establecerEmail();
 		establecerNombre();
 		establecerFechaNacim();
 		establecerUsuario();
 		establecerContraseñasYBotones();
-		establecerBotones();
+		establecerBotonContinuar();
 	}
+	
 	/**
 	 * Crea el titulo
 	 */
@@ -115,28 +118,13 @@ public class Register {
 		gbc_nombreApp.gridy = 1;
 		frame.getContentPane().add(nombreApp, gbc_nombreApp);
 	}
+	
 	/**
 	 * Crea el email field
 	 */
 	private void establecerEmail() {
 		
 		email = new JTextField();
-		email.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (email.getText().equals("Email")) {
-					email.setText("");
-				} else {
-					email.selectAll();
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (email.getText().equals(""))
-					email.setText("Email");
-			}
-		});
 		email.setText("Email");
 		email.setToolTipText("");
 
@@ -148,63 +136,59 @@ public class Register {
 		gbc_email.gridy = 3;
 		frame.getContentPane().add(email, gbc_email);
 		email.setColumns(10);
-	}
-	/**
-	 * Crea el nombre field
-	 */
-	private void establecerNombre() {
 		
-		nombre = new JTextField();
-		
-				nombre = new JTextField();
-				nombre.addFocusListener(new FocusAdapter() {
-					@Override
-					public void focusGained(FocusEvent e) {
-						if (nombre.getText().equals("Nombre")) {
-							nombre.setText("");
-						} else {
-							nombre.selectAll();
-						}
-					}
-
-					@Override
-					public void focusLost(FocusEvent e) {
-						if (nombre.getText().equals(""))
-							nombre.setText("Nombre");
-					}
-				});
-				nombre.setText("Nombre");
-				nombre.setToolTipText("");
-				GridBagConstraints gbc_nombre = new GridBagConstraints();
-				gbc_nombre.gridwidth = 2;
-				gbc_nombre.insets = new Insets(0, 0, 5, 5);
-				gbc_nombre.fill = GridBagConstraints.HORIZONTAL;
-				gbc_nombre.gridx = 2;
-				gbc_nombre.gridy = 4;
-				frame.getContentPane().add(nombre, gbc_nombre);
-				nombre.setColumns(10);
+		addManejadorTextos(email, "Email");
 	}
+	
 	/**
-	 * Crea el usuario field
+	 * Añade una animacion al introducir texto a los campos de texto
+	 * @param texto Campo de texto
+	 * @param defecto String que debe ser sustituida (por defecto)
 	 */
-	private void establecerUsuario() {
-		usuario = new JTextField();
-		usuario.addFocusListener(new FocusAdapter() {
+	private void addManejadorTextos(JTextField texto, String defecto) {
+		texto.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				if (usuario.getText().equals("Usuario")) {
-					usuario.setText("");
+				if (texto.getText().equals(defecto)) {
+					texto.setText("");
 				} else {
-					usuario.selectAll();
+					texto.selectAll();
 				}
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (usuario.getText().equals(""))
-					usuario.setText("Usuario");
+				if (texto.getText().equals(""))
+					texto.setText(defecto);
 			}
 		});
+	}
+	
+	/**
+	 * Crea el nombre field
+	 */
+	private void establecerNombre() {
+		nombre = new JTextField();
+		nombre = new JTextField();
+		nombre.setText("Nombre");
+		nombre.setToolTipText("");
+		GridBagConstraints gbc_nombre = new GridBagConstraints();
+		gbc_nombre.gridwidth = 2;
+		gbc_nombre.insets = new Insets(0, 0, 5, 5);
+		gbc_nombre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nombre.gridx = 2;
+		gbc_nombre.gridy = 4;
+		frame.getContentPane().add(nombre, gbc_nombre);
+		nombre.setColumns(10);
+		
+		addManejadorTextos(nombre, "Nombre");
+	}
+	
+	/**
+	 * Crea el usuario field
+	 */
+	private void establecerUsuario() {
+		usuario = new JTextField();
 		usuario.setText("Usuario");
 		usuario.setToolTipText("");
 		GridBagConstraints gbc_usuario = new GridBagConstraints();
@@ -215,22 +199,22 @@ public class Register {
 		gbc_usuario.gridy = 6;
 		frame.getContentPane().add(usuario, gbc_usuario);
 		usuario.setColumns(10);
+		
+		addManejadorTextos(usuario, "Usuario");
 	}
+	
 	/**
-	 * Crea el sistema de calendario
+	 * Crea el campo para la fecha de nacimiento incluyendo el boton
 	 */
 	private void establecerFechaNacim() {
-		
-		txtFechaNacimiento = new JTextField();
-		txtFechaNacimiento.setText("Fecha Nacimiento");
-		txtFechaNacimiento.setEditable(false);
-		GridBagConstraints gbc_txtFechaNacimiento = new GridBagConstraints();
-		gbc_txtFechaNacimiento.insets = new Insets(0, 0, 5, 5);
-		gbc_txtFechaNacimiento.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtFechaNacimiento.gridx = 2;
-		gbc_txtFechaNacimiento.gridy = 5;
-		frame.getContentPane().add(txtFechaNacimiento, gbc_txtFechaNacimiento);
-		txtFechaNacimiento.setColumns(10);
+		lblFechaNacimiento = new JLabel();
+		lblFechaNacimiento.setText("  Fecha Nacimiento");
+		GridBagConstraints gbc_lblFechaNacimiento = new GridBagConstraints();
+		gbc_lblFechaNacimiento.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFechaNacimiento.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblFechaNacimiento.gridx = 2;
+		gbc_lblFechaNacimiento.gridy = 5;
+		frame.getContentPane().add(lblFechaNacimiento, gbc_lblFechaNacimiento);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 3;
@@ -245,34 +229,12 @@ public class Register {
 	*/
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 	}
+	
 	/**
 	 * Crea los field contraseña y confirmar contraseña y sus botones
 	 */
 	private void establecerContraseñasYBotones() {
-
-
 		contraseña = new JPasswordField();
-		contraseña.addFocusListener(new FocusAdapter() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (contraseña.getText().equals("Contraseña")) {
-					contraseña.setEchoChar('●');
-					contraseña.setText("");
-				} else {
-					contraseña.selectAll();
-				}
-			}
-
-			@SuppressWarnings("deprecation")
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (contraseña.getText().equals("")) {
-					contraseña.setText("Contraseña");
-					contraseña.setEchoChar((char) 0);
-				}
-			}
-		});
 		contraseña.setText("Contraseña");
 		contraseña.setEchoChar((char) 0);
 		GridBagConstraints gbc_contraseña = new GridBagConstraints();
@@ -284,64 +246,20 @@ public class Register {
 		frame.getContentPane().add(contraseña, gbc_contraseña);
 
 		confirmar_contraseña = new JPasswordField();
-		confirmar_contraseña.addFocusListener(new FocusAdapter() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (confirmar_contraseña.getText().equals("Confirmar contraseña")) {
-					confirmar_contraseña.setEchoChar('●');
-					confirmar_contraseña.setText("");
-				} else {
-					confirmar_contraseña.selectAll();
-				}
-			}
-
-			@SuppressWarnings("deprecation")
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (confirmar_contraseña.getText().equals("")) {
-					confirmar_contraseña.setText("Confirmar contraseña");
-					confirmar_contraseña.setEchoChar((char) 0);
-				}
-			}
-		});
-		
-		lblNewLabel = new JButton("");
-		lblNewLabel.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void mousePressed(MouseEvent e) {
-				lblNewLabel.setContentAreaFilled(true);
-				if (!contraseña.getText().equals("Contraseña")) {					
-					contraseña.setEchoChar((char) 0);
-				}
-		
-			}
-			
-			@SuppressWarnings("deprecation")
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				lblNewLabel.setContentAreaFilled(false);
-				if (!contraseña.getText().equals("Contraseña")) {					
-					contraseña.setEchoChar('●');
-				}
-				
-
-			}
-		});
-		lblNewLabel.setBorderPainted(false);
-		lblNewLabel.setContentAreaFilled(false);
+		btnMostrarPass = new JButton("");
+		btnMostrarPass.setBorderPainted(false);
+		btnMostrarPass.setContentAreaFilled(false);
 		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/mostrarcont.png"));
         Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-        lblNewLabel.setIcon(icono);
+        btnMostrarPass.setIcon(icono);
         
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 4;
-		gbc_lblNewLabel.gridy = 7;
-		frame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
-		confirmar_contraseña.setText("Confirmar contraseña");
+		GridBagConstraints gbc_btnMostrarPass = new GridBagConstraints();
+		gbc_btnMostrarPass.anchor = GridBagConstraints.WEST;
+		gbc_btnMostrarPass.insets = new Insets(0, 0, 5, 5);
+		gbc_btnMostrarPass.gridx = 4;
+		gbc_btnMostrarPass.gridy = 7;
+		frame.getContentPane().add(btnMostrarPass, gbc_btnMostrarPass);
+		confirmar_contraseña.setText("Confirmar Contraseña");
 		confirmar_contraseña.setEchoChar((char) 0);
 		GridBagConstraints gbc_confirmar_contraseña = new GridBagConstraints();
 		gbc_confirmar_contraseña.gridwidth = 2;
@@ -351,55 +269,120 @@ public class Register {
 		gbc_confirmar_contraseña.gridy = 8;
 		frame.getContentPane().add(confirmar_contraseña, gbc_confirmar_contraseña);
 		
-		lblNewLabel_1 = new JButton("");
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		btnMostrarPass2 = new JButton("");
+		btnMostrarPass2.setBorderPainted(false);
+		btnMostrarPass2.setContentAreaFilled(false);
+        btnMostrarPass2.setIcon(icono);
+        
+		GridBagConstraints gbc_btnMostrarPass2 = new GridBagConstraints();
+		gbc_btnMostrarPass2.anchor = GridBagConstraints.WEST;
+		gbc_btnMostrarPass2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnMostrarPass2.gridx = 4;
+		gbc_btnMostrarPass2.gridy = 8;
+		frame.getContentPane().add(btnMostrarPass2, gbc_btnMostrarPass2);
+		
+		addManejadorConstraseña(contraseña, "Contraseña");
+		addManejadorConstraseña(confirmar_contraseña, "Confirmar Contraseña");
+		
+		addManejadorBotonesMostrarContraseña(btnMostrarPass, contraseña, "Contraseña");
+		addManejadorBotonesMostrarContraseña(btnMostrarPass2, confirmar_contraseña, "Confirmar Contraseña");
+	}
+	
+	/**
+	 * Añade una animacion a los campos de contraseña
+	 * @param contraseña Campo de contraseña
+	 */
+	private void addManejadorConstraseña(JPasswordField contraseña, String defecto) {
+		contraseña.addFocusListener(new FocusAdapter() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (contraseña.getText().equals(defecto)) {
+					contraseña.setEchoChar('●');
+					contraseña.setText("");
+				} else {
+					contraseña.selectAll();
+				}
+			}
+			@SuppressWarnings("deprecation")
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (contraseña.getText().equals("")) {
+					contraseña.setText(defecto);
+					contraseña.setEchoChar((char) 0);
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Añade funcionalidad a los botones de mostrar contraseña
+	 * @param boton Boton
+	 * @param contraseña Campo de contraseña
+	 * @param defecto String por defecto
+	 */
+	private void addManejadorBotonesMostrarContraseña(JButton boton, JPasswordField contraseña, String defecto){
+		boton.addMouseListener(new MouseAdapter() {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void mousePressed(MouseEvent e) {
-				lblNewLabel_1.setContentAreaFilled(true);
-				if (!confirmar_contraseña.getText().equals("Confirmar contraseña")) {					
-					confirmar_contraseña.setEchoChar((char) 0);
+				boton.setContentAreaFilled(true);
+				if (!contraseña.getText().equals(defecto)) {					
+					contraseña.setEchoChar((char) 0);
 				}
 			}
 			
 			@SuppressWarnings("deprecation")
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				lblNewLabel_1.setContentAreaFilled(false);
-				if (!confirmar_contraseña.getText().equals("Confirmar contraseña")) {					
-					confirmar_contraseña.setEchoChar('●');
+				boton.setContentAreaFilled(false);
+				if (!contraseña.getText().equals(defecto)) {					
+					contraseña.setEchoChar('●');
 				}
 				
 
 			}
 		});
-
-		lblNewLabel_1.setBorderPainted(false);
-		lblNewLabel_1.setContentAreaFilled(false);
-        lblNewLabel_1.setIcon(icono);
-        
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 4;
-		gbc_lblNewLabel_1.gridy = 8;
-		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 	}
+	
 	/**
-	 * Crea los botones
+	 * Crea el boton continuar
 	 */
-	private void establecerBotones() {
-		botonRegister = new JButton("");
-		botonRegister.setContentAreaFilled(false);
-		botonRegister.setBorderPainted(false);
-		botonRegister.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		botonRegister.setIcon(new ImageIcon(Register.class.getResource("/imagenes/button (3).png")));
-		GridBagConstraints gbc_botonRegister = new GridBagConstraints();
-		gbc_botonRegister.gridwidth = 2;
-		gbc_botonRegister.insets = new Insets(0, 0, 5, 5);
-		gbc_botonRegister.gridx = 2;
-		gbc_botonRegister.gridy = 10;
-		frame.getContentPane().add(botonRegister, gbc_botonRegister);
+	private void establecerBotonContinuar() {
+		btnLogin = new JButton("CONTINUAR");
+		btnLogin.setForeground(new Color(218, 200, 41));
+		btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnLogin.setBorderPainted(false);
+		btnLogin.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnLogin = new GridBagConstraints();
+		gbc_btnLogin.fill = GridBagConstraints.VERTICAL;
+		gbc_btnLogin.gridwidth = 2;
+		gbc_btnLogin.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLogin.gridx = 2;
+		gbc_btnLogin.gridy = 10;
+		frame.getContentPane().add(btnLogin, gbc_btnLogin);
+		
+		addManejadorBotonColor(btnLogin);
+	}
+	
+	/**
+	 * Gestiona los cambios de color al pasar el raton encima de un boton
+	 * @param boton Boton que se desea que aplique el efecto
+	 */
+	private void addManejadorBotonColor(JButton boton) {
+		boton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				boton.setBackground(new Color(218,200,41));
+				boton.setForeground(new Color(78,80,82));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				boton.setBackground(new Color(78,80,82));
+				boton.setForeground(new Color(218,200,41));
+				
+			}
+		});
 	}
 
 }
