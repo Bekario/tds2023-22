@@ -63,6 +63,10 @@ public class SelectorFechas {
 	public SelectorFechas() {
 		initialize();
 	}
+	
+	/**
+	 * Muestra la ventana
+	 */
 	public void mostrarVentana() {
 		frame.setLocationRelativeTo(null);
 		this.frame.setVisible(true);
@@ -84,6 +88,9 @@ public class SelectorFechas {
 		establecerBoton();
 		establecerCalendario();
 	}
+	/**
+	 * Crea el nombre
+	 */
 	private void establecerNombre() {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -103,12 +110,19 @@ public class SelectorFechas {
 		gbc_nombreApp.gridy = 1;
 		frame.getContentPane().add(nombreApp, gbc_nombreApp);
 	}
+	/**
+	 * Crea el boton establecer
+	 */
 	private void establecerBoton() {
 		
 		btnEstablecer = new JButton("ESTABLECER");
 		btnEstablecer.setBorderPainted(false);
 		addManejadorBotonColor(btnEstablecer);
 	}
+	/**
+	 * Añade el manejador de animacion del boton
+	 * @param boton boton establecer
+	 */
 	private void addManejadorBotonColor(JButton boton) {
 		
 		boton.addMouseListener(new MouseAdapter() {
@@ -125,6 +139,9 @@ public class SelectorFechas {
 			}
 		});
 	}
+	/**
+	 * Crea el calendario
+	 */
 	private void establecerCalendario() {
 		
 		calendar = new JCalendar();
