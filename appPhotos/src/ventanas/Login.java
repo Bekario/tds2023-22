@@ -58,7 +58,16 @@ public class Login {
 	public Login() {
 		initialize();
 	}
-
+	
+	/**
+	 * Muestra la ventana
+	 */
+	public void mostrarVentana() {
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.getRootPane().requestFocus(false);
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
