@@ -17,13 +17,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
 import com.toedter.calendar.JCalendar;
+
+import umu.tds.gui.RegistroView;
 
 
 public class SelectorFechas extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JButton btnEstablecer;
 	private JCalendar calendar;
+	private LocalDate fecha;
 
 	/**
 	 * Create the application.
@@ -65,7 +71,6 @@ public class SelectorFechas extends JDialog implements ActionListener{
 	 * Crea el nombre
 	 */
 	private void establecerNombre() {
-		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 0, 50, 0};
 		gridBagLayout.rowHeights = new int[]{20, 0, 20, 0, 50, 20, 0};
@@ -83,17 +88,33 @@ public class SelectorFechas extends JDialog implements ActionListener{
 		gbc_nombreApp.gridy = 1;
 		getContentPane().add(nombreApp, gbc_nombreApp);
 	}
+	
 	/**
 	 * Crea el boton establecer
 	 */
 	private void establecerBoton() {
+		btnEstablecer = new JButton("ESTABLECER");
+		btnEstablecer.setBorderPainted(false);
+		btnEstablecer.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnEstablecer.setBackground(new Color(78,80,82));
+		btnEstablecer.setForeground(new Color(218, 200, 41));
+		GridBagConstraints gbc_btnEstablecer = new GridBagConstraints();
+		gbc_btnEstablecer.fill = GridBagConstraints.VERTICAL;
+		gbc_btnEstablecer.insets = new Insets(0, 0, 5, 5);
+		gbc_btnEstablecer.gridx = 1;
+		gbc_btnEstablecer.gridy = 4;
+		getContentPane().add(btnEstablecer, gbc_btnEstablecer);
+
+		addManejadorBoton(btnEstablecer);
+		addManejadorEstablecer(btnEstablecer, calendar);
 	}
+	
 	/**
 	 * Añade el manejador de animacion del boton
 	 * @param boton boton establecer
 	 */
-	private void addManejadorBotonColor(JButton boton) {
-		
+	private void addManejadorBoton(JButton boton) {
+		//Color
 		boton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -104,15 +125,31 @@ public class SelectorFechas extends JDialog implements ActionListener{
 			public void mouseExited(MouseEvent e) {
 				boton.setBackground(new Color(78,80,82));
 				boton.setForeground(new Color(218,200,41));
-				
 			}
 		});
 	}
+	
+	/**
+	 * Cierra la ventana y almacena los 
+	 * @param boton
+	 */
+	JDate
+	private void addManejadorEstablecer(JButton boton, JCalendar calendar) {
+		//Fecha seleccionada
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				calendar.getDate();
+				setFecha(calendar.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+				
+				dispose();
+			}
+		});
+	}
+	
 	/**
 	 * Crea el calendario
 	 */
 	private void establecerCalendario() {
-		
 		calendar = new JCalendar();
 		calendar.getDayChooser().setAlwaysFireDayProperty(true);
 		calendar.getDayChooser().setForeground(new Color(255, 255, 255));
@@ -134,19 +171,14 @@ public class SelectorFechas extends JDialog implements ActionListener{
 		gbc_calendar.gridx = 1;
 		gbc_calendar.gridy = 3;
 		getContentPane().add(calendar, gbc_calendar);
-		
-		btnEstablecer = new JButton("ESTABLECER");
-		btnEstablecer.setBorderPainted(false);
-		addManejadorBotonColor(btnEstablecer);
-		btnEstablecer.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnEstablecer.setBackground(new Color(78,80,82));
-		btnEstablecer.setForeground(new Color(218, 200, 41));
-		GridBagConstraints gbc_btnEstablecer = new GridBagConstraints();
-		gbc_btnEstablecer.fill = GridBagConstraints.VERTICAL;
-		gbc_btnEstablecer.insets = new Insets(0, 0, 5, 5);
-		gbc_btnEstablecer.gridx = 1;
-		gbc_btnEstablecer.gridy = 4;
-		getContentPane().add(btnEstablecer, gbc_btnEstablecer);
+	}
+	
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
+	
+	public LocalDate getFecha() {
+		return fecha;
 	}
 
 }
