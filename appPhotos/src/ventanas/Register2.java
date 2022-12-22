@@ -89,8 +89,14 @@ public class Register2 {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
-	
 		
+		establecerTitulo();
+		establecerBotones();
+		establecerImagenSubida();
+		establecerDescripcion();
+	}
+	
+	private void establecerTitulo() {
 		JLabel nombreApp = new JLabel("appPhotos");
 		nombreApp.setForeground(new Color(233, 233, 233));
 		nombreApp.setIcon(null);
@@ -101,23 +107,9 @@ public class Register2 {
 		gbc_nombreApp.gridx = 2;
 		gbc_nombreApp.gridy = 1;
 		frame.getContentPane().add(nombreApp, gbc_nombreApp);
-		
-		btnMeterImg = new JButton("Añadir Imagen");
-		btnMeterImg.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser selector = new JFileChooser();
-				selector.showOpenDialog(selector); //Esto no se porque
-				File fichero = selector.getSelectedFile();
-			}
-		});
-		btnMeterImg.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		GridBagConstraints gbc_btnMeterImg = new GridBagConstraints();
-		gbc_btnMeterImg.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnMeterImg.insets = new Insets(0, 0, 5, 5);
-		gbc_btnMeterImg.gridx = 2;
-		gbc_btnMeterImg.gridy = 3;
-		frame.getContentPane().add(btnMeterImg, gbc_btnMeterImg);
-		
+	}
+	
+	private void establecerImagenSubida() {
 		perfil = new JLabel("");
 		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/face-detection (1).png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
@@ -125,12 +117,13 @@ public class Register2 {
 		perfil.setIcon(icono);
 
 		GridBagConstraints gbc_perfil = new GridBagConstraints();
-		gbc_perfil.anchor = GridBagConstraints.EAST;
 		gbc_perfil.insets = new Insets(0, 0, 5, 5);
 		gbc_perfil.gridx = 3;
 		gbc_perfil.gridy = 3;
 		frame.getContentPane().add(perfil, gbc_perfil);
-		
+	}
+	
+	private void establecerDescripcion() {
 		scrollPane = new JScrollPane();
 		scrollPane.setToolTipText("Introduce la descripción que será mostrada en tu perfil");
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -144,6 +137,12 @@ public class Register2 {
 		
 		descripcion = new JEditorPane();
 		descripcion.setText("Introduce una breve descripción sobre ti...");
+		scrollPane.setViewportView(descripcion);
+		
+		addManejadorDescripcion(descripcion);
+	}
+	
+	private void addManejadorDescripcion(JEditorPane descripcion) {
 		descripcion.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -158,18 +157,22 @@ public class Register2 {
 				}
 			}
 		});
-		scrollPane.setViewportView(descripcion);
+	}
+	
+	private void establecerBotones() {
+		//Boton imagen
+		btnMeterImg = new JButton("Añadir Imagen");
+		btnMeterImg.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		GridBagConstraints gbc_btnMeterImg = new GridBagConstraints();
+		gbc_btnMeterImg.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnMeterImg.insets = new Insets(0, 0, 5, 5);
+		gbc_btnMeterImg.gridx = 2;
+		gbc_btnMeterImg.gridy = 3;
+		frame.getContentPane().add(btnMeterImg, gbc_btnMeterImg);
 		
+		//Boton borrar texto
 		btnborrar = new JButton("Borrar Texto");
-		//En caso de hacer click en el boton
-		btnborrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Borramos el texto de la descripcion
-				descripcion.setText("");
-				//Lo ponemos en focus para que el usuario no tenga que hacer click para empezar a escribir
-				descripcion.grabFocus();
-			}
-		});
+		
 		btnborrar.setToolTipText("Elimina todo el texto contenido en el campo de la descripción");
 		GridBagConstraints gbc_btnborrar = new GridBagConstraints();
 		gbc_btnborrar.anchor = GridBagConstraints.EAST;
@@ -178,21 +181,9 @@ public class Register2 {
 		gbc_btnborrar.gridy = 6;
 		frame.getContentPane().add(btnborrar, gbc_btnborrar);
 		
+		//Boton registrarse
 		btnRegistrarse = new JButton("REGISTRARSE");
 		btnRegistrarse.setBorderPainted(false);
-		btnRegistrarse.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnRegistrarse.setBackground(new Color(218,200,41));
-				btnRegistrarse.setForeground(new Color(78,80,82));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				btnRegistrarse.setBackground(new Color(78,80,82));
-				btnRegistrarse.setForeground(new Color(218,200,41));
-				
-			}
-		});
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBackground(new Color(78,80,82));
 		btnRegistrarse.setForeground(new Color(218, 200, 41));
@@ -203,6 +194,52 @@ public class Register2 {
 		gbc_btnRegistrarse.gridx = 2;
 		gbc_btnRegistrarse.gridy = 8;
 		frame.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
+		
+		addManejadorBotonColor(btnRegistrarse);
+		addManejadorBotonBorrar(btnborrar);
+		addManejadorBotonInsertarImagen(btnMeterImg);
+	}
+	
+	private void addManejadorBotonInsertarImagen(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser selector = new JFileChooser();
+				selector.showOpenDialog(selector); //Esto no se porque
+				File fichero = selector.getSelectedFile();
+			}
+		});
+	}
+	
+	/**
+	 * Gestiona los cambios de color al pasar el raton encima de un boton
+	 * @param boton Boton que se desea que aplique el efecto
+	 */
+	private void addManejadorBotonColor(JButton boton) {
+		boton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				boton.setBackground(new Color(218,200,41));
+				boton.setForeground(new Color(78,80,82));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				boton.setBackground(new Color(78,80,82));
+				boton.setForeground(new Color(218,200,41));
+				
+			}
+		});
+	}
+	
+	private void addManejadorBotonBorrar(JButton boton) {
+		//En caso de hacer click en el boton
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Borramos el texto de la descripcion
+				descripcion.setText("");
+				//Lo ponemos en focus para que el usuario no tenga que hacer click para empezar a escribir
+				descripcion.grabFocus();
+			}
+		});
 	}
 
 }
