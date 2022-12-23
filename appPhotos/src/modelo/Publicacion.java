@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Publicacion {
+	private int codigo;
 	private String titulo;
 	private LocalDate fecha;
 	private String descripcion;
@@ -20,6 +21,7 @@ public abstract class Publicacion {
 		fecha=LocalDate.now();
 		megusta=0;
 		comentarios = new ArrayList<Comentario>();
+		codigo = 0;
 	}
 	
 	// Metodos get / set
@@ -43,6 +45,9 @@ public abstract class Publicacion {
 		return hashtags;
 	}
 
+	public int getCodigo() {
+		return codigo;
+	}
 	
 	
 	
