@@ -58,9 +58,11 @@ public class AdaptadorComentarioTDS implements IAdaptadorComentarioDAO {
 		Entidad eComentario = servPersistencia.recuperarEntidad(comentario.getCodigo());
 
 		for (Propiedad prop : eComentario.getPropiedades()) {
-			if (prop.getNombre().equals("texto")) {
+			if (prop.getNombre().equals("codigo")) {
 				prop.setValor(String.valueOf(comentario.getCodigo()));
-			} 
+			} else if (prop.getNombre().equals("texto")) {
+				prop.setValor(String.valueOf(comentario.getTexto()));
+			}  
 			servPersistencia.modificarPropiedad(prop);
 		}
 	}

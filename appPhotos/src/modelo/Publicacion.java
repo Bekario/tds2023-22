@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Publicacion {
+	private Usuario usuario;
 	private int codigo;
 	private String titulo;
 	private LocalDate fecha;
@@ -14,10 +15,11 @@ public abstract class Publicacion {
 	private List<Comentario> comentarios;
 	
 	// Constructor
-	public Publicacion(String titulo, String descipcion, List<String> hastags) {
+	public Publicacion(String titulo, String descipcion, List<String> hastags, Usuario usuario) {
 		this.titulo=titulo;
 		this.descripcion=descipcion;
 		this.hashtags=hastags;
+		this.usuario=usuario;
 		fecha=LocalDate.now();
 		megusta=0;
 		comentarios = new ArrayList<Comentario>();
@@ -47,6 +49,19 @@ public abstract class Publicacion {
 
 	public int getCodigo() {
 		return codigo;
+	}
+	
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
 	
 	
