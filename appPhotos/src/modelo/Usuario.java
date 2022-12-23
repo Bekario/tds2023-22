@@ -17,7 +17,7 @@ public class Usuario {
 	private List<Usuario> usuariosSeguidores;
 	private List<Notificacion> notificaciones;
 	private List<Publicacion> fotos;
-	private Descuento descuento;
+	private Descuento descuento; //Optional malenia
 	
 	//Indice para numerar las fotos subidas por el usuario
 	private int indicePubliacion;
@@ -76,6 +76,10 @@ public class Usuario {
 	
 	public int getCodigo() {
 		return codigo;
+	}
+	
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 	
 	public List<Publicacion> getFotos() {

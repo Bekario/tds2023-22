@@ -118,7 +118,7 @@ public class Controlador {
 		}
 	}
 	
-	public void comprobarDescuento(Usuario usuario) {
+	public void comprobarDescuento(Usuario usuario) { //ponerlo en usuario
 		int edad = Period.between(usuario.getFechaNacimiento(), LocalDate.now()).getYears();
 		int numMG = usuario.getFotos().stream()
 				.map(mg -> mg.getMegusta())

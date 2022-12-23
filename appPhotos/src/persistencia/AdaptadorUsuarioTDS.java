@@ -10,13 +10,26 @@ import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import beans.Entidad;
 import beans.Propiedad;
-
+import modelo.Notificacion;
+import modelo.Publicacion;
 import modelo.Usuario;
 
 //Usa un pool para evitar problemas doble referencia con ventas
 public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	private static ServicioPersistencia servPersistencia;
 	private static AdaptadorUsuarioTDS unicaInstancia = null;
+	
+	private final String USUARIO= "usuario";
+	private final String CONTRASEÑA= "contraseña";
+	private final String EMAIL= "email";
+	private final String NOMBRE_COMPLETO= "nombrecompleto";
+	private final String FECHA= "fecha";
+	private final String PREMIUM= "premium";
+	private final String PERFIL= "perfil";
+	private final String DESCRIPCION= "descripcion";
+	private final String SEGUIDORES= "seguidores";
+	private final String NOTIFICACIONES= "notificaciones";
+	private final String FOTOS= "fotos";
 
 	public static AdaptadorUsuarioTDS getUnicaInstancia() { // patron singleton
 		if (unicaInstancia == null)
@@ -39,18 +52,33 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		} catch (NullPointerException e) {}
 		if (eUsuario != null) return;
 
-		// registrar primero los atributos que son objetos MALENIA
-		AdaptadorVentaTDS adaptadorVenta = AdaptadorVentaTDS.getUnicaInstancia();
-		for (Venta v : cliente.getVentas())
-			adaptadorVenta.registrarVenta(v);
+		// registrar primero los atributos notificacion
+		AdaptadorNotificacionTDS adaptadorNotificacion = AdaptadorNotificacionTDS.getUnicaInstancia();
+		for (Notificacion v : usuario.getNotificaciones())
+			adaptadorNotificacion.registrarNotificacion(v);
+		
+		// registrar primero los atributos publicacion
+		AdaptadorPublicacionTDS adaptadorPublicacion = AdaptadorPublicacionTDS.getUnicaInstancia();
+		for (Publicacion v : usuario.getFotos())
+			adaptadorPublicacion.registrarPublicacion(v);
 
 		// crear entidad Usuario
 		eUsuario = new Entidad();
 		eUsuario.setNombre("usuario");
 		eUsuario.setPropiedades(new ArrayList<Propiedad>(
-				Arrays.asList(new Propiedad("nombre", usuario.getNombre()), new Propiedad("email", usuario.getEmail()),
-						new Propiedad("nombre_completo", usuario.getNombreCompleto()), new Propiedad("fecha_nacimiento",usuario.getFechaNacimiento()),
-						new Propiedad("premium", usuario.getIsPremium()))));
+				Arrays.asList(new Propiedad(USUARIO, usuario.getUsuario()),
+						new Propiedad(CONTRASEÑA, usuario.getContraseña()),
+						new Propiedad(EMAIL, usuario.getEmail()),
+						new Propiedad(NOMBRE_COMPLETO, usuario.getNombreCompleto()),
+						//new Propiedad(FECHA,),
+						new Propiedad(PREMIUM, String.valueOf(usuario.getIsPremium())),
+						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
+						new Propiedad(PERFIL, usuario.getPerfil()),
+						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
+						new Propiedad(NOTIFICACIONES, ),
+						new Propiedad(SEGUIDORES, ),
+						new Propiedad(FOTOS, )
+						)));
 
 		// registrar entidad cliente
 		eUsuario = servPersistencia.registrarEntidad(eUsuario);
@@ -66,20 +94,35 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		servPersistencia.borrarEntidad(eCliente);
 	}
 
-	public void modificarUsuario(Usuario cliente) {
+	public void modificarUsuario(Usuario usuario) {
 
-		Entidad eUsuario = servPersistencia.recuperarEntidad(cliente.getCodigo());
+		Entidad eUsuario = servPersistencia.recuperarEntidad(usuario.getCodigo());
 
-		for (Propiedad prop : eCliente.getPropiedades()) {
+		for (Propiedad prop : eUsuario.getPropiedades()) {
 			if (prop.getNombre().equals("codigo")) {
-				prop.setValor(String.valueOf(cliente.getCodigo()));
-			} else if (prop.getNombre().equals("dni")) {
-				prop.setValor(cliente.getDni());
-			} else if (prop.getNombre().equals("nombre")) {
-				prop.setValor(cliente.getNombre());
-			} else if (prop.getNombre().equals("ventas")) {
-				String ventas = obtenerCodigosVentas(cliente.getVentas());
-				prop.setValor(ventas);
+				prop.setValor(String.valueOf(usuario.getCodigo()));
+			} else if (prop.getNombre().equals(USUARIO)) {
+				prop.setValor(usuario.getUsuario());
+			} else if (prop.getNombre().equals(CONTRASEÑA)) {
+				prop.setValor(usuario.getContraseña());
+			} else if (prop.getNombre().equals(EMAIL)) {
+				prop.setValor(usuario.getEmail());
+			} else if (prop.getNombre().equals(NOMBRE_COMPLETO)) {
+				prop.setValor(usuario.getNombreCompleto());
+			} else if (prop.getNombre().equals(FECHA)) {
+				prop.setValor(usuario.getFechaNacimiento().toString());
+			} else if (prop.getNombre().equals(PREMIUM)) {
+				prop.setValor(String.valueOf(usuario.getIsPremium()));
+			} else if (prop.getNombre().equals(PERFIL)) {
+				prop.setValor(usuario.getPerfil());
+			} else if (prop.getNombre().equals(DESCRIPCION)) {
+				prop.setValor(usuario.getDescripcion());
+			} else if (prop.getNombre().equals(SEGUIDORES)) {
+				//prop.setValor(usuario.getEmail());
+			} else if (prop.getNombre().equals(NOTIFICACIONES)) {
+				//prop.setValor(usuario.getEmail());
+			} else if (prop.getNombre().equals(FOTOS)) {
+				//prop.setValor(usuario.getEmail());
 			}
 			servPersistencia.modificarPropiedad(prop);
 		}
@@ -88,7 +131,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 	public Usuario recuperarUsuario(int codigo) {
 
-		// Si la entidad est� en el pool la devuelve directamente
+		// Si la entidad está en el pool la devuelve directamente
 		if (PoolDAO.getUnicaInstancia().contiene(codigo))
 			return (Cliente) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 
