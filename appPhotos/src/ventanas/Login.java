@@ -71,8 +71,8 @@ public class Login {
 	/**
 	 * Muestra la ventana
 	 */
-	public void mostrarVentana() {
-		frame.setLocationRelativeTo(null);
+	public void mostrarVentana(JFrame padre) {
+		frame.setLocationRelativeTo(padre);
 		frame.setVisible(true);
 		frame.getRootPane().requestFocus(false);
 	}
@@ -295,7 +295,7 @@ public class Login {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Register ventana = new Register();
-				ventana.mostrarVentana();
+				ventana.mostrarVentana(frame);
 				frame.dispose();
 			}
 		});

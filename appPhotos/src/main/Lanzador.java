@@ -13,7 +13,7 @@ public class Lanzador {
 			public void run() {
 				try {
 					Login ventana = new Login();
-					ventana.mostrarVentana();
+					ventana.mostrarVentana(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

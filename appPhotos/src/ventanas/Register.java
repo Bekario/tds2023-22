@@ -37,7 +37,6 @@ import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
 public class Register {
-	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JTextField email;
 	private JTextField nombre;
@@ -79,8 +78,8 @@ public class Register {
 	/**
 	 * Muestra la ventana
 	 */
-	public void mostrarVentana() {
-		frame.setLocationRelativeTo(null);
+	public void mostrarVentana(JFrame padre) {
+		frame.setLocationRelativeTo(padre);
 		frame.setVisible(true);
 		frame.getRootPane().requestFocus(false);
 	}
@@ -383,7 +382,7 @@ public class Register {
 			public void actionPerformed(ActionEvent e) {
 				if (checkFields()) {
 					Register2 registro2 = new Register2();
-					registro2.mostrarVentana();
+					registro2.mostrarVentana(frame);
 					frame.dispose();
 				}
 			}

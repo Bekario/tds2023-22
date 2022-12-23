@@ -73,8 +73,8 @@ public class Register2 {
 	/**
 	 * Muestra la ventana
 	 */
-	public void mostrarVentana() {
-		frame.setLocationRelativeTo(null);
+	public void mostrarVentana(JFrame padre) {
+		frame.setLocationRelativeTo(padre);
 		frame.setVisible(true);
 		frame.getRootPane().requestFocus(false);
 	}
@@ -226,7 +226,7 @@ public class Register2 {
 			public void actionPerformed(ActionEvent e) {
 				if(checkFields()) {
 					Login ventana = new Login();
-					ventana.mostrarVentana();
+					ventana.mostrarVentana(frame);
 					frame.dispose();					
 				}
 			}
