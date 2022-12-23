@@ -1,5 +1,10 @@
 package controlador;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -10,8 +15,10 @@ import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
 import modelo.Variables;
+import ventanas.Register2;
 
-public class PhotoTDS {
+public class Controlador {
+	private static Controlador unicaInstancia = null;
 	private RepoUsuarios repoUsuarios;
 	private RepoPublicaciones repoPublicaciones;
 	
@@ -20,13 +27,21 @@ public class PhotoTDS {
 	//Edades entre las que se aplica el descuento
 	private final int EDAD_MIN = 18;
 	private final int EDAD_MAX = 25;
-	
+	//Ruta imagenes
+	private final String RUTA_IMAGENES = "/fotosSubidas/";
 	
 	//TODO FALTA GENERADOR PDF Y GENERADOR EXCEL
 	
-	public PhotoTDS() {
-		repoUsuarios = new RepoUsuarios();
-		repoPublicaciones = new RepoPublicaciones();
+	private Controlador() {
+		//repoUsuarios = new RepoUsuarios();
+		//repoPublicaciones = new RepoPublicaciones();
+	}
+	
+	public static Controlador getInstancia() {
+		if (unicaInstancia == null) { 
+			unicaInstancia = new Controlador();
+		}
+		return unicaInstancia;
 	}
 	
 	public void registrarUsuario(Usuario usuario) {
@@ -35,6 +50,27 @@ public class PhotoTDS {
 	
 	public void añadirPublicacion(Publicacion publicacion) {
 		//TODO
+	}
+	
+	/**
+	 * Inserta foto en la carpeta interna fotosSubidas
+	 * @param path Ruta de la foto
+	 * @param nombre Nombre con el que se copia la foto
+	 */
+	public void insertarFotoSubida(String path, String nombre) {
+		try {
+			Files.copy(FileSystems.getDefault().getPath(path), FileSystems.getDefault().getPath(System.getProperty("user.dir")+"/fotosSubidas/"+nombre), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void eliminarFotoSubida(String nombre) {
+		try {
+			Files.delete(FileSystems.getDefault().getPath(RUTA_IMAGENES+nombre));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void comprobarDescuento(Usuario usuario) {

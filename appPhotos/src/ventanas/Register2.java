@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
+
+import controlador.Controlador;
+
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -241,8 +244,14 @@ public class Register2 {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser selector = new JFileChooser();
-				selector.showOpenDialog(selector); //Esto no se porque
+				selector.showOpenDialog(selector);
 				File fichero = selector.getSelectedFile();
+				
+				Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), "tmp~tn"+fichero.getName());
+				
+				ImageIcon imagen = new ImageIcon(System.getProperty("user.dir")+"/fotosSubidas/"+"tmp~tn"+fichero.getName());
+				Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
+				perfil.setIcon(imagen);
 			}
 		});
 	}

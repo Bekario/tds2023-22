@@ -423,7 +423,7 @@ public class Register {
 		String info = "";
 		
 		//Comprobamos si es un correo basico
-		if(email.getText().equals("Email") || !match.matches()) {
+		if(email.getText().equals("Email") /*|| !match.matches()*/) {
 			estado = false;
 			info = "¡El email no es valido!";
 		}

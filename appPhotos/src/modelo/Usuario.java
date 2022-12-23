@@ -16,6 +16,9 @@ public class Usuario {
 	private List<Publicacion> fotos;
 	private Descuento descuento;
 	
+	//Indice para numerar las fotos subidas por el usuario
+	private int indicePubliacion;
+	
 	//Constructor
 	public Usuario(String nombre, String email, String nombreCompleto, LocalDate fechaNacimiento) {
 		this.nombre = nombre;
@@ -25,6 +28,7 @@ public class Usuario {
 		isPremium = false; //Inicialmente un usuario no es Premium
 		usuariosSeguidores = new ArrayList<Usuario>();
 		codigo = 0;
+		indicePubliacion = 0;
 	}
 	
 	//Metodos
@@ -35,7 +39,15 @@ public class Usuario {
 		return descuento.aplicarDescuento(this);
 	}
 	
+	public void aumentarIndicePublicacion() {
+		indicePubliacion++;
+	}
+	
 	//Metodos Get / Set
+	public int getIndicePubliacion() {
+		return indicePubliacion;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
