@@ -455,7 +455,7 @@ public class Register {
 		}
 		
 		if(!estado) {
-			JOptionPane.showMessageDialog(btnLogin, info, "Rellene correctamente los campos", 0);
+			JOptionPane.showMessageDialog(frame, info, "Rellene correctamente los campos", 0);
 		}
 		
 		return estado;

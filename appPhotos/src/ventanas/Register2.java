@@ -29,6 +29,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ScrollPaneConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -46,6 +48,9 @@ public class Register2 {
 	private JButton btnMeterImg;
 	private JLabel perfil;
 	private JButton btnRegistrarse;
+	
+	private String fotoActual;
+	private final String FOTO_DEFECTO = "/imagenes/face-detection.png";
 
 	/**
 	 * Launch the application.
@@ -124,7 +129,7 @@ public class Register2 {
 	 */
 	private void establecerImagenSubida() {
 		perfil = new JLabel("");
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/face-detection (1).png"));
+		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/face-detection.png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
 		
 		perfil.setIcon(icono);
@@ -134,6 +139,8 @@ public class Register2 {
 		gbc_perfil.gridx = 3;
 		gbc_perfil.gridy = 3;
 		frame.getContentPane().add(perfil, gbc_perfil);
+		
+		fotoActual = "/imagenes/face-detection.png";
 	}
 	
 	/**
@@ -230,6 +237,7 @@ public class Register2 {
 				if(checkFields()) {
 					Login ventana = new Login();
 					ventana.mostrarVentana(frame);
+					Controlador.getInstancia().eliminarFotoSubida(fotoActual);
 					frame.dispose();					
 				}
 			}
@@ -243,15 +251,35 @@ public class Register2 {
 	private void addManejadorBotonInsertarImagen(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Pattern regexpPng = Pattern.compile(".+\\.png");
+				Pattern regexpJpg = Pattern.compile(".+\\.jpg");
+				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg");
+				
+				//Si ya habia una foto temporal, la borramos
+				if(!fotoActual.equals(FOTO_DEFECTO)) {
+					Controlador.getInstancia().eliminarFotoSubida(fotoActual);
+				}
+				
+				//Creamos el selector de archivos con su filtro
 				JFileChooser selector = new JFileChooser();
-				selector.showOpenDialog(selector);
+				FileNameExtensionFilter filtro = new FileNameExtensionFilter("PNG, JPG, JPEG", "jpg", "png", "jpeg");
+				selector.setFileFilter(filtro);
+				selector.removeChoosableFileFilter(null);
+				
+				int resp = selector.showOpenDialog(selector);
 				File fichero = selector.getSelectedFile();
 				
-				Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), "tmp~tn"+fichero.getName());
-				
-				ImageIcon imagen = new ImageIcon(System.getProperty("user.dir")+"/fotosSubidas/"+"tmp~tn"+fichero.getName());
-				Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
-				perfil.setIcon(imagen);
+				//Comprobamos que la extension sea correcta
+				if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
+					JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
+				} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
+					fotoActual = "tmp~tn"+fichero.getName();
+					Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fotoActual);
+					
+					ImageIcon imagen = new ImageIcon(System.getProperty("user.dir")+"/fotosSubidas/"+fotoActual);
+					Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
+					perfil.setIcon(icono);
+				}
 			}
 		});
 	}
@@ -307,8 +335,15 @@ public class Register2 {
 			info = "¡Escribe una descripcion!";
 		}
 		
+		//Comprobamos que se ha seleccionado una foto
+		if(fotoActual.equals(FOTO_DEFECTO)) {
+			estado = false;
+			info = "¡Debes seleccionar una foto de perfil!";
+		}
+		
+		//Si falta un campo, informamos
 		if(!estado) {
-			JOptionPane.showMessageDialog(btnRegistrarse, info, "Rellene correctamente los campos", 0);
+			JOptionPane.showMessageDialog(frame, info, "Rellene correctamente los campos", 0);
 		}
 		
 		return estado;

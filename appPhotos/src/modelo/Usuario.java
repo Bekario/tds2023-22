@@ -6,11 +6,14 @@ import java.util.List;
 
 public class Usuario {
 	private int codigo;
-	private String nombre;
+	private String usuario;
+	private String contraseña;
 	private String email;
 	private String nombreCompleto;
 	private LocalDate fechaNacimiento;
 	private boolean isPremium;
+	private String perfil;
+	private String descripcion;
 	private List<Usuario> usuariosSeguidores;
 	private List<Notificacion> notificaciones;
 	private List<Publicacion> fotos;
@@ -20,11 +23,14 @@ public class Usuario {
 	private int indicePubliacion;
 	
 	//Constructor
-	public Usuario(String nombre, String email, String nombreCompleto, LocalDate fechaNacimiento) {
-		this.nombre = nombre;
+	public Usuario(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento, String perfil, String descripcion) {
+		this.usuario = usuario;
 		this.email = email;
 		this.nombreCompleto = nombreCompleto;
 		this.fechaNacimiento = fechaNacimiento;
+		this.contraseña = contraseña;
+		this.perfil = perfil;
+		this.descripcion = descripcion;
 		isPremium = false; //Inicialmente un usuario no es Premium
 		usuariosSeguidores = new ArrayList<Usuario>();
 		codigo = 0;
@@ -48,8 +54,8 @@ public class Usuario {
 		return indicePubliacion;
 	}
 	
-	public String getNombre() {
-		return nombre;
+	public String getUsuario() {
+		return usuario;
 	}
 	
 	public String getEmail() {
@@ -74,6 +80,18 @@ public class Usuario {
 	
 	public List<Publicacion> getFotos() {
 		return fotos;
+	}
+	
+	public String getContraseña() {
+		return contraseña;
+	}
+	
+	public String getPerfil() {
+		return perfil;
+	}
+	
+	public String getDescripcion() {
+		return descripcion;
 	}
 	
 	public List<Notificacion> getNotificaciones() {

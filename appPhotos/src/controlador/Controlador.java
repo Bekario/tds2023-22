@@ -15,12 +15,14 @@ import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
 import modelo.Variables;
+
 import ventanas.Register2;
 
 public class Controlador {
 	private static Controlador unicaInstancia = null;
 	private RepoUsuarios repoUsuarios;
 	private RepoPublicaciones repoPublicaciones;
+	private Usuario usuarioActual;
 	
 	//Numero de MGs necesarios para el descuento
 	private final int ME_GUSTAS = 1000;
@@ -28,11 +30,12 @@ public class Controlador {
 	private final int EDAD_MIN = 18;
 	private final int EDAD_MAX = 25;
 	//Ruta imagenes
-	private final String RUTA_IMAGENES = "/fotosSubidas/";
+	private final String RUTA_IMAGENES = System.getProperty("user.dir")+"/fotosSubidas/";
 	
 	//TODO FALTA GENERADOR PDF Y GENERADOR EXCEL
 	
 	private Controlador() {
+		usuarioActual = null;
 		//repoUsuarios = new RepoUsuarios();
 		//repoPublicaciones = new RepoPublicaciones();
 	}
@@ -43,6 +46,48 @@ public class Controlador {
 		}
 		return unicaInstancia;
 	}
+	
+	public Usuario getUsuarioActual() {
+		return usuarioActual;
+	}
+
+	public boolean esUsuarioRegistrado(String login) {
+		return RepoUsuarios.getUnicaInstancia().getUsuario(login) != null;
+	}
+
+	public boolean loginUsuario(String nombre, String password) {
+		Usuario usuario = RepoUsuarios.getUnicaInstancia().getUsuario(nombre);
+		if (usuario != null && usuario.getContraseña().equals(password)) {
+			this.usuarioActual = usuario;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean registrarUsuario(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento, String perfil, String descripcion) {
+		if (esUsuarioRegistrado(usuario)) {
+			return false;
+		}
+		Usuario user = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, perfil, descripcion);
+
+		UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
+		usuarioDAO.create(usuario);
+
+		RepoUsuarios.getUnicaInstancia().addUsuario(usuario);
+		return true;
+	}
+
+	public boolean borrarUsuario(Usuario usuario) {
+		if (!esUsuarioRegistrado(usuario.getUsuario()))
+			return false;
+
+		UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); /* Adaptador DAO para borrar el Usuario de la BD */
+		usuarioDAO.delete(usuario);
+
+		CatalogoUsuarios.getUnicaInstancia().removeUsuario(usuario);
+		return true;
+	}
+	
 	
 	public void registrarUsuario(Usuario usuario) {
 		//TODO
@@ -59,7 +104,7 @@ public class Controlador {
 	 */
 	public void insertarFotoSubida(String path, String nombre) {
 		try {
-			Files.copy(FileSystems.getDefault().getPath(path), FileSystems.getDefault().getPath(System.getProperty("user.dir")+"/fotosSubidas/"+nombre), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(FileSystems.getDefault().getPath(path), FileSystems.getDefault().getPath(RUTA_IMAGENES+nombre), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
