@@ -77,9 +77,9 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
 						new Propiedad(PERFIL, usuario.getPerfil()),
 						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
-						new Propiedad(NOTIFICACIONES, ),
-						new Propiedad(SEGUIDORES, ),
-						new Propiedad(FOTOS, )
+						new Propiedad(NOTIFICACIONES, obtenerCodigosNotidficaciones(usuario.getNotificaciones())),
+						new Propiedad(SEGUIDORES, obtenerStringSeguidores(usuario.getUsuariosSeguidores())),
+						new Propiedad(FOTOS, obtenerCodigosPublicaciones(usuario.getFotos()))
 						)));
 
 		// registrar entidad cliente
@@ -120,11 +120,14 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			} else if (prop.getNombre().equals(DESCRIPCION)) {
 				prop.setValor(usuario.getDescripcion());
 			} else if (prop.getNombre().equals(SEGUIDORES)) {
-				//prop.setValor(usuario.getEmail());
+				String seguidores = obtenerStringSeguidores(usuario.getUsuariosSeguidores());
+				prop.setValor(seguidores);
 			} else if (prop.getNombre().equals(NOTIFICACIONES)) {
-				//prop.setValor(usuario.getEmail());
+				String notificaciones = obtenerCodigosNotidficaciones(usuario.getNotificaciones());
+				prop.setValor(notificaciones);
 			} else if (prop.getNombre().equals(FOTOS)) {
-				//prop.setValor(usuario.getEmail());
+				String publicaciones = obtenerCodigosPublicaciones(usuario.getFotos());
+				prop.setValor(publicaciones);
 			}
 			servPersistencia.modificarPropiedad(prop);
 		}

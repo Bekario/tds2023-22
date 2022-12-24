@@ -26,4 +26,8 @@ public class Notificacion {
 	public int getCodigo() {
 		return codigo;
 	}
+	
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
 }
