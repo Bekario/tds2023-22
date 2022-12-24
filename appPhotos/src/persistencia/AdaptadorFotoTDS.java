@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
@@ -127,9 +128,9 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 		String titulo; 
 		String descipcion;
 		int megusta;
-		Usuario usuario;
 		String path;
-		List<String> hastags = new ArrayList<String>(); 
+		Usuario usuario;
+		List<String> hashtags = new ArrayList<String>(); 
 		LocalDate fecha;
 		List<Comentario> comentarios= new ArrayList<Comentario>();
 		
@@ -142,8 +143,9 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 		descipcion = servPersistencia.recuperarPropiedadEntidad(eFoto, DESCRIPCION);
 		path = servPersistencia.recuperarPropiedadEntidad(eFoto, PATH);
 		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eFoto, MEGUSTA));
+		fecha = obtenerFechaDesdeString(servPersistencia.recuperarPropiedadEntidad(eFoto, FECHA));
 
-		Foto foto = new Foto(titulo, descipcion, hastags, usuario, path);
+		Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);
 		foto.setCodigo(codigo);
 
 		// IMPORTANTE:a�adir el cliente al pool antes de llamar a otros
@@ -152,14 +154,33 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// ventas
-		ventas = obtenerVentasDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eCliente, "ventas"));
-
-		for (Venta v : ventas)
-			cliente.addVenta(v);
-
-		return cliente;
+		usuario = obtenerUsuarioDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eFoto, USUARIO));
+		foto.setUsuario(usuario);
+		hashtags = obtenerHashtagsDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eFoto, HASHTAGS));
+		foto.setHashtags(hashtags);
+		comentarios= obtenerComentariosDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eFoto, COMENTARIOS));
+		for (Comentario c: comentario)
+			foto.addComentario(c);
+		return foto;
 	}
 
+	//-----------------------------------------
+	
+	/**
+	 * Obtiene la lista de publicaciones a partir de un string de codigos
+	 * @param publicaciones
+	 * @return
+	 */
+	private LocalDate obtenerFechaDesdeString(String fechaS) {
+
+		StringTokenizer strTok = new StringTokenizer(fechaS, "/");
+
+		int año = (int) strTok.nextElement();
+		int mes = (int) strTok.nextElement();
+		int dia = (int) strTok.nextElement();
+		return LocalDate.of(año, mes, dia);
+	}
+	
 	public List<Foto> recuperarTodosFoto() {
 		List<Publicacion> publicaciones = new LinkedList<Foto>();
 		List<Entidad> entidades = servPersistencia.recuperarEntidades("publicacion");

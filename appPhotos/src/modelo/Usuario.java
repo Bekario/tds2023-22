@@ -32,7 +32,7 @@ public class Usuario {
 		this.perfil = perfil;
 		this.descripcion = descripcion;
 		isPremium = false; //Inicialmente un usuario no es Premium
-		usuariosSeguidores = new ArrayList<Usuario>();
+		usuariosSeguidores = new ArrayList<String>();
 		codigo = 0;
 		indicePubliacion = 0;
 	}

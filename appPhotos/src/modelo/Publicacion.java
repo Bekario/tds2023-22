@@ -15,12 +15,12 @@ public abstract class Publicacion {
 	private List<Comentario> comentarios;
 	
 	// Constructor
-	public Publicacion(String titulo, String descipcion, List<String> hastags, Usuario usuario) {
+	public Publicacion(String titulo, String descipcion, LocalDate fecha, List<String> hastags, Usuario usuario) {
 		this.titulo=titulo;
 		this.descripcion=descipcion;
 		this.hashtags=hastags;
 		this.usuario=usuario;
-		fecha=LocalDate.now();
+		this.fecha=fecha;
 		megusta=0;
 		comentarios = new ArrayList<Comentario>();
 		codigo = 0;
@@ -63,7 +63,9 @@ public abstract class Publicacion {
 	public Usuario getUsuario() {
 		return usuario;
 	}
-	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 	
 	
 	
