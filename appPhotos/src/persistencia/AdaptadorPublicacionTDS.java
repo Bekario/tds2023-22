@@ -1,5 +1,6 @@
 package persistencia;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -11,7 +12,9 @@ import beans.Entidad;
 import beans.Propiedad;
 
 import modelo.Comentario;
+import modelo.Notificacion;
 import modelo.Publicacion;
+import modelo.Usuario;
 
 public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 
@@ -44,6 +47,11 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		} catch (NullPointerException e) {}
 		if (ePublicacion != null) return;
 		
+
+		// registrar primero el atributo usuario
+		AdaptadorUsuarioTDS adaptadorUsuario= AdaptadorUsuarioTDS.getUnicaInstancia();
+		adaptadorUsuario.registrarUsuario(publicacion.getUsuario());
+		
 		// registrar primero los atributos que son objetos MALENIA
 		AdaptadorComentarioTDS adaptadorComentario = AdaptadorComentarioTDS.getUnicaInstancia();
 		for (Comentario c : publicacion.getComentarios())
@@ -57,8 +65,8 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 				new Propiedad(TITULO, publicacion.getTitulo()),
 				new Propiedad(FECHA, publicacion.getFecha().toString()),
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
-				new Propiedad(MEGUSTA, String.valueOf(publicacion.getMegusta())),
-				new Propiedad(USUARIO, publicacion.getUsuario()),
+				new Propiedad(MEGUSTA, String.valueOf(publicacion.getMegusta()))
+		//		new Propiedad(USUARIO, publicacion.getUsuario()),
 				//new Propiedad(HASHTAGS, ),
 				//new Propiedad(COMENTARIOS, ),
 				
@@ -103,15 +111,45 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	}
 
 	public Publicacion recuperarPublicacion(int codigo) {
+
+		// Si la entidad está en el pool la devuelve directamente
+		if (PoolDAO.getUnicaInstancia().contiene(codigo))
+			return (Publicacion) PoolDAO.getUnicaInstancia().getObjeto(codigo);
+
+		// si no, la recupera de la base de datos
 		Entidad ePublicacion;
-		String texto;
+		String titulo; 
+		LocalDate fecha;
+		String descipcion;
+		List<String> hastags = new ArrayList<String>(); 
+		Usuario usuario;
+		int megusta;
+		List<Comentario> comentarios= new ArrayList<Comentario>();
+		
 
+		// recuperar entidad
 		ePublicacion = servPersistencia.recuperarEntidad(codigo);
-		texto = servPersistencia.recuperarPropiedadEntidad(ePublicacion, "texto");
 
-		Publicacion publicacion= new Publicacion(texto);
-		publicacion.setCodigo(codigo);
-		return publicacion;
+		// recuperar propiedades que no son objetos
+		titulo = servPersistencia.recuperarPropiedadEntidad(ePublicacion, TITULO);
+		descipcion = servPersistencia.recuperarPropiedadEntidad(ePublicacion, DESCRIPCION);
+		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTA));
+
+		Publicacion publicacion = new Publicacion(titulo, descipcion, hastags, usuario);
+		cliente.setCodigo(codigo);
+
+		// IMPORTANTE:a�adir el cliente al pool antes de llamar a otros
+		// adaptadores
+		PoolDAO.getUnicaInstancia().addObjeto(codigo, cliente);
+
+		// recuperar propiedades que son objetos llamando a adaptadores
+		// ventas
+		ventas = obtenerVentasDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eCliente, "ventas"));
+
+		for (Venta v : ventas)
+			cliente.addVenta(v);
+
+		return cliente;
 	}
 
 	public List<Publicacion> recuperarTodosPublicacion() {
