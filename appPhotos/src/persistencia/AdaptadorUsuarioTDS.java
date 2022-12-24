@@ -14,6 +14,7 @@ import beans.Propiedad;
 import modelo.Notificacion;
 import modelo.Publicacion;
 import modelo.Usuario;
+import modelo.Venta;
 
 //Usa un pool para evitar problemas doble referencia con ventas
 public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
@@ -173,7 +174,10 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// publicaciones
-		ventas = obtenerSeguidores(servPersistencia.recuperarPropiedadEntidad(eCliente, "ventas"));
+		publicaciones = obtenerPublicacionesDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, FOTOS));
+		
+		for (Publicacion p : publicaciones)
+			user.addPublicacion(p);
 		
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// seguidores
@@ -182,34 +186,45 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// notificaciones
-		ventas = obtenerVentasDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eCliente, "ventas"));
+		notificaciones = obtenerNotificacionesDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, NOTIFICACIONES));
 
-		for (Venta v : ventas)
-			cliente.addVenta(v);
+		for (Notificacion n : notificaciones)
+			user.addNotificacion(n);
 
-		return cliente;
+		return user;
 	}
 
 	public List<Usuario> recuperarTodosUsuarios() {
 
-		List<Entidad> eClientes = servPersistencia.recuperarEntidades("cliente");
-		List<Cliente> clientes = new LinkedList<Cliente>();
+		List<Entidad> eUsuarios = servPersistencia.recuperarEntidades("usuario");
+		List<Usuario> usuarios = new ArrayList<Usuario>();
 
-		for (Entidad eCliente : eClientes) {
-			clientes.add(recuperarCliente(eCliente.getId()));
+		for (Entidad eCliente : eUsuarios) {
+			usuarios.add(recuperarUsuario(eCliente.getId()));
 		}
-		return clientes;
+		return usuarios;
 	}
 
 	// -------------------Funciones auxiliares-----------------------------
-	private String obtenerCodigosVentas(List<Venta> listaVentas) {
+	
+	/**
+	 * Obtiene un String con todos los seguidores
+	 * @param listaSeguidores
+	 * @return
+	 */
+	private String obtenerStringSeguidores(List<String> listaSeguidores) {
 		String aux = "";
-		for (Venta v : listaVentas) {
-			aux += v.getCodigo() + " ";
+		for (String s : listaSeguidores) {
+			aux+=s+" ";
 		}
 		return aux.trim();
 	}
-
+	
+	/**
+	 * Retorna una lista con los codigos de los seguidores
+	 * @param seguidores
+	 * @return
+	 */
 	private List<String> obtenerSeguidores(String seguidores) {
 		List<String> listaSeguidores = new ArrayList<String>();
 		StringTokenizer strTok = new StringTokenizer(seguidores, " ");
@@ -217,5 +232,63 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			listaSeguidores.add((String) strTok.nextElement());
 		}
 		return listaSeguidores;
+	}
+	
+	/**
+	 * Obtiene un string con los codigos de las publicaciones
+	 * @param listaVentas
+	 * @return
+	 */
+	private String obtenerCodigosPublicaciones(List<Publicacion> listaPublicaciones) {
+		String aux = "";
+		for (Publicacion p : listaPublicaciones) {
+			aux += p.getCodigo() + " ";
+		}
+		return aux.trim();
+	}
+	
+	/**
+	 * Obtiene la lista de publicaciones a partir de un string de codigos
+	 * @param publicaciones
+	 * @return
+	 */
+	private List<Publicacion> obtenerPublicacionesDesdeCodigos(String publicaciones) {
+
+		List<Publicacion> listaPublicaciones = new ArrayList<Publicacion>();
+		StringTokenizer strTok = new StringTokenizer(publicaciones, " ");
+		AdaptadorPublicacionTDS adaptadorP = AdaptadorPublicacionTDS.getUnicaInstancia();
+		while (strTok.hasMoreTokens()) {
+			listaPublicaciones.add(adaptadorP.recuperarPublicacion(Integer.valueOf((String) strTok.nextElement())));
+		}
+		return listaPublicaciones;
+	}
+	
+	/**
+	 * Obtiene un string con los codigos de las publicaciones
+	 * @param listaVentas
+	 * @return
+	 */
+	private String obtenerCodigosNotidficaciones(List<Notificacion> listaNotificaciones) {
+		String aux = "";
+		for (Notificacion n : listaNotificaciones) {
+			aux += n.getCodigo() + " ";
+		}
+		return aux.trim();
+	}
+	
+	/**
+	 * Obtiene la lista de publicaciones a partir de un string de codigos
+	 * @param publicaciones
+	 * @return
+	 */
+	private List<Notificacion> obtenerNotificacionesDesdeCodigos(String notificaciones) {
+
+		List<Notificacion> listaNotificaciones = new ArrayList<Notificacion>();
+		StringTokenizer strTok = new StringTokenizer(notificaciones, " ");
+		AdaptadorNotificacionTDS adaptadorN = AdaptadorNotificacionTDS.getUnicaInstancia();
+		while (strTok.hasMoreTokens()) {
+			listaNotificaciones.add(adaptadorN.recuperarNotificacion(Integer.valueOf((String) strTok.nextElement())));
+		}
+		return listaNotificaciones;
 	}
 }

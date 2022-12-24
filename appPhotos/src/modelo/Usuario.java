@@ -14,7 +14,7 @@ public class Usuario {
 	private boolean isPremium;
 	private String perfil;
 	private String descripcion;
-	private List<String> usuariosSeguidores;
+	private List<String> usuariosSeguidores; //Los seguidores estan representados con su codigo
 	private List<Notificacion> notificaciones;
 	private List<Publicacion> fotos;
 	private Descuento descuento; //Optional malenia
@@ -47,6 +47,16 @@ public class Usuario {
 	
 	public void aumentarIndicePublicacion() {
 		indicePubliacion++;
+	}
+	
+	public void addPublicacion(Publicacion p) {
+		fotos.add(p);
+
+	}
+	
+	public void addNotificacion(Notificacion n) {
+		notificaciones.add(n);
+
 	}
 	
 	//Metodos Get / Set

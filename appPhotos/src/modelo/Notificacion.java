@@ -22,4 +22,8 @@ public class Notificacion {
 	public Publicacion getPublicacion() {
 		return publicacion;
 	}
+	
+	public int getCodigo() {
+		return codigo;
+	}
 }
