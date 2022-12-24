@@ -1,5 +1,6 @@
 package persistencia;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -70,7 +71,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 						new Propiedad(CONTRASEÑA, usuario.getContraseña()),
 						new Propiedad(EMAIL, usuario.getEmail()),
 						new Propiedad(NOMBRE_COMPLETO, usuario.getNombreCompleto()),
-						//new Propiedad(FECHA,),
+						new Propiedad(FECHA, usuario.getFechaNacimiento().toString()),
 						new Propiedad(PREMIUM, String.valueOf(usuario.getIsPremium())),
 						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
 						new Propiedad(PERFIL, usuario.getPerfil()),
@@ -133,30 +134,56 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 		// Si la entidad está en el pool la devuelve directamente
 		if (PoolDAO.getUnicaInstancia().contiene(codigo))
-			return (Cliente) PoolDAO.getUnicaInstancia().getObjeto(codigo);
+			return (Usuario) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 
 		// si no, la recupera de la base de datos
-		Entidad eCliente;
-		List<Venta> ventas = new LinkedList<Venta>();
-		String dni;
-		String nombre;
+		Entidad eUsuario;
+		
+		String usuario;
+		String contraseña;
+		String email;
+		String nombreCompleto;
+		LocalDate fechaNacimiento;
+		boolean premium;
+		String perfil;
+		String descripcion;
+		List<Publicacion> publicaciones = new ArrayList<Publicacion>();
+		List<Notificacion> notificaciones = new ArrayList<Notificacion>();
+		List<Usuario> seguidores = new ArrayList<Usuario>();
 
 		// recuperar entidad
-		eCliente = servPersistencia.recuperarEntidad(codigo);
+		eUsuario = servPersistencia.recuperarEntidad(codigo);
 
 		// recuperar propiedades que no son objetos
-		dni = servPersistencia.recuperarPropiedadEntidad(eCliente, "dni");
-		nombre = servPersistencia.recuperarPropiedadEntidad(eCliente, "nombre");
+		usuario = servPersistencia.recuperarPropiedadEntidad(eUsuario, USUARIO);
+		contraseña = servPersistencia.recuperarPropiedadEntidad(eUsuario, CONTRASEÑA);
+		email = servPersistencia.recuperarPropiedadEntidad(eUsuario, EMAIL);
+		nombreCompleto = servPersistencia.recuperarPropiedadEntidad(eUsuario, NOMBRE_COMPLETO);
+		premium = Boolean.parseBoolean(servPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM));
+		perfil = servPersistencia.recuperarPropiedadEntidad(eUsuario, PERFIL);
+		descripcion = servPersistencia.recuperarPropiedadEntidad(eUsuario, DESCRIPCION);
 
-		Cliente cliente = new Cliente(dni, nombre);
-		cliente.setCodigo(codigo);
+		Usuario user = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, perfil, descripcion);
+		user.setCodigo(codigo);
+		user.setPremium(premium);
 
-		// IMPORTANTE:a�adir el cliente al pool antes de llamar a otros
+		// IMPORTANTE:añadir el cliente al pool antes de llamar a otros
 		// adaptadores
-		PoolDAO.getUnicaInstancia().addObjeto(codigo, cliente);
+		PoolDAO.getUnicaInstancia().addObjeto(codigo, user);
 
 		// recuperar propiedades que son objetos llamando a adaptadores
-		// ventas
+		// publicaciones
+		ventas = obtenerVentasDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eCliente, "ventas"));
+
+		for (Venta v : ventas)
+			cliente.addVenta(v);
+		
+		// recuperar propiedades que son objetos llamando a adaptadores
+		// seguidores
+		seguidores = obtenerSeguidores(servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES));
+		
+		// recuperar propiedades que son objetos llamando a adaptadores
+		// notificaciones
 		ventas = obtenerVentasDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eCliente, "ventas"));
 
 		for (Venta v : ventas)
@@ -185,14 +212,12 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		return aux.trim();
 	}
 
-	private List<Venta> obtenerVentasDesdeCodigos(String ventas) {
-
-		List<Venta> listaVentas = new LinkedList<Venta>();
-		StringTokenizer strTok = new StringTokenizer(ventas, " ");
-		AdaptadorVentaTDS adaptadorV = AdaptadorVentaTDS.getUnicaInstancia();
+	private List<String> obtenerSeguidores(String seguidores) {
+		List<String> listaSeguidores = new ArrayList<String>();
+		StringTokenizer strTok = new StringTokenizer(seguidores, " ");
 		while (strTok.hasMoreTokens()) {
-			listaVentas.add(adaptadorV.recuperarVenta(Integer.valueOf((String) strTok.nextElement())));
+			listaSeguidores.add((String) strTok.nextElement());
 		}
-		return listaVentas;
+		return listaSeguidores;
 	}
 }

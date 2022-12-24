@@ -14,7 +14,7 @@ public class Usuario {
 	private boolean isPremium;
 	private String perfil;
 	private String descripcion;
-	private List<Usuario> usuariosSeguidores;
+	private List<String> usuariosSeguidores;
 	private List<Notificacion> notificaciones;
 	private List<Publicacion> fotos;
 	private Descuento descuento; //Optional malenia
@@ -74,6 +74,10 @@ public class Usuario {
 		return isPremium;
 	}
 	
+	public void setPremium(boolean isPremium) {
+		this.isPremium = isPremium;
+	}
+	
 	public int getCodigo() {
 		return codigo;
 	}
@@ -102,8 +106,12 @@ public class Usuario {
 		return notificaciones;
 	}
 	
-	public List<Usuario> getUsuariosSeguidores() {
+	public List<String> getUsuariosSeguidores() {
 		return usuariosSeguidores;
+	}
+	
+	public void setUsuariosSeguidores(List<String> usuariosSeguidores) {
+		this.usuariosSeguidores = usuariosSeguidores;
 	}
 	
 	public void setDescuento(Descuento descuento) {
