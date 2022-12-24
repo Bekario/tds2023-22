@@ -163,7 +163,10 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		premium = Boolean.parseBoolean(servPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM));
 		perfil = servPersistencia.recuperarPropiedadEntidad(eUsuario, PERFIL);
 		descripcion = servPersistencia.recuperarPropiedadEntidad(eUsuario, DESCRIPCION);
-
+		
+		//Obtenemos la fecha de nacimiento
+		fechaNacimiento = obtenerFechaDesdeString(servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA));
+		
 		Usuario user = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, perfil, descripcion);
 		user.setCodigo(codigo);
 		user.setPremium(premium);
@@ -290,5 +293,20 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			listaNotificaciones.add(adaptadorN.recuperarNotificacion(Integer.valueOf((String) strTok.nextElement())));
 		}
 		return listaNotificaciones;
+	}
+	
+	/**
+	 * Obtiene la lista de publicaciones a partir de un string de codigos
+	 * @param publicaciones
+	 * @return
+	 */
+	private LocalDate obtenerFechaDesdeString(String fechaS) {
+
+		StringTokenizer strTok = new StringTokenizer(fechaS, "/");
+
+		int año = (int) strTok.nextElement();
+		int mes = (int) strTok.nextElement();
+		int dia = (int) strTok.nextElement();
+		return LocalDate.of(año, mes, dia);
 	}
 }
