@@ -12,14 +12,15 @@ import beans.Entidad;
 import beans.Propiedad;
 
 import modelo.Comentario;
+import modelo.Foto;
 import modelo.Notificacion;
 import modelo.Publicacion;
 import modelo.Usuario;
 
-public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
+public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 
 	private static ServicioPersistencia servPersistencia;
-	private static AdaptadorPublicacionTDS unicaInstancia = null;
+	private static AdaptadorFotoTDS unicaInstancia = null;
 	private final String TITULO="titulo";
 	private final String FECHA="fecha";
 	private final String DESCRIPCION="descripcion";
@@ -27,45 +28,48 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	private final String HASHTAGS="hashtags";
 	private final String COMENTARIOS="comentarios";
 	private final String USUARIO="usuario";	
+	private final String PATH="path";
+	
 
-	public static AdaptadorPublicacionTDS getUnicaInstancia() { // patron singleton
+	public static AdaptadorFotoTDS getUnicaInstancia() { // patron singleton
 		if (unicaInstancia == null) {
-			return new AdaptadorPublicacionTDS();
+			return new AdaptadorFotoTDS();
 		} else
 			return unicaInstancia;
 	}
 
-	private AdaptadorPublicacionTDS() { 
+	private AdaptadorFotoTDS() { 
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
 	}
 
 	/* cuando se registra un producto se le asigna un identificador unico */
-	public void registrarPublicacion(Publicacion publicacion) {
-		Entidad ePublicacion = null;
+	public void registrarFoto(Foto foto) {
+		Entidad eFoto = null;
 		try {
-			ePublicacion = servPersistencia.recuperarEntidad(publicacion.getCodigo());
+			eFoto = servPersistencia.recuperarEntidad(foto.getCodigo());
 		} catch (NullPointerException e) {}
-		if (ePublicacion != null) return;
+		if (eFoto != null) return;
 		
 
 		// registrar primero el atributo usuario
 		AdaptadorUsuarioTDS adaptadorUsuario= AdaptadorUsuarioTDS.getUnicaInstancia();
-		adaptadorUsuario.registrarUsuario(publicacion.getUsuario());
+		adaptadorUsuario.registrarUsuario(foto.getUsuario());
 		
 		// registrar primero los atributos que son objetos MALENIA
 		AdaptadorComentarioTDS adaptadorComentario = AdaptadorComentarioTDS.getUnicaInstancia();
-		for (Comentario c : publicacion.getComentarios())
+		for (Comentario c : foto.getComentarios())
 			adaptadorComentario.registrarComentario(c);
 
 		
 		// crear entidad producto
-		ePublicacion = new Entidad();
-		ePublicacion.setNombre("publicacion");
-		ePublicacion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
-				new Propiedad(TITULO, publicacion.getTitulo()),
-				new Propiedad(FECHA, publicacion.getFecha().toString()),
-				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
-				new Propiedad(MEGUSTA, String.valueOf(publicacion.getMegusta()))
+		eFoto = new Entidad();
+		eFoto.setNombre("foto");
+		eFoto.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
+				new Propiedad(TITULO, foto.getTitulo()),
+				new Propiedad(FECHA, foto.getFecha().toString()),
+				new Propiedad(DESCRIPCION, foto.getDescripcion()),
+				new Propiedad(MEGUSTA, String.valueOf(foto.getMegusta())),
+				new Propiedad(PATH, foto.getPath())
 		//		new Propiedad(USUARIO, publicacion.getUsuario()),
 				//new Propiedad(HASHTAGS, ),
 				//new Propiedad(COMENTARIOS, ),
@@ -73,74 +77,78 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 				)));
 		
 		// registrar entidad producto
-		ePublicacion = servPersistencia.registrarEntidad(ePublicacion);
+		eFoto = servPersistencia.registrarEntidad(eFoto);
 		// asignar identificador unico
 		// Se aprovecha el que genera el servicio de persistencia
-		publicacion.setCodigo(ePublicacion.getId());  
+		foto.setCodigo(eFoto.getId());  
 	}
 
-	public void borrarPublicacion(Publicacion publicacion) {
+	public void borrarFoto(Foto foto) {
 		// No se comprueba integridad con lineas de venta
-		Entidad ePublicacion = servPersistencia.recuperarEntidad(publicacion.getCodigo());
-		servPersistencia.borrarEntidad(ePublicacion);
+		Entidad eFoto= servPersistencia.recuperarEntidad(foto.getCodigo());
+		servPersistencia.borrarEntidad(eFoto);
 	}
 
-	public void modificarPublicacion(Publicacion publicacion) {
-		Entidad ePublicacion = servPersistencia.recuperarEntidad(publicacion.getCodigo());
+	public void modificarFoto(Foto foto) {
+		Entidad eFoto = servPersistencia.recuperarEntidad(foto.getCodigo());
 
-		for (Propiedad prop : ePublicacion.getPropiedades()) {
+		for (Propiedad prop : eFoto.getPropiedades()) {
 			if (prop.getNombre().equals("codigo")) {
-				prop.setValor(String.valueOf(publicacion.getCodigo()));
+				prop.setValor(String.valueOf(foto.getCodigo()));
 			} else if (prop.getNombre().equals(TITULO)) {
-				prop.setValor(String.valueOf(publicacion.getTitulo()));
+				prop.setValor(String.valueOf(foto.getTitulo()));
 			} else if (prop.getNombre().equals(FECHA)) {
-				prop.setValor(String.valueOf(publicacion.getFecha()));
+				prop.setValor(String.valueOf(foto.getFecha()));
 			} else if (prop.getNombre().equals(DESCRIPCION)) {
-				prop.setValor(String.valueOf(publicacion.getDescripcion()));
+				prop.setValor(String.valueOf(foto.getDescripcion()));
 			} else if (prop.getNombre().equals(MEGUSTA)) {
-				prop.setValor(String.valueOf(publicacion.getMegusta()));
+				prop.setValor(String.valueOf(foto.getMegusta()));
 			} else if (prop.getNombre().equals(HASHTAGS)) {
-				prop.setValor(String.valueOf(publicacion.getHashtags()));
+				prop.setValor(String.valueOf(foto.getHashtags()));
 			} else if (prop.getNombre().equals(COMENTARIOS)) {
-				prop.setValor(String.valueOf(publicacion.getComentarios()));
+				prop.setValor(String.valueOf(foto.getComentarios()));
 			} else if (prop.getNombre().equals(USUARIO)) {
-				prop.setValor(String.valueOf(publicacion.getUsuario()));
-			}     
+				prop.setValor(String.valueOf(foto.getUsuario()));
+			} else if (prop.getNombre().equals(PATH)) {
+				prop.setValor(String.valueOf(foto.getPath()));
+			}       
 			servPersistencia.modificarPropiedad(prop);
 		}
 	}
 
-	public Publicacion recuperarPublicacion(int codigo) {
+	public Foto recuperarFoto(int codigo) {
 
 		// Si la entidad está en el pool la devuelve directamente
 		if (PoolDAO.getUnicaInstancia().contiene(codigo))
-			return (Publicacion) PoolDAO.getUnicaInstancia().getObjeto(codigo);
+			return (Foto) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 
 		// si no, la recupera de la base de datos
-		Entidad ePublicacion;
+		Entidad eFoto;
 		String titulo; 
-		LocalDate fecha;
 		String descipcion;
-		List<String> hastags = new ArrayList<String>(); 
-		Usuario usuario;
 		int megusta;
+		Usuario usuario;
+		String path;
+		List<String> hastags = new ArrayList<String>(); 
+		LocalDate fecha;
 		List<Comentario> comentarios= new ArrayList<Comentario>();
 		
 
 		// recuperar entidad
-		ePublicacion = servPersistencia.recuperarEntidad(codigo);
+		eFoto = servPersistencia.recuperarEntidad(codigo);
 
 		// recuperar propiedades que no son objetos
-		titulo = servPersistencia.recuperarPropiedadEntidad(ePublicacion, TITULO);
-		descipcion = servPersistencia.recuperarPropiedadEntidad(ePublicacion, DESCRIPCION);
-		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTA));
+		titulo = servPersistencia.recuperarPropiedadEntidad(eFoto, TITULO);
+		descipcion = servPersistencia.recuperarPropiedadEntidad(eFoto, DESCRIPCION);
+		path = servPersistencia.recuperarPropiedadEntidad(eFoto, PATH);
+		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eFoto, MEGUSTA));
 
-		Publicacion publicacion = new Publicacion(titulo, descipcion, hastags, usuario);
-		cliente.setCodigo(codigo);
+		Foto foto = new Foto(titulo, descipcion, hastags, usuario, path);
+		foto.setCodigo(codigo);
 
 		// IMPORTANTE:a�adir el cliente al pool antes de llamar a otros
 		// adaptadores
-		PoolDAO.getUnicaInstancia().addObjeto(codigo, cliente);
+		PoolDAO.getUnicaInstancia().addObjeto(codigo, foto);
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// ventas
@@ -152,8 +160,8 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		return cliente;
 	}
 
-	public List<Publicacion> recuperarTodosPublicacion() {
-		List<Publicacion> publicaciones = new LinkedList<Publicacion>();
+	public List<Foto> recuperarTodosFoto() {
+		List<Publicacion> publicaciones = new LinkedList<Foto>();
 		List<Entidad> entidades = servPersistencia.recuperarEntidades("publicacion");
 
 		for (Entidad ePublicacion : entidades) {
