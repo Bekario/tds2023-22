@@ -140,6 +140,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		List<Venta> ventas = new LinkedList<Venta>();
 		String dni;
 		String nombre;
+		
 
 		// recuperar entidad
 		eCliente = servPersistencia.recuperarEntidad(codigo);
