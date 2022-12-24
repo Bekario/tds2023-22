@@ -137,7 +137,6 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			return (Usuario) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 
 		// si no, la recupera de la base de datos
-<<<<<<< HEAD
 		Entidad eUsuario;
 		
 		String usuario;
@@ -150,15 +149,8 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		String descripcion;
 		List<Publicacion> publicaciones = new ArrayList<Publicacion>();
 		List<Notificacion> notificaciones = new ArrayList<Notificacion>();
-		List<Usuario> seguidores = new ArrayList<Usuario>();
-=======
-		Entidad eCliente;
-		List<Venta> ventas = new LinkedList<Venta>();
-		String dni;
-		String nombre;
+		List<String> seguidores = new ArrayList<String>();
 		
->>>>>>> refs/remotes/origin/main
-
 		// recuperar entidad
 		eUsuario = servPersistencia.recuperarEntidad(codigo);
 
@@ -181,14 +173,12 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// publicaciones
-		ventas = obtenerVentasDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eCliente, "ventas"));
-
-		for (Venta v : ventas)
-			cliente.addVenta(v);
+		ventas = obtenerSeguidores(servPersistencia.recuperarPropiedadEntidad(eCliente, "ventas"));
 		
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// seguidores
 		seguidores = obtenerSeguidores(servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES));
+		user.setUsuariosSeguidores(seguidores);
 		
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// notificaciones
