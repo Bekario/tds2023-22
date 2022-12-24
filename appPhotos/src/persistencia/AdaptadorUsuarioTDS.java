@@ -6,15 +6,17 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import beans.Entidad;
 import beans.Propiedad;
+import modelo.Album;
+import modelo.Foto;
 import modelo.Notificacion;
 import modelo.Publicacion;
 import modelo.Usuario;
-import modelo.Venta;
 
 //Usa un pool para evitar problemas doble referencia con ventas
 public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
@@ -32,6 +34,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	private final String SEGUIDORES= "seguidores";
 	private final String NOTIFICACIONES= "notificaciones";
 	private final String FOTOS= "fotos";
+	private final String ALBUMS= "albums";
 
 	public static AdaptadorUsuarioTDS getUnicaInstancia() { // patron singleton
 		if (unicaInstancia == null)
@@ -59,10 +62,15 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		for (Notificacion v : usuario.getNotificaciones())
 			adaptadorNotificacion.registrarNotificacion(v);
 		
-		// registrar primero los atributos publicacion
-		AdaptadorPublicacionTDS adaptadorPublicacion = AdaptadorPublicacionTDS.getUnicaInstancia();
-		for (Publicacion v : usuario.getFotos())
-			adaptadorPublicacion.registrarPublicacion(v);
+		// registrar los atributos foto
+		AdaptadorFotoTDS adaptadorFoto = AdaptadorFotoTDS.getUnicaInstancia();
+		for (Foto f : usuario.getFotos())
+			adaptadorFoto.registrarFoto(f);
+		
+		// registrar primero los atributos album
+		AdaptadorAlbumTDS adaptadorAlbum = AdaptadorAlbumTDS.getUnicaInstancia();
+		for (Album a : usuario.getAlbums())
+			adaptadorAlbum.registrarAlbum(a);
 
 		// crear entidad Usuario
 		eUsuario = new Entidad();
@@ -77,9 +85,14 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
 						new Propiedad(PERFIL, usuario.getPerfil()),
 						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
-						new Propiedad(NOTIFICACIONES, obtenerCodigosNotidficaciones(usuario.getNotificaciones())),
+						new Propiedad(NOTIFICACIONES, obtenerCodigosNotificaciones(usuario.getNotificaciones())),
 						new Propiedad(SEGUIDORES, obtenerStringSeguidores(usuario.getUsuariosSeguidores())),
-						new Propiedad(FOTOS, obtenerCodigosPublicaciones(usuario.getFotos()))
+						new Propiedad(FOTOS, obtenerCodigosPublicaciones(usuario.getFotos().stream()
+																					    .map(e -> (Publicacion) e)
+																					    .collect(Collectors.toList()))),
+						new Propiedad(FOTOS, obtenerCodigosPublicaciones(usuario.getAlbums().stream()
+																					    .map(e -> (Publicacion) e)
+																					    .collect(Collectors.toList())))
 						)));
 
 		// registrar entidad cliente
@@ -123,15 +136,21 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 				String seguidores = obtenerStringSeguidores(usuario.getUsuariosSeguidores());
 				prop.setValor(seguidores);
 			} else if (prop.getNombre().equals(NOTIFICACIONES)) {
-				String notificaciones = obtenerCodigosNotidficaciones(usuario.getNotificaciones());
+				String notificaciones = obtenerCodigosNotificaciones(usuario.getNotificaciones());
 				prop.setValor(notificaciones);
 			} else if (prop.getNombre().equals(FOTOS)) {
-				String publicaciones = obtenerCodigosPublicaciones(usuario.getFotos());
-				prop.setValor(publicaciones);
+				String fotos = obtenerCodigosPublicaciones(usuario.getFotos().stream()
+					    .map(e -> (Publicacion) e)
+					    .collect(Collectors.toList()));
+				prop.setValor(fotos);
+			} else if (prop.getNombre().equals(ALBUMS)) {
+				String albums = obtenerCodigosPublicaciones(usuario.getAlbums().stream()
+					    .map(e -> (Publicacion) e)
+					    .collect(Collectors.toList()));
+				prop.setValor(albums);
 			}
 			servPersistencia.modificarPropiedad(prop);
 		}
-
 	}
 
 	public Usuario recuperarUsuario(int codigo) {
@@ -151,7 +170,8 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		boolean premium;
 		String perfil;
 		String descripcion;
-		List<Publicacion> publicaciones = new ArrayList<Publicacion>();
+		List<Foto> fotos = new ArrayList<Foto>();
+		List<Album> albums = new ArrayList<Album>();
 		List<Notificacion> notificaciones = new ArrayList<Notificacion>();
 		List<String> seguidores = new ArrayList<String>();
 		
@@ -179,11 +199,17 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		PoolDAO.getUnicaInstancia().addObjeto(codigo, user);
 
 		// recuperar propiedades que son objetos llamando a adaptadores
-		// publicaciones
-		publicaciones = obtenerPublicacionesDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, FOTOS));
+		// fotos
+		fotos = //malenia
 		
-		for (Publicacion p : publicaciones)
-			user.addPublicacion(p);
+		for (Foto f : fotos)
+			user.addFoto(f);
+		
+		// albums
+		albums = //malenia
+	
+		for (Album a : albums)
+			user.addAlbum(a);
 		
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// seguidores
@@ -274,7 +300,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	 * @param listaVentas
 	 * @return
 	 */
-	private String obtenerCodigosNotidficaciones(List<Notificacion> listaNotificaciones) {
+	private String obtenerCodigosNotificaciones(List<Notificacion> listaNotificaciones) {
 		String aux = "";
 		for (Notificacion n : listaNotificaciones) {
 			aux += n.getCodigo() + " ";

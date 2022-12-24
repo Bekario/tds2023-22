@@ -16,7 +16,8 @@ public class Usuario {
 	private String descripcion;
 	private List<String> usuariosSeguidores; //Los seguidores estan representados con su codigo
 	private List<Notificacion> notificaciones;
-	private List<Publicacion> fotos;
+	private List<Foto> fotos;
+	private List<Album> albums;
 	private Descuento descuento; //Optional malenia
 	
 	//Indice para numerar las fotos subidas por el usuario
@@ -32,9 +33,11 @@ public class Usuario {
 		this.perfil = perfil;
 		this.descripcion = descripcion;
 		isPremium = false; //Inicialmente un usuario no es Premium
-		usuariosSeguidores = new ArrayList<String>();
 		codigo = 0;
 		indicePubliacion = 0;
+		usuariosSeguidores = new ArrayList<String>();
+		notificaciones = new ArrayList<Notificacion>();
+		albums = new ArrayList<Album>();
 	}
 	
 	//Metodos
@@ -49,14 +52,16 @@ public class Usuario {
 		indicePubliacion++;
 	}
 	
-	public void addPublicacion(Publicacion p) {
+	public void addFoto(Foto p) {
 		fotos.add(p);
-
+	}
+	
+	public void addAlbum(Album a) {
+		albums.add(a);
 	}
 	
 	public void addNotificacion(Notificacion n) {
 		notificaciones.add(n);
-
 	}
 	
 	//Metodos Get / Set
@@ -96,8 +101,12 @@ public class Usuario {
 		this.codigo = codigo;
 	}
 	
-	public List<Publicacion> getFotos() {
+	public List<Foto> getFotos() {
 		return fotos;
+	}
+	
+	public List<Album> getAlbums() {
+		return albums;
 	}
 	
 	public String getContraseña() {
