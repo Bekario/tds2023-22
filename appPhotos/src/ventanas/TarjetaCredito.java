@@ -290,9 +290,9 @@ public class TarjetaCredito {
 	 * @param maxDigitos numero maximo de digitos
 	 */
 	private void addManejadorDatosTarjetaGrafico(JTextField texto, JLabel etiqueta, int maxDigitos) {
-		txtNumTarjeta.addCaretListener(new CaretListener() {
+		texto.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
-				String cadena = txtNumTarjeta.getText();
+				String cadena = texto.getText();
 				//Cogemos los ultimos maxDigitos digitos como mucho
 				if (cadena.length() > maxDigitos) {
 					cadena = cadena.substring(0, maxDigitos);					
