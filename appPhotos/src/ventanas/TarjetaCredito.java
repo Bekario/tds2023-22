@@ -32,6 +32,10 @@ import java.util.regex.Pattern;
 import java.awt.Cursor;
 import javax.swing.UIManager;
 import javax.swing.JPanel;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
 
 
 public class TarjetaCredito {
@@ -46,6 +50,7 @@ public class TarjetaCredito {
 	private JLabel lblTipoTarjeta;
 	private JLabel lblFecha;
 	private JLabel lblCVC;
+	private JButton btnRegistrarse;
 
 	/**
 	 * Launch the application.
@@ -93,20 +98,21 @@ public class TarjetaCredito {
 		frmPagoConTarjeta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 128, 128, 50, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 60, 180, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 60, 180, 0, 0, 0, 0, 30, 50, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frmPagoConTarjeta.getContentPane().setLayout(gridBagLayout);
 		
 		establecerBotones();
-		establecerFotoTitulo();
+		establecerTitulo();
 		establecerDatosTarjeta();
+		establecerPanelTarjeta();
 	}
 	
 	/**
 	 * Establece la foto y el titulo de la aplicación
 	 */
-	private void establecerFotoTitulo() {
+	private void establecerTitulo() {
 		JLabel nombreApp = new JLabel("appPhotos");
 		nombreApp.setForeground(new Color(233, 233, 233));
 		nombreApp.setIcon(null);
@@ -122,12 +128,12 @@ public class TarjetaCredito {
 	}
 	
 	/**
-	 * Establece los campos para introducir los datos de la tarjeta
+	 * Establece el panel con la imagen de la tarjeta y las label que se pondran sobre la foto
 	 */
-	private void establecerDatosTarjeta() {
-		
+	private void establecerPanelTarjeta() {
+		//Panel con foto de tarjeta de fondo
 		panel = new JPanelBackground();
-		panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-azul.png"));
+		panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-default.png"));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridwidth = 2;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -136,12 +142,13 @@ public class TarjetaCredito {
 		gbc_panel.gridy = 3;
 		frmPagoConTarjeta.getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{35, 0, 0, 10, 0, 5, 0};
-		gbl_panel.rowHeights = new int[]{79, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{35, 90, 90, 10, 0, 5, 0};
+		gbl_panel.rowHeights = new int[]{79, 27, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
+		//Numero de tarjeta
 		lblNumTarjeta = new JLabel("1234 1234 1234 1234");
 		lblNumTarjeta.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNumTarjeta.setForeground(new Color(255, 255, 255));
@@ -153,17 +160,19 @@ public class TarjetaCredito {
 		gbc_lblNumTarjeta.gridy = 1;
 		panel.add(lblNumTarjeta, gbc_lblNumTarjeta);
 		
+		//Fecha de caducidad
 		lblFecha = new JLabel("22/02");
 		lblFecha.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblFecha.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblFecha = new GridBagConstraints();
+		gbc_lblFecha.anchor = GridBagConstraints.SOUTH;
 		gbc_lblFecha.gridwidth = 3;
-		gbc_lblFecha.anchor = GridBagConstraints.NORTH;
 		gbc_lblFecha.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFecha.gridx = 1;
 		gbc_lblFecha.gridy = 2;
 		panel.add(lblFecha, gbc_lblFecha);
 		
+		//Tipo de tarjeta (estetico)
 		lblTipoTarjeta = new JLabel("");
 		lblTipoTarjeta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/mastercard.png")));
 		GridBagConstraints gbc_lblTipoTarjeta = new GridBagConstraints();
@@ -173,6 +182,7 @@ public class TarjetaCredito {
 		gbc_lblTipoTarjeta.gridy = 1;
 		panel.add(lblTipoTarjeta, gbc_lblTipoTarjeta);
 		
+		//CVV
 		lblCVC = new JLabel("111");
 		lblCVC.setForeground(new Color(255, 255, 255));
 		lblCVC.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -183,6 +193,16 @@ public class TarjetaCredito {
 		gbc_lblCVC.gridy = 3;
 		panel.add(lblCVC, gbc_lblCVC);
 		
+		addManejadorDatosTarjetaGrafico(txtCVV, lblCVC, 3);
+		addManejadorDatosTarjetaGrafico(txtNumTarjeta, lblNumTarjeta, 16);
+	}
+	
+	
+	/**
+	 * Establece los campos para introducir los datos de la tarjeta
+	 */
+	private void establecerDatosTarjeta() {
+		//Numero de tarjeta
 		txtNumTarjeta = new JTextField();
 		txtNumTarjeta.setToolTipText("");
 		txtNumTarjeta.setText("Numero de tarjeta");
@@ -195,6 +215,7 @@ public class TarjetaCredito {
 		gbc_txtNumTarjeta.gridy = 5;
 		frmPagoConTarjeta.getContentPane().add(txtNumTarjeta, gbc_txtNumTarjeta);
 		
+		//Titular
 		txtTitular = new JTextField();
 		txtTitular.setToolTipText("");
 		txtTitular.setText("Titular");
@@ -207,6 +228,7 @@ public class TarjetaCredito {
 		gbc_txtTitular.gridy = 6;
 		frmPagoConTarjeta.getContentPane().add(txtTitular, gbc_txtTitular);
 		
+		//CVV
 		txtCVV = new JTextField();
 		txtCVV.setToolTipText("");
 		txtCVV.setText("CVV / CVC");
@@ -218,6 +240,7 @@ public class TarjetaCredito {
 		gbc_txtCVV.gridy = 7;
 		frmPagoConTarjeta.getContentPane().add(txtCVV, gbc_txtCVV);
 		
+		//Fecha de caducidad
 		txtFechaDeCaducidad = new JTextField();
 		txtFechaDeCaducidad.setToolTipText("");
 		txtFechaDeCaducidad.setText("Fecha de caducidad");
@@ -229,6 +252,7 @@ public class TarjetaCredito {
 		gbc_txtFechaDeCaducidad.gridy = 7;
 		frmPagoConTarjeta.getContentPane().add(txtFechaDeCaducidad, gbc_txtFechaDeCaducidad);
 		
+		//Animacion de los text field
 		addManejadorTextField(txtFechaDeCaducidad, "Fecha de caducidad");
 		addManejadorTextField(txtCVV, "CVV / CVC");
 		addManejadorTextField(txtNumTarjeta, "Numero de tarjeta");
@@ -259,12 +283,46 @@ public class TarjetaCredito {
 		});
 	}
 	
+	/**
+	 * Permite cambiar dependiendo el contenido de un jlabel dependiendo de un textfield
+	 * @param texto textfield del que se obtiene el texto
+	 * @param etiqueta etiquetaa la que se le cambia el texto
+	 * @param maxDigitos numero maximo de digitos
+	 */
+	private void addManejadorDatosTarjetaGrafico(JTextField texto, JLabel etiqueta, int maxDigitos) {
+		txtNumTarjeta.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				String cadena = txtNumTarjeta.getText();
+				//Cogemos los ultimos maxDigitos digitos como mucho
+				if (cadena.length() > maxDigitos) {
+					cadena = cadena.substring(0, maxDigitos);					
+				} else {
+					cadena = cadena.substring(0, cadena.length());		
+				}
+				
+				etiqueta.setText(cadena);
+			}
+		});
+	}
 	
 	/**
 	 * Establece el boton para procesar el pago
 	 */
 	private void establecerBotones() {
+		btnRegistrarse = new JButton("REGISTRARSE");
+		btnRegistrarse.setForeground(new Color(218, 200, 41));
+		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnRegistrarse.setBorderPainted(false);
+		btnRegistrarse.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnRegistrarse = new GridBagConstraints();
+		gbc_btnRegistrarse.fill = GridBagConstraints.VERTICAL;
+		gbc_btnRegistrarse.gridwidth = 2;
+		gbc_btnRegistrarse.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRegistrarse.gridx = 1;
+		gbc_btnRegistrarse.gridy = 9;
+		frmPagoConTarjeta.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
 		
+		addManejadorBotonColor(btnRegistrarse);
 	}
 	
 	/**
@@ -272,6 +330,19 @@ public class TarjetaCredito {
 	 * @param boton Boton que se desea que aplique el efecto
 	 */
 	private void addManejadorBotonColor(JButton boton) {
+		boton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				boton.setBackground(new Color(218,200,41));
+				boton.setForeground(new Color(78,80,82));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				boton.setBackground(new Color(78,80,82));
+				boton.setForeground(new Color(218,200,41));
+				
+			}
+		});
 	}
 	
 	private boolean checkFields() {
