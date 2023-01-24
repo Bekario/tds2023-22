@@ -42,7 +42,10 @@ public class TarjetaCredito {
 	private JTextField txtCVV;
 	private JTextField txtFechaDeCaducidad;
 	private JPanelBackground panel;
-	private JLabel lblNewLabel;
+	private JLabel lblNumTarjeta;
+	private JLabel lblTipoTarjeta;
+	private JLabel lblFecha;
+	private JLabel lblCVC;
 
 	/**
 	 * Launch the application.
@@ -89,10 +92,10 @@ public class TarjetaCredito {
 		frmPagoConTarjeta.setBounds(100, 100, 450, 600);
 		frmPagoConTarjeta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{50, 0, 0, 50, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{50, 128, 128, 50, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 60, 180, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frmPagoConTarjeta.getContentPane().setLayout(gridBagLayout);
 		
 		establecerBotones();
@@ -126,7 +129,6 @@ public class TarjetaCredito {
 		panel = new JPanelBackground();
 		panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-azul.png"));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.gridheight = 3;
 		gbc_panel.gridwidth = 2;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -134,19 +136,52 @@ public class TarjetaCredito {
 		gbc_panel.gridy = 3;
 		frmPagoConTarjeta.getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{35, 0, 0, 10, 0, 5, 0};
+		gbl_panel.rowHeights = new int[]{79, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		lblNewLabel = new JLabel("11111111111111111111111");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 3;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
+		lblNumTarjeta = new JLabel("1234 1234 1234 1234");
+		lblNumTarjeta.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNumTarjeta.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblNumTarjeta = new GridBagConstraints();
+		gbc_lblNumTarjeta.gridwidth = 2;
+		gbc_lblNumTarjeta.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblNumTarjeta.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumTarjeta.gridx = 1;
+		gbc_lblNumTarjeta.gridy = 1;
+		panel.add(lblNumTarjeta, gbc_lblNumTarjeta);
+		
+		lblFecha = new JLabel("22/02");
+		lblFecha.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblFecha.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblFecha = new GridBagConstraints();
+		gbc_lblFecha.gridwidth = 3;
+		gbc_lblFecha.anchor = GridBagConstraints.NORTH;
+		gbc_lblFecha.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFecha.gridx = 1;
+		gbc_lblFecha.gridy = 2;
+		panel.add(lblFecha, gbc_lblFecha);
+		
+		lblTipoTarjeta = new JLabel("");
+		lblTipoTarjeta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/mastercard.png")));
+		GridBagConstraints gbc_lblTipoTarjeta = new GridBagConstraints();
+		gbc_lblTipoTarjeta.gridheight = 3;
+		gbc_lblTipoTarjeta.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTipoTarjeta.gridx = 4;
+		gbc_lblTipoTarjeta.gridy = 1;
+		panel.add(lblTipoTarjeta, gbc_lblTipoTarjeta);
+		
+		lblCVC = new JLabel("111");
+		lblCVC.setForeground(new Color(255, 255, 255));
+		lblCVC.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		GridBagConstraints gbc_lblCVC = new GridBagConstraints();
+		gbc_lblCVC.anchor = GridBagConstraints.WEST;
+		gbc_lblCVC.insets = new Insets(0, 0, 0, 5);
+		gbc_lblCVC.gridx = 1;
+		gbc_lblCVC.gridy = 3;
+		panel.add(lblCVC, gbc_lblCVC);
 		
 		txtNumTarjeta = new JTextField();
 		txtNumTarjeta.setToolTipText("");
@@ -157,7 +192,7 @@ public class TarjetaCredito {
 		gbc_txtNumTarjeta.insets = new Insets(0, 0, 5, 5);
 		gbc_txtNumTarjeta.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtNumTarjeta.gridx = 1;
-		gbc_txtNumTarjeta.gridy = 6;
+		gbc_txtNumTarjeta.gridy = 5;
 		frmPagoConTarjeta.getContentPane().add(txtNumTarjeta, gbc_txtNumTarjeta);
 		
 		txtTitular = new JTextField();
@@ -169,7 +204,7 @@ public class TarjetaCredito {
 		gbc_txtTitular.insets = new Insets(0, 0, 5, 5);
 		gbc_txtTitular.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTitular.gridx = 1;
-		gbc_txtTitular.gridy = 7;
+		gbc_txtTitular.gridy = 6;
 		frmPagoConTarjeta.getContentPane().add(txtTitular, gbc_txtTitular);
 		
 		txtCVV = new JTextField();
@@ -180,7 +215,7 @@ public class TarjetaCredito {
 		gbc_txtCVV.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCVV.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCVV.gridx = 1;
-		gbc_txtCVV.gridy = 8;
+		gbc_txtCVV.gridy = 7;
 		frmPagoConTarjeta.getContentPane().add(txtCVV, gbc_txtCVV);
 		
 		txtFechaDeCaducidad = new JTextField();
@@ -188,10 +223,10 @@ public class TarjetaCredito {
 		txtFechaDeCaducidad.setText("Fecha de caducidad");
 		txtFechaDeCaducidad.setColumns(10);
 		GridBagConstraints gbc_txtFechaDeCaducidad = new GridBagConstraints();
-		gbc_txtFechaDeCaducidad.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFechaDeCaducidad.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFechaDeCaducidad.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFechaDeCaducidad.gridx = 2;
-		gbc_txtFechaDeCaducidad.gridy = 8;
+		gbc_txtFechaDeCaducidad.gridy = 7;
 		frmPagoConTarjeta.getContentPane().add(txtFechaDeCaducidad, gbc_txtFechaDeCaducidad);
 		
 		addManejadorTextField(txtFechaDeCaducidad, "Fecha de caducidad");

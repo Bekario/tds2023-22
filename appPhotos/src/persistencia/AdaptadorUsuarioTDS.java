@@ -47,7 +47,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
 	}
 
-	/* cuando se registra un cliente se le asigna un identificador �nico */
+	/* cuando se registra un cliente se le asigna un identificador unico */
 	public void registrarUsuario(Usuario usuario) {
 		Entidad eUsuario = null;
 
