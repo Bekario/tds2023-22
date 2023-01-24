@@ -2,6 +2,8 @@ package ventanas;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.net.URI;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -29,7 +31,7 @@ public class JPanelBackground extends JPanel {
 	}
 
 	// Metodo donde le pasaremos la dirección de la imagen a cargar.
-	public void setBackground(String imagePath) {
+	public void setBackground(URL imagePath) {
 		
 		// Construimos la imagen y se la asignamos al atributo background.
 		this.setOpaque(false);

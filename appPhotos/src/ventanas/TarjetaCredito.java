@@ -41,7 +41,8 @@ public class TarjetaCredito {
 	private JTextField txtTitular;
 	private JTextField txtCVV;
 	private JTextField txtFechaDeCaducidad;
-	private static JPanelBackground panel;
+	private JPanelBackground panel;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -90,7 +91,7 @@ public class TarjetaCredito {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 0, 0, 50, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frmPagoConTarjeta.getContentPane().setLayout(gridBagLayout);
 		
@@ -121,8 +122,9 @@ public class TarjetaCredito {
 	 * Establece los campos para introducir los datos de la tarjeta
 	 */
 	private void establecerDatosTarjeta() {
+		
 		panel = new JPanelBackground();
-		panel.setBackground("/imagenes/tarjeta-de-credito-azul.png");
+		panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-azul.png"));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridheight = 3;
 		gbc_panel.gridwidth = 2;
@@ -131,6 +133,20 @@ public class TarjetaCredito {
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 3;
 		frmPagoConTarjeta.getContentPane().add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		lblNewLabel = new JLabel("11111111111111111111111");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 1;
+		gbc_lblNewLabel.gridy = 3;
+		panel.add(lblNewLabel, gbc_lblNewLabel);
 		
 		txtNumTarjeta = new JTextField();
 		txtNumTarjeta.setToolTipText("");
