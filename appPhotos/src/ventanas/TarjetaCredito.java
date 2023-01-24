@@ -299,7 +299,6 @@ public class TarjetaCredito {
 				} else {
 					cadena = cadena.substring(0, cadena.length());		
 				}
-				
 				etiqueta.setText(cadena);
 			}
 		});
