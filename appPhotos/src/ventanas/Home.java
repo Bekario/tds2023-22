@@ -157,31 +157,57 @@ public class Home {
 		gbc_panel.gridy = 1;
 		panel_1.add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{15, 0, 15, 0, 0};
+		gbl_panel.columnWidths = new int[]{15, 0, 40, 0, 40, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
+		JLabel btnLike = new JLabel("");
 		
 		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/frezze.png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		lblNewLabel_1.setIcon(icono);
+		btnLike.setIcon(icono);
 		
 
+		GridBagConstraints gbc_btnLike = new GridBagConstraints();
+		gbc_btnLike.insets = new Insets(0, 0, 0, 5);
+		gbc_btnLike.gridx = 1;
+		gbc_btnLike.gridy = 0;
+		panel.add(btnLike, gbc_btnLike);
+		
+		JLabel numLikes = new JLabel("14 ");
+		numLikes.setFont(new Font("Impact", Font.PLAIN, 11));
+		GridBagConstraints gbc_numLikes = new GridBagConstraints();
+		gbc_numLikes.anchor = GridBagConstraints.WEST;
+		gbc_numLikes.insets = new Insets(0, 0, 0, 5);
+		gbc_numLikes.gridx = 2;
+		gbc_numLikes.gridy = 0;
+		panel.add(numLikes, gbc_numLikes);
+		
+		JLabel btnComentario = new JLabel("");
+		btnComentario.setIcon(new ImageIcon(Home.class.getResource("/imagenes/mensaje.png")));
+		GridBagConstraints gbc_btnComentario = new GridBagConstraints();
+		gbc_btnComentario.insets = new Insets(0, 0, 0, 5);
+		gbc_btnComentario.gridx = 3;
+		gbc_btnComentario.gridy = 0;
+		panel.add(btnComentario, gbc_btnComentario);
+		
+		JLabel numLikes_1 = new JLabel("69");
+		numLikes_1.setFont(new Font("Impact", Font.PLAIN, 11));
+		GridBagConstraints gbc_numLikes_1 = new GridBagConstraints();
+		gbc_numLikes_1.anchor = GridBagConstraints.WEST;
+		gbc_numLikes_1.insets = new Insets(0, 0, 0, 5);
+		gbc_numLikes_1.gridx = 4;
+		gbc_numLikes_1.gridy = 0;
+		panel.add(numLikes_1, gbc_numLikes_1);
+		
+		JLabel lblNewLabel_1 = new JLabel("usuario_nombre");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridx = 5;
 		gbc_lblNewLabel_1.gridy = 0;
 		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(Home.class.getResource("/imagenes/mensaje.png")));
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.gridx = 3;
-		gbc_lblNewLabel_2.gridy = 0;
-		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		JPanel barraInferior = new JPanel();
 		barraInferior.setBackground(new Color(192, 192, 192));
