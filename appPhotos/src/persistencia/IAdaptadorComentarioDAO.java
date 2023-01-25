@@ -10,6 +10,4 @@ public interface IAdaptadorComentarioDAO {
 	public void modificarComentario(Comentario comentario);
 	public Comentario recuperarComentario(int codigo);
 	public List<Comentario> recuperarTodosComentarios();
-	
-
 }

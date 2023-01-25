@@ -10,6 +10,4 @@ public interface IAdaptadorFotoDAO {
 	public void modificarFoto(Foto foto);
 	public Foto recuperarFoto(int codigo);
 	public List<Foto> recuperarTodosFoto();
-	
-
 }

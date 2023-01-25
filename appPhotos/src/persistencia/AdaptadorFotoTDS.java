@@ -72,7 +72,7 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 				new Propiedad(MEGUSTA, String.valueOf(foto.getMegusta())),
 				new Propiedad(PATH, foto.getPath())
 		//		new Propiedad(USUARIO, publicacion.getUsuario()),
-				//new Propiedad(HASHTAGS, ),
+				new Propiedad(HASHTAGS, obtenerStringDeHashtags(foto.getHashtags())),
 				//new Propiedad(COMENTARIOS, ),
 				
 				)));
@@ -97,21 +97,21 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 			if (prop.getNombre().equals("codigo")) {
 				prop.setValor(String.valueOf(foto.getCodigo()));
 			} else if (prop.getNombre().equals(TITULO)) {
-				prop.setValor(String.valueOf(foto.getTitulo()));
+				prop.setValor(foto.getTitulo());
 			} else if (prop.getNombre().equals(FECHA)) {
-				prop.setValor(String.valueOf(foto.getFecha()));
+				prop.setValor(foto.getFecha().toString());
 			} else if (prop.getNombre().equals(DESCRIPCION)) {
-				prop.setValor(String.valueOf(foto.getDescripcion()));
+				prop.setValor(foto.getDescripcion());
 			} else if (prop.getNombre().equals(MEGUSTA)) {
 				prop.setValor(String.valueOf(foto.getMegusta()));
 			} else if (prop.getNombre().equals(HASHTAGS)) {
-				prop.setValor(String.valueOf(foto.getHashtags()));
+				prop.setValor(obtenerStringDeHashtags(foto.getHashtags()));
 			} else if (prop.getNombre().equals(COMENTARIOS)) {
-				prop.setValor(String.valueOf(foto.getComentarios()));
+				prop.setValor(obt(foto.getComentarios()));
 			} else if (prop.getNombre().equals(USUARIO)) {
-				prop.setValor(String.valueOf(foto.getUsuario()));
+				prop.setValor(String.valueOf(foto.getUsuario().getCodigo()));
 			} else if (prop.getNombre().equals(PATH)) {
-				prop.setValor(String.valueOf(foto.getPath()));
+				prop.setValor(foto.getPath());
 			}       
 			servPersistencia.modificarPropiedad(prop);
 		}
@@ -144,27 +144,108 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 		path = servPersistencia.recuperarPropiedadEntidad(eFoto, PATH);
 		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eFoto, MEGUSTA));
 		fecha = obtenerFechaDesdeString(servPersistencia.recuperarPropiedadEntidad(eFoto, FECHA));
+		hashtags = obtenerHashtagsDesdeString(servPersistencia.recuperarPropiedadEntidad(eFoto, HASHTAGS));
 
-		Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);
-		foto.setCodigo(codigo);
 
-		// IMPORTANTE:a�adir el cliente al pool antes de llamar a otros
+		// IMPORTANTE: meter el cliente al pool antes de llamar a otros
 		// adaptadores
-		PoolDAO.getUnicaInstancia().addObjeto(codigo, foto);
+		PoolDAO.getUnicaInstancia().addObjeto(codigo, foto); //malenia
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// ventas
-		usuario = obtenerUsuarioDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eFoto, USUARIO));
-		foto.setUsuario(usuario);
-		hashtags = obtenerHashtagsDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eFoto, HASHTAGS));
-		foto.setHashtags(hashtags);
+		usuario = obtenerUsuarioDesdeCodigo(servPersistencia.recuperarPropiedadEntidad(eFoto, USUARIO));
 		comentarios= obtenerComentariosDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eFoto, COMENTARIOS));
-		for (Comentario c: comentario)
-			foto.addComentario(c);
+		
+		Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);
+		
+		foto.setCodigo(codigo);
+		foto.setUsuario(usuario);
+		foto.setHashtags(hashtags);
+		foto.setComentarios(comentarios);
+
 		return foto;
+	}
+	
+	public List<Foto> recuperarTodosFoto() {
+		List<Foto> fotos = new LinkedList<Foto>();
+		List<Entidad> entidades = servPersistencia.recuperarEntidades("foto");
+		
+		for (Entidad ePublicacion : entidades) {
+			fotos.add(recuperarFoto(ePublicacion.getId()));
+		}
+		return fotos;
 	}
 
 	//-----------------------------------------
+	
+	/**
+	 * Obtiene un string con los hashtags separados con espacios
+	 * @param listaHashtags
+	 * @return
+	 */
+	private String obtenerStringDeHashtags(List<String> listaHashtags) {
+		String aux = "";
+		for (String s : listaHashtags) {
+			aux+=s+" ";
+		}
+		return aux.trim();
+	}
+	
+	/**
+	 * Retorna una lista con los hashtags
+	 * @param comentarios
+	 * @return
+	 */
+	 private List<String> obtenerHashtagsDesdeString(String hashtags){
+		 ArrayList<String> listaHashtags = new ArrayList<String>();
+		 StringTokenizer strTok = new StringTokenizer(hashtags, " ");
+		 
+		 while (strTok.hasMoreTokens()) {
+			 listaHashtags.add((String) strTok.nextElement());
+		 }
+		 
+		 return listaHashtags;
+	 }
+	
+	 /**
+		 * Obtiene un string con los codigos de los comentarios
+		 * @param listaHashtags
+		 * @return
+		 */
+		private String obtenerStringDeComentarios(List<Comentario> listaComentarios) {
+			String aux = "";
+			for (Comentario s : listaComentarios) {
+				aux+=s.getCodigo()+" ";
+			}
+			return aux.trim();
+		}
+	 
+	/**
+	 * Retorna una lista con los comentarios
+	 * @param comentarios
+	 * @return
+	 */
+	 private List<Comentario> obtenerComentariosDesdeCodigos(String comentarios){
+		 AdaptadorComentarioTDS adaptadorC = AdaptadorComentarioTDS.getUnicaInstancia();
+		 ArrayList<Comentario> listaComentarios = new ArrayList<Comentario>();
+		 StringTokenizer strTok = new StringTokenizer(comentarios, " ");
+		 
+		 while (strTok.hasMoreTokens()) {
+			listaComentarios.add(adaptadorC.recuperarComentario(Integer.valueOf((String) strTok.nextElement())));
+		}
+		 
+		 return listaComentarios;
+	 }
+	 
+	/**
+	 * Retorna un usuario a partir de su codigo
+	 * @param usuario
+	 * @return
+	 */
+	 private Usuario obtenerUsuarioDesdeCodigo(String usuario){
+		 AdaptadorUsuarioTDS adaptadorU = AdaptadorUsuarioTDS.getUnicaInstancia();
+		 return adaptadorU.recuperarUsuario(Integer.valueOf((String) usuario));
+	 }
 	
 	/**
 	 * Obtiene la lista de publicaciones a partir de un string de codigos
@@ -181,14 +262,5 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 		return LocalDate.of(año, mes, dia);
 	}
 	
-	public List<Foto> recuperarTodosFoto() {
-		List<Publicacion> publicaciones = new LinkedList<Foto>();
-		List<Entidad> entidades = servPersistencia.recuperarEntidades("publicacion");
-
-		for (Entidad ePublicacion : entidades) {
-			publicaciones.add(recuperarPublicacion(ePublicacion.getId()));
-		}
-		return publicaciones;
-	}
 
 }

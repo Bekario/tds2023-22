@@ -10,6 +10,4 @@ public interface IAdaptadorNotificacionDAO {
 	public void modificarNotificacion(Notificacion notificacion);
 	public Notificacion recuperarNotificacion(int codigo);
 	public List<Notificacion> recuperarTodosNotificacion();
-	
-
 }

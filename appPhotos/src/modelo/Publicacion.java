@@ -46,18 +46,25 @@ public abstract class Publicacion {
 	public List<String> getHashtags() {
 		return hashtags;
 	}
+	
+	public void setHashtags(List<String> hashtags) {
+		this.hashtags = hashtags;
+	}
 
 	public int getCodigo() {
 		return codigo;
 	}
 	
-
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
 
 	public List<Comentario> getComentarios() {
 		return comentarios;
+	}
+	
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
 	}
 
 	public Usuario getUsuario() {
