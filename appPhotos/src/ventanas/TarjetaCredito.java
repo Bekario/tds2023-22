@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import java.awt.Toolkit;
+import java.awt.desktop.ScreenSleepEvent;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.GridBagConstraints;
@@ -27,6 +28,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.Cursor;
@@ -36,6 +39,7 @@ import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
+import javax.swing.JProgressBar;
 
 
 public class TarjetaCredito {
@@ -51,6 +55,21 @@ public class TarjetaCredito {
 	private JLabel lblFecha;
 	private JLabel lblCVC;
 	private JButton btnRegistrarse;
+	
+	private final String TITULAR = "Titular";
+	private final String NUMEROTARJETA = "Numero de tarjeta";
+	private final String CVV = "CVV / CVC";
+	private final String FECHACADUCIDAD = "Fecha de caducidad";
+	
+	//Para determinar el tipo de tarjeta
+	private final String MASTERCARD = "5";
+	private final String VISA = "4";
+	
+	//Valores maximos que admiten los campos 
+	private final int MAXNUMTARJETA = 16;
+	private final int MAXFECHACADUCIDAD = 5;
+	private final int MAXCVV = 3;
+	private JProgressBar progressBar;
 
 	/**
 	 * Launch the application.
@@ -107,6 +126,7 @@ public class TarjetaCredito {
 		establecerTitulo();
 		establecerDatosTarjeta();
 		establecerPanelTarjeta();
+		establecerBarraDeCarga();
 	}
 	
 	/**
@@ -142,14 +162,14 @@ public class TarjetaCredito {
 		gbc_panel.gridy = 3;
 		frmPagoConTarjeta.getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{35, 90, 90, 10, 0, 5, 0};
+		gbl_panel.columnWidths = new int[]{35, 90, 90, 10, 68, 5, 0};
 		gbl_panel.rowHeights = new int[]{79, 27, 26, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		//Numero de tarjeta
-		lblNumTarjeta = new JLabel("1234 1234 1234 1234");
+		lblNumTarjeta = new JLabel("");
 		lblNumTarjeta.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNumTarjeta.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNumTarjeta = new GridBagConstraints();
@@ -161,7 +181,7 @@ public class TarjetaCredito {
 		panel.add(lblNumTarjeta, gbc_lblNumTarjeta);
 		
 		//Fecha de caducidad
-		lblFecha = new JLabel("22/02");
+		lblFecha = new JLabel("");
 		lblFecha.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblFecha.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblFecha = new GridBagConstraints();
@@ -182,7 +202,7 @@ public class TarjetaCredito {
 		panel.add(lblTipoTarjeta, gbc_lblTipoTarjeta);
 		
 		//CVV
-		lblCVC = new JLabel("111");
+		lblCVC = new JLabel("");
 		lblCVC.setForeground(new Color(255, 255, 255));
 		lblCVC.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		GridBagConstraints gbc_lblCVC = new GridBagConstraints();
@@ -192,9 +212,9 @@ public class TarjetaCredito {
 		gbc_lblCVC.gridy = 3;
 		panel.add(lblCVC, gbc_lblCVC);
 		
-		addManejadorDatosTarjetaGrafico(txtCVV, lblCVC, 3);
-		addManejadorDatosTarjetaGrafico(txtNumTarjeta, lblNumTarjeta, 16);
-		addManejadorDatosTarjetaGrafico(txtFechaDeCaducidad, lblFecha, 5);
+		addManejadorDatosTarjetaGrafico(txtCVV, lblCVC, MAXCVV, false, CVV);
+		addManejadorDatosTarjetaGrafico(txtNumTarjeta, lblNumTarjeta, MAXNUMTARJETA, true, NUMEROTARJETA);
+		addManejadorDatosTarjetaGrafico(txtFechaDeCaducidad, lblFecha, MAXFECHACADUCIDAD, false, FECHACADUCIDAD);
 		
 		addManejadorTipoTarjeta(txtNumTarjeta, panel, lblTipoTarjeta);
 	}
@@ -207,7 +227,7 @@ public class TarjetaCredito {
 		//Numero de tarjeta
 		txtNumTarjeta = new JTextField();
 		txtNumTarjeta.setToolTipText("");
-		txtNumTarjeta.setText("Numero de tarjeta");
+		txtNumTarjeta.setText(NUMEROTARJETA);
 		txtNumTarjeta.setColumns(10);
 		GridBagConstraints gbc_txtNumTarjeta = new GridBagConstraints();
 		gbc_txtNumTarjeta.fill = GridBagConstraints.HORIZONTAL;
@@ -220,7 +240,7 @@ public class TarjetaCredito {
 		//Titular
 		txtTitular = new JTextField();
 		txtTitular.setToolTipText("");
-		txtTitular.setText("Titular");
+		txtTitular.setText(TITULAR);
 		txtTitular.setColumns(10);
 		GridBagConstraints gbc_txtTitular = new GridBagConstraints();
 		gbc_txtTitular.fill = GridBagConstraints.HORIZONTAL;
@@ -233,9 +253,10 @@ public class TarjetaCredito {
 		//CVV
 		txtCVV = new JTextField();
 		txtCVV.setToolTipText("");
-		txtCVV.setText("CVV / CVC");
+		txtCVV.setText(CVV);
 		txtCVV.setColumns(10);
 		GridBagConstraints gbc_txtCVV = new GridBagConstraints();
+		gbc_txtCVV.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCVV.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCVV.gridx = 1;
 		gbc_txtCVV.gridy = 7;
@@ -244,7 +265,7 @@ public class TarjetaCredito {
 		//Fecha de caducidad
 		txtFechaDeCaducidad = new JTextField();
 		txtFechaDeCaducidad.setToolTipText("");
-		txtFechaDeCaducidad.setText("Fecha de caducidad");
+		txtFechaDeCaducidad.setText(FECHACADUCIDAD);
 		txtFechaDeCaducidad.setColumns(10);
 		GridBagConstraints gbc_txtFechaDeCaducidad = new GridBagConstraints();
 		gbc_txtFechaDeCaducidad.fill = GridBagConstraints.HORIZONTAL;
@@ -254,10 +275,10 @@ public class TarjetaCredito {
 		frmPagoConTarjeta.getContentPane().add(txtFechaDeCaducidad, gbc_txtFechaDeCaducidad);
 		
 		//Animacion de los text field
-		addManejadorTextField(txtFechaDeCaducidad, "Fecha de caducidad");
-		addManejadorTextField(txtCVV, "CVV / CVC");
-		addManejadorTextField(txtNumTarjeta, "Numero de tarjeta");
-		addManejadorTextField(txtTitular, "Titular");
+		addManejadorTextField(txtFechaDeCaducidad, FECHACADUCIDAD);
+		addManejadorTextField(txtCVV, CVV);
+		addManejadorTextField(txtNumTarjeta, NUMEROTARJETA);
+		addManejadorTextField(txtTitular, TITULAR);
 	}
 	
 	/**
@@ -271,16 +292,19 @@ public class TarjetaCredito {
 			public void caretUpdate(CaretEvent e) {
 				if(texto.getText().length() > 0) {
 					String cadena = texto.getText().substring(0, 1);
-					if(cadena.equals("4")) {
+					if(cadena.equals(VISA)) {
 						etiqueta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/visa.png")));
 						panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-azul.png"));
-					} else if(cadena.equals("5")) {
+					} else if(cadena.equals(MASTERCARD)) {
 						etiqueta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/mastercard.png")));
 						panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-rojo.png"));
 					} else {
 						etiqueta.setIcon(null);
 						panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-default.png"));
 					}
+				} else {
+					etiqueta.setIcon(null);
+					panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-default.png"));
 				}
 			}
 		});
@@ -314,18 +338,31 @@ public class TarjetaCredito {
 	 * @param texto textfield del que se obtiene el texto
 	 * @param etiqueta etiquetaa la que se le cambia el texto
 	 * @param maxDigitos numero maximo de digitos
+	 * @param esNumTarjeta indica si el numero de la tarjeta
 	 */
-	private void addManejadorDatosTarjetaGrafico(JTextField texto, JLabel etiqueta, int maxDigitos) {
+	private void addManejadorDatosTarjetaGrafico(JTextField texto, JLabel etiqueta, int maxDigitos, Boolean esNumTarjeta, String cadenaDefecto) {
 		texto.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
 				String cadena = texto.getText();
+				
+				//Si la cadena introducida es igual a la que viene por defecto no hacemos nada
+				if(cadena.equals(cadenaDefecto)) {
+					return;
+				}
+				
 				//Cogemos los ultimos maxDigitos digitos como mucho
 				if (cadena.length() > maxDigitos) {
 					cadena = cadena.substring(0, maxDigitos);					
 				} else {
 					cadena = cadena.substring(0, cadena.length());		
 				}
-				etiqueta.setText(cadena);
+				
+				//Si es el numero de la tarjeta utilizamos como texto para el label la version convertida
+				if(esNumTarjeta) {
+					etiqueta.setText(convertirFormatoNumeroTarjeta(cadena));
+				} else {
+					etiqueta.setText(cadena);					
+				}
 			}
 		});
 	}
@@ -334,7 +371,7 @@ public class TarjetaCredito {
 	 * Establece el boton para procesar el pago
 	 */
 	private void establecerBotones() {
-		btnRegistrarse = new JButton("REGISTRARSE");
+		btnRegistrarse = new JButton("PROCESAR PAGO");
 		btnRegistrarse.setForeground(new Color(218, 200, 41));
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBorderPainted(false);
@@ -347,7 +384,31 @@ public class TarjetaCredito {
 		gbc_btnRegistrarse.gridy = 9;
 		frmPagoConTarjeta.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
 		
+		//Animacion de color
 		addManejadorBotonColor(btnRegistrarse);
+		
+		//Procesamiento del pago
+		addManejadorPago(btnRegistrarse);
+	}
+	
+	/**
+	 * Establece la barra de carga para procesar el pago
+	 */
+	private void establecerBarraDeCarga() {
+		progressBar = new JProgressBar();
+		progressBar.setMaximum(10);
+		progressBar.setForeground(new Color(218, 200, 41));
+		GridBagConstraints gbc_progressBar = new GridBagConstraints();
+		gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
+		gbc_progressBar.gridwidth = 2;
+		gbc_progressBar.insets = new Insets(0, 0, 5, 5);
+		gbc_progressBar.gridx = 1;
+		gbc_progressBar.gridy = 4;
+		frmPagoConTarjeta.getContentPane().add(progressBar, gbc_progressBar);
+	}
+	
+	private void simularPago() {
+		progressBar.setIndeterminate(true);
 	}
 	
 	/**
@@ -370,22 +431,48 @@ public class TarjetaCredito {
 		});
 	}
 	
+	private void addManejadorPago(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//checkfield
+				if (checkFields()) {
+					simularPago();
+					JOptionPane.showMessageDialog(frmPagoConTarjeta, "Pago realizado correctamente", "", 1);
+					
+					//Poner que si el pago es correcto se haga premium y volver a ventana
+				}
+			}
+		});
+	}
+	
 	private boolean checkFields() {
 		boolean estado = true;
 		
 		String info = "";
 		
-		//Comprobamos si es un correo basico
-		if(txtUser.getText().equals("Usuario")) {
+		//Comprobamos si se ha introducido un titular
+		if(txtTitular.getText().equals(TITULAR)) {
 			estado = false;
-			info = "¡El usuario no es correcto!";
-		}
+			info = "¡Introduce un titular valido!";
+		}	
 		
-		if(new String(textPasswd.getPassword()).equals("Contraseña") /*|| !match.matches()*/) {
+		//Comprobamos si la fecha de caducidad tiene un formato valido
+		if(txtFechaDeCaducidad.getText().equals(FECHACADUCIDAD) || txtFechaDeCaducidad.getText().length() > MAXFECHACADUCIDAD || !txtFechaDeCaducidad.getText().contains("/")) {
 			estado = false;
-			info = "¡La contraseña es incorrecta!";
-		}
+			info = "¡Introduce una fecha de caducidad válida!\nFormato: mm/yy";
+		}	
 		
+		//Comprobamos si el cvv tiene un formato valido
+		if(txtCVV.getText().equals(CVV) || txtCVV.getText().length() > MAXCVV) {
+			estado = false;
+			info = "¡Introduce un CVV o CVC válido!";
+		}	
+		
+		//Comprobamos si el numero de tarjeta es valido
+		if(txtNumTarjeta.getText().equals(NUMEROTARJETA) || txtNumTarjeta.getText().length() > MAXNUMTARJETA) {
+			estado = false;
+			info = "¡Introduce un número de tarjeta válido!";
+		}	
 		
 		if(!estado) {
 			JOptionPane.showMessageDialog(frmPagoConTarjeta, info, "Rellene correctamente los campos", 0);
@@ -394,6 +481,23 @@ public class TarjetaCredito {
 		return estado;
 	}
 	
-
+	//Funcion auxiliar
+	
+	/**
+	 * Transforma el string en un formato de tarjeta de credito, con separacion cada 4 digitos
+	 * @param numeroTarjeta
+	 * @return
+	 */
+	private String convertirFormatoNumeroTarjeta(String numeroTarjeta) {
+		String cadena = "";
+		int num = numeroTarjeta.length()/4;
+		
+		for(int i=0; i < num; i++) {
+			cadena+=numeroTarjeta.substring(i*4, (i*4)+4)+" ";
+		}
+		cadena+=numeroTarjeta.substring((num*4), numeroTarjeta.length());
+		
+		return cadena;
+	}
 
 }
