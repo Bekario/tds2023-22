@@ -143,7 +143,7 @@ public class TarjetaCredito {
 		frmPagoConTarjeta.getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{35, 90, 90, 10, 0, 5, 0};
-		gbl_panel.rowHeights = new int[]{79, 27, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{79, 27, 26, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
@@ -174,7 +174,6 @@ public class TarjetaCredito {
 		
 		//Tipo de tarjeta (estetico)
 		lblTipoTarjeta = new JLabel("");
-		lblTipoTarjeta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/mastercard.png")));
 		GridBagConstraints gbc_lblTipoTarjeta = new GridBagConstraints();
 		gbc_lblTipoTarjeta.gridheight = 3;
 		gbc_lblTipoTarjeta.insets = new Insets(0, 0, 5, 5);
@@ -195,6 +194,9 @@ public class TarjetaCredito {
 		
 		addManejadorDatosTarjetaGrafico(txtCVV, lblCVC, 3);
 		addManejadorDatosTarjetaGrafico(txtNumTarjeta, lblNumTarjeta, 16);
+		addManejadorDatosTarjetaGrafico(txtFechaDeCaducidad, lblFecha, 5);
+		
+		addManejadorTipoTarjeta(txtNumTarjeta, panel, lblTipoTarjeta);
 	}
 	
 	
@@ -208,9 +210,9 @@ public class TarjetaCredito {
 		txtNumTarjeta.setText("Numero de tarjeta");
 		txtNumTarjeta.setColumns(10);
 		GridBagConstraints gbc_txtNumTarjeta = new GridBagConstraints();
+		gbc_txtNumTarjeta.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtNumTarjeta.gridwidth = 2;
 		gbc_txtNumTarjeta.insets = new Insets(0, 0, 5, 5);
-		gbc_txtNumTarjeta.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtNumTarjeta.gridx = 1;
 		gbc_txtNumTarjeta.gridy = 5;
 		frmPagoConTarjeta.getContentPane().add(txtNumTarjeta, gbc_txtNumTarjeta);
@@ -221,9 +223,9 @@ public class TarjetaCredito {
 		txtTitular.setText("Titular");
 		txtTitular.setColumns(10);
 		GridBagConstraints gbc_txtTitular = new GridBagConstraints();
+		gbc_txtTitular.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTitular.gridwidth = 2;
 		gbc_txtTitular.insets = new Insets(0, 0, 5, 5);
-		gbc_txtTitular.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTitular.gridx = 1;
 		gbc_txtTitular.gridy = 6;
 		frmPagoConTarjeta.getContentPane().add(txtTitular, gbc_txtTitular);
@@ -235,7 +237,6 @@ public class TarjetaCredito {
 		txtCVV.setColumns(10);
 		GridBagConstraints gbc_txtCVV = new GridBagConstraints();
 		gbc_txtCVV.insets = new Insets(0, 0, 5, 5);
-		gbc_txtCVV.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCVV.gridx = 1;
 		gbc_txtCVV.gridy = 7;
 		frmPagoConTarjeta.getContentPane().add(txtCVV, gbc_txtCVV);
@@ -257,7 +258,32 @@ public class TarjetaCredito {
 		addManejadorTextField(txtCVV, "CVV / CVC");
 		addManejadorTextField(txtNumTarjeta, "Numero de tarjeta");
 		addManejadorTextField(txtTitular, "Titular");
-			
+	}
+	
+	/**
+	 * Dependiendo del primer numero de la tarjeta, cambia el color y el logo
+	 * @param texto
+	 * @param panel
+	 * @param etiqueta
+	 */
+	private void addManejadorTipoTarjeta(JTextField texto, JPanelBackground panel, JLabel etiqueta) {
+		texto.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				if(texto.getText().length() > 0) {
+					String cadena = texto.getText().substring(0, 1);
+					if(cadena.equals("4")) {
+						etiqueta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/visa.png")));
+						panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-azul.png"));
+					} else if(cadena.equals("5")) {
+						etiqueta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/mastercard.png")));
+						panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-rojo.png"));
+					} else {
+						etiqueta.setIcon(null);
+						panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-default.png"));
+					}
+				}
+			}
+		});
 	}
 	
 	/**
