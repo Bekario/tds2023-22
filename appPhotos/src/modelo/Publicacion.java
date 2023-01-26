@@ -43,6 +43,10 @@ public abstract class Publicacion {
 		return megusta;
 	}
 
+	public void setMegusta(int megusta) {
+		this.megusta = megusta;
+	}
+	
 	public List<String> getHashtags() {
 		return hashtags;
 	}

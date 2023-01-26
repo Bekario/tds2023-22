@@ -74,7 +74,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 		// crear entidad Usuario
 		eUsuario = new Entidad();
-		eUsuario.setNombre("usuario");
+		eUsuario.setNombre(USUARIO);
 		eUsuario.setPropiedades(new ArrayList<Propiedad>(
 				Arrays.asList(new Propiedad(USUARIO, usuario.getUsuario()),
 						new Propiedad(CONTRASEÑA, usuario.getContraseña()),
@@ -87,10 +87,11 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
 						new Propiedad(NOTIFICACIONES, obtenerCodigosNotificaciones(usuario.getNotificaciones())),
 						new Propiedad(SEGUIDORES, obtenerStringSeguidores(usuario.getUsuariosSeguidores())),
+						//Para fotos y albums utilizamos la funcion para obtener codigos de publicaciones
 						new Propiedad(FOTOS, obtenerCodigosPublicaciones(usuario.getFotos().stream()
 																					    .map(e -> (Publicacion) e)
 																					    .collect(Collectors.toList()))),
-						new Propiedad(FOTOS, obtenerCodigosPublicaciones(usuario.getAlbums().stream()
+						new Propiedad(ALBUMS, obtenerCodigosPublicaciones(usuario.getAlbums().stream()
 																					    .map(e -> (Publicacion) e)
 																					    .collect(Collectors.toList())))
 						)));
@@ -200,13 +201,13 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// fotos
-		fotos = //malenia
+		fotos = obtenerFotosDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, FOTOS));
 		
 		for (Foto f : fotos)
 			user.addFoto(f);
 		
 		// albums
-		albums = //malenia
+		albums = obtenerAlbumsDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, ALBUMS));
 	
 		for (Album a : albums)
 			user.addAlbum(a);
@@ -280,19 +281,35 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	}
 	
 	/**
-	 * Obtiene la lista de publicaciones a partir de un string de codigos
-	 * @param publicaciones
+	 * Obtiene la lista de fotos a partir de un string de codigos
+	 * @param fotos
 	 * @return
 	 */
-	private List<Publicacion> obtenerPublicacionesDesdeCodigos(String publicaciones) {
+	private List<Foto> obtenerFotosDesdeCodigos(String fotos) {
 
-		List<Publicacion> listaPublicaciones = new ArrayList<Publicacion>();
-		StringTokenizer strTok = new StringTokenizer(publicaciones, " ");
-		AdaptadorPublicacionTDS adaptadorP = AdaptadorPublicacionTDS.getUnicaInstancia();
+		List<Foto> listaFotos = new ArrayList<Foto>();
+		StringTokenizer strTok = new StringTokenizer(fotos, " ");
+		AdaptadorFotoTDS adaptadorP = AdaptadorFotoTDS.getUnicaInstancia();
 		while (strTok.hasMoreTokens()) {
-			listaPublicaciones.add(adaptadorP.recuperarPublicacion(Integer.valueOf((String) strTok.nextElement())));
+			listaFotos.add(adaptadorP.recuperarFoto(Integer.valueOf((String) strTok.nextElement())));
 		}
-		return listaPublicaciones;
+		return listaFotos;
+	}
+	
+	/**
+	 * Obtiene la lista de albums a partir de un string de codigos
+	 * @param albums
+	 * @return
+	 */
+	private List<Album> obtenerAlbumsDesdeCodigos(String albums) {
+
+		List<Album> listaAlbums = new ArrayList<Album>();
+		StringTokenizer strTok = new StringTokenizer(albums, " ");
+		AdaptadorAlbumTDS adaptadorA = AdaptadorAlbumTDS.getUnicaInstancia();
+		while (strTok.hasMoreTokens()) {
+			listaAlbums.add(adaptadorA.recuperarFoto(Integer.valueOf((String) strTok.nextElement())));
+		}
+		return listaAlbums;
 	}
 	
 	/**

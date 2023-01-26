@@ -22,6 +22,7 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 
 	private static ServicioPersistencia servPersistencia;
 	private static AdaptadorFotoTDS unicaInstancia = null;
+	private final String FOTO="foto";
 	private final String TITULO="titulo";
 	private final String FECHA="fecha";
 	private final String DESCRIPCION="descripcion";
@@ -64,17 +65,16 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 		
 		// crear entidad producto
 		eFoto = new Entidad();
-		eFoto.setNombre("foto");
+		eFoto.setNombre(FOTO);
 		eFoto.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
 				new Propiedad(TITULO, foto.getTitulo()),
 				new Propiedad(FECHA, foto.getFecha().toString()),
 				new Propiedad(DESCRIPCION, foto.getDescripcion()),
 				new Propiedad(MEGUSTA, String.valueOf(foto.getMegusta())),
-				new Propiedad(PATH, foto.getPath())
-		//		new Propiedad(USUARIO, publicacion.getUsuario()),
+				new Propiedad(PATH, foto.getPath()),
+				new Propiedad(USUARIO, String.valueOf(foto.getUsuario().getCodigo())),
 				new Propiedad(HASHTAGS, obtenerStringDeHashtags(foto.getHashtags())),
-				//new Propiedad(COMENTARIOS, ),
-				
+				new Propiedad(COMENTARIOS, obtenerStringDeComentarios(foto.getComentarios()))
 				)));
 		
 		// registrar entidad producto
@@ -85,7 +85,6 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 	}
 
 	public void borrarFoto(Foto foto) {
-		// No se comprueba integridad con lineas de venta
 		Entidad eFoto= servPersistencia.recuperarEntidad(foto.getCodigo());
 		servPersistencia.borrarEntidad(eFoto);
 	}
@@ -107,7 +106,7 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 			} else if (prop.getNombre().equals(HASHTAGS)) {
 				prop.setValor(obtenerStringDeHashtags(foto.getHashtags()));
 			} else if (prop.getNombre().equals(COMENTARIOS)) {
-				prop.setValor(obt(foto.getComentarios()));
+				prop.setValor(obtenerStringDeComentarios(foto.getComentarios()));
 			} else if (prop.getNombre().equals(USUARIO)) {
 				prop.setValor(String.valueOf(foto.getUsuario().getCodigo()));
 			} else if (prop.getNombre().equals(PATH)) {
@@ -147,9 +146,6 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 		hashtags = obtenerHashtagsDesdeString(servPersistencia.recuperarPropiedadEntidad(eFoto, HASHTAGS));
 
 
-		// IMPORTANTE: meter el cliente al pool antes de llamar a otros
-		// adaptadores
-		PoolDAO.getUnicaInstancia().addObjeto(codigo, foto); //malenia
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// ventas
@@ -162,6 +158,7 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 		foto.setUsuario(usuario);
 		foto.setHashtags(hashtags);
 		foto.setComentarios(comentarios);
+		foto.setMegusta(megusta);
 
 		return foto;
 	}
