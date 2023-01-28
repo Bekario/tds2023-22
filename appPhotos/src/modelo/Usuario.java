@@ -38,6 +38,7 @@ public class Usuario {
 		usuariosSeguidores = new ArrayList<String>();
 		notificaciones = new ArrayList<Notificacion>();
 		albums = new ArrayList<Album>();
+		fotos = new ArrayList<Foto>();
 	}
 	
 	//Metodos
