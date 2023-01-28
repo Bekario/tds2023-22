@@ -22,6 +22,8 @@ import persistencia.TDSFactoriaDAO;
 public class PersistenciaTest {
 	private static TDSFactoriaDAO factoria;
 	private static Usuario usuario;
+	private static Comentario comentario;
+	private static Foto foto;
 	
 	@BeforeClass
 	public static void prepararTests() {
@@ -31,6 +33,8 @@ public class PersistenciaTest {
 		
 		//Iniciamos objetos comunes para los tests
 		usuario = new Usuario("pepe", "1234", "pepepepe@gmail.com", "Pepe Pepito Pepe", LocalDate.now(), "foto", "Hola soy pepe");
+		comentario = new Comentario("Muy buena foto crack. Saludos desde chile!!");
+		foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hash,
 		
 		System.out.println("Tests preparados.");
 	}
@@ -58,8 +62,8 @@ public class PersistenciaTest {
 	}
 	@Test
 	public void testComentarioDAO() {
-		AdaptadorComentarioTDS c = (AdaptadorComentarioTDS) factoria.getUsuarioDAO();
-		Comentario comentario = new Comentario("Muy buena foto crack. Saludos desde chile!!");
+		AdaptadorComentarioTDS c = (AdaptadorComentarioTDS) factoria.getComentarioDAO();
+		
 		
 		//Registramos comentario
 		c.registrarComentario(comentario);
@@ -67,13 +71,14 @@ public class PersistenciaTest {
 		//Recuperamos comentario
 		Comentario recuperado = c.recuperarComentario(comentario.getCodigo());
 		
-		assertEquals("El comentario no coincide","Muy buena foto crack. Saludos desde chile!!", recuperado.getTexto());
+		assertEquals("El comentario no coincide",comentario.getTexto(), recuperado.getTexto());
+		
+		
 	}
 	
 	@Test
 	public void testFotoDAO() {
 		AdaptadorFotoTDS f = (AdaptadorFotoTDS) factoria.getFotoDAO();
-		Foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hash, 
 		
 		//Registramos comentario
 		c.registrarComentario(comentario);
