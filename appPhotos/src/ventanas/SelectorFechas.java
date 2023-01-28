@@ -22,7 +22,7 @@ import java.time.ZoneId;
 
 import com.toedter.calendar.JCalendar;
 
-import umu.tds.gui.RegistroView;
+//import umu.tds.gui.RegistroView;
 
 
 public class SelectorFechas extends JDialog implements ActionListener{
@@ -133,7 +133,7 @@ public class SelectorFechas extends JDialog implements ActionListener{
 	 * Cierra la ventana y almacena los 
 	 * @param boton
 	 */
-	JDate
+	//JDate
 	private void addManejadorEstablecer(JButton boton, JCalendar calendar) {
 		//Fecha seleccionada
 		boton.addActionListener(new ActionListener() {
