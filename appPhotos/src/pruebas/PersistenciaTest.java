@@ -2,7 +2,9 @@ package pruebas;
 
 import static org.junit.Assert.*;
 
+import java.awt.List;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -24,6 +26,7 @@ public class PersistenciaTest {
 	private static Usuario usuario;
 	private static Comentario comentario;
 	private static Foto foto;
+	private static ArrayList<String> hashtags;
 	
 	@BeforeClass
 	public static void prepararTests() {
@@ -34,7 +37,10 @@ public class PersistenciaTest {
 		//Iniciamos objetos comunes para los tests
 		usuario = new Usuario("pepe", "1234", "pepepepe@gmail.com", "Pepe Pepito Pepe", LocalDate.now(), "foto", "Hola soy pepe");
 		comentario = new Comentario("Muy buena foto crack. Saludos desde chile!!");
-		foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hash,
+		hashtags = new ArrayList<String>();
+		hashtags.add("Familia");
+		hashtags.add("Buenrollo");	
+		foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hashtags, usuario, "foto"); 
 		
 		System.out.println("Tests preparados.");
 	}
