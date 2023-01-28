@@ -16,6 +16,7 @@ import modelo.Usuario;
 import persistencia.AdaptadorAlbumTDS;
 import persistencia.AdaptadorComentarioTDS;
 import persistencia.AdaptadorFotoTDS;
+import persistencia.AdaptadorNotificacionTDS;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
@@ -95,7 +96,7 @@ public class PersistenciaTest {
 		assertEquals("El comentario no coincide","Muy buena foto crack. Saludos desde chile!!", recuperado.getTexto());
 	}
 	
-	/*	
+	
 	@Test
 	public void testAlbumDAO() {
 		fail("Not yet implemented");
@@ -103,6 +104,23 @@ public class PersistenciaTest {
 	
 	@Test
 	public void testNotificacionDAO() {
-		fail("Not yet implemented");
-	}*/
+		AdaptadorNotificacionTDS n = (AdaptadorNotificacionTDS) factoria.getNotificacionDAO();
+		
+		//Registramos un usuario
+		n.registrarNotificacion(null);
+		
+		//Recuperamos el usuario
+		Usuario recuperado = u.recuperarUsuario(usuario.getCodigo());
+		
+		//Comprobamos que todos los campos coincidan
+		assertEquals("El usuario no coincide", usuario.getUsuario(), recuperado.getUsuario());
+		assertEquals("La contraseña no coincide", usuario.getContraseña(), recuperado.getContraseña());
+		assertEquals("El email no coincide", usuario.getEmail(), recuperado.getEmail());
+		assertEquals("El nombre completo no coincide", usuario.getNombreCompleto(), recuperado.getNombreCompleto());
+		assertEquals("La fecha de nacimiento no coincide", usuario.getFechaNacimiento(), recuperado.getFechaNacimiento());
+		assertEquals("La imagen de perfil no coincide", usuario.getPerfil(), recuperado.getPerfil());
+		assertEquals("La descripcion no coincide", usuario.getDescripcion(), recuperado.getDescripcion());
+		
+		System.out.println("Test basico NotificacionDAO superado!");
+	}
 }
