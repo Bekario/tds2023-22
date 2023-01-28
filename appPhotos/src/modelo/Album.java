@@ -13,6 +13,10 @@ public class Album extends Publicacion {
 		this.fotos = new ArrayList<Foto>();
 	}
 	
+	public void addFoto(Foto foto) {
+		fotos.add(foto);
+	}
+	
 	//Metodos get / set
 	public List<Foto> getFotos() {
 		return fotos;

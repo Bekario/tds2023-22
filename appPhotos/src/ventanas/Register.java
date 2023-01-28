@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import java.awt.Toolkit;
-import java.awt.TrayIcon.MessageType;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.GridBagLayout;
@@ -21,7 +20,6 @@ import java.awt.Insets;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

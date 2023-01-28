@@ -11,16 +11,17 @@ import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import beans.Entidad;
 import beans.Propiedad;
-
+import modelo.Album;
 import modelo.Comentario;
 import modelo.Foto;
 import modelo.Usuario;
 
-public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
+public class AdaptadorAlbumTDS implements IAdaptadorAlbumDAO {
 
 	private static ServicioPersistencia servPersistencia;
-	private static AdaptadorFotoTDS unicaInstancia = null;
-	private final String FOTO="foto";
+	private static AdaptadorAlbumTDS unicaInstancia = null;
+	private final String ALBUM="album";
+	private final String FOTOS="fotos";
 	private final String TITULO="titulo";
 	private final String FECHA="fecha";
 	private final String DESCRIPCION="descripcion";
@@ -28,150 +29,182 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 	private final String HASHTAGS="hashtags";
 	private final String COMENTARIOS="comentarios";
 	private final String USUARIO="usuario";	
-	private final String PATH="path";
 	
 
-	public static AdaptadorFotoTDS getUnicaInstancia() { // patron singleton
+	public static AdaptadorAlbumTDS getUnicaInstancia() { // patron singleton
 		if (unicaInstancia == null) {
-			return new AdaptadorFotoTDS();
+			return new AdaptadorAlbumTDS();
 		} else
 			return unicaInstancia;
 	}
 
-	private AdaptadorFotoTDS() { 
+	private AdaptadorAlbumTDS() { 
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
 	}
 
 	/* cuando se registra un producto se le asigna un identificador unico */
-	public void registrarFoto(Foto foto) {
-		Entidad eFoto = null;
+	public void registrarAlbum(Album album) {
+		Entidad eAlbum = null;
 		try {
-			eFoto = servPersistencia.recuperarEntidad(foto.getCodigo());
+			eAlbum = servPersistencia.recuperarEntidad(album.getCodigo());
 		} catch (NullPointerException e) {}
-		if (eFoto != null) return;
+		if (eAlbum != null) return;
 		
 
 		// registrar primero el atributo usuario
 		AdaptadorUsuarioTDS adaptadorUsuario= AdaptadorUsuarioTDS.getUnicaInstancia();
-		adaptadorUsuario.registrarUsuario(foto.getUsuario());
+		adaptadorUsuario.registrarUsuario(album.getUsuario());
 		
 		// registrar primero los atributos que son objetos MALENIA
 		AdaptadorComentarioTDS adaptadorComentario = AdaptadorComentarioTDS.getUnicaInstancia();
-		for (Comentario c : foto.getComentarios())
+		for (Comentario c : album.getComentarios())
 			adaptadorComentario.registrarComentario(c);
 
 		
 		// crear entidad producto
-		eFoto = new Entidad();
-		eFoto.setNombre(FOTO);
-		eFoto.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
-				new Propiedad(TITULO, foto.getTitulo()),
-				new Propiedad(FECHA, foto.getFecha().toString()),
-				new Propiedad(DESCRIPCION, foto.getDescripcion()),
-				new Propiedad(MEGUSTA, String.valueOf(foto.getMegusta())),
-				new Propiedad(PATH, foto.getPath()),
-				new Propiedad(USUARIO, String.valueOf(foto.getUsuario().getCodigo())),
-				new Propiedad(HASHTAGS, obtenerStringDeHashtags(foto.getHashtags())),
-				new Propiedad(COMENTARIOS, obtenerStringDeComentarios(foto.getComentarios()))
+		eAlbum = new Entidad();
+		eAlbum.setNombre(ALBUM);
+		eAlbum.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
+				new Propiedad(TITULO, album.getTitulo()),
+				new Propiedad(FECHA, album.getFecha().toString()),
+				new Propiedad(DESCRIPCION, album.getDescripcion()),
+				new Propiedad(MEGUSTA, String.valueOf(album.getMegusta())),
+				new Propiedad(USUARIO, String.valueOf(album.getUsuario().getCodigo())),
+				new Propiedad(HASHTAGS, obtenerStringDeHashtags(album.getHashtags())),
+				new Propiedad(COMENTARIOS, obtenerStringDeComentarios(album.getComentarios())),
+				new Propiedad(FOTOS, obtenerStringDeFotos(album.getFotos()))
 				)));
 		
 		// registrar entidad producto
-		eFoto = servPersistencia.registrarEntidad(eFoto);
+		eAlbum = servPersistencia.registrarEntidad(eAlbum);
 		// asignar identificador unico
 		// Se aprovecha el que genera el servicio de persistencia
-		foto.setCodigo(eFoto.getId());  
+		album.setCodigo(eAlbum.getId());  
 	}
 
-	public void borrarFoto(Foto foto) {
-		Entidad eFoto= servPersistencia.recuperarEntidad(foto.getCodigo());
-		servPersistencia.borrarEntidad(eFoto);
+	public void borrarAlbum(Album album) {
+		Entidad eAlbum= servPersistencia.recuperarEntidad(album.getCodigo());
+		servPersistencia.borrarEntidad(eAlbum);
 	}
 
-	public void modificarFoto(Foto foto) {
-		Entidad eFoto = servPersistencia.recuperarEntidad(foto.getCodigo());
+	public void modificarAlbum(Album album) {
+		Entidad eAlbum = servPersistencia.recuperarEntidad(album.getCodigo());
 
-		for (Propiedad prop : eFoto.getPropiedades()) {
+		for (Propiedad prop : eAlbum.getPropiedades()) {
 			if (prop.getNombre().equals("codigo")) {
-				prop.setValor(String.valueOf(foto.getCodigo()));
+				prop.setValor(String.valueOf(album.getCodigo()));
 			} else if (prop.getNombre().equals(TITULO)) {
-				prop.setValor(foto.getTitulo());
+				prop.setValor(album.getTitulo());
 			} else if (prop.getNombre().equals(FECHA)) {
-				prop.setValor(foto.getFecha().toString());
+				prop.setValor(album.getFecha().toString());
 			} else if (prop.getNombre().equals(DESCRIPCION)) {
-				prop.setValor(foto.getDescripcion());
+				prop.setValor(album.getDescripcion());
 			} else if (prop.getNombre().equals(MEGUSTA)) {
-				prop.setValor(String.valueOf(foto.getMegusta()));
+				prop.setValor(String.valueOf(album.getMegusta()));
 			} else if (prop.getNombre().equals(HASHTAGS)) {
-				prop.setValor(obtenerStringDeHashtags(foto.getHashtags()));
+				prop.setValor(obtenerStringDeHashtags(album.getHashtags()));
 			} else if (prop.getNombre().equals(COMENTARIOS)) {
-				prop.setValor(obtenerStringDeComentarios(foto.getComentarios()));
+				prop.setValor(obtenerStringDeComentarios(album.getComentarios()));
 			} else if (prop.getNombre().equals(USUARIO)) {
-				prop.setValor(String.valueOf(foto.getUsuario().getCodigo()));
-			} else if (prop.getNombre().equals(PATH)) {
-				prop.setValor(foto.getPath());
+				prop.setValor(String.valueOf(album.getUsuario().getCodigo()));
+			} else if (prop.getNombre().equals(FOTOS)) {
+				prop.setValor(obtenerStringDeFotos(album.getFotos()));
 			}       
 			servPersistencia.modificarPropiedad(prop);
 		}
 	}
 
-	public Foto recuperarFoto(int codigo) {
+	public Album recuperarAlbum(int codigo) {
 
 		// Si la entidad está en el pool la devuelve directamente
 		if (PoolDAO.getUnicaInstancia().contiene(codigo))
-			return (Foto) PoolDAO.getUnicaInstancia().getObjeto(codigo);
+			return (Album) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 
 		// si no, la recupera de la base de datos
-		Entidad eFoto;
+		Entidad eAlbum;
 		String titulo; 
 		String descipcion;
 		int megusta;
-		String path;
 		Usuario usuario;
 		List<String> hashtags = new ArrayList<String>(); 
 		LocalDate fecha;
 		List<Comentario> comentarios= new ArrayList<Comentario>();
+		List<Foto> fotos= new ArrayList<Foto>();
 		
 
 		// recuperar entidad
-		eFoto = servPersistencia.recuperarEntidad(codigo);
+		eAlbum = servPersistencia.recuperarEntidad(codigo);
 
 		// recuperar propiedades que no son objetos
-		titulo = servPersistencia.recuperarPropiedadEntidad(eFoto, TITULO);
-		descipcion = servPersistencia.recuperarPropiedadEntidad(eFoto, DESCRIPCION);
-		path = servPersistencia.recuperarPropiedadEntidad(eFoto, PATH);
-		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eFoto, MEGUSTA));
-		fecha = obtenerFechaDesdeString(servPersistencia.recuperarPropiedadEntidad(eFoto, FECHA));
-		hashtags = obtenerHashtagsDesdeString(servPersistencia.recuperarPropiedadEntidad(eFoto, HASHTAGS));
-
-
+		titulo = servPersistencia.recuperarPropiedadEntidad(eAlbum, TITULO);
+		descipcion = servPersistencia.recuperarPropiedadEntidad(eAlbum, DESCRIPCION);
+		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eAlbum, MEGUSTA));
+		fecha = obtenerFechaDesdeString(servPersistencia.recuperarPropiedadEntidad(eAlbum, FECHA));
+		hashtags = obtenerHashtagsDesdeString(servPersistencia.recuperarPropiedadEntidad(eAlbum, HASHTAGS));
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// ventas
-		usuario = obtenerUsuarioDesdeCodigo(servPersistencia.recuperarPropiedadEntidad(eFoto, USUARIO));
-		comentarios= obtenerComentariosDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eFoto, COMENTARIOS));
+		usuario = obtenerUsuarioDesdeCodigo(servPersistencia.recuperarPropiedadEntidad(eAlbum, USUARIO));
+		comentarios= obtenerComentariosDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eAlbum, COMENTARIOS));
 		
-		Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);
+		Album album = new Album(titulo, descipcion, fecha, hashtags, usuario);
 		
-		foto.setCodigo(codigo);
-		foto.setUsuario(usuario);
-		foto.setHashtags(hashtags);
-		foto.setComentarios(comentarios);
-		foto.setMegusta(megusta);
+		//Añadimos todas las fotos al album
+		fotos = obtenerFotosDesdeString(servPersistencia.recuperarPropiedadEntidad(eAlbum, FOTOS));
+		
+		for (Foto f : fotos)
+			album.addFoto(f);
+		
+		album.setCodigo(codigo);
+		album.setUsuario(usuario);
+		album.setHashtags(hashtags);
+		album.setComentarios(comentarios);
+		album.setMegusta(megusta);
 
-		return foto;
+		return album;
 	}
 	
-	public List<Foto> recuperarTodosFoto() {
-		List<Foto> fotos = new LinkedList<Foto>();
+	public List<Album> recuperarTodosAlbum() {
+		List<Album> album = new LinkedList<Album>();
 		List<Entidad> entidades = servPersistencia.recuperarEntidades("foto");
 		
-		for (Entidad eFoto : entidades) {
-			fotos.add(recuperarFoto(eFoto.getId()));
+		for (Entidad eAlbum : entidades) {
+			album.add(recuperarAlbum(eAlbum.getId()));
 		}
-		return fotos;
+		return album;
 	}
 
 	//-----------------------------------------
+	
+	/**
+	 * Obtiene un string con todos los codigos de las fotos
+	 * @param fotos
+	 * @return
+	 */
+	private String obtenerStringDeFotos(List<Foto> fotos) {
+		String aux = "";
+		for (Foto f : fotos) {
+			aux+=f.getCodigo()+" ";
+		}
+		return aux.trim();
+	}
+	
+	/**
+	 * Retorna una lista con las fotos
+	 * @param fotos
+	 * @return
+	 */
+	 private List<Foto> obtenerFotosDesdeString(String fotos){
+		 AdaptadorFotoTDS adaptadorF = AdaptadorFotoTDS.getUnicaInstancia();
+		 ArrayList<Foto> listaFotos = new ArrayList<Foto>();
+		 StringTokenizer strTok = new StringTokenizer(fotos, " ");
+		 
+		 while (strTok.hasMoreTokens()) {
+			listaFotos.add(adaptadorF.recuperarFoto(Integer.valueOf((String) strTok.nextElement())));
+		}
+		 
+		 return listaFotos;
+	 }
 	
 	/**
 	 * Obtiene un string con los hashtags separados con espacios

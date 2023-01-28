@@ -3,7 +3,6 @@ package persistencia;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -307,7 +306,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		StringTokenizer strTok = new StringTokenizer(albums, " ");
 		AdaptadorAlbumTDS adaptadorA = AdaptadorAlbumTDS.getUnicaInstancia();
 		while (strTok.hasMoreTokens()) {
-			listaAlbums.add(adaptadorA.recuperarFoto(Integer.valueOf((String) strTok.nextElement())));
+			listaAlbums.add(adaptadorA.recuperarAlbum(Integer.valueOf((String) strTok.nextElement())));
 		}
 		return listaAlbums;
 	}

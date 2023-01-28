@@ -11,27 +11,14 @@ import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.awt.Cursor;
-import javax.swing.UIManager;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 
 public class Home {
 
