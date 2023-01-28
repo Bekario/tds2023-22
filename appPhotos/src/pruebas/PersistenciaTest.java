@@ -8,8 +8,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import modelo.Comentario;
+import modelo.Foto;
 import modelo.Usuario;
 import persistencia.AdaptadorAlbumTDS;
+import persistencia.AdaptadorComentarioTDS;
+import persistencia.AdaptadorFotoTDS;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
@@ -39,17 +43,35 @@ public class PersistenciaTest {
 		
 
 	}
-/*	
 	@Test
 	public void testComentarioDAO() {
-		fail("Not yet implemented");
+		AdaptadorComentarioTDS c = (AdaptadorComentarioTDS) factoria.getUsuarioDAO();
+		Comentario comentario = new Comentario("Muy buena foto crack. Saludos desde chile!!");
+		
+		//Registramos comentario
+		c.registrarComentario(comentario);
+		
+		//Recuperamos comentario
+		Comentario recuperado = c.recuperarComentario(comentario.getCodigo());
+		
+		assertEquals("El comentario no coincide","Muy buena foto crack. Saludos desde chile!!", recuperado.getTexto());
 	}
 	
 	@Test
 	public void testFotoDAO() {
-		fail("Not yet implemented");
+		AdaptadorFotoTDS f = (AdaptadorFotoTDS) factoria.getFotoDAO();
+		Foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hash, 
+		
+		//Registramos comentario
+		c.registrarComentario(comentario);
+		
+		//Recuperamos comentario
+		Comentario recuperado = c.recuperarComentario(comentario.getCodigo());
+		
+		assertEquals("El comentario no coincide","Muy buena foto crack. Saludos desde chile!!", recuperado.getTexto());
 	}
 	
+	/*	
 	@Test
 	public void testAlbumDAO() {
 		fail("Not yet implemented");
