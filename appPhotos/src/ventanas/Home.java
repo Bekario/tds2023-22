@@ -164,6 +164,7 @@ public class Home {
 		panel.add(btnLike, gbc_btnLike);
 		
 		JLabel numLikes = new JLabel("14 ");
+		numLikes.setForeground(new Color(0, 0, 0));
 		numLikes.setFont(new Font("Impact", Font.PLAIN, 11));
 		GridBagConstraints gbc_numLikes = new GridBagConstraints();
 		gbc_numLikes.anchor = GridBagConstraints.WEST;
@@ -180,21 +181,23 @@ public class Home {
 		gbc_btnComentario.gridy = 0;
 		panel.add(btnComentario, gbc_btnComentario);
 		
-		JLabel numLikes_1 = new JLabel("69");
-		numLikes_1.setFont(new Font("Impact", Font.PLAIN, 11));
-		GridBagConstraints gbc_numLikes_1 = new GridBagConstraints();
-		gbc_numLikes_1.anchor = GridBagConstraints.WEST;
-		gbc_numLikes_1.insets = new Insets(0, 0, 0, 5);
-		gbc_numLikes_1.gridx = 4;
-		gbc_numLikes_1.gridy = 0;
-		panel.add(numLikes_1, gbc_numLikes_1);
+		JLabel numComentarios = new JLabel("69");
+		numComentarios.setForeground(new Color(0, 0, 0));
+		numComentarios.setFont(new Font("Impact", Font.PLAIN, 11));
+		GridBagConstraints gbc_numComentarios = new GridBagConstraints();
+		gbc_numComentarios.anchor = GridBagConstraints.WEST;
+		gbc_numComentarios.insets = new Insets(0, 0, 0, 5);
+		gbc_numComentarios.gridx = 4;
+		gbc_numComentarios.gridy = 0;
+		panel.add(numComentarios, gbc_numComentarios);
 		
-		JLabel lblNewLabel_1 = new JLabel("usuario_nombre");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel_1.gridx = 5;
-		gbc_lblNewLabel_1.gridy = 0;
-		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JLabel nombre_usuario = new JLabel("usuario_nombre");
+		nombre_usuario.setForeground(new Color(0, 0, 0));
+		GridBagConstraints gbc_nombre_usuario = new GridBagConstraints();
+		gbc_nombre_usuario.insets = new Insets(0, 0, 0, 5);
+		gbc_nombre_usuario.gridx = 5;
+		gbc_nombre_usuario.gridy = 0;
+		panel.add(nombre_usuario, gbc_nombre_usuario);
 		
 		JPanel barraInferior = new JPanel();
 		barraInferior.setBackground(new Color(192, 192, 192));
