@@ -1,15 +1,10 @@
 package pruebas;
 
 import static org.junit.Assert.*;
-
-import java.awt.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import modelo.Album;
 import modelo.Comentario;
 import modelo.Foto;
@@ -21,7 +16,6 @@ import persistencia.AdaptadorFotoTDS;
 import persistencia.AdaptadorNotificacionTDS;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
-import persistencia.FactoriaDAO;
 import persistencia.TDSFactoriaDAO;
 
 public class PersistenciaTest {
@@ -32,6 +26,7 @@ public class PersistenciaTest {
 	private static ArrayList<String> hashtags;
 	private static Album album;
 	private static Notificacion notificacion;
+	private static Notificacion notificacion2;
 	
 	@BeforeClass
 	public static void prepararTests() {
@@ -48,6 +43,8 @@ public class PersistenciaTest {
 		foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hashtags, usuario, "foto"); 
 		album = new Album("Paris", "Viaje familiar a paris", LocalDate.of(2023, 1, 1), hashtags, usuario);
 		notificacion = new Notificacion(LocalDate.of(2023, 1, 1), foto);
+		notificacion2 = new Notificacion(LocalDate.of(2023, 1, 1), album);
+
 		
 		System.out.println("Tests preparados.");
 	}
@@ -132,7 +129,7 @@ public class PersistenciaTest {
 	}
 	
 	@Test
-	public void testNotificacionDAO() {
+	public void testNotificacionFotoDAO() {
 		AdaptadorNotificacionTDS n = (AdaptadorNotificacionTDS) factoria.getNotificacionDAO();
 		
 		//Registramos la notificacion
@@ -140,10 +137,24 @@ public class PersistenciaTest {
 		
 		//Recuperamos la notificacion
 		Notificacion recuperado = n.recuperarNotificacion(notificacion.getCodigo());
-		recuperado.getPublicacion().setMegusta(10);
 		//Comprobamos que todos los campos coincidan
 		assertEquals("La fecha no coincide", notificacion.getFecha(), recuperado.getFecha());
 		assertEquals("La publicacion no coincide", notificacion.getPublicacion(), recuperado.getPublicacion());
+		
+		System.out.println("Test basico NotificacionDAO superado!");
+	}
+	@Test
+	public void testNotificacionAlbumDAO() {
+		AdaptadorNotificacionTDS n = (AdaptadorNotificacionTDS) factoria.getNotificacionDAO();
+		
+		//Registramos la notificacion
+		n.registrarNotificacion(notificacion2);
+		
+		//Recuperamos la notificacion
+		Notificacion recuperado = n.recuperarNotificacion(notificacion2.getCodigo());
+		//Comprobamos que todos los campos coincidan
+		assertEquals("La fecha no coincide", notificacion2.getFecha(), recuperado.getFecha());
+		assertEquals("La publicacion no coincide", notificacion2.getPublicacion(), recuperado.getPublicacion());
 		
 		System.out.println("Test basico NotificacionDAO superado!");
 	}
