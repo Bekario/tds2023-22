@@ -34,6 +34,7 @@ public abstract class FactoriaDAO {
 	public abstract IAdaptadorComentarioDAO getComentarioDAO();
 	public abstract IAdaptadorNotificacionDAO getNotificacionDAO();
 	public abstract IAdaptadorFotoDAO getFotoDAO();
+	public abstract IAdaptadorAlbumDAO getAlbumDAO();
 	public abstract IAdaptadorUsuarioDAO getUsuarioDAO();
 
 }

@@ -45,6 +45,7 @@ public class Register {
 	private JButton btnMostrarPass2;
 	private JButton btnLogin;
 	private JDateChooser dateChooser;
+	private JButton btnAtras;
 
 	/**
 	 * Launch the application.
@@ -93,9 +94,9 @@ public class Register {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
-		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 0, 50, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 20, 50, 50, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 		
@@ -371,10 +372,29 @@ public class Register {
 		gbc_btnLogin.gridy = 10;
 		frame.getContentPane().add(btnLogin, gbc_btnLogin);
 		
+		btnAtras = new JButton("     ATRÁS     ");
+		btnAtras.setForeground(new Color(218, 200, 41));
+		btnAtras.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnAtras.setBorderPainted(false);
+		btnAtras.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnAtras = new GridBagConstraints();
+		gbc_btnAtras.fill = GridBagConstraints.VERTICAL;
+		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAtras.gridx = 2;
+		gbc_btnAtras.gridy = 11;
+		frame.getContentPane().add(btnAtras, gbc_btnAtras);
+		
 		addManejadorBotonColor(btnLogin);
+		addManejadorBotonColor(btnAtras);
+		
 		addManejadorBotonContinuar(btnLogin);
+		
 	}
 	
+	/**
+	 * Controlamos el evento de registro
+	 * @param boton
+	 */
 	private void addManejadorBotonContinuar(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
