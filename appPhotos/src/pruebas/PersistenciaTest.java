@@ -95,12 +95,11 @@ public class PersistenciaTest {
 		
 		//Recuperamos foto
 		Foto recuperado = f.recuperarFoto(foto.getCodigo());
-		
 		assertEquals("El titulo no coincide",foto.getTitulo(), recuperado.getTitulo());
 		assertEquals("La descripcion no coincide",foto.getDescripcion(), recuperado.getDescripcion());
 		assertEquals("La fecha no coincide",foto.getFecha(), recuperado.getFecha());
 		assertEquals("Los hashtags no coinciden",foto.getHashtags(), recuperado.getHashtags());
-		//assertEquals("El usuario no coincide",foto.getUsuario(), recuperado.getUsuario());
+		assertEquals("El usuario no coincide",foto.getUsuario(), recuperado.getUsuario());
 		assertEquals("La ruta no coincide",foto.getPath(), recuperado.getPath());
 		
 		System.out.println("Test basico FotoDAO superado!");
@@ -122,7 +121,7 @@ public class PersistenciaTest {
 		assertEquals("La descripcion no coincide",album.getDescripcion(), recuperado.getDescripcion());
 		assertEquals("La fecha no coincide",album.getFecha(), recuperado.getFecha());
 		assertEquals("Los hashtags no coinciden",album.getHashtags(), recuperado.getHashtags());
-		//assertEquals("El usuario no coincide",album.getUsuario(), recuperado.getUsuario());
+		assertEquals("El usuario no coincide",album.getUsuario(), recuperado.getUsuario());
 
 		
 		System.out.println("Test basico AlbumDAO superado!");

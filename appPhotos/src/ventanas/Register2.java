@@ -247,14 +247,21 @@ public class Register2 {
 		
 		addManejadorBotonBorrar(btnborrar);
 		addManejadorBotonInsertarImagen(btnMeterImg);
+		addManejadorBotonAtras(btnAtras);
 	}
 	
+	/**
+	 * Controla el registro del usuario
+	 * @param boton
+	 */
 	private void addManejadorRegistrarse(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Si todos los campos son correctos
 				if(checkFields()) {
 					Login ventana = new Login();
 					ventana.mostrarVentana(frame);
+					//Borramos la foto subida (imagen temporal)
 					Controlador.getInstancia().eliminarFotoSubida(fotoActual);
 					frame.dispose();					
 				}
@@ -336,6 +343,21 @@ public class Register2 {
 				descripcion.grabFocus();
 			}
 		});
+	}
+	
+	/**
+	 * Controlamos el evento de volver a la ventana anterior
+	 * @param boton
+	 */
+	private void addManejadorBotonAtras(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login login = new Login();
+				login.mostrarVentana(frame);
+				frame.dispose();
+			}
+		});
+		
 	}
 	
 	/**

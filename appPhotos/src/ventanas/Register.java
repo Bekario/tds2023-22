@@ -410,7 +410,7 @@ public class Register {
 	}
 	
 	/**
-	 * Controlamos el evento de registro
+	 * Controlamos el evento de volver a la ventana anterior
 	 * @param boton
 	 */
 	private void addManejadorBotonAtras(JButton boton) {
