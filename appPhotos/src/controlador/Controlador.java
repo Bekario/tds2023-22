@@ -15,7 +15,8 @@ import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
 import modelo.Variables;
-
+import persistencia.AdaptadorUsuarioTDS;
+import persistencia.FactoriaDAO;
 import ventanas.Register2;
 
 public class Controlador {
@@ -52,7 +53,9 @@ public class Controlador {
 	}
 
 	public boolean esUsuarioRegistrado(String login) {
-		return RepoUsuarios.getUnicaInstancia().getUsuario(login) != null;
+		//TODO
+		//return RepoUsuarios.getUnicaInstancia().getUsuario(login) != null;
+		return false;
 	}
 
 	public boolean loginUsuario(String nombre, String password) {
@@ -86,17 +89,25 @@ public class Controlador {
 		return true;
 	}
 	
-	public boolean registrarUsuario(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento, String perfil, String descripcion) {
-		if (esUsuarioRegistrado(usuario)) {
-			return false;
-		}
-		Usuario user = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, perfil, descripcion);
+	/**
+	 * Este metodo añade la foto de perfil y la descripcion al usuario parcial anterior.
+	 * Tambien lo introduce en la base de datos
+	 * @param perfil
+	 * @param descripcion
+	 * @return
+	 */
+	public void finalizarRegistroUsuario(String perfil, String descripcion) {
+		usuarioActual.setDescripcion(descripcion);
+		usuarioActual.setPerfil(perfil);
 
-		UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
-		usuarioDAO.create(usuario);
-
-		RepoUsuarios.getUnicaInstancia().addUsuario(usuario);
-		return true;
+		//Obtenemos el adaptador de usuario
+		AdaptadorUsuarioTDS usuarioDAO = (AdaptadorUsuarioTDS) FactoriaDAO.getInstancia().getUsuarioDAO(); /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
+		
+		//Registramos al usuario en la base de datos
+		usuarioDAO.registrarUsuario(usuarioActual);
+		/*
+		//Lo añadimos en el repositorio de usuarios
+		RepoUsuarios.getUnicaInstancia().addUsuario(usuario);*/
 	}
 
 	public boolean borrarUsuario(Usuario usuario) {
@@ -108,11 +119,6 @@ public class Controlador {
 
 		CatalogoUsuarios.getUnicaInstancia().removeUsuario(usuario);
 		return true;
-	}
-	
-	
-	public void registrarUsuario(Usuario usuario) {
-		//TODO
 	}
 	
 	public void añadirPublicacion(Publicacion publicacion) {

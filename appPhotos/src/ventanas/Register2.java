@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 
 import controlador.Controlador;
+import modelo.Usuario;
 
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
@@ -83,7 +84,7 @@ public class Register2 {
 	/**
 	 * Muestra la ventana
 	 */
-	public void mostrarVentana(JFrame padre,) {
+	public void mostrarVentana(JFrame padre) {
 		frame.setLocationRelativeTo(padre);
 		frame.setVisible(true);
 		frame.getRootPane().requestFocus(false);
@@ -353,6 +354,14 @@ public class Register2 {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Register register = new Register();
+				
+				//Vamos a sacar los datos del usuario parcial generado para rellenar los campos
+				Usuario user = Controlador.getInstancia().getUsuarioActual();
+				
+				//Rellenamos los campos con los datos anteriores
+				register.rellenarCampos(user.getUsuario(), user.getContraseña(), user.getEmail(), user.getNombreCompleto(), user.getFechaNacimiento());
+				
+				//Mostramos la ventana
 				register.mostrarVentana(frame);
 				frame.dispose();
 			}

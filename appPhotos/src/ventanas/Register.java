@@ -25,6 +25,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,11 +41,12 @@ import controlador.Controlador;
 
 public class Register {
 	private JFrame frame;
-	private JTextField email;
+	private JTextField txtEmail;
 	private JTextField nombre;
-	private JTextField usuario;
-	private JPasswordField contraseña;
-	private JPasswordField confirmar_contraseña;
+	private JTextField txtNombre;
+	private JTextField txtUsuario;
+	private JPasswordField txtContraseña;
+	private JPasswordField txtConfirmar_contraseña;
 	private JButton btnMostrarPass;
 	private JButton btnMostrarPass2;
 	private JButton btnLogin;
@@ -118,15 +120,15 @@ public class Register {
 	 */
 	private void establecerTitulo() {
 		
-		JLabel nombreApp = new JLabel("appPhotos");
-		nombreApp.setForeground(new Color(233, 233, 233));
-		nombreApp.setIcon(null);
-		nombreApp.setFont(new Font("Serif", Font.BOLD, 40));
-		GridBagConstraints gbc_nombreApp = new GridBagConstraints();
-		gbc_nombreApp.insets = new Insets(0, 0, 5, 5);
-		gbc_nombreApp.gridx = 2;
-		gbc_nombreApp.gridy = 1;
-		frame.getContentPane().add(nombreApp, gbc_nombreApp);
+		JLabel lblNombreApp = new JLabel("appPhotos");
+		lblNombreApp.setForeground(new Color(233, 233, 233));
+		lblNombreApp.setIcon(null);
+		lblNombreApp.setFont(new Font("Serif", Font.BOLD, 40));
+		GridBagConstraints gbc_lblNombreApp = new GridBagConstraints();
+		gbc_lblNombreApp.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNombreApp.gridx = 2;
+		gbc_lblNombreApp.gridy = 1;
+		frame.getContentPane().add(lblNombreApp, gbc_lblNombreApp);
 	}
 	
 	/**
@@ -134,19 +136,19 @@ public class Register {
 	 */
 	private void establecerEmail() {
 		
-		email = new JTextField();
-		email.setText("Email");
-		email.setToolTipText("");
+		txtEmail = new JTextField();
+		txtEmail.setText("Email");
+		txtEmail.setToolTipText("");
 
-		GridBagConstraints gbc_email = new GridBagConstraints();
-		gbc_email.insets = new Insets(0, 0, 5, 5);
-		gbc_email.fill = GridBagConstraints.HORIZONTAL;
-		gbc_email.gridx = 2;
-		gbc_email.gridy = 3;
-		frame.getContentPane().add(email, gbc_email);
-		email.setColumns(10);
+		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
+		gbc_txtEmail.insets = new Insets(0, 0, 5, 5);
+		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtEmail.gridx = 2;
+		gbc_txtEmail.gridy = 3;
+		frame.getContentPane().add(txtEmail, gbc_txtEmail);
+		txtEmail.setColumns(10);
 		
-		addManejadorTextos(email, "Email");
+		addManejadorTextos(txtEmail, "Email");
 	}
 	
 	/**
@@ -178,18 +180,18 @@ public class Register {
 	 */
 	private void establecerNombre() {
 		nombre = new JTextField();
-		nombre = new JTextField();
-		nombre.setText("Nombre");
-		nombre.setToolTipText("");
-		GridBagConstraints gbc_nombre = new GridBagConstraints();
-		gbc_nombre.insets = new Insets(0, 0, 5, 5);
-		gbc_nombre.fill = GridBagConstraints.HORIZONTAL;
-		gbc_nombre.gridx = 2;
-		gbc_nombre.gridy = 4;
-		frame.getContentPane().add(nombre, gbc_nombre);
-		nombre.setColumns(10);
+		txtNombre = new JTextField();
+		txtNombre.setText("Nombre");
+		txtNombre.setToolTipText("");
+		GridBagConstraints gbc_txtNombre = new GridBagConstraints();
+		gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
+		gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNombre.gridx = 2;
+		gbc_txtNombre.gridy = 4;
+		frame.getContentPane().add(txtNombre, gbc_txtNombre);
+		txtNombre.setColumns(10);
 		
-		addManejadorTextos(nombre, "Nombre");
+		addManejadorTextos(txtNombre, "Nombre");
 	}
 	
 	/**
@@ -197,18 +199,18 @@ public class Register {
 	 */
 	private void establecerUsuario() {
 		
-		usuario = new JTextField();
-		usuario.setText("Usuario");
-		usuario.setToolTipText("");
-		GridBagConstraints gbc_usuario = new GridBagConstraints();
-		gbc_usuario.insets = new Insets(0, 0, 5, 5);
-		gbc_usuario.fill = GridBagConstraints.HORIZONTAL;
-		gbc_usuario.gridx = 2;
-		gbc_usuario.gridy = 6;
-		frame.getContentPane().add(usuario, gbc_usuario);
-		usuario.setColumns(10);
+		txtUsuario = new JTextField();
+		txtUsuario.setText("Usuario");
+		txtUsuario.setToolTipText("");
+		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
+		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUsuario.gridx = 2;
+		gbc_txtUsuario.gridy = 6;
+		frame.getContentPane().add(txtUsuario, gbc_txtUsuario);
+		txtUsuario.setColumns(10);
 		
-		addManejadorTextos(usuario, "Usuario");
+		addManejadorTextos(txtUsuario, "Usuario");
 	}
 	
 	/**
@@ -254,17 +256,17 @@ public class Register {
 	 * Crea los field contraseña y confirmar contraseña y sus botones
 	 */
 	private void establecerContraseñasYBotones() {
-		contraseña = new JPasswordField();
-		contraseña.setText("Contraseña");
-		contraseña.setEchoChar((char) 0);
-		GridBagConstraints gbc_contraseña = new GridBagConstraints();
-		gbc_contraseña.insets = new Insets(0, 0, 5, 5);
-		gbc_contraseña.fill = GridBagConstraints.HORIZONTAL;
-		gbc_contraseña.gridx = 2;
-		gbc_contraseña.gridy = 7;
-		frame.getContentPane().add(contraseña, gbc_contraseña);
+		txtContraseña = new JPasswordField();
+		txtContraseña.setText("Contraseña");
+		txtContraseña.setEchoChar((char) 0);
+		GridBagConstraints gbc_txtContraseña = new GridBagConstraints();
+		gbc_txtContraseña.insets = new Insets(0, 0, 5, 5);
+		gbc_txtContraseña.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtContraseña.gridx = 2;
+		gbc_txtContraseña.gridy = 7;
+		frame.getContentPane().add(txtContraseña, gbc_txtContraseña);
 
-		confirmar_contraseña = new JPasswordField();
+		txtConfirmar_contraseña = new JPasswordField();
 		btnMostrarPass = new JButton("");
 		btnMostrarPass.setBorderPainted(false);
 		btnMostrarPass.setContentAreaFilled(false);
@@ -278,14 +280,14 @@ public class Register {
 		gbc_btnMostrarPass.gridx = 3;
 		gbc_btnMostrarPass.gridy = 7;
 		frame.getContentPane().add(btnMostrarPass, gbc_btnMostrarPass);
-		confirmar_contraseña.setText("Confirmar Contraseña");
-		confirmar_contraseña.setEchoChar((char) 0);
-		GridBagConstraints gbc_confirmar_contraseña = new GridBagConstraints();
-		gbc_confirmar_contraseña.insets = new Insets(0, 0, 5, 5);
-		gbc_confirmar_contraseña.fill = GridBagConstraints.HORIZONTAL;
-		gbc_confirmar_contraseña.gridx = 2;
-		gbc_confirmar_contraseña.gridy = 8;
-		frame.getContentPane().add(confirmar_contraseña, gbc_confirmar_contraseña);
+		txtConfirmar_contraseña.setText("Confirmar Contraseña");
+		txtConfirmar_contraseña.setEchoChar((char) 0);
+		GridBagConstraints gbc_txtConfirmar_contraseña = new GridBagConstraints();
+		gbc_txtConfirmar_contraseña.insets = new Insets(0, 0, 5, 5);
+		gbc_txtConfirmar_contraseña.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtConfirmar_contraseña.gridx = 2;
+		gbc_txtConfirmar_contraseña.gridy = 8;
+		frame.getContentPane().add(txtConfirmar_contraseña, gbc_txtConfirmar_contraseña);
 		
 		btnMostrarPass2 = new JButton("");
 		btnMostrarPass2.setBorderPainted(false);
@@ -299,11 +301,11 @@ public class Register {
 		gbc_btnMostrarPass2.gridy = 8;
 		frame.getContentPane().add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
-		addManejadorConstraseña(contraseña, "Contraseña");
-		addManejadorConstraseña(confirmar_contraseña, "Confirmar Contraseña");
+		addManejadorConstraseña(txtContraseña, "Contraseña");
+		addManejadorConstraseña(txtConfirmar_contraseña, "Confirmar Contraseña");
 		
-		addManejadorBotonesMostrarContraseña(btnMostrarPass, contraseña, "Contraseña");
-		addManejadorBotonesMostrarContraseña(btnMostrarPass2, confirmar_contraseña, "Confirmar Contraseña");
+		addManejadorBotonesMostrarContraseña(btnMostrarPass, txtContraseña, "Contraseña");
+		addManejadorBotonesMostrarContraseña(btnMostrarPass2, txtConfirmar_contraseña, "Confirmar Contraseña");
 	}
 	
 	/**
@@ -403,11 +405,15 @@ public class Register {
 	private void addManejadorBotonContinuar(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Si todos los campos son correctos
 				if (checkFields()) {
-					if (Controlador.getInstancia().registroUsuarioParcial(usuario.getText(), contraseña.getText(), email.getText(), nombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
+					//Intentamos registrar parcialmente el usuario
+					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), txtContraseña.getText(), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
 						Register2 registro2 = new Register2();
 						registro2.mostrarVentana(frame);
 						frame.dispose();
+					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
+						JOptionPane.showMessageDialog(frame, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
 					}
 				}
 			}
@@ -458,33 +464,33 @@ public class Register {
 		boolean estado = true;
 		Pattern regexEmail = Pattern.compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
 		Pattern regexPass = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{3,16}$");
-		Matcher match = regexEmail.matcher(email.getText());
+		Matcher match = regexEmail.matcher(txtEmail.getText());
 		
 		String info = "";
 		
 		//Comprobamos si es un correo basico
-		if(email.getText().equals("Email") /*|| !match.matches()*/) {
+		if(txtEmail.getText().equals("Email") /*|| !match.matches()*/) {
 			estado = false;
 			info = "¡El email no es valido!";
 		}
 		
-		if(nombre.getText().equals("Nombre")) {
+		if(txtNombre.getText().equals("Nombre")) {
 			estado = false;
 			info = "¡El nombre no es valido!";
 		}
 		
-		if(usuario.getText().equals("Usuario")) {
+		if(txtUsuario.getText().equals("Usuario")) {
 			estado = false;
 			info = "¡El nombre de usuario no es valido!";
 		}
 		
-		match = regexPass.matcher(new String(contraseña.getPassword()));
-		if(new String(contraseña.getPassword()).equals("Contraseña") /*|| !match.matches()*/) {
+		match = regexPass.matcher(new String(txtContraseña.getPassword()));
+		if(new String(txtContraseña.getPassword()).equals("Contraseña") /*|| !match.matches()*/) {
 			estado = false;
 			info = "¡La contraseña no es valida!\nUna contraseña valida contiene 3-16 caracteres y mínimo una minúscula, mayúscula y dígito.";
 		}
 		
-		if(new String(confirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || confirmar_contraseña.getPassword().equals(contraseña.getPassword())) {
+		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || txtConfirmar_contraseña.getPassword().equals(txtContraseña.getPassword())) {
 			estado = false;
 			info = "¡Las contraseñas no son iguales!";
 		}
@@ -499,6 +505,15 @@ public class Register {
 		}
 		
 		return estado;
+	}
+	
+	public void rellenarCampos(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento) {
+		txtContraseña.setText(contraseña);
+		txtContraseña.setEchoChar('●'); //Ocultamos la contraseña
+		txtUsuario.setText(usuario);
+		txtEmail.setText(email);
+		txtNombre.setText(nombreCompleto);
+		dateChooser.setDate(Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 	}
 	
 }
