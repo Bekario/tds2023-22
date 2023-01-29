@@ -83,7 +83,7 @@ public class Register2 {
 	/**
 	 * Muestra la ventana
 	 */
-	public void mostrarVentana(JFrame padre) {
+	public void mostrarVentana(JFrame padre,) {
 		frame.setLocationRelativeTo(padre);
 		frame.setVisible(true);
 		frame.getRootPane().requestFocus(false);
@@ -352,8 +352,8 @@ public class Register2 {
 	private void addManejadorBotonAtras(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
-				login.mostrarVentana(frame);
+				Register register = new Register();
+				register.mostrarVentana(frame);
 				frame.dispose();
 			}
 		});

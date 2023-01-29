@@ -34,6 +34,8 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
+import controlador.Controlador;
+
 public class Register {
 	private JFrame frame;
 	private JTextField email;
@@ -400,9 +402,11 @@ public class Register {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (checkFields()) {
-					Register2 registro2 = new Register2();
-					registro2.mostrarVentana(frame);
-					frame.dispose();
+					if (Controlador.getInstancia().registroUsuarioParcial(usuario.getText(), contraseña.getText(), null, null, null)){
+						Register2 registro2 = new Register2();
+						registro2.mostrarVentana(frame);
+						frame.dispose();
+					}
 				}
 			}
 		});

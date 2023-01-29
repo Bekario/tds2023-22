@@ -63,7 +63,29 @@ public class Controlador {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Esto se ejecuta para completar la ventana de register y permitir obtener los datos al volver atras
+	 * @param usuario
+	 * @param contraseña
+	 * @param email
+	 * @param nombreCompleto
+	 * @param fechaNacimiento
+	 * @return
+	 */
+	public boolean registroUsuarioParcial(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento) {
+		//Comprobamos si el nombre de usuario esta ya registrado
+		if (esUsuarioRegistrado(usuario)) {
+			return false;
+		}
+		//Creamos un usuario provisional sin descripcion ni imagen de perfil
+		Usuario user = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, "", "");
+		
+		//Lo establecemos como usuario actual
+		usuarioActual = user;
+		return true;
+	}
+	
 	public boolean registrarUsuario(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento, String perfil, String descripcion) {
 		if (esUsuarioRegistrado(usuario)) {
 			return false;
