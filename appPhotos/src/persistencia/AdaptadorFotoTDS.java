@@ -249,12 +249,12 @@ public class AdaptadorFotoTDS implements IAdaptadorFotoDAO {
 	 */
 	private LocalDate obtenerFechaDesdeString(String fechaS) {
 
-		StringTokenizer strTok = new StringTokenizer(fechaS, "/");
+		StringTokenizer strTok = new StringTokenizer(fechaS, "-");
 
-		int año = (int) strTok.nextElement();
-		int mes = (int) strTok.nextElement();
-		int dia = (int) strTok.nextElement();
-		return LocalDate.of(año, mes, dia);
+		int year = Integer.valueOf((String) strTok.nextElement());
+		int mes = Integer.valueOf((String) strTok.nextElement());
+		int dia = Integer.valueOf((String) strTok.nextElement());
+		return LocalDate.of(year, mes, dia);
 	}
 	
 
