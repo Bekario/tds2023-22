@@ -17,9 +17,15 @@ public class Foto extends Publicacion{
 	public String getPath() {
 		return path;
 	}
+	
+	public void setPath(String path) {
+		this.path = path;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
+		if (super.equals(obj) == false)
+			return false;
 		if (this == obj)
 			return true;
 		if (obj == null)

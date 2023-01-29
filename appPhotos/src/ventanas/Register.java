@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -402,7 +404,7 @@ public class Register {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (checkFields()) {
-					if (Controlador.getInstancia().registroUsuarioParcial(usuario.getText(), contraseña.getText(), null, null, null)){
+					if (Controlador.getInstancia().registroUsuarioParcial(usuario.getText(), contraseña.getText(), email.getText(), nombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
 						Register2 registro2 = new Register2();
 						registro2.mostrarVentana(frame);
 						frame.dispose();

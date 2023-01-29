@@ -140,7 +140,7 @@ public class PersistenciaTest {
 		
 		//Recuperamos la notificacion
 		Notificacion recuperado = n.recuperarNotificacion(notificacion.getCodigo());
-		
+		recuperado.getPublicacion().setMegusta(10);
 		//Comprobamos que todos los campos coincidan
 		assertEquals("La fecha no coincide", notificacion.getFecha(), recuperado.getFecha());
 		assertEquals("La publicacion no coincide", notificacion.getPublicacion(), recuperado.getPublicacion());

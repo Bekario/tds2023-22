@@ -26,6 +26,8 @@ public class Album extends Publicacion {
 
 	@Override
 	public boolean equals(Object obj) {
+		if (super.equals(obj) == false)
+			return false;
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
