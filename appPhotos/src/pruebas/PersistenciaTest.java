@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import modelo.Album;
 import modelo.Comentario;
 import modelo.Foto;
 import modelo.Usuario;
@@ -28,6 +29,7 @@ public class PersistenciaTest {
 	private static Comentario comentario;
 	private static Foto foto;
 	private static ArrayList<String> hashtags;
+	private static Album album;
 	
 	@BeforeClass
 	public static void prepararTests() {
@@ -42,6 +44,7 @@ public class PersistenciaTest {
 		hashtags.add("Familia");
 		hashtags.add("Buenrollo");	
 		foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hashtags, usuario, "foto"); 
+		album = new Album("Paris", "Viaje familiar a paris", LocalDate.of(2023, 1, 1), hashtags, usuario);
 		
 		System.out.println("Tests preparados.");
 	}
@@ -80,26 +83,50 @@ public class PersistenciaTest {
 		
 		assertEquals("El comentario no coincide",comentario.getTexto(), recuperado.getTexto());
 		
-		
+		System.out.println("Test basico ComentarioDAO superado!");
 	}
 	
 	@Test
 	public void testFotoDAO() {
 		AdaptadorFotoTDS f = (AdaptadorFotoTDS) factoria.getFotoDAO();
 		
-		//Registramos comentario
-		c.registrarComentario(comentario);
+		//Registramos foto
+		f.registrarFoto(foto);
 		
-		//Recuperamos comentario
-		Comentario recuperado = c.recuperarComentario(comentario.getCodigo());
+		//Recuperamos foto
+		Foto recuperado = f.recuperarFoto(foto.getCodigo());
 		
-		assertEquals("El comentario no coincide","Muy buena foto crack. Saludos desde chile!!", recuperado.getTexto());
+		assertEquals("El titulo no coincide",foto.getTitulo(), recuperado.getTitulo());
+		assertEquals("La descripcion no coincide",foto.getDescripcion(), recuperado.getDescripcion());
+		assertEquals("La fecha no coincide",foto.getFecha(), recuperado.getFecha());
+		assertEquals("Los hashtags no coinciden",foto.getHashtags(), recuperado.getHashtags());
+		assertEquals("El usuario no coincide",foto.getUsuario(), recuperado.getUsuario());
+		assertEquals("La ruta no coincide",foto.getPath(), recuperado.getPath());
+		
+		System.out.println("Test basico FotoDAO superado!");
+
 	}
 	
 	
 	@Test
 	public void testAlbumDAO() {
-		fail("Not yet implemented");
+		AdaptadorAlbumTDS a = (AdaptadorAlbumTDS)factoria.getAlbumDAO();
+		
+		//Registramos album
+		a.registrarAlbum(album);
+		
+		//Recuperamos album
+		Album recuperado = a.recuperarAlbum(album.getCodigo());
+		
+		assertEquals("El titulo no coincide",album.getTitulo(), recuperado.getTitulo());
+		assertEquals("La descripcion no coincide",album.getDescripcion(), recuperado.getDescripcion());
+		assertEquals("La fecha no coincide",album.getFecha(), recuperado.getFecha());
+		assertEquals("Los hashtags no coinciden",album.getHashtags(), recuperado.getHashtags());
+		assertEquals("El usuario no coincide",album.getUsuario(), recuperado.getUsuario());
+
+		
+		System.out.println("Test basico AlbumDAO superado!");
+		
 	}
 	
 	@Test
