@@ -13,6 +13,7 @@ import org.junit.Test;
 import modelo.Album;
 import modelo.Comentario;
 import modelo.Foto;
+import modelo.Notificacion;
 import modelo.Usuario;
 import persistencia.AdaptadorAlbumTDS;
 import persistencia.AdaptadorComentarioTDS;
@@ -30,6 +31,7 @@ public class PersistenciaTest {
 	private static Foto foto;
 	private static ArrayList<String> hashtags;
 	private static Album album;
+	private static Notificacion notificacion;
 	
 	@BeforeClass
 	public static void prepararTests() {
@@ -45,6 +47,7 @@ public class PersistenciaTest {
 		hashtags.add("Buenrollo");	
 		foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hashtags, usuario, "foto"); 
 		album = new Album("Paris", "Viaje familiar a paris", LocalDate.of(2023, 1, 1), hashtags, usuario);
+		notificacion = new Notificacion(LocalDate.of(2023, 1, 1), foto);
 		
 		System.out.println("Tests preparados.");
 	}
@@ -132,20 +135,15 @@ public class PersistenciaTest {
 	public void testNotificacionDAO() {
 		AdaptadorNotificacionTDS n = (AdaptadorNotificacionTDS) factoria.getNotificacionDAO();
 		
-		//Registramos un usuario
-		n.registrarNotificacion(null);
+		//Registramos la notificacion
+		n.registrarNotificacion(notificacion);
 		
-		//Recuperamos el usuario
-		Usuario recuperado = n.recuperarUsuario(usuario.getCodigo());
+		//Recuperamos la notificacion
+		Notificacion recuperado = n.recuperarNotificacion(notificacion.getCodigo());
 		
 		//Comprobamos que todos los campos coincidan
-		assertEquals("El usuario no coincide", usuario.getUsuario(), recuperado.getUsuario());
-		assertEquals("La contraseña no coincide", usuario.getContraseña(), recuperado.getContraseña());
-		assertEquals("El email no coincide", usuario.getEmail(), recuperado.getEmail());
-		assertEquals("El nombre completo no coincide", usuario.getNombreCompleto(), recuperado.getNombreCompleto());
-		assertEquals("La fecha de nacimiento no coincide", usuario.getFechaNacimiento(), recuperado.getFechaNacimiento());
-		assertEquals("La imagen de perfil no coincide", usuario.getPerfil(), recuperado.getPerfil());
-		assertEquals("La descripcion no coincide", usuario.getDescripcion(), recuperado.getDescripcion());
+		assertEquals("La fecha no coincide", notificacion.getFecha(), recuperado.getFecha());
+		assertEquals("La publicacion no coincide", notificacion.getPublicacion(), recuperado.getPublicacion());
 		
 		System.out.println("Test basico NotificacionDAO superado!");
 	}

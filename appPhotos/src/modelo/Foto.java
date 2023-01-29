@@ -2,6 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class Foto extends Publicacion{
 	private String path;
@@ -15,5 +16,17 @@ public class Foto extends Publicacion{
 	//Metodos get / set
 	public String getPath() {
 		return path;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Foto other = (Foto) obj;
+		return Objects.equals(path, other.path);
 	}
 }

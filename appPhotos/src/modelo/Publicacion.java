@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Publicacion {
 	private Usuario usuario;
@@ -76,6 +77,26 @@ public abstract class Publicacion {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigo, comentarios, descripcion, fecha, hashtags, megusta, titulo, usuario);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Publicacion other = (Publicacion) obj;
+		return codigo == other.codigo && Objects.equals(comentarios, other.comentarios)
+				&& Objects.equals(descripcion, other.descripcion) && Objects.equals(fecha, other.fecha)
+				&& Objects.equals(hashtags, other.hashtags) && megusta == other.megusta
+				&& Objects.equals(titulo, other.titulo) && Objects.equals(usuario, other.usuario);
 	}
 	
 	
