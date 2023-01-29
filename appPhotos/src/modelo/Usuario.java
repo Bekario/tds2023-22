@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Usuario {
 	private int codigo;
@@ -137,5 +138,27 @@ public class Usuario {
 	public void setDescuento(Descuento descuento) {
 		this.descuento = descuento;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return Objects.equals(albums, other.albums) && codigo == other.codigo
+				&& Objects.equals(contraseña, other.contraseña) && Objects.equals(descripcion, other.descripcion)
+				&& Objects.equals(descuento, other.descuento) && Objects.equals(email, other.email)
+				&& Objects.equals(fechaNacimiento, other.fechaNacimiento) && Objects.equals(fotos, other.fotos)
+				&& indicePubliacion == other.indicePubliacion && isPremium == other.isPremium
+				&& Objects.equals(nombreCompleto, other.nombreCompleto)
+				&& Objects.equals(notificaciones, other.notificaciones) && Objects.equals(perfil, other.perfil)
+				&& Objects.equals(usuario, other.usuario)
+				&& Objects.equals(usuariosSeguidores, other.usuariosSeguidores);
+	}
+	
+	
 	
 }
