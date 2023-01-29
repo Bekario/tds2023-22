@@ -37,6 +37,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.UIManager;
 
 
 public class Register2 {
@@ -51,6 +52,7 @@ public class Register2 {
 	
 	private String fotoActual;
 	private final String FOTO_DEFECTO = "/imagenes/face-detection.png";
+	private JButton btnAtras;
 
 	/**
 	 * Launch the application.
@@ -97,9 +99,9 @@ public class Register2 {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 35, 0, 0, 35, 50, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 60, 0, 25, 0, 10, 30, 50, 0, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 60, 0, 25, 0, 10, 30, 50, 50, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		establecerTitulo();
@@ -226,7 +228,23 @@ public class Register2 {
 		gbc_btnRegistrarse.gridy = 8;
 		frame.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
 		
+		//Boton atras
+		btnAtras = new JButton("      ATRÁS      ");
+		btnAtras.setForeground(new Color(218, 200, 41));
+		btnAtras.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnAtras.setBorderPainted(false);
+		btnAtras.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnAtras = new GridBagConstraints();
+		gbc_btnAtras.fill = GridBagConstraints.VERTICAL;
+		gbc_btnAtras.gridwidth = 2;
+		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAtras.gridx = 2;
+		gbc_btnAtras.gridy = 9;
+		frame.getContentPane().add(btnAtras, gbc_btnAtras);
+		
 		addManejadorBotonColor(btnRegistrarse);
+		addManejadorBotonColor(btnAtras);
+		
 		addManejadorBotonBorrar(btnborrar);
 		addManejadorBotonInsertarImagen(btnMeterImg);
 	}

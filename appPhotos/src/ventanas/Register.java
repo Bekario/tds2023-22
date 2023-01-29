@@ -388,6 +388,7 @@ public class Register {
 		addManejadorBotonColor(btnAtras);
 		
 		addManejadorBotonContinuar(btnLogin);
+		addManejadorBotonAtras(btnAtras);
 		
 	}
 	
@@ -403,6 +404,21 @@ public class Register {
 					registro2.mostrarVentana(frame);
 					frame.dispose();
 				}
+			}
+		});
+		
+	}
+	
+	/**
+	 * Controlamos el evento de registro
+	 * @param boton
+	 */
+	private void addManejadorBotonAtras(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login login = new Login();
+				login.mostrarVentana(frame);
+				frame.dispose();
 			}
 		});
 		
