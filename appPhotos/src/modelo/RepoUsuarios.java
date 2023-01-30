@@ -31,8 +31,8 @@ public class RepoUsuarios {
 		return unicaInstancia;
 	}
 	
-	/*devuelve todos los clientes*/
-	public List<Usuario> getUsuario(){
+	/*devuelve todos los usuarios*/
+	public List<Usuario> getUsuarios(){
 		ArrayList<Usuario> lista = new ArrayList<Usuario>();
 		for (Usuario u: usuarios.values()) 
 			lista.add(u);

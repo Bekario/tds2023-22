@@ -18,6 +18,7 @@ import modelo.Variables;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
+import persistencia.IAdaptadorUsuarioDAO;
 import ventanas.Register2;
 
 public class Controlador {
@@ -25,6 +26,7 @@ public class Controlador {
 	private RepoUsuarios repoUsuarios;
 	private RepoPublicaciones repoPublicaciones;
 	private Usuario usuarioActual;
+	private FactoriaDAO factoria;
 	
 	//Numero de MGs necesarios para el descuento
 	private final int ME_GUSTAS = 1000;
@@ -40,6 +42,9 @@ public class Controlador {
 		usuarioActual = null;
 		repoUsuarios = RepoUsuarios.getUnicaInstancia();
 		repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
+		try {
+			factoria = FactoriaDAO.getInstancia();
+		} catch (DAOException e) {}
 	}
 	
 	public static Controlador getInstancia() {
@@ -100,30 +105,31 @@ public class Controlador {
 		usuarioActual.setPerfil(perfil);
 
 		//Obtenemos el adaptador de usuario
-		AdaptadorUsuarioTDS usuarioDAO;
-		try {
-			usuarioDAO = (AdaptadorUsuarioTDS) FactoriaDAO.getInstancia().getUsuarioDAO();
-			//Registramos al usuario en la base de datos
-			usuarioDAO.registrarUsuario(usuarioActual);
-		} catch (DAOException e) {} /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
+		AdaptadorUsuarioTDS usuarioDAO = (AdaptadorUsuarioTDS) factoria.getUsuarioDAO();
 		
-		/*
+		//Registramos al usuario en la base de datos
+		usuarioDAO.registrarUsuario(usuarioActual);
+		
 		//Lo añadimos en el repositorio de usuarios
-		RepoUsuarios.getUnicaInstancia().addUsuario(usuario);*/
+		RepoUsuarios.getUnicaInstancia().addUsuario(usuarioActual);
 	}
 
 	public boolean borrarUsuario(Usuario usuario) {
 		if (!esUsuarioRegistrado(usuario.getUsuario()))
 			return false;
 
-		UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); /* Adaptador DAO para borrar el Usuario de la BD */
-		usuarioDAO.delete(usuario);
+		IAdaptadorUsuarioDAO usuarioDAO = factoria.getUsuarioDAO();
+		usuarioDAO.borrarUsuario(usuario);
 
-		CatalogoUsuarios.getUnicaInstancia().removeUsuario(usuario);
+		RepoUsuarios.getUnicaInstancia().removeUsuario(usuario);
 		return true;
 	}
 	
 	public void añadirPublicacion(Publicacion publicacion) {
+		//TODO
+	}
+	
+	public void borrarPublicacion(Publicacion publicacion) {
 		//TODO
 	}
 	
