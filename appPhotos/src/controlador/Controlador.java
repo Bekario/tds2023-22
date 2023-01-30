@@ -16,6 +16,7 @@ import modelo.RepoUsuarios;
 import modelo.Usuario;
 import modelo.Variables;
 import persistencia.AdaptadorUsuarioTDS;
+import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import ventanas.Register2;
 
@@ -37,8 +38,8 @@ public class Controlador {
 	
 	private Controlador() {
 		usuarioActual = null;
-		//repoUsuarios = new RepoUsuarios();
-		//repoPublicaciones = new RepoPublicaciones();
+		repoUsuarios = RepoUsuarios.getUnicaInstancia();
+		repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
 	}
 	
 	public static Controlador getInstancia() {
@@ -53,9 +54,7 @@ public class Controlador {
 	}
 
 	public boolean esUsuarioRegistrado(String login) {
-		//TODO
-		//return RepoUsuarios.getUnicaInstancia().getUsuario(login) != null;
-		return false;
+		return repoUsuarios.getUsuario(login) != null;
 	}
 
 	public boolean loginUsuario(String nombre, String password) {
@@ -101,10 +100,13 @@ public class Controlador {
 		usuarioActual.setPerfil(perfil);
 
 		//Obtenemos el adaptador de usuario
-		AdaptadorUsuarioTDS usuarioDAO = (AdaptadorUsuarioTDS) FactoriaDAO.getInstancia().getUsuarioDAO(); /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
+		AdaptadorUsuarioTDS usuarioDAO;
+		try {
+			usuarioDAO = (AdaptadorUsuarioTDS) FactoriaDAO.getInstancia().getUsuarioDAO();
+			//Registramos al usuario en la base de datos
+			usuarioDAO.registrarUsuario(usuarioActual);
+		} catch (DAOException e) {} /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
 		
-		//Registramos al usuario en la base de datos
-		usuarioDAO.registrarUsuario(usuarioActual);
 		/*
 		//Lo añadimos en el repositorio de usuarios
 		RepoUsuarios.getUnicaInstancia().addUsuario(usuario);*/
