@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class JPanelBackground extends JPanel {
+	public JPanelBackground() {
+	}
 
 	private static final long serialVersionUID = 1L;
 	// Atributo que guardara la imagen de Background que le pasemos.

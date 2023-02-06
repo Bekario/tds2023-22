@@ -15,6 +15,7 @@ public class RepositoriosTest {
 	private static Usuario u1;
 	private static Usuario u2;
 	private static Usuario u3;
+	private static RepoUsuarios repositorio;
 	private static ArrayList<Usuario> listaUsuarios;
 	
 	@BeforeClass
@@ -32,45 +33,54 @@ public class RepositoriosTest {
 		listaUsuarios.add(u3);
 		
 		System.out.println("Tests preparados.");
-	}
 	
-	@Test
-	public void testRepoUsuarios() {
 		//Obtenemos el repositorio
 		RepoUsuarios repositorio = RepoUsuarios.getUnicaInstancia();
 		
 		//Añadimos dos usuarios
 		repositorio.addUsuario(u1);
 		repositorio.addUsuario(u2);
-		
+	}
+	
+	@Test
+	public void testRepoUsuariosRecuperaCodigo() {
 		//Compruebo si se recupera correctamente el usuario con codigo
 		Usuario aux = repositorio.getUsuario(u1.getCodigo());
 		assertEquals("El usuario no se recupera correctamente con el codigo.", u1, aux);
-		
+	}
+	@Test
+	public void testRepoUsuariosRecuperaNombre() {
 		//Compruebo si se recupera correctamente el usuario con su nombre de usuario
-		aux = repositorio.getUsuario(u2.getUsuario());
+		Usuario aux = repositorio.getUsuario(u2.getUsuario());
 		assertEquals("El usuario no se recupera correctamente con el nombre de usuario.", u2, aux);
-		
+	}
+	@Test
+	public void testRepoUsuariosRecuperaUsuarioInexistente() {
 		//Compruebo que cuando se intenta obtener un usuario que no estaba, sea null
-		aux = repositorio.getUsuario(u3.getCodigo());
+		Usuario aux = repositorio.getUsuario(u3.getCodigo());
 		assertEquals("El usuario no se recupera correctamente con el codigo cuando no existe.", null, aux);
-		
-		//Compruebo que cuando se intenta obtener un usuario que no estaba con usuario, sea null
-		aux = repositorio.getUsuario(u3.getUsuario());
+	}
+	@Test
+	public void testRepoUsuariosRecuperaNombreInexistente() {
+		//Compruebo que cuando se intenta obtener un usuario que no estaba con su nombre de usuario, sea null
+		Usuario aux = repositorio.getUsuario(u3.getUsuario());
 		assertEquals("El usuario no se recupera correctamente con el codigo cuando no existe.", null, aux);
-		
+	}
+	@Test
+	public void testRepoUsuariosRecuperaTodosUsuarios() {
 		//Meto el tercer usuario
 		repositorio.addUsuario(u3);
 		
 		//Compruebo que esten todos los usuarios al obtener la lista
 		ArrayList<Usuario> listaAux = (ArrayList<Usuario>) repositorio.getUsuarios();
 		assertArrayEquals("No se recuperan correctamente todos los usuarios.", listaUsuarios.toArray(), listaAux.toArray());
-		
+	}
+	@Test
+	public void testRepoUsuariosBorrarUsuario() {
 		//Compruebo que cuando se elimina un usuario, no esta
 		repositorio.removeUsuario(u2);
-		aux = repositorio.getUsuario(u2.getUsuario());
+		Usuario aux = repositorio.getUsuario(u2.getUsuario());
 		assertEquals("El usuario no se recupera correctamente con el codigo cuando no existe.", null, aux);
-		
 		
 	}
 

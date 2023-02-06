@@ -3,6 +3,7 @@ package ventanas;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -15,7 +16,7 @@ import javax.swing.UIManager;
 
 import modelo.Usuario;
 
-public class JListCellRenderer extends JFrame {
+public class JListCellRenderer extends JPanel{
 
 	/**
 	 * 
