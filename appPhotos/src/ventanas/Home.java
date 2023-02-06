@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Color;
 import javax.swing.JPanel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Home {
 
@@ -77,9 +79,9 @@ public class Home {
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		
-		
-		establecerBotones();
+		establecerBarraSuperior();
 		establecerBarraInferior();
+		establecerPanelMedio();
 		establecerUsuarioEmail();
 	}
 	
@@ -89,116 +91,6 @@ public class Home {
 	 * Establece la barra inferior y labels
 	 */
 	private void establecerBarraInferior() {
-		
-		JPanel barraSuperior = new JPanel();
-		barraSuperior.setBackground(Color.LIGHT_GRAY);
-		GridBagConstraints gbc_barraSuperior = new GridBagConstraints();
-		gbc_barraSuperior.insets = new Insets(0, 0, 5, 0);
-		gbc_barraSuperior.fill = GridBagConstraints.BOTH;
-		gbc_barraSuperior.gridx = 0;
-		gbc_barraSuperior.gridy = 0;
-		frame.getContentPane().add(barraSuperior, gbc_barraSuperior);
-		GridBagLayout gbl_barraSuperior = new GridBagLayout();
-		gbl_barraSuperior.columnWidths = new int[]{10, 0, 0, 0, 10, 0};
-		gbl_barraSuperior.rowHeights = new int[]{0, 0};
-		gbl_barraSuperior.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_barraSuperior.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-		barraSuperior.setLayout(gbl_barraSuperior);
-		
-		JLabel Titulo = new JLabel("appPhotos");
-		Titulo.setForeground(new Color(0, 0, 0));
-		Titulo.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 18));
-		GridBagConstraints gbc_Titulo = new GridBagConstraints();
-		gbc_Titulo.anchor = GridBagConstraints.WEST;
-		gbc_Titulo.insets = new Insets(0, 0, 0, 5);
-		gbc_Titulo.gridx = 1;
-		gbc_Titulo.gridy = 0;
-		barraSuperior.add(Titulo, gbc_Titulo);
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 1;
-		frame.getContentPane().add(panel_1, gbc_panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 35, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/imagenes/ParticipantImageServlet.jpg")));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		panel_1.add(lblNewLabel, gbc_lblNewLabel);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(128, 128, 255));
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 1;
-		panel_1.add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{15, 0, 40, 0, 40, 0, 0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
-		
-		JLabel btnLike = new JLabel("");
-		
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/frezze.png"));
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		btnLike.setIcon(icono);
-		
-
-		GridBagConstraints gbc_btnLike = new GridBagConstraints();
-		gbc_btnLike.insets = new Insets(0, 0, 0, 5);
-		gbc_btnLike.gridx = 1;
-		gbc_btnLike.gridy = 0;
-		panel.add(btnLike, gbc_btnLike);
-		
-		JLabel numLikes = new JLabel("14 ");
-		numLikes.setForeground(new Color(0, 0, 0));
-		numLikes.setFont(new Font("Impact", Font.PLAIN, 11));
-		GridBagConstraints gbc_numLikes = new GridBagConstraints();
-		gbc_numLikes.anchor = GridBagConstraints.WEST;
-		gbc_numLikes.insets = new Insets(0, 0, 0, 5);
-		gbc_numLikes.gridx = 2;
-		gbc_numLikes.gridy = 0;
-		panel.add(numLikes, gbc_numLikes);
-		
-		JLabel btnComentario = new JLabel("");
-		btnComentario.setIcon(new ImageIcon(Home.class.getResource("/imagenes/mensaje.png")));
-		GridBagConstraints gbc_btnComentario = new GridBagConstraints();
-		gbc_btnComentario.insets = new Insets(0, 0, 0, 5);
-		gbc_btnComentario.gridx = 3;
-		gbc_btnComentario.gridy = 0;
-		panel.add(btnComentario, gbc_btnComentario);
-		
-		JLabel numComentarios = new JLabel("69");
-		numComentarios.setForeground(new Color(0, 0, 0));
-		numComentarios.setFont(new Font("Impact", Font.PLAIN, 11));
-		GridBagConstraints gbc_numComentarios = new GridBagConstraints();
-		gbc_numComentarios.anchor = GridBagConstraints.WEST;
-		gbc_numComentarios.insets = new Insets(0, 0, 0, 5);
-		gbc_numComentarios.gridx = 4;
-		gbc_numComentarios.gridy = 0;
-		panel.add(numComentarios, gbc_numComentarios);
-		
-		JLabel nombre_usuario = new JLabel("usuario_nombre");
-		nombre_usuario.setForeground(new Color(0, 0, 0));
-		GridBagConstraints gbc_nombre_usuario = new GridBagConstraints();
-		gbc_nombre_usuario.insets = new Insets(0, 0, 0, 5);
-		gbc_nombre_usuario.gridx = 5;
-		gbc_nombre_usuario.gridy = 0;
-		panel.add(nombre_usuario, gbc_nombre_usuario);
-		
 		JPanel barraInferior = new JPanel();
 		barraInferior.setBackground(new Color(192, 192, 192));
 		GridBagConstraints gbc_barraInferior = new GridBagConstraints();
@@ -243,6 +135,43 @@ public class Home {
 		barraInferior.add(btnPerfil, gbc_btnPerfil);
 	}
 	
+	private void establecerBarraSuperior() {
+		JPanel barraSuperior = new JPanel();
+		barraSuperior.setBackground(Color.LIGHT_GRAY);
+		GridBagConstraints gbc_barraSuperior = new GridBagConstraints();
+		gbc_barraSuperior.insets = new Insets(0, 0, 5, 0);
+		gbc_barraSuperior.fill = GridBagConstraints.BOTH;
+		gbc_barraSuperior.gridx = 0;
+		gbc_barraSuperior.gridy = 0;
+		frame.getContentPane().add(barraSuperior, gbc_barraSuperior);
+		GridBagLayout gbl_barraSuperior = new GridBagLayout();
+		gbl_barraSuperior.columnWidths = new int[]{10, 0, 0, 0, 10, 0};
+		gbl_barraSuperior.rowHeights = new int[]{0, 0};
+		gbl_barraSuperior.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_barraSuperior.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		barraSuperior.setLayout(gbl_barraSuperior);
+		
+		JLabel Titulo = new JLabel("appPhotos");
+		Titulo.setForeground(new Color(0, 0, 0));
+		Titulo.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 18));
+		GridBagConstraints gbc_Titulo = new GridBagConstraints();
+		gbc_Titulo.anchor = GridBagConstraints.WEST;
+		gbc_Titulo.insets = new Insets(0, 0, 0, 5);
+		gbc_Titulo.gridx = 1;
+		gbc_Titulo.gridy = 0;
+		barraSuperior.add(Titulo, gbc_Titulo);
+	}
+	
+	private void establecerPanelMedio() {
+		JPanel panel = new PanelBuscar();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 1;
+		frame.getContentPane().add(panel, gbc_panel);
+	}
+	
 	/**
 	 * Establece los campos para introducir el usuario e email
 	 */
@@ -250,46 +179,5 @@ public class Home {
 		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/mostrarcont.png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
 	}
-	
-	/**
-	 * Gestiona las animaciones del campo usuario
-	 * @param txtUser Campo de usuario
-	 */
-	private void addManejadorUsuario(JTextField txtUser) {
-	}
-	
-	/**
-	 * Gestiona las animaciones del campo contraseña
-	 * @param textPasswd Campo de contraseña
-	 */
-	private void addManejadorContraseña(JPasswordField textPasswd) {
-	}
-	
-	/**
-	 * Establece los botones para iniciar sesion y registrarse
-	 */
-	private void establecerBotones() {
-		
-	}
-	
-	private void addManejadorBotonesMostrarContraseña(JButton boton, JPasswordField contraseña, String defecto){
-	}
-
-	private void addManejadorLogin(JButton boton) {
-	}
-	
-	private void addManejadorRegistrarse(JButton boton) {
-	}
-	
-	
-	/**
-	 * Gestiona los cambios de color al pasar el raton encima de un boton
-	 * @param boton Boton que se desea que aplique el efecto
-	 */
-	private void addManejadorBotonColor(JButton boton) {
-	}
-	
-	
-
 
 }
