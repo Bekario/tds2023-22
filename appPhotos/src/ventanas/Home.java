@@ -21,6 +21,8 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class Home {
 
@@ -82,7 +84,6 @@ public class Home {
 		establecerBarraSuperior();
 		establecerBarraInferior();
 		establecerPanelMedio();
-		establecerUsuarioEmail();
 	}
 	
 	
@@ -163,21 +164,16 @@ public class Home {
 	}
 	
 	private void establecerPanelMedio() {
-		JPanel panel = new PanelBuscar();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 1;
-		frame.getContentPane().add(panel, gbc_panel);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		frame.getContentPane().add(scrollPane, gbc_scrollPane);
+		
+		PanelInicio panelInicio = new PanelInicio((Home) null);
+		scrollPane.setViewportView(panelInicio);
 	}
-	
-	/**
-	 * Establece los campos para introducir el usuario e email
-	 */
-	private void establecerUsuarioEmail() {
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/mostrarcont.png"));
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-	}
-
 }
