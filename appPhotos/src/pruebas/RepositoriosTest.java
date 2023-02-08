@@ -163,7 +163,6 @@ public class RepositoriosTest {
 		
 		//Volvemos a añadir al usuario 2 para que no haya problemas con otros tests
 		repositorioP.addPublicacion(p2);
-		
 		assertEquals("El usuario no se recupera correctamente con el codigo cuando no existe.", null, aux);
 		
 	}
