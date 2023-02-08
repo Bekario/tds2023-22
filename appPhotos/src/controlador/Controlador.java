@@ -129,9 +129,23 @@ public class Controlador {
 		return true;
 	}
 	
-	public void añadirPublicacion(Publicacion publicacion) {
-		//TODO
-	}
+	public boolean añadirPublicacion(Publicacion publicacion) {
+		//Comprobamos si la publicacion esta registrada
+		if (esPublicacionRegistrada(publicacion.getCodigo()))
+			return false;
+		
+		//Dependiendo si es una foto o un album utilizamos un adaptador u otro
+		if(publicacion.getClass().getName() == Foto.class.getName()) {
+			IAdaptadorFotoDAO fotoDAO = factoria.getFotoDAO();
+			fotoDAO.registrarFoto((Foto) publicacion);
+		} else {
+			IAdaptadorAlbumDAO albumDAO = factoria.getAlbumDAO();
+			albumDAO.registrarAlbum((Album) publicacion);
+		}
+
+		RepoPublicaciones.getUnicaInstancia().addPublicacion(publicacion);
+		return true;	
+		}
 	
 	public boolean borrarPublicacion(Publicacion publicacion) {
 		//Comprobamos si la publicacion esta registrada
