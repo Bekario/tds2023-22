@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
+import java.awt.Panel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -23,10 +24,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Home {
-
 	private JFrame frame;
+	private JScrollPane scrollPane;
+	private PanelBuscar panelBusqueda;
+	private PanelInicio panelInicio;
 
 	/**
 	 * Launch the application.
@@ -81,6 +86,7 @@ public class Home {
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		
+		prepararTodosPaneles();
 		establecerBarraSuperior();
 		establecerBarraInferior();
 		establecerPanelMedio();
@@ -100,40 +106,57 @@ public class Home {
 		gbc_barraInferior.gridy = 2;
 		frame.getContentPane().add(barraInferior, gbc_barraInferior);
 		GridBagLayout gbl_barraInferior = new GridBagLayout();
-		gbl_barraInferior.columnWidths = new int[]{10, 0, 0, 0, 10, 0};
+		gbl_barraInferior.columnWidths = new int[]{10, 0, 0, 0, 0, 10, 0};
 		gbl_barraInferior.rowHeights = new int[]{0, 0};
-		gbl_barraInferior.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_barraInferior.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_barraInferior.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		barraInferior.setLayout(gbl_barraInferior);
 		
-		JLabel btnSearch = new JLabel("");
+		JButton btnPrincipal = new JButton("");
+		btnPrincipal.setBackground(new Color(192, 192, 192));
+		btnPrincipal.setIcon(new ImageIcon(Home.class.getResource("/imagenes/casa.png")));
+		GridBagConstraints gbc_btnPrincipal = new GridBagConstraints();
+		gbc_btnPrincipal.insets = new Insets(0, 0, 0, 5);
+		gbc_btnPrincipal.gridx = 1;
+		gbc_btnPrincipal.gridy = 0;
+		barraInferior.add(btnPrincipal, gbc_btnPrincipal);
+		btnPrincipal.setBorder(null);
+		
+		JButton btnSearch = new JButton("");
+		btnSearch.setBackground(new Color(192, 192, 192));
 		btnSearch.setIcon(new ImageIcon(Home.class.getResource("/imagenes/lupa.png")));
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.fill = GridBagConstraints.VERTICAL;
-		gbc_btnSearch.anchor = GridBagConstraints.WEST;
 		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSearch.gridx = 1;
+		gbc_btnSearch.gridx = 2;
 		gbc_btnSearch.gridy = 0;
 		barraInferior.add(btnSearch, gbc_btnSearch);
+		btnSearch.setBorder(null);
 		
-		JLabel btnSubirFoto = new JLabel("");
+		JButton btnSubirFoto = new JButton("");
+		btnSubirFoto.setBackground(new Color(192, 192, 192));
 		btnSubirFoto.setIcon(new ImageIcon(Home.class.getResource("/imagenes/add.png")));
 		GridBagConstraints gbc_btnSubirFoto = new GridBagConstraints();
 		gbc_btnSubirFoto.fill = GridBagConstraints.VERTICAL;
 		gbc_btnSubirFoto.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSubirFoto.gridx = 2;
+		gbc_btnSubirFoto.gridx = 3;
 		gbc_btnSubirFoto.gridy = 0;
 		barraInferior.add(btnSubirFoto, gbc_btnSubirFoto);
+		btnSubirFoto.setBorder(null);
 		
-		JLabel btnPerfil = new JLabel("");
+		JButton btnPerfil = new JButton("");
+		btnPerfil.setBackground(new Color(192, 192, 192));
 		btnPerfil.setIcon(new ImageIcon(Home.class.getResource("/imagenes/usuario.png")));
 		GridBagConstraints gbc_btnPerfil = new GridBagConstraints();
 		gbc_btnPerfil.insets = new Insets(0, 0, 0, 5);
 		gbc_btnPerfil.fill = GridBagConstraints.VERTICAL;
-		gbc_btnPerfil.anchor = GridBagConstraints.EAST;
-		gbc_btnPerfil.gridx = 3;
+		gbc_btnPerfil.gridx = 4;
 		gbc_btnPerfil.gridy = 0;
 		barraInferior.add(btnPerfil, gbc_btnPerfil);
+		btnPerfil.setBorder(null);
+		
+		addManejadorClickLabel(btnSearch, (JPanel) panelBusqueda);
+		addManejadorClickLabel(btnPrincipal, (JPanel) panelInicio);
 	}
 	
 	private void establecerBarraSuperior() {
@@ -164,7 +187,7 @@ public class Home {
 	}
 	
 	private void establecerPanelMedio() {
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
@@ -173,7 +196,20 @@ public class Home {
 		gbc_scrollPane.gridy = 1;
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
 		
-		PanelInicio panelInicio = new PanelInicio((Home) null);
 		scrollPane.setViewportView(panelInicio);
 	}
+	
+	private void prepararTodosPaneles() {
+		panelBusqueda = new PanelBuscar();
+		panelInicio = new PanelInicio(this);  //MALENIA OJO CON EL CONSTRUCTOR
+	}
+	
+	private void addManejadorClickLabel(JButton boton, JPanel panel) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				scrollPane.setViewportView(panel);
+			}
+		});
+	}
+	
 }
