@@ -10,6 +10,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runners.Parameterized.AfterParam;
 
+import modelo.Foto;
+import modelo.Publicacion;
+import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
 import persistencia.FactoriaDAO;
@@ -18,8 +21,16 @@ public class RepositoriosTest {
 	private static Usuario u1;
 	private static Usuario u2;
 	private static Usuario u3;
+	private static Publicacion p1;
+	private static Publicacion p2;
+	private static Publicacion p3;
 	private static RepoUsuarios repositorio = RepoUsuarios.getUnicaInstancia();
+	private static RepoPublicaciones repositorioP = RepoPublicaciones.getUnicaInstancia();
 	private static ArrayList<Usuario> listaUsuarios;
+	private static ArrayList<String> hashtags;
+	private static ArrayList<Publicacion> listaPublicaciones;
+
+
 	
 	@BeforeClass
 	public static void prepararTests() {
@@ -30,14 +41,33 @@ public class RepositoriosTest {
 		u3 = new Usuario("antoni22", "12345678", "antoniiii@gmail.com", "Antonio Martínez", LocalDate.now(), "perfil.png", "Soy Antonio.");
 		u3.setCodigo(2);
 		
+		
+		hashtags = new ArrayList<String>();
+		hashtags.add("Familia");
+		hashtags.add("Buenrollo");	
+		p1 = new Foto("A1", "D1", LocalDate.now(), hashtags, u1, "path");
+		p1.setCodigo(3);
+		p2 = new Foto("A2", "D2", LocalDate.now(), hashtags, u2, "path");
+		p2.setCodigo(4);
+		p3 = new Foto("A3", "D3", LocalDate.now(), hashtags, u3, "path");
+		p3.setCodigo(5);
+		
 		listaUsuarios = new ArrayList<Usuario>();
 		listaUsuarios.add(u1);
 		listaUsuarios.add(u2);
 		listaUsuarios.add(u3);
 		
+		listaPublicaciones= new ArrayList<Publicacion>();
+		listaPublicaciones.add(p1);
+		listaPublicaciones.add(p2);
+		listaPublicaciones.add(p3);
+		
 		//Añadimos dos usuarios
 		repositorio.addUsuario(u1);
 		repositorio.addUsuario(u2);
+		
+		repositorioP.addPublicacion(p1);
+		repositorioP.addPublicacion(p2);
 		
 		System.out.println("Tests preparados.");
 		System.out.println(u1.getClass().getName());
@@ -94,5 +124,48 @@ public class RepositoriosTest {
 		assertEquals("El usuario no se recupera correctamente con el codigo cuando no existe.", null, aux);
 		
 	}
+
+	@Test
+	public void testRepoPublicacionRecuperaCodigo() {
+		//Compruebo si se recupera correctamente el usuario con codigo
+		Publicacion aux = repositorioP.getPublicacion(p1.getCodigo());
+		assertEquals("La publicacion no se recupera correctamente con el codigo.", p1, aux);
+	}
+
+	@Test
+	public void testRepoPublicacionRecuperaPublicacionInexistente() {
+		//Compruebo que cuando se intenta obtener un usuario que no estaba, sea null
+		Publicacion aux = repositorioP.getPublicacion(p3.getCodigo());
+		assertEquals("El usuario no se recupera correctamente con el codigo cuando no existe.", null, aux);
+	}
+
+	@Test
+	public void testRepoPublicacionRecuperaTodasPublicaciones() {
+		//Meto el tercer usuario
+		repositorioP.addPublicacion(p3);
+		
+		//Compruebo que esten todos los usuarios al obtener la lista
+		ArrayList<Publicacion> listaAux = (ArrayList<Publicacion>) repositorioP.getPublicacion();
+		
+		//Ordeno la lista para que funcione correctamente assertArrayEquals
+		listaAux.sort(Comparator.comparing(u -> u.getCodigo()));
+
+		//Quitamos al tercer usuario para no afectar los otros tests
+		repositorioP.removePublicacion(p3);
+		
+		assertArrayEquals("No se recuperan correctamente todos los usuarios.", listaPublicaciones.toArray(), listaAux.toArray());
+	}
+	@Test
+	public void testRepoPublicacionBorrarPublicacion() {
+		//Compruebo que cuando se elimina un usuario, no esta
+		repositorioP.removePublicacion(p2);
+		Publicacion aux = repositorioP.getPublicacion(p2.getCodigo());
+		
+		//Volvemos a añadir al usuario 2 para que no haya problemas con otros tests
+		repositorioP.addPublicacion(p2);
+		assertEquals("El usuario no se recupera correctamente con el codigo cuando no existe.", null, aux);
+		
+	}
+
 
 }
