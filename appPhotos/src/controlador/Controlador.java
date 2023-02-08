@@ -8,8 +8,10 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.Period;
 
+import modelo.Album;
 import modelo.DescuentoEdad;
 import modelo.DescuentoPopularidad;
+import modelo.Foto;
 import modelo.Publicacion;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
@@ -18,6 +20,8 @@ import modelo.Variables;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
+import persistencia.IAdaptadorAlbumDAO;
+import persistencia.IAdaptadorFotoDAO;
 import persistencia.IAdaptadorUsuarioDAO;
 import ventanas.Register2;
 
@@ -129,8 +133,26 @@ public class Controlador {
 		//TODO
 	}
 	
-	public void borrarPublicacion(Publicacion publicacion) {
-		//TODO
+	public boolean borrarPublicacion(Publicacion publicacion) {
+		//Comprobamos si la publicacion esta registrada
+		if (!esPublicacionRegistrada(publicacion.getCodigo()))
+			return false;
+		
+		//Dependiendo si es una foto o un album utilizamos un adaptador u otro
+		if(publicacion.getClass().getName() == Foto.class.getName()) {
+			IAdaptadorFotoDAO fotoDAO = factoria.getFotoDAO();
+			fotoDAO.borrarFoto((Foto) publicacion);
+		} else {
+			IAdaptadorAlbumDAO albumDAO = factoria.getAlbumDAO();
+			albumDAO.borrarAlbum((Album) publicacion);
+		}
+
+		RepoPublicaciones.getUnicaInstancia().removePublicacion(publicacion);
+		return true;
+	}
+	
+	public boolean esPublicacionRegistrada(int codigo) {
+		return repoPublicaciones.getPublicacion(codigo) != null;
 	}
 	
 	/**

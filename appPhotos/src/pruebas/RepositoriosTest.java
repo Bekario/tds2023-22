@@ -4,18 +4,21 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runners.Parameterized.AfterParam;
 
 import modelo.RepoUsuarios;
 import modelo.Usuario;
+import persistencia.FactoriaDAO;
 
 public class RepositoriosTest {
 	private static Usuario u1;
 	private static Usuario u2;
 	private static Usuario u3;
-	private static RepoUsuarios repositorio;
+	private static RepoUsuarios repositorio = RepoUsuarios.getUnicaInstancia();
 	private static ArrayList<Usuario> listaUsuarios;
 	
 	@BeforeClass
@@ -32,14 +35,12 @@ public class RepositoriosTest {
 		listaUsuarios.add(u2);
 		listaUsuarios.add(u3);
 		
-		System.out.println("Tests preparados.");
-	
-		//Obtenemos el repositorio
-		RepoUsuarios repositorio = RepoUsuarios.getUnicaInstancia();
-		
 		//Añadimos dos usuarios
 		repositorio.addUsuario(u1);
 		repositorio.addUsuario(u2);
+		
+		System.out.println("Tests preparados.");
+		System.out.println(u1.getClass().getName());
 	}
 	
 	@Test
@@ -73,6 +74,13 @@ public class RepositoriosTest {
 		
 		//Compruebo que esten todos los usuarios al obtener la lista
 		ArrayList<Usuario> listaAux = (ArrayList<Usuario>) repositorio.getUsuarios();
+		
+		//Ordeno la lista para que funcione correctamente assertArrayEquals
+		listaAux.sort(Comparator.comparing(u -> u.getCodigo()));
+
+		//Quitamos al tercer usuario para no afectar los otros tests
+		repositorio.removeUsuario(u3);
+		
 		assertArrayEquals("No se recuperan correctamente todos los usuarios.", listaUsuarios.toArray(), listaAux.toArray());
 	}
 	@Test
@@ -80,6 +88,9 @@ public class RepositoriosTest {
 		//Compruebo que cuando se elimina un usuario, no esta
 		repositorio.removeUsuario(u2);
 		Usuario aux = repositorio.getUsuario(u2.getUsuario());
+		
+		//Volvemos a añadir al usuario 2 para que no haya problemas con otros tests
+		repositorio.addUsuario(u2);
 		assertEquals("El usuario no se recupera correctamente con el codigo cuando no existe.", null, aux);
 		
 	}
