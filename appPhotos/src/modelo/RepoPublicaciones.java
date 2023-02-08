@@ -40,8 +40,8 @@ import persistencia.IAdaptadorFotoDAO;
 			return unicaInstancia;
 		}
 		
-		/*devuelve todos los clientes*/
-		public List<Publicacion> getPublicacion(){
+		/*devuelve todos las publicaciones*/
+		public List<Publicacion> getPublicaciones(){
 			ArrayList<Publicacion> lista = new ArrayList<Publicacion>();
 			for (Publicacion p: publicaciones.values()) 
 				lista.add(p);
@@ -49,10 +49,7 @@ import persistencia.IAdaptadorFotoDAO;
 		}
 		
 		public Publicacion getPublicacion(int codigo) {
-			for (Publicacion p: publicaciones.values()) {
-				if (p.getCodigo() == codigo) return p;
-			}
-			return null;
+			return publicaciones.get(codigo);
 		}
 		
 		public void addPublicacion(Publicacion publicacion) {
