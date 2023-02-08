@@ -62,6 +62,7 @@ public class ControladorTest {
 		Foto recuperado = f.recuperarFoto(foto.getCodigo());
 		assertEquals("La foto no se recupera correctamente con el codigo cuando no existe.", null, recuperado);
 		Controlador.getInstancia().borrarPublicacion(foto);
+		recuperado = f.recuperarFoto(foto.getCodigo());
 		assertNotEquals("La foto se recupera y debia estar borrada con el codigo cuando no existe.", null, recuperado);
 	}
 }
