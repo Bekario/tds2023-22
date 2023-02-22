@@ -118,8 +118,8 @@ public class AdaptadorNotificacionTDS implements IAdaptadorNotificacionDAO {
 		 * @return
 		 */
 		private Publicacion obtenerPublicacionDesdeCodigo(String publicacionCodigo) {
-			AdaptadorFotoTDS adaptadorP = AdaptadorFotoTDS.getUnicaInstancia();
-			return adaptadorP.recuperarFoto(Integer.valueOf((String) publicacionCodigo));
+			AdaptadorAlbumTDS adaptadorP = AdaptadorAlbumTDS.getUnicaInstancia();
+			return adaptadorP.recuperarAlbum(Integer.valueOf((String) publicacionCodigo));
 		}
 		
 		/**
