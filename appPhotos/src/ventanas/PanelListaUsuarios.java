@@ -29,8 +29,6 @@ public class PanelListaUsuarios extends JPanel {
 		y=0;
 		
 		crearPanel();
-		addUsuario(new Usuario("adrian_cabron", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg", " "));
-		addUsuario(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\a.jpg", " "));
 	}
 	
 	private void crearPanel() {
