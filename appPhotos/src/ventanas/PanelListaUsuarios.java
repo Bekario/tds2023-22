@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -17,14 +18,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class PanelListaUsuarios extends JPanel {
-	private Home ventana;
 	private int y;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelListaUsuarios(Home ventana) {
-		this.ventana = ventana;
+	public PanelListaUsuarios() {
 		this.setSize(450, 490);
 		y=0;
 		
@@ -38,9 +37,6 @@ public class PanelListaUsuarios extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/noPublicaciones.png"));
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH));
 	}
 	
 	public void addUsuario(Usuario usuario) {
@@ -52,10 +48,18 @@ public class PanelListaUsuarios extends JPanel {
 		gbc_panelUsuario.gridy = y;
 		y+=1;
 		add(panelUsuario, gbc_panelUsuario);
-		
 	}
 	
+	public void addListaUsuario(List<Usuario> usuarios) {
+		for (Usuario usuario : usuarios) {
+			addUsuario(usuario);
+		}
+	}
 	
+	public void quitarUsuarios() {
+		removeAll();
+		y=0;
+	}
 	
 
 }

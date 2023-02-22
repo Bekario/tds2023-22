@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -50,7 +51,7 @@ public class Home {
 					Home window = new Home();
 					window.frame.setVisible(true);
 					window.frame.getRootPane().requestFocus(false);
-					RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\a.jpg", " "));
+					RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg", " "));
 					RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("antonio", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\a.jpg", " "));
 					
 //					window.frame.setFocusableWindowState(false);
@@ -203,6 +204,7 @@ public class Home {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		
 		scrollPane.setViewportView(panelInicio);
 	}

@@ -15,9 +15,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
 
 public class PanelBuscar extends JPanel {
 	/**
@@ -25,6 +28,8 @@ public class PanelBuscar extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtBarraBusqueda;
+	private PanelListaUsuarios panelListaUsuarios;
+	private JButton btnBuscar;
 
 
 	/**
@@ -37,6 +42,7 @@ public class PanelBuscar extends JPanel {
 	}
 	private void crearPanel() {
 		crearPanelBuscar();
+		crearPanelLista();
 	}
 	private void crearPanelBuscar() {
 		
@@ -66,7 +72,7 @@ public class PanelBuscar extends JPanel {
 		add(txtBarraBusqueda, gbc_txtBarraBusqueda);
 		txtBarraBusqueda.setColumns(10);
 		
-		JButton btnBuscar = new JButton("");
+		btnBuscar = new JButton("");
 
 		btnBuscar.setBackground(new Color(45, 42, 46));
 		btnBuscar.setIcon(new ImageIcon(PanelBuscar.class.getResource("/imagenes/buscar.png")));
@@ -77,7 +83,12 @@ public class PanelBuscar extends JPanel {
 		add(btnBuscar, gbc_btnBuscar);
 		btnBuscar.setBorder(null);
 		
-		PanelListaUsuarios panelListaUsuarios = new PanelListaUsuarios((Home) null);
+		//addManejadorBuscar2(txtBarraBusqueda);
+		
+	}
+	
+	private void crearPanelLista() {
+		panelListaUsuarios = new PanelListaUsuarios();
 		GridBagConstraints gbc_panelListaUsuarios = new GridBagConstraints();
 		gbc_panelListaUsuarios.gridwidth = 2;
 		gbc_panelListaUsuarios.insets = new Insets(0, 0, 0, 5);
@@ -85,19 +96,35 @@ public class PanelBuscar extends JPanel {
 		gbc_panelListaUsuarios.gridx = 1;
 		gbc_panelListaUsuarios.gridy = 4;
 		add(panelListaUsuarios, gbc_panelListaUsuarios);
-
-		addManejadorBuscar(btnBuscar,txtBarraBusqueda.getText(),panelListaUsuarios);
+		System.out.println(txtBarraBusqueda.getText());
+		addManejadorBuscar(btnBuscar);
+		this.repaint();
+		panelListaUsuarios.repaint();
 	}
 	
-	private void addManejadorBuscar(JButton btn, String busqueda, PanelListaUsuarios panelListaUsuarios) {
+	private void addManejadorBuscar(JButton btn) {
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(busqueda);
-				for (Usuario usuario : lista) {
-					panelListaUsuarios.addUsuario(usuario);
-				}
+				panelListaUsuarios.quitarUsuarios();
+				List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
+				panelListaUsuarios.addListaUsuario(lista);
+				panelListaUsuarios.updateUI();
 			}
 		});
 	}
+	
+	/*Este funciona cuando escribes en campo de texto
+	 * private void addManejadorBuscar2(JTextField txt) {
+		txt.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				panelListaUsuarios.quitarUsuarios();
+				List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
+				panelListaUsuarios.addListaUsuario(lista);
+				panelListaUsuarios.updateUI();
+			}
+		});
+
+	}*/
+	
 
 }

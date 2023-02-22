@@ -208,14 +208,15 @@ public class Controlador {
 	}
 	
 	public List<Usuario> obtenerUsuariosBuscados(String nombre){
-		List<Usuario> ListaBuscada =  new ArrayList<Usuario>();
-		List<Usuario> ListaTotal = repoUsuarios.getUsuarios();
-		for (Usuario usuario : ListaTotal) {
-			if(usuario.getUsuario().startsWith(nombre))
-				ListaBuscada.add(usuario);
+		List<Usuario> listaBuscada =  new ArrayList<Usuario>();
+		List<Usuario> listaTotal = repoUsuarios.getUsuarios();
+		for (Usuario usuario : listaTotal) {
+			if(usuario.getUsuario().startsWith(nombre)) {
+				listaBuscada.add(usuario);
+			}
 		}
 		
-		return ListaBuscada;
+		return listaBuscada;
 	}
 	
 }
