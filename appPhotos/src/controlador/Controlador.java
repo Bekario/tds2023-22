@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 import modelo.Album;
 import modelo.DescuentoEdad;
@@ -204,4 +206,16 @@ public class Controlador {
 			usuario.setDescuento(null); //MALENIA
 		}
 	}
+	
+	public List<Usuario> obtenerUsuariosBuscados(String nombre){
+		List<Usuario> ListaBuscada =  new ArrayList<Usuario>();
+		List<Usuario> ListaTotal = repoUsuarios.getUsuarios();
+		for (Usuario usuario : ListaTotal) {
+			if(usuario.getUsuario().startsWith(nombre))
+				ListaBuscada.add(usuario);
+		}
+		
+		return ListaBuscada;
+	}
+	
 }

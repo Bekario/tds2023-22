@@ -6,15 +6,26 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import controlador.Controlador;
+import modelo.Usuario;
+
 import java.awt.Insets;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.event.ActionEvent;
 
 public class PanelBuscar extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
+	private JTextField txtBarraBusqueda;
+
 
 	/**
 	 * Create the panel.
@@ -36,32 +47,35 @@ public class PanelBuscar extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		JLabel lblNewLabel = new JLabel("Búsqueda");
-		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 19));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridwidth = 2;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.anchor = GridBagConstraints.SOUTH;
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 1;
-		add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblTexto = new JLabel("Búsqueda");
+		lblTexto.setFont(new Font("Segoe UI", Font.BOLD, 19));
+		GridBagConstraints gbc_lblTexto = new GridBagConstraints();
+		gbc_lblTexto.gridwidth = 2;
+		gbc_lblTexto.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTexto.anchor = GridBagConstraints.SOUTH;
+		gbc_lblTexto.gridx = 1;
+		gbc_lblTexto.gridy = 1;
+		add(lblTexto, gbc_lblTexto);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 2;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		txtBarraBusqueda = new JTextField();
+		GridBagConstraints gbc_txtBarraBusqueda = new GridBagConstraints();
+		gbc_txtBarraBusqueda.insets = new Insets(0, 0, 5, 5);
+		gbc_txtBarraBusqueda.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtBarraBusqueda.gridx = 1;
+		gbc_txtBarraBusqueda.gridy = 2;
+		add(txtBarraBusqueda, gbc_txtBarraBusqueda);
+		txtBarraBusqueda.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(PanelBuscar.class.getResource("/imagenes/buscar.png")));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 2;
-		gbc_lblNewLabel_1.gridy = 2;
-		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JButton btnBuscar = new JButton("");
+
+		btnBuscar.setBackground(new Color(45, 42, 46));
+		btnBuscar.setIcon(new ImageIcon(PanelBuscar.class.getResource("/imagenes/buscar.png")));
+		GridBagConstraints gbc_btnBuscar = new GridBagConstraints();
+		gbc_btnBuscar.insets = new Insets(0, 0, 5, 5);
+		gbc_btnBuscar.gridx = 2;
+		gbc_btnBuscar.gridy = 2;
+		add(btnBuscar, gbc_btnBuscar);
+		btnBuscar.setBorder(null);
 		
 		PanelListaUsuarios panelListaUsuarios = new PanelListaUsuarios((Home) null);
 		GridBagConstraints gbc_panelListaUsuarios = new GridBagConstraints();
@@ -72,6 +86,18 @@ public class PanelBuscar extends JPanel {
 		gbc_panelListaUsuarios.gridy = 4;
 		add(panelListaUsuarios, gbc_panelListaUsuarios);
 
+		addManejadorBuscar(btnBuscar,txtBarraBusqueda.getText(),panelListaUsuarios);
+	}
+	
+	private void addManejadorBuscar(JButton btn, String busqueda, PanelListaUsuarios panelListaUsuarios) {
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(busqueda);
+				for (Usuario usuario : lista) {
+					panelListaUsuarios.addUsuario(usuario);
+				}
+			}
+		});
 	}
 
 }
