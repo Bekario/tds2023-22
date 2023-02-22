@@ -47,7 +47,7 @@ public class Controlador {
 	private Controlador() {
 		usuarioActual = null;
 		repoUsuarios = RepoUsuarios.getUnicaInstancia();
-		repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
+		//repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
 		try {
 			factoria = FactoriaDAO.getInstancia();
 		} catch (DAOException e) {}

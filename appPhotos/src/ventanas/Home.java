@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
+
+import modelo.RepoUsuarios;
+import modelo.Usuario;
+
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -22,6 +26,8 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.ActionListener;
@@ -44,6 +50,8 @@ public class Home {
 					Home window = new Home();
 					window.frame.setVisible(true);
 					window.frame.getRootPane().requestFocus(false);
+					RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\a.jpg", " "));
+					RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("antonio", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\a.jpg", " "));
 					
 //					window.frame.setFocusableWindowState(false);
 				} catch (Exception e) {
