@@ -208,7 +208,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	}
 	
 	public List<Publicacion> recuperarTodosPublicacion() {
-		List<Publicacion> publicaciones = new LinkedList<Publicacion>();
+		List<Publicacion> publicaciones = new ArrayList<Publicacion>();
 		List<Entidad> entidades = servPersistencia.recuperarEntidades(PUBLICACION);
 		
 		for (Entidad ePublicacion : entidades) {
