@@ -16,6 +16,7 @@ public class Usuario {
 	private String perfil;
 	private String descripcion;
 	private List<String> usuariosSeguidores; //Los seguidores estan representados con su codigo
+	private List<String> usuariosSeguidos; //Los seguidos estan representados con su codigo
 	private List<Notificacion> notificaciones;
 	private List<Foto> fotos;
 	private List<Album> albums;
@@ -37,6 +38,7 @@ public class Usuario {
 		codigo = 0;
 		indicePubliacion = 0;
 		usuariosSeguidores = new ArrayList<String>();
+		usuariosSeguidos = new ArrayList<String>();
 		notificaciones = new ArrayList<Notificacion>();
 		albums = new ArrayList<Album>();
 		fotos = new ArrayList<Foto>();
@@ -138,15 +140,31 @@ public class Usuario {
 	public List<String> getUsuariosSeguidores() {
 		return usuariosSeguidores;
 	}
+	public List<String> getUsuariosSeguidos() {
+		return usuariosSeguidos;
+	}
+	
 	
 	public void setUsuariosSeguidores(List<String> usuariosSeguidores) {
 		this.usuariosSeguidores = usuariosSeguidores;
+	}
+	public void setUsuariosSeguidos(List<String> usuariosSeguidos) {
+		this.usuariosSeguidos = usuariosSeguidos;
 	}
 	
 	public void setDescuento(Descuento descuento) {
 		this.descuento = descuento;
 	}
-
+	public int getNumeroSeguidores() {
+		return this.usuariosSeguidores.size();
+	}
+	public int getNumeroSeguidos() {
+		return this.usuariosSeguidos.size();
+	}
+	public int getNumeroPublicaciones() {
+		return this.albums.size()+this.fotos.size();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -164,7 +182,8 @@ public class Usuario {
 				&& Objects.equals(nombreCompleto, other.nombreCompleto)
 				&& Objects.equals(notificaciones, other.notificaciones) && Objects.equals(perfil, other.perfil)
 				&& Objects.equals(usuario, other.usuario)
-				&& Objects.equals(usuariosSeguidores, other.usuariosSeguidores);
+				&& Objects.equals(usuariosSeguidores, other.usuariosSeguidores)
+				&& Objects.equals(usuariosSeguidos, other.usuariosSeguidos);
 	}
 	
 	
