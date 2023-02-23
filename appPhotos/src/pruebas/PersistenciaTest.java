@@ -10,10 +10,9 @@ import modelo.Comentario;
 import modelo.Foto;
 import modelo.Notificacion;
 import modelo.Usuario;
-import persistencia.AdaptadorAlbumTDS;
 import persistencia.AdaptadorComentarioTDS;
-import persistencia.AdaptadorFotoTDS;
 import persistencia.AdaptadorNotificacionTDS;
+import persistencia.AdaptadorPublicacionTDS;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.TDSFactoriaDAO;
@@ -87,14 +86,14 @@ public class PersistenciaTest {
 	}
 	
 	@Test
-	public void testFotoDAO() {
-		AdaptadorFotoTDS f = (AdaptadorFotoTDS) factoria.getFotoDAO();
+	public void testPublicacionFotoDAO() {
+		AdaptadorPublicacionTDS p = (AdaptadorPublicacionTDS) factoria.getPublicacionDAO();
 		
 		//Registramos foto
-		f.registrarFoto(foto);
+		p.registrarPublicacion(foto);
 		
 		//Recuperamos foto
-		Foto recuperado = f.recuperarFoto(foto.getCodigo());
+		Foto recuperado = (Foto) p.recuperarPublicacion(foto.getCodigo());
 		assertEquals("El titulo no coincide",foto.getTitulo(), recuperado.getTitulo());
 		assertEquals("La descripcion no coincide",foto.getDescripcion(), recuperado.getDescripcion());
 		assertEquals("La fecha no coincide",foto.getFecha(), recuperado.getFecha());
@@ -102,20 +101,20 @@ public class PersistenciaTest {
 		assertEquals("El usuario no coincide",foto.getUsuario(), recuperado.getUsuario());
 		assertEquals("La ruta no coincide",foto.getPath(), recuperado.getPath());
 		
-		System.out.println("Test basico FotoDAO superado!");
+		System.out.println("Test basico PublicacionDAO con foto superado!");
 
 	}
 	
 	
 	@Test
-	public void testAlbumDAO() {
-		AdaptadorAlbumTDS a = (AdaptadorAlbumTDS)factoria.getAlbumDAO();
+	public void testPublicacionAlbumDAO() {
+		AdaptadorPublicacionTDS p = (AdaptadorPublicacionTDS)factoria.getPublicacionDAO();
 		
 		//Registramos album
-		a.registrarAlbum(album);
+		p.registrarPublicacion(album);
 		
 		//Recuperamos album
-		Album recuperado = a.recuperarAlbum(album.getCodigo());
+		Album recuperado = (Album) p.recuperarPublicacion(album.getCodigo());
 		
 		assertEquals("El titulo no coincide",album.getTitulo(), recuperado.getTitulo());
 		assertEquals("La descripcion no coincide",album.getDescripcion(), recuperado.getDescripcion());
@@ -124,7 +123,7 @@ public class PersistenciaTest {
 		assertEquals("El usuario no coincide",album.getUsuario(), recuperado.getUsuario());
 
 		
-		System.out.println("Test basico AlbumDAO superado!");
+		System.out.println("Test basico PublicacionDAO con albumes superado!");
 		
 	}
 	

@@ -24,6 +24,7 @@ import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorAlbumDAO;
 import persistencia.IAdaptadorFotoDAO;
+import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
 import ventanas.Register2;
 
@@ -47,7 +48,7 @@ public class Controlador {
 	private Controlador() {
 		usuarioActual = null;
 		repoUsuarios = RepoUsuarios.getUnicaInstancia();
-		//repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
+		repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
 		try {
 			factoria = FactoriaDAO.getInstancia();
 		} catch (DAOException e) {}
@@ -135,15 +136,9 @@ public class Controlador {
 		//Comprobamos si la publicacion esta registrada
 		if (esPublicacionRegistrada(publicacion.getCodigo()))
 			return false;
-		
-		//Dependiendo si es una foto o un album utilizamos un adaptador u otro
-		if(publicacion.getClass().getName() == Foto.class.getName()) {
-			IAdaptadorFotoDAO fotoDAO = factoria.getFotoDAO();
-			fotoDAO.registrarFoto((Foto) publicacion);
-		} else {
-			IAdaptadorAlbumDAO albumDAO = factoria.getAlbumDAO();
-			albumDAO.registrarAlbum((Album) publicacion);
-		}
+
+		IAdaptadorPublicacionDAO publicacionDAO = factoria.getPublicacionDAO();
+		publicacionDAO.registrarPublicacion(publicacion);
 
 		RepoPublicaciones.getUnicaInstancia().addPublicacion(publicacion);
 		return true;	
@@ -154,14 +149,8 @@ public class Controlador {
 		if (!esPublicacionRegistrada(publicacion.getCodigo()))
 			return false;
 		
-		//Dependiendo si es una foto o un album utilizamos un adaptador u otro
-		if(publicacion.getClass().getName() == Foto.class.getName()) {
-			IAdaptadorFotoDAO fotoDAO = factoria.getFotoDAO();
-			fotoDAO.borrarFoto((Foto) publicacion);
-		} else {
-			IAdaptadorAlbumDAO albumDAO = factoria.getAlbumDAO();
-			albumDAO.borrarAlbum((Album) publicacion);
-		}
+		IAdaptadorPublicacionDAO publicacionDAO = factoria.getPublicacionDAO();
+		publicacionDAO.borrarPublicacion(publicacion);
 
 		RepoPublicaciones.getUnicaInstancia().removePublicacion(publicacion);
 		return true;

@@ -39,6 +39,7 @@ public class Home {
 	private JScrollPane scrollPane;
 	private PanelBuscar panelBusqueda;
 	private PanelInicio panelInicio;
+	private PanelPerfil panelPerfil;
 
 	/**
 	 * Launch the application.
@@ -51,8 +52,8 @@ public class Home {
 					Home window = new Home();
 					window.frame.setVisible(true);
 					window.frame.getRootPane().requestFocus(false);
-					RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg", " "));
-					RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("antonio", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\a.jpg", " "));
+					//RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg", " "));
+					//RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("antonio", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\a.jpg", " "));
 					
 //					window.frame.setFocusableWindowState(false);
 				} catch (Exception e) {
@@ -164,8 +165,9 @@ public class Home {
 		barraInferior.add(btnPerfil, gbc_btnPerfil);
 		btnPerfil.setBorder(null);
 		
-		addManejadorClickLabel(btnSearch, (JPanel) panelBusqueda);
-		addManejadorClickLabel(btnPrincipal, (JPanel) panelInicio);
+		addManejadorClickBoton(btnSearch, (JPanel) panelBusqueda);
+		addManejadorClickBoton(btnPrincipal, (JPanel) panelInicio);
+		addManejadorClickBoton(btnPerfil, (JPanel) panelPerfil);
 	}
 	
 	private void establecerBarraSuperior() {
@@ -212,9 +214,10 @@ public class Home {
 	private void prepararTodosPaneles() {
 		panelBusqueda = new PanelBuscar();
 		panelInicio = new PanelInicio(this);  //MALENIA OJO CON EL CONSTRUCTOR
+		panelPerfil = new PanelPerfil(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg", " "));
 	}
 	
-	private void addManejadorClickLabel(JButton boton, JPanel panel) {
+	private void addManejadorClickBoton(JButton boton, JPanel panel) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scrollPane.setViewportView(panel);

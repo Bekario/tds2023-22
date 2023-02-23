@@ -9,6 +9,6 @@ public interface IAdaptadorPublicacionDAO {
 	public void registrarPublicacion(Publicacion publicacion);
 	public void borrarPublicacion(Publicacion publicacion);
 	public void modificarPublicacion(Publicacion publicacion);
-	public Foto recuperarPublicacion(Publicacion publicacion);
+	public Publicacion recuperarPublicacion(int codigo);
 	public List<Publicacion> recuperarTodosPublicacion();
 }

@@ -16,12 +16,15 @@ import modelo.Comentario;
 import modelo.Foto;
 import modelo.Publicacion;
 import modelo.Usuario;
+import modelo.Album;
 
 public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 
 	private static ServicioPersistencia servPersistencia;
 	private static AdaptadorPublicacionTDS unicaInstancia = null;
 	private final String PUBLICACION="publicacion";
+	private final String FOTO="foto";
+	private final String ALBUM="album";
 	private final String TITULO="titulo";
 	private final String FECHA="fecha";
 	private final String DESCRIPCION="descripcion";
@@ -30,6 +33,10 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	private final String COMENTARIOS="comentarios";
 	private final String USUARIO="usuario";	
 	private final String PATH="path";
+	private final String FOTOS="fotos";
+	
+	//Para comprobar si es foto album, el campo fotos o path tendra este valor
+	private final String VACIO="vacio";
 	
 
 	public static AdaptadorPublicacionTDS getUnicaInstancia() { // patron singleton
@@ -65,18 +72,27 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		// crear entidad producto
 		ePublicacion = new Entidad();
 		ePublicacion.setNombre(PUBLICACION);
-		ePublicacion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
+		
+		ArrayList<Propiedad> propiedades = new ArrayList<Propiedad>(Arrays.asList(
 				new Propiedad(TITULO, publicacion.getTitulo()),
 				new Propiedad(FECHA, publicacion.getFecha().toString()),
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 				new Propiedad(MEGUSTA, String.valueOf(publicacion.getMegusta())),
 				new Propiedad(USUARIO, String.valueOf(publicacion.getUsuario().getCodigo())),
 				new Propiedad(HASHTAGS, obtenerStringDeHashtags(publicacion.getHashtags())),
-				new Propiedad(COMENTARIOS, obtenerStringDeComentarios(publicacion.getComentarios()))
-				)));
+				new Propiedad(COMENTARIOS, obtenerStringDeComentarios(publicacion.getComentarios()))));
+		
 		
 		//Ahora comprobamos si es una foto o publicacion
-		if publicacion.getClass().getName()
+		if (publicacion.getClass().getName().equals(FOTO)) {
+			propiedades.add(new Propiedad(PATH, ((Foto) publicacion).getPath()));
+			propiedades.add(new Propiedad(FOTOS, VACIO));
+		} else {
+			propiedades.add(new Propiedad(FOTOS, obtenerStringDeFotos(((Album) publicacion).getFotos())));
+			propiedades.add(new Propiedad(ALBUM, VACIO));
+		}
+		
+		ePublicacion.setPropiedades(propiedades);
 		
 		// registrar entidad producto
 		ePublicacion = servPersistencia.registrarEntidad(ePublicacion);
@@ -110,9 +126,19 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 				prop.setValor(obtenerStringDeComentarios(publicacion.getComentarios()));
 			} else if (prop.getNombre().equals(USUARIO)) {
 				prop.setValor(String.valueOf(publicacion.getUsuario().getCodigo()));
-			} /*else if (prop.getNombre().equals(PATH)) {
-				prop.setValor(publicacion.getPath());
-			}       */
+			}
+			
+			//Dependiendo si es un album o foto comprobamos sus atributos especificos
+			if (publicacion.getClass().getName().equals(FOTO)) {
+				if (prop.getNombre().equals(PATH)) {
+					prop.setValor(((Foto) publicacion).getPath());
+				}    
+			} else {
+				if (prop.getNombre().equals(FOTOS)) {
+					prop.setValor(obtenerStringDeFotos(((Album) publicacion).getFotos()));
+				}   
+			}
+			
 			servPersistencia.modificarPropiedad(prop);
 		}
 	}
@@ -121,19 +147,20 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 
 		// Si la entidad está en el pool la devuelve directamente
 		if (PoolDAO.getUnicaInstancia().contiene(codigo))
-			return (Foto) PoolDAO.getUnicaInstancia().getObjeto(codigo);
+			return (Publicacion) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 
 		// si no, la recupera de la base de datos
 		Entidad ePublicacion;
 		String titulo; 
 		String descipcion;
 		int megusta;
-		String path;
 		Usuario usuario;
 		List<String> hashtags = new ArrayList<String>(); 
 		LocalDate fecha;
 		List<Comentario> comentarios= new ArrayList<Comentario>();
 		
+		String path;
+		List<Foto> fotos;
 
 		// recuperar entidad
 		ePublicacion = servPersistencia.recuperarEntidad(codigo);
@@ -141,27 +168,44 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		// recuperar propiedades que no son objetos
 		titulo = servPersistencia.recuperarPropiedadEntidad(ePublicacion, TITULO);
 		descipcion = servPersistencia.recuperarPropiedadEntidad(ePublicacion, DESCRIPCION);
-		path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
 		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTA));
 		fecha = obtenerFechaDesdeString(servPersistencia.recuperarPropiedadEntidad(ePublicacion, FECHA));
 		hashtags = obtenerHashtagsDesdeString(servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS));
 
-
-
 		// recuperar propiedades que son objetos llamando a adaptadores
-		// ventas
 		usuario = obtenerUsuarioDesdeCodigo(servPersistencia.recuperarPropiedadEntidad(ePublicacion, USUARIO));
 		comentarios= obtenerComentariosDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(ePublicacion, COMENTARIOS));
 		
-		Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);
+		//Recuperamos path
+		path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
 		
-		foto.setCodigo(codigo);
-		foto.setUsuario(usuario);
-		foto.setHashtags(hashtags);
-		foto.setComentarios(comentarios);
-		foto.setMegusta(megusta);
-
-		return foto;
+		//Comprobamos si se trata de foto o album viendo si path vale VACIO
+		if (path.equals(VACIO)) {
+			Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);			
+			foto.setCodigo(codigo);
+			foto.setUsuario(usuario);
+			foto.setHashtags(hashtags);
+			foto.setComentarios(comentarios);
+			foto.setMegusta(megusta);
+			
+			return foto;
+		} else {
+			Album album = new Album(titulo, descipcion, fecha, hashtags, usuario);
+			
+			album.setCodigo(codigo);
+			album.setUsuario(usuario);
+			album.setHashtags(hashtags);
+			album.setComentarios(comentarios);
+			album.setMegusta(megusta);
+			
+			//Añadimos todas las fotos al album
+			fotos = obtenerFotosDesdeString(servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS));
+			
+			for (Foto f : fotos)
+				album.addFoto(f);
+			
+			return album;
+		}
 	}
 	
 	public List<Publicacion> recuperarTodosPublicacion() {
@@ -260,5 +304,34 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		return LocalDate.of(year, mes, dia);
 	}
 	
+	/**
+	 * Obtiene un string con todos los codigos de las fotos
+	 * @param fotos
+	 * @return
+	 */
+	private String obtenerStringDeFotos(List<Foto> fotos) {
+		String aux = "";
+		for (Foto f : fotos) {
+			aux+=f.getCodigo()+" ";
+		}
+		return aux.trim();
+	}
+	
+	/**
+	 * Retorna una lista con las fotos
+	 * @param fotos
+	 * @return
+	 */
+	 private List<Foto> obtenerFotosDesdeString(String fotos){
+		 AdaptadorFotoTDS adaptadorF = AdaptadorFotoTDS.getUnicaInstancia();
+		 ArrayList<Foto> listaFotos = new ArrayList<Foto>();
+		 StringTokenizer strTok = new StringTokenizer(fotos, " ");
+		 
+		 while (strTok.hasMoreTokens()) {
+			listaFotos.add(adaptadorF.recuperarFoto(Integer.valueOf((String) strTok.nextElement())));
+		}
+		 
+		 return listaFotos;
+	 }
 
 }

@@ -9,6 +9,7 @@ import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorAlbumDAO;
 import persistencia.IAdaptadorFotoDAO;
+import persistencia.IAdaptadorPublicacionDAO;
 
 
 	/* El catálogo mantiene los objetos en memoria, en una tabla hash
@@ -21,15 +22,13 @@ import persistencia.IAdaptadorFotoDAO;
 		private static RepoPublicaciones unicaInstancia = new RepoPublicaciones();
 		
 		private FactoriaDAO dao;
-		private IAdaptadorFotoDAO adaptadorFoto;
-		private IAdaptadorAlbumDAO adaptadorAlbum;
+		private IAdaptadorPublicacionDAO adaptadorPublicacion;
 		
 		private RepoPublicaciones() {
 			try {
 	  			dao = FactoriaDAO.getInstancia(FactoriaDAO.DAO_TDS);
-	  			adaptadorFoto = dao.getFotoDAO();
-	  			adaptadorAlbum = dao.getAlbumDAO();
 	  			publicaciones = new HashMap<Integer, Publicacion>();
+	  			adaptadorPublicacion = dao.getPublicacionDAO();
 	  			this.cargarRepositorio();
 	  		} catch (DAOException eDAO) {
 	  			eDAO.printStackTrace();
@@ -62,12 +61,9 @@ import persistencia.IAdaptadorFotoDAO;
 		
 		/*Recupera todos los clientes para trabajar con ellos en memoria*/
 		private void cargarRepositorio() throws DAOException {
-			 List<Foto> fotosBD = adaptadorFoto.recuperarTodosFoto();
-			 for (Publicacion p: fotosBD) 
+			 List<Publicacion> publicacionesBD = adaptadorPublicacion.recuperarTodosPublicacion();
+			 for (Publicacion p: publicacionesBD) 
 				     publicaciones.put(p.getCodigo(), p);
-			 
-			 List<Album> albumsBD = adaptadorAlbum.recuperarTodosAlbum();
-			 for (Publicacion p: albumsBD) 
-				     publicaciones.put(p.getCodigo(), p);
+
 		}
 }

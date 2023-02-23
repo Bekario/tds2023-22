@@ -145,7 +145,7 @@ public class RepositoriosTest {
 		repositorioP.addPublicacion(p3);
 		
 		//Compruebo que esten todos los usuarios al obtener la lista
-		ArrayList<Publicacion> listaAux = (ArrayList<Publicacion>) repositorioP.getPublicacion();
+		ArrayList<Publicacion> listaAux = (ArrayList<Publicacion>) repositorioP.getPublicaciones();
 		
 		//Ordeno la lista para que funcione correctamente assertArrayEquals
 		listaAux.sort(Comparator.comparing(u -> u.getCodigo()));
