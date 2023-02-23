@@ -23,8 +23,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	private static ServicioPersistencia servPersistencia;
 	private static AdaptadorPublicacionTDS unicaInstancia = null;
 	private final String PUBLICACION="publicacion";
-	private final String FOTO="foto";
-	private final String ALBUM="album";
+	private final String FOTO="modelo.Foto";
 	private final String TITULO="titulo";
 	private final String FECHA="fecha";
 	private final String DESCRIPCION="descripcion";
@@ -89,7 +88,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 			propiedades.add(new Propiedad(FOTOS, VACIO));
 		} else {
 			propiedades.add(new Propiedad(FOTOS, obtenerStringDeFotos(((Album) publicacion).getFotos())));
-			propiedades.add(new Propiedad(ALBUM, VACIO));
+			propiedades.add(new Propiedad(PATH, VACIO));
 		}
 		
 		ePublicacion.setPropiedades(propiedades);
@@ -180,7 +179,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
 		
 		//Comprobamos si se trata de foto o album viendo si path vale VACIO
-		if (path.equals(VACIO)) {
+		if (!path.equals(VACIO)) {
 			Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);			
 			foto.setCodigo(codigo);
 			foto.setUsuario(usuario);
@@ -323,12 +322,12 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	 * @return
 	 */
 	 private List<Foto> obtenerFotosDesdeString(String fotos){
-		 AdaptadorFotoTDS adaptadorF = AdaptadorFotoTDS.getUnicaInstancia();
+		 AdaptadorPublicacionTDS adaptadorP = AdaptadorPublicacionTDS.getUnicaInstancia();
 		 ArrayList<Foto> listaFotos = new ArrayList<Foto>();
 		 StringTokenizer strTok = new StringTokenizer(fotos, " ");
 		 
 		 while (strTok.hasMoreTokens()) {
-			listaFotos.add(adaptadorF.recuperarFoto(Integer.valueOf((String) strTok.nextElement())));
+			listaFotos.add((Foto) adaptadorP.recuperarPublicacion(Integer.valueOf((String) strTok.nextElement())));
 		}
 		 
 		 return listaFotos;

@@ -7,8 +7,6 @@ import java.util.Map;
 
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
-import persistencia.IAdaptadorAlbumDAO;
-import persistencia.IAdaptadorFotoDAO;
 import persistencia.IAdaptadorPublicacionDAO;
 
 

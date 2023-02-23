@@ -62,14 +62,13 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			adaptadorNotificacion.registrarNotificacion(v);
 		
 		// registrar los atributos foto
-		AdaptadorFotoTDS adaptadorFoto = AdaptadorFotoTDS.getUnicaInstancia();
+		AdaptadorPublicacionTDS adaptadorPublicacion = AdaptadorPublicacionTDS.getUnicaInstancia();
 		for (Foto f : usuario.getFotos())
-			adaptadorFoto.registrarFoto(f);
+			adaptadorPublicacion.registrarPublicacion(f);
 		
-		// registrar primero los atributos album
-		AdaptadorAlbumTDS adaptadorAlbum = AdaptadorAlbumTDS.getUnicaInstancia();
+		// registrar los atributos album
 		for (Album a : usuario.getAlbums())
-			adaptadorAlbum.registrarAlbum(a);
+			adaptadorPublicacion.registrarPublicacion(a);
 
 		// crear entidad Usuario
 		eUsuario = new Entidad();
@@ -288,9 +287,9 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 		List<Foto> listaFotos = new ArrayList<Foto>();
 		StringTokenizer strTok = new StringTokenizer(fotos, " ");
-		AdaptadorFotoTDS adaptadorP = AdaptadorFotoTDS.getUnicaInstancia();
+		AdaptadorPublicacionTDS adaptadorP = AdaptadorPublicacionTDS.getUnicaInstancia();
 		while (strTok.hasMoreTokens()) {
-			listaFotos.add(adaptadorP.recuperarFoto(Integer.valueOf((String) strTok.nextElement())));
+			listaFotos.add((Foto) adaptadorP.recuperarPublicacion(Integer.valueOf((String) strTok.nextElement())));
 		}
 		return listaFotos;
 	}
@@ -304,9 +303,9 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 
 		List<Album> listaAlbums = new ArrayList<Album>();
 		StringTokenizer strTok = new StringTokenizer(albums, " ");
-		AdaptadorAlbumTDS adaptadorA = AdaptadorAlbumTDS.getUnicaInstancia();
+		AdaptadorPublicacionTDS adaptadorP = AdaptadorPublicacionTDS.getUnicaInstancia();
 		while (strTok.hasMoreTokens()) {
-			listaAlbums.add(adaptadorA.recuperarAlbum(Integer.valueOf((String) strTok.nextElement())));
+			listaAlbums.add((Album) adaptadorP.recuperarPublicacion(Integer.valueOf((String) strTok.nextElement())));
 		}
 		return listaAlbums;
 	}

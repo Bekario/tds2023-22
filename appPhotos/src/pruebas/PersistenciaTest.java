@@ -44,7 +44,6 @@ public class PersistenciaTest {
 		notificacion = new Notificacion(LocalDate.of(2023, 1, 1), foto);
 		notificacion2 = new Notificacion(LocalDate.of(2023, 1, 1), album);
 
-		
 		System.out.println("Tests preparados.");
 	}
 	
@@ -133,7 +132,7 @@ public class PersistenciaTest {
 		
 		//Registramos la notificacion
 		n.registrarNotificacion(notificacion);
-		
+		System.out.println(notificacion.getPublicacion().getMegusta());
 		//Recuperamos la notificacion
 		Notificacion recuperado = n.recuperarNotificacion(notificacion.getCodigo());
 		//Comprobamos que todos los campos coincidan

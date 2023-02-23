@@ -10,7 +10,7 @@ import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import beans.Entidad;
 import beans.Propiedad;
-
+import modelo.Foto;
 import modelo.Notificacion;
 import modelo.Publicacion;
 
@@ -40,6 +40,10 @@ public class AdaptadorNotificacionTDS implements IAdaptadorNotificacionDAO {
 			eNotificacion = servPersistencia.recuperarEntidad(notificacion.getCodigo());
 		} catch (NullPointerException e) {}
 		if (eNotificacion != null) return;
+		
+		//Registramos la publicacion
+		AdaptadorPublicacionTDS adaptadorPublicacion = AdaptadorPublicacionTDS.getUnicaInstancia();
+		adaptadorPublicacion.registrarPublicacion(notificacion.getPublicacion());
 		
 		// crear entidad producto
 		eNotificacion = new Entidad();
@@ -118,8 +122,8 @@ public class AdaptadorNotificacionTDS implements IAdaptadorNotificacionDAO {
 		 * @return
 		 */
 		private Publicacion obtenerPublicacionDesdeCodigo(String publicacionCodigo) {
-			AdaptadorAlbumTDS adaptadorP = AdaptadorAlbumTDS.getUnicaInstancia();
-			return adaptadorP.recuperarAlbum(Integer.valueOf((String) publicacionCodigo));
+			AdaptadorPublicacionTDS adaptadorP = AdaptadorPublicacionTDS.getUnicaInstancia();
+			return adaptadorP.recuperarPublicacion(Integer.valueOf((String) publicacionCodigo));
 		}
 		
 		/**

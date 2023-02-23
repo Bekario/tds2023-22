@@ -22,8 +22,6 @@ import modelo.Variables;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
-import persistencia.IAdaptadorAlbumDAO;
-import persistencia.IAdaptadorFotoDAO;
 import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
 import ventanas.Register2;

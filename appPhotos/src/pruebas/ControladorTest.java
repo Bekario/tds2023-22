@@ -16,7 +16,7 @@ import modelo.Foto;
 import modelo.Notificacion;
 import modelo.Publicacion;
 import modelo.Usuario;
-import persistencia.AdaptadorFotoTDS;
+import persistencia.AdaptadorPublicacionTDS;
 import persistencia.DAOException;
 import persistencia.TDSFactoriaDAO;
 
@@ -57,11 +57,11 @@ public class ControladorTest {
 	
 	@Test
 	public void testFotoEliminar() {
-		AdaptadorFotoTDS f = (AdaptadorFotoTDS) factoria.getFotoDAO();
+		AdaptadorPublicacionTDS f = (AdaptadorPublicacionTDS) factoria.getPublicacionDAO();
 		
 		//Registramos foto
 		controlador.añadirPublicacion((Publicacion)foto);
-		Foto recuperado = f.recuperarFoto(foto.getCodigo());
+		Foto recuperado = (Foto) f.recuperarPublicacion(foto.getCodigo());
 		assertEquals("La foto no se recupera correctamente con el codigo cuando no existe.", foto, recuperado);
 		/*Controlador.getInstancia().borrarPublicacion(foto);
 		recuperado = f.recuperarFoto(foto.getCodigo());
