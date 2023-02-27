@@ -78,7 +78,17 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	 * Añade una lista de publicaciones al panel
 	 * @param publicaciones publicaciones que se van a añadir
 	 */
-	public void addPublicaciones(List<Publicacion> publicaciones) {
+	public void addAlbums(List<Album> publicaciones) {
+		for (Publicacion p: publicaciones) {
+			addPublicacion(p);
+		}
+	}
+	
+	/**
+	 * Añade una lista de publicaciones al panel
+	 * @param publicaciones publicaciones que se van a añadir
+	 */
+	public void addFotos(List<Foto> publicaciones) {
 		for (Publicacion p: publicaciones) {
 			addPublicacion(p);
 		}
