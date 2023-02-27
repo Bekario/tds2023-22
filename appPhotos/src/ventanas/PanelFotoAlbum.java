@@ -42,6 +42,7 @@ public class PanelFotoAlbum extends JPanel {
 		setLayout(gridBagLayout);
 		
 		JButton btnNewButton = new JButton("Fotos");
+		btnNewButton.setBackground(new Color(45, 42, 46));
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
@@ -52,6 +53,7 @@ public class PanelFotoAlbum extends JPanel {
 		btnNewButton.setBorder(null);
 		
 		JButton btnNewButton_1 = new JButton("Album");
+		btnNewButton_1.setBackground(new Color(42, 45, 46));
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
