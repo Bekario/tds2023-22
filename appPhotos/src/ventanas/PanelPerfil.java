@@ -52,9 +52,9 @@ public class PanelPerfil extends JPanel {
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 0, 15, 0, 0, 0, 15, 0, 30, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0, 15, 40, 0, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0, 15, 40, 15, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 	}
@@ -151,6 +151,15 @@ public class PanelPerfil extends JPanel {
 		gbc_textArea.gridx = 1;
 		gbc_textArea.gridy = 5;
 		add(textArea, gbc_textArea);
+		
+		PanelFotoAlbum panelFotoAlbum = new PanelFotoAlbum();
+		GridBagConstraints gbc_panelFotoAlbum = new GridBagConstraints();
+		gbc_panelFotoAlbum.gridwidth = 7;
+		gbc_panelFotoAlbum.insets = new Insets(0, 0, 0, 5);
+		gbc_panelFotoAlbum.fill = GridBagConstraints.BOTH;
+		gbc_panelFotoAlbum.gridx = 1;
+		gbc_panelFotoAlbum.gridy = 7;
+		add(panelFotoAlbum, gbc_panelFotoAlbum);
 	}
 		
 
