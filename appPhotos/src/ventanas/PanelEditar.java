@@ -51,6 +51,7 @@ public class PanelEditar extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Usuario usuario;
 	private JFrame frame;
 	private JTextField txtEmail;
 	private JTextField nombre;
@@ -61,14 +62,14 @@ public class PanelEditar extends JPanel {
 	private JButton btnMostrarPass;
 	private JButton btnMostrarPass2;
 	private JButton btnLogin;
-	private JDateChooser dateChooser;
-	private JButton btnAtras;
+	private JLabel lblNewLabel;
 
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelEditar() {
+	public PanelEditar(Usuario usuario) {
+		this.usuario=usuario;
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
@@ -81,7 +82,6 @@ public class PanelEditar extends JPanel {
 		establecerTitulo();
 		establecerEmail();
 		establecerNombre();
-		establecerFechaNacim();
 		establecerUsuario();
 		establecerContraseñasYBotones();
 		establecerBotonContinuar();
@@ -91,16 +91,12 @@ public class PanelEditar extends JPanel {
 	 * Crea el titulo
 	 */
 	private void establecerTitulo() {
-		
-		JLabel lblNombreApp = new JLabel("appPhotos");
-		lblNombreApp.setForeground(new Color(233, 233, 233));
-		lblNombreApp.setIcon(null);
-		lblNombreApp.setFont(new Font("Serif", Font.BOLD, 40));
-		GridBagConstraints gbc_lblNombreApp = new GridBagConstraints();
-		gbc_lblNombreApp.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNombreApp.gridx = 2;
-		gbc_lblNombreApp.gridy = 1;
-		add(lblNombreApp, gbc_lblNombreApp);
+		lblNewLabel = new JLabel("Editar perfil");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 2;
+		gbc_lblNewLabel.gridy = 1;
+		add(lblNewLabel, gbc_lblNewLabel);
 	}
 	
 	/**
@@ -108,8 +104,9 @@ public class PanelEditar extends JPanel {
 	 */
 	private void establecerEmail() {
 		
+		
 		txtEmail = new JTextField();
-		txtEmail.setText("Email");
+		txtEmail.setText(usuario.getEmail());
 		txtEmail.setToolTipText("");
 
 		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
@@ -153,7 +150,7 @@ public class PanelEditar extends JPanel {
 	private void establecerNombre() {
 		nombre = new JTextField();
 		txtNombre = new JTextField();
-		txtNombre.setText("Nombre");
+		txtNombre.setText(usuario.getNombreCompleto());
 		txtNombre.setToolTipText("");
 		GridBagConstraints gbc_txtNombre = new GridBagConstraints();
 		gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
@@ -172,7 +169,7 @@ public class PanelEditar extends JPanel {
 	private void establecerUsuario() {
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setText("Usuario");
+		txtUsuario.setText(usuario.getUsuario());
 		txtUsuario.setToolTipText("");
 		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
@@ -184,53 +181,12 @@ public class PanelEditar extends JPanel {
 		
 		addManejadorTextos(txtUsuario, "Usuario");
 	}
-	
-	/**
-	 * Crea el campo para la fecha de nacimiento incluyendo el boton
-	 */
-	private void establecerFechaNacim() {
-		JCalendar calendar = new JCalendar();
-		calendar.getDayChooser().setAlwaysFireDayProperty(true);
-		calendar.getDayChooser().setForeground(new Color(255, 255, 255));
-		calendar.getDayChooser().setDecorationBackgroundColor(new Color(255, 255, 255));
-		calendar.getYearChooser().getSpinner().setBackground(new Color(229, 229, 229));
-		calendar.getMonthChooser().getComboBox().setForeground(new Color(0, 0, 0));
-		calendar.getMonthChooser().getComboBox().setBackground(new Color(229, 229, 229));
-		calendar.setForeground(new Color(255, 255, 255));
-		calendar.getYearChooser().setForeground(new Color(0, 0, 0));
-		calendar.getYearChooser().getSpinner().setForeground(new Color(0, 0, 0));
-		calendar.setMaxDayCharacters(3);
-		calendar.setWeekdayForeground(new Color(0, 0, 0));
-		calendar.setWeekOfYearVisible(false);
-		calendar.setSundayForeground(new Color(255, 255, 255));
-		calendar.setDecorationBackgroundColor(new Color(187, 187, 187));
-		
-		JTextFieldDateEditor campoFecha = new JTextFieldDateEditor();
-		campoFecha.setBackground(new Color(201, 201, 201));
-		campoFecha.setDateFormatString("dd/MM/yyyy");
-		campoFecha.setToolTipText("dd/MM/yyyy");
-		campoFecha.setCaretColor(new Color(218, 200, 41));
-		campoFecha.setForeground(new Color(255, 255, 255));
-		
-		dateChooser = new JDateChooser(calendar, null, "dd/MM/yyyy", campoFecha);
-		
-		dateChooser.setForeground(new Color(255, 255, 255));
-		dateChooser.getCalendarButton().setText("Fecha Nacimiento   ");
-		GridBagConstraints gbc_dateChooser = new GridBagConstraints();
-		gbc_dateChooser.insets = new Insets(0, 0, 5, 5);
-		gbc_dateChooser.fill = GridBagConstraints.BOTH;
-		gbc_dateChooser.gridx = 2;
-		gbc_dateChooser.gridy = 5;
-		add(dateChooser, gbc_dateChooser);
-	}
-	
 	/**
 	 * Crea los field contraseña y confirmar contraseña y sus botones
 	 */
 	private void establecerContraseñasYBotones() {
 		txtContraseña = new JPasswordField();
-		txtContraseña.setText("Contraseña");
-		txtContraseña.setEchoChar((char) 0);
+		txtContraseña.setText(usuario.getContraseña());
 		GridBagConstraints gbc_txtContraseña = new GridBagConstraints();
 		gbc_txtContraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_txtContraseña.fill = GridBagConstraints.HORIZONTAL;
@@ -350,23 +306,9 @@ public class PanelEditar extends JPanel {
 		gbc_btnLogin.gridy = 10;
 		add(btnLogin, gbc_btnLogin);
 		
-		btnAtras = new JButton("     ATRÁS     ");
-		btnAtras.setForeground(new Color(218, 200, 41));
-		btnAtras.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnAtras.setBorderPainted(false);
-		btnAtras.setBackground(UIManager.getColor("Button.background"));
-		GridBagConstraints gbc_btnAtras = new GridBagConstraints();
-		gbc_btnAtras.fill = GridBagConstraints.VERTICAL;
-		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAtras.gridx = 2;
-		gbc_btnAtras.gridy = 11;
-		add(btnAtras, gbc_btnAtras);
-		
 		addManejadorBotonColor(btnLogin);
-		addManejadorBotonColor(btnAtras);
 		
 		addManejadorBotonContinuar(btnLogin);
-		addManejadorBotonAtras(btnAtras);
 		
 	}
 	
@@ -398,13 +340,6 @@ public class PanelEditar extends JPanel {
 	 * @param boton
 	 */
 	private void addManejadorBotonAtras(JButton boton) {
-		boton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
-				login.mostrarVentana(frame);
-				frame.dispose();
-			}
-		});
 		
 	}
 	
@@ -462,15 +397,11 @@ public class PanelEditar extends JPanel {
 			info = "¡La contraseña no es valida!\nUna contraseña valida contiene 3-16 caracteres y mínimo una minúscula, mayúscula y dígito.";
 		}
 		
-		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || txtConfirmar_contraseña.getPassword().equals(txtContraseña.getPassword())) {
+		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || !txtConfirmar_contraseña.getPassword().equals(txtContraseña.getPassword())) {
 			estado = false;
 			info = "¡Las contraseñas no son iguales!";
 		}
-		
-		if(dateChooser.getDate() == null) {
-			estado = false;
-			info = "¡La fecha no es valida!";
-		}
+	
 		
 		if(!estado) {
 			JOptionPane.showMessageDialog(frame, info, "Rellene correctamente los campos", 0);

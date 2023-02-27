@@ -97,7 +97,7 @@ public class PanelPerfil extends JPanel {
 		gbc_btnEditarPerfil.gridx = 7;
 		gbc_btnEditarPerfil.gridy = 1;
 		add(btnEditarPerfil, gbc_btnEditarPerfil);
-		home.addManejadorClickBoton(btnEditarPerfil, new PanelEditar());
+		home.addManejadorClickBoton(btnEditarPerfil, new PanelEditar(usuario));
 		
 		JLabel lblPublicaciones = new JLabel(String.valueOf(usuario.getNumeroPublicaciones()));
 		GridBagConstraints gbc_lblPublicaciones = new GridBagConstraints();
