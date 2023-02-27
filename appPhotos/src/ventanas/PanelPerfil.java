@@ -85,6 +85,7 @@ public class PanelPerfil extends JPanel {
 		JButton btnEditarPerfil = new JButton("Editar");
 		btnEditarPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		GridBagConstraints gbc_btnEditarPerfil = new GridBagConstraints();
