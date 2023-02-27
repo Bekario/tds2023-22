@@ -8,6 +8,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 import controlador.Controlador;
+import modelo.Publicacion;
 import modelo.Usuario;
 
 import java.awt.Insets;
@@ -27,6 +28,12 @@ public class PanelFotoAlbum extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String FOTO = "foto";
+	private static final String ALBUM = "album";
+	
+	private PanelCuadriculaPublicaciones panelFotos;
+	private PanelCuadriculaPublicaciones panelAlbum;
+	private String estadoPanel;
 
 
 	/**
@@ -34,44 +41,87 @@ public class PanelFotoAlbum extends JPanel {
 	 */
 	public PanelFotoAlbum() {
 		this.setSize(450, 600);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 5, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
-		
-		JButton btnNewButton = new JButton("Fotos");
-		btnNewButton.setBackground(new Color(45, 42, 46));
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton.gridx = 1;
-		gbc_btnNewButton.gridy = 0;
-		add(btnNewButton, gbc_btnNewButton);
-		btnNewButton.setBorder(null);
-		
-		JButton btnNewButton_1 = new JButton("Album");
-		btnNewButton_1.setBackground(new Color(42, 45, 46));
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 0;
-		add(btnNewButton_1, gbc_btnNewButton_1);
-		btnNewButton_1.setBorder(null);
 		crearPanel();
 		
 	}
-	private void crearPanel() {
-		crearPanelBuscar();
-	}
-	private void crearPanelBuscar() {
-		
 	
+	private void crearPanel() {
+		crearLayout();
+		crearBotones();
+		crearPanelesPublicaciones();
+	}
+	
+	private void crearLayout() {
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0, 5, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
+	}
+	
+	private void crearBotones() {
+		JButton btnFotos = new JButton("Fotos");
+		btnFotos.setBackground(new Color(45, 42, 46));
+		btnFotos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_btnFotos = new GridBagConstraints();
+		gbc_btnFotos.anchor = GridBagConstraints.EAST;
+		gbc_btnFotos.insets = new Insets(0, 0, 5, 5);
+		gbc_btnFotos.gridx = 1;
+		gbc_btnFotos.gridy = 0;
+		add(btnFotos, gbc_btnFotos);
+		btnFotos.setBorder(null);
 		
+		JButton btnAlbum = new JButton("Album");
+		btnAlbum.setBackground(new Color(42, 45, 46));
+		btnAlbum.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_btnAlbum = new GridBagConstraints();
+		gbc_btnAlbum.anchor = GridBagConstraints.WEST;
+		gbc_btnAlbum.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAlbum.gridx = 3;
+		gbc_btnAlbum.gridy = 0;
+		add(btnAlbum, gbc_btnAlbum);
+		btnAlbum.setBorder(null);
+	
+	}
+	
+	private void crearPanelesPublicaciones() {
+		//Creamos el panel de fotos, que es el que se muestra primero por defecto
+		panelFotos = new PanelCuadriculaPublicaciones();
+		GridBagConstraints gbc_panelFotos = new GridBagConstraints();
+		gbc_panelFotos.gridwidth = 3;
+		gbc_panelFotos.insets = new Insets(0, 0, 0, 5);
+		gbc_panelFotos.fill = GridBagConstraints.BOTH;
+		gbc_panelFotos.gridx = 1;
+		gbc_panelFotos.gridy = 2;
+		add(panelFotos, gbc_panelFotos);
+		//Por defecto comienza con el panel de fotos
+		estadoPanel = FOTO;
+		
+		//Creamos el panel de albums
+		panelAlbum = new PanelCuadriculaPublicaciones();
+		GridBagConstraints gbc_panelAlbum = new GridBagConstraints();
+		gbc_panelAlbum.gridwidth = 3;
+		gbc_panelAlbum.insets = new Insets(0, 0, 0, 5);
+		gbc_panelAlbum.fill = GridBagConstraints.BOTH;
+		gbc_panelAlbum.gridx = 1;
+		gbc_panelAlbum.gridy = 2;
+		add(panelAlbum, gbc_panelAlbum);
+	}
+	
+	private void cargarPublicaciones() {
+		Usuario u = Controlador.getInstancia().getUsuarioActual();
+		addPublicaciones(panelAlbum, u.getFotos());
+		addPublicaciones(panelFotos, u.getAlbums());
+	}
+	
+	/**
+	 * Añade al panel una lista de publicaciones
+	 * @param panel
+	 * @param publicaciones
+	 */
+	private void addPublicaciones(PanelCuadriculaPublicaciones panel, List <Publicacion> publicaciones) {
+		panel.addPublicaciones(publicaciones);
 	}
 
 	

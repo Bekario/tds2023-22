@@ -100,7 +100,7 @@ public class PanelEditar extends JPanel {
 		gbc_lblNombreApp.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNombreApp.gridx = 2;
 		gbc_lblNombreApp.gridy = 1;
-		frame.getContentPane().add(lblNombreApp, gbc_lblNombreApp);
+		add(lblNombreApp, gbc_lblNombreApp);
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtEmail.gridx = 2;
 		gbc_txtEmail.gridy = 3;
-		frame.getContentPane().add(txtEmail, gbc_txtEmail);
+		add(txtEmail, gbc_txtEmail);
 		txtEmail.setColumns(10);
 		
 		addManejadorTextos(txtEmail, "Email");
@@ -160,7 +160,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtNombre.gridx = 2;
 		gbc_txtNombre.gridy = 4;
-		frame.getContentPane().add(txtNombre, gbc_txtNombre);
+		add(txtNombre, gbc_txtNombre);
 		txtNombre.setColumns(10);
 		
 		addManejadorTextos(txtNombre, "Nombre");
@@ -179,7 +179,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtUsuario.gridx = 2;
 		gbc_txtUsuario.gridy = 6;
-		frame.getContentPane().add(txtUsuario, gbc_txtUsuario);
+		add(txtUsuario, gbc_txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		addManejadorTextos(txtUsuario, "Usuario");
@@ -221,7 +221,7 @@ public class PanelEditar extends JPanel {
 		gbc_dateChooser.fill = GridBagConstraints.BOTH;
 		gbc_dateChooser.gridx = 2;
 		gbc_dateChooser.gridy = 5;
-		frame.getContentPane().add(dateChooser, gbc_dateChooser);
+		add(dateChooser, gbc_dateChooser);
 	}
 	
 	/**
@@ -236,7 +236,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtContraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtContraseña.gridx = 2;
 		gbc_txtContraseña.gridy = 7;
-		frame.getContentPane().add(txtContraseña, gbc_txtContraseña);
+		add(txtContraseña, gbc_txtContraseña);
 
 		txtConfirmar_contraseña = new JPasswordField();
 		btnMostrarPass = new JButton("");
@@ -251,7 +251,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnMostrarPass.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMostrarPass.gridx = 3;
 		gbc_btnMostrarPass.gridy = 7;
-		frame.getContentPane().add(btnMostrarPass, gbc_btnMostrarPass);
+		add(btnMostrarPass, gbc_btnMostrarPass);
 		txtConfirmar_contraseña.setText("Confirmar Contraseña");
 		txtConfirmar_contraseña.setEchoChar((char) 0);
 		GridBagConstraints gbc_txtConfirmar_contraseña = new GridBagConstraints();
@@ -259,7 +259,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtConfirmar_contraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtConfirmar_contraseña.gridx = 2;
 		gbc_txtConfirmar_contraseña.gridy = 8;
-		frame.getContentPane().add(txtConfirmar_contraseña, gbc_txtConfirmar_contraseña);
+		add(txtConfirmar_contraseña, gbc_txtConfirmar_contraseña);
 		
 		btnMostrarPass2 = new JButton("");
 		btnMostrarPass2.setBorderPainted(false);
@@ -271,7 +271,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnMostrarPass2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMostrarPass2.gridx = 3;
 		gbc_btnMostrarPass2.gridy = 8;
-		frame.getContentPane().add(btnMostrarPass2, gbc_btnMostrarPass2);
+		add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
 		addManejadorConstraseña(txtContraseña, "Contraseña");
 		addManejadorConstraseña(txtConfirmar_contraseña, "Confirmar Contraseña");
@@ -348,7 +348,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnLogin.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLogin.gridx = 2;
 		gbc_btnLogin.gridy = 10;
-		frame.getContentPane().add(btnLogin, gbc_btnLogin);
+		add(btnLogin, gbc_btnLogin);
 		
 		btnAtras = new JButton("     ATRÁS     ");
 		btnAtras.setForeground(new Color(218, 200, 41));
@@ -360,7 +360,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAtras.gridx = 2;
 		gbc_btnAtras.gridy = 11;
-		frame.getContentPane().add(btnAtras, gbc_btnAtras);
+		add(btnAtras, gbc_btnAtras);
 		
 		addManejadorBotonColor(btnLogin);
 		addManejadorBotonColor(btnAtras);

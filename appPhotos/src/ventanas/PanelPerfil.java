@@ -36,14 +36,16 @@ public class PanelPerfil extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario;
+	private Home home;
 	
 
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelPerfil(Usuario usuario) {
+	public PanelPerfil(Home home, Usuario usuario) {
 		this.usuario=usuario;
+		this.home = home;
 		crearPanel();
 		generarPerfil();
 		
@@ -95,6 +97,7 @@ public class PanelPerfil extends JPanel {
 		gbc_btnEditarPerfil.gridx = 7;
 		gbc_btnEditarPerfil.gridy = 1;
 		add(btnEditarPerfil, gbc_btnEditarPerfil);
+		home.addManejadorClickBoton(btnEditarPerfil, new PanelEditar());
 		
 		JLabel lblPublicaciones = new JLabel(String.valueOf(usuario.getNumeroPublicaciones()));
 		GridBagConstraints gbc_lblPublicaciones = new GridBagConstraints();

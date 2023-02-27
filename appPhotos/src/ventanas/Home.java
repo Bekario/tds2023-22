@@ -214,10 +214,10 @@ public class Home {
 	private void prepararTodosPaneles() {
 		panelBusqueda = new PanelBuscar();
 		panelInicio = new PanelInicio(this);  //MALENIA OJO CON EL CONSTRUCTOR
-		panelPerfil = new PanelPerfil(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\adri2\\Desktop\\sexiest man in earth.png", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a dolor sit amet diam lacinia accumsan. Etiam pulvinar nisl malesuada."));
+		panelPerfil = new PanelPerfil(this, new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\adri2\\Desktop\\sexiest man in earth.png", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a dolor sit amet diam lacinia accumsan. Etiam pulvinar nisl malesuada."));
 	}
 	
-	private void addManejadorClickBoton(JButton boton, JPanel panel) {
+	protected void addManejadorClickBoton(JButton boton, JPanel panel) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scrollPane.setViewportView(panel);
