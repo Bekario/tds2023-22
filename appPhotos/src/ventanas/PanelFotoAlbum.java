@@ -2,26 +2,17 @@ package ventanas;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
-import javax.swing.JTextField;
 
 import controlador.Controlador;
-import modelo.Publicacion;
 import modelo.Usuario;
 
 import java.awt.Insets;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.CaretEvent;
 
 public class PanelFotoAlbum extends JPanel {
 	/**
@@ -34,6 +25,7 @@ public class PanelFotoAlbum extends JPanel {
 	private PanelCuadriculaPublicaciones panelFotos;
 	private PanelCuadriculaPublicaciones panelAlbum;
 	private String estadoPanel;
+	private GridBagConstraints gbc_panelFotos;
 
 
 	/**
@@ -47,8 +39,8 @@ public class PanelFotoAlbum extends JPanel {
 	
 	private void crearPanel() {
 		crearLayout();
-		crearBotones();
 		crearPanelesPublicaciones();
+		crearBotones();
 	}
 	
 	private void crearLayout() {
@@ -62,7 +54,7 @@ public class PanelFotoAlbum extends JPanel {
 	
 	private void crearBotones() {
 		JButton btnFotos = new JButton("Fotos");
-		btnFotos.setBackground(new Color(45, 42, 46));
+		btnFotos.setBackground(new Color(66, 61, 67));
 		btnFotos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_btnFotos = new GridBagConstraints();
 		gbc_btnFotos.anchor = GridBagConstraints.EAST;
@@ -82,13 +74,44 @@ public class PanelFotoAlbum extends JPanel {
 		gbc_btnAlbum.gridy = 0;
 		add(btnAlbum, gbc_btnAlbum);
 		btnAlbum.setBorder(null);
+		
+		addManejadorBotonPaneles(btnFotos, panelFotos, FOTO);
+		addManejadorBotonPaneles(btnAlbum, panelAlbum, ALBUM);
+	}
 	
+	/**
+	 * Permite cambiar de un panel de publicaciones a otro
+	 * @param btn boton que lleva a cabo la accion
+	 * @param panel panel que se desea asociar a ese boton
+	 * @param tipo tipo del panel
+	 */
+	private void addManejadorBotonPaneles(JButton btn, JPanel panel, String tipo) {
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tipo != estadoPanel) {
+					if (tipo == ALBUM) {
+						estadoPanel = FOTO;
+						remove(panelAlbum);
+						add(panelFotos, gbc_panelFotos);
+						
+						panelFotos.updateUI();
+					} else {
+						estadoPanel = ALBUM;
+						remove(panelFotos);
+						add(panelAlbum, gbc_panelFotos);
+						
+						panelAlbum.updateUI();
+					}
+					btn.setBackground(new Color(66, 61, 67));
+				}
+			}
+		});
 	}
 	
 	private void crearPanelesPublicaciones() {
 		//Creamos el panel de fotos, que es el que se muestra primero por defecto
 		panelFotos = new PanelCuadriculaPublicaciones();
-		GridBagConstraints gbc_panelFotos = new GridBagConstraints();
+		gbc_panelFotos = new GridBagConstraints();
 		gbc_panelFotos.gridwidth = 3;
 		gbc_panelFotos.insets = new Insets(0, 0, 0, 5);
 		gbc_panelFotos.fill = GridBagConstraints.BOTH;
@@ -111,18 +134,10 @@ public class PanelFotoAlbum extends JPanel {
 	
 	private void cargarPublicaciones() {
 		Usuario u = Controlador.getInstancia().getUsuarioActual();
-		addPublicaciones(panelAlbum, u.getFotos());
-		addPublicaciones(panelFotos, u.getAlbums());
+		panelAlbum.addAlbums(u.getAlbums());
+		panelFotos.addFotos(u.getFotos());
 	}
 	
-	/**
-	 * Añade al panel una lista de publicaciones
-	 * @param panel
-	 * @param publicaciones
-	 */
-	private void addPublicaciones(PanelCuadriculaPublicaciones panel, List <Publicacion> publicaciones) {
-		panel.addPublicaciones(publicaciones);
-	}
 
 	
 

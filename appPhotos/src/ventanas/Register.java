@@ -490,7 +490,7 @@ public class Register {
 			info = "¡La contraseña no es valida!\nUna contraseña valida contiene 3-16 caracteres y mínimo una minúscula, mayúscula y dígito.";
 		}
 		
-		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || txtConfirmar_contraseña.getPassword().equals(txtContraseña.getPassword())) {
+		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || !txtConfirmar_contraseña.getPassword().equals(txtContraseña.getPassword())) {
 			estado = false;
 			info = "¡Las contraseñas no son iguales!";
 		}
