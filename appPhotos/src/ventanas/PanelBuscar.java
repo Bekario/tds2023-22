@@ -40,9 +40,8 @@ public class PanelBuscar extends JPanel {
 		crearPanelBuscar();
 		crearPanelLista();
 	}
+	
 	private void crearPanelBuscar() {
-		
-		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{5, 0, 40, 5, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 40, 10, 0, 0};

@@ -296,7 +296,7 @@ public class Login {
 	private void addManejadorRegistrarse(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Register ventana = new Register();
+				PanelRegister ventana = new PanelRegister();
 				ventana.mostrarVentana(frame);
 				frame.dispose();
 			}

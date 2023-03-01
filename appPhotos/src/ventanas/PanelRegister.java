@@ -1,10 +1,5 @@
 package ventanas;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
-import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import java.awt.Toolkit;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -14,6 +9,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
@@ -39,8 +35,9 @@ import com.toedter.calendar.JTextFieldDateEditor;
 
 import controlador.Controlador;
 
-public class Register {
-	private JFrame frame;
+public class PanelRegister extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	private JTextField txtEmail;
 	private JTextField txtNombre;
 	private JTextField txtUsuario;
@@ -53,58 +50,15 @@ public class Register {
 	private JButton btnAtras;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		FlatMonokaiProIJTheme.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register window = new Register();
-					window.frame.setVisible(true);
-					window.frame.getRootPane().requestFocus(false);
-					window.frame.setLocationRelativeTo(null);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
-	public Register() {
-		initialize();
-	}
-	
-	/**
-	 * Muestra la ventana
-	 */
-	public void mostrarVentana(JFrame padre) {
-		frame.setLocationRelativeTo(padre);
-		frame.setVisible(true);
-		frame.getRootPane().requestFocus(false);
-	}
-	
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Register.class.getResource("/imagenes/camara-de-fotos.png")));
-		frame.setBounds(100, 100, 450, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public PanelRegister() {
+		this.setSize(450, 600);
+		crearPanel();
 		
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
-		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 20, 50, 50, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
-				Double.MIN_VALUE };
-		frame.getContentPane().setLayout(gridBagLayout);
-		
+	}
+	private void crearPanel() {
+		crearLayout();
 		establecerTitulo();
 		establecerEmail();
 		establecerNombre();
@@ -114,11 +68,19 @@ public class Register {
 		establecerBotonContinuar();
 	}
 	
+	private void crearLayout() {
+		GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
+        gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 20, 50, 50, 0, 0 };
+        gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+        gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,Double.MIN_VALUE };
+        setLayout(gridBagLayout);
+	}
+	
 	/**
 	 * Crea el titulo
 	 */
 	private void establecerTitulo() {
-		
 		JLabel lblNombreApp = new JLabel("appPhotos");
 		lblNombreApp.setForeground(new Color(233, 233, 233));
 		lblNombreApp.setIcon(null);
@@ -127,7 +89,7 @@ public class Register {
 		gbc_lblNombreApp.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNombreApp.gridx = 2;
 		gbc_lblNombreApp.gridy = 1;
-		frame.getContentPane().add(lblNombreApp, gbc_lblNombreApp);
+		add(lblNombreApp, gbc_lblNombreApp);
 	}
 	
 	/**
@@ -144,7 +106,7 @@ public class Register {
 		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtEmail.gridx = 2;
 		gbc_txtEmail.gridy = 3;
-		frame.getContentPane().add(txtEmail, gbc_txtEmail);
+		add(txtEmail, gbc_txtEmail);
 		txtEmail.setColumns(10);
 		
 		addManejadorTextos(txtEmail, "Email");
@@ -186,7 +148,7 @@ public class Register {
 		gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtNombre.gridx = 2;
 		gbc_txtNombre.gridy = 4;
-		frame.getContentPane().add(txtNombre, gbc_txtNombre);
+		add(txtNombre, gbc_txtNombre);
 		txtNombre.setColumns(10);
 		
 		addManejadorTextos(txtNombre, "Nombre");
@@ -205,7 +167,7 @@ public class Register {
 		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtUsuario.gridx = 2;
 		gbc_txtUsuario.gridy = 6;
-		frame.getContentPane().add(txtUsuario, gbc_txtUsuario);
+		add(txtUsuario, gbc_txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		addManejadorTextos(txtUsuario, "Usuario");
@@ -247,7 +209,7 @@ public class Register {
 		gbc_dateChooser.fill = GridBagConstraints.BOTH;
 		gbc_dateChooser.gridx = 2;
 		gbc_dateChooser.gridy = 5;
-		frame.getContentPane().add(dateChooser, gbc_dateChooser);
+		add(dateChooser, gbc_dateChooser);
 	}
 	
 	/**
@@ -262,7 +224,7 @@ public class Register {
 		gbc_txtContraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtContraseña.gridx = 2;
 		gbc_txtContraseña.gridy = 7;
-		frame.getContentPane().add(txtContraseña, gbc_txtContraseña);
+		add(txtContraseña, gbc_txtContraseña);
 
 		txtConfirmar_contraseña = new JPasswordField();
 		btnMostrarPass = new JButton("");
@@ -277,7 +239,7 @@ public class Register {
 		gbc_btnMostrarPass.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMostrarPass.gridx = 3;
 		gbc_btnMostrarPass.gridy = 7;
-		frame.getContentPane().add(btnMostrarPass, gbc_btnMostrarPass);
+		add(btnMostrarPass, gbc_btnMostrarPass);
 		txtConfirmar_contraseña.setText("Confirmar Contraseña");
 		txtConfirmar_contraseña.setEchoChar((char) 0);
 		GridBagConstraints gbc_txtConfirmar_contraseña = new GridBagConstraints();
@@ -285,7 +247,7 @@ public class Register {
 		gbc_txtConfirmar_contraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtConfirmar_contraseña.gridx = 2;
 		gbc_txtConfirmar_contraseña.gridy = 8;
-		frame.getContentPane().add(txtConfirmar_contraseña, gbc_txtConfirmar_contraseña);
+		add(txtConfirmar_contraseña, gbc_txtConfirmar_contraseña);
 		
 		btnMostrarPass2 = new JButton("");
 		btnMostrarPass2.setBorderPainted(false);
@@ -297,7 +259,7 @@ public class Register {
 		gbc_btnMostrarPass2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMostrarPass2.gridx = 3;
 		gbc_btnMostrarPass2.gridy = 8;
-		frame.getContentPane().add(btnMostrarPass2, gbc_btnMostrarPass2);
+		add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
 		addManejadorConstraseña(txtContraseña, "Contraseña");
 		addManejadorConstraseña(txtConfirmar_contraseña, "Confirmar Contraseña");
@@ -374,7 +336,7 @@ public class Register {
 		gbc_btnLogin.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLogin.gridx = 2;
 		gbc_btnLogin.gridy = 10;
-		frame.getContentPane().add(btnLogin, gbc_btnLogin);
+		add(btnLogin, gbc_btnLogin);
 		
 		btnAtras = new JButton("     ATRÁS     ");
 		btnAtras.setForeground(new Color(218, 200, 41));
@@ -386,7 +348,7 @@ public class Register {
 		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAtras.gridx = 2;
 		gbc_btnAtras.gridy = 11;
-		frame.getContentPane().add(btnAtras, gbc_btnAtras);
+		add(btnAtras, gbc_btnAtras);
 		
 		addManejadorBotonColor(btnLogin);
 		addManejadorBotonColor(btnAtras);
@@ -409,9 +371,8 @@ public class Register {
 					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), new String(txtContraseña.getPassword()), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
 						Register2 registro2 = new Register2();
 						registro2.mostrarVentana(frame);
-						frame.dispose();
 					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
-						JOptionPane.showMessageDialog(frame, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
+						JOptionPane.showMessageDialog(this, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
 					}
 				}
 			}
@@ -499,7 +460,7 @@ public class Register {
 		}
 		
 		if(!estado) {
-			JOptionPane.showMessageDialog(frame, info, "Rellene correctamente los campos", 0);
+			JOptionPane.showMessageDialog(this, info, "Rellene correctamente los campos", 0);
 		}
 		
 		return estado;

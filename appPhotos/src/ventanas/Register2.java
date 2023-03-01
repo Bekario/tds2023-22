@@ -353,7 +353,7 @@ public class Register2 {
 	private void addManejadorBotonAtras(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Register register = new Register();
+				PanelRegister register = new PanelRegister();
 				
 				//Vamos a sacar los datos del usuario parcial generado para rellenar los campos
 				Usuario user = Controlador.getInstancia().getUsuarioActual();
