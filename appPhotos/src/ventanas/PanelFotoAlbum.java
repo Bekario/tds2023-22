@@ -22,10 +22,12 @@ public class PanelFotoAlbum extends JPanel {
 	private static final String FOTO = "foto";
 	private static final String ALBUM = "album";
 	
-	private PanelCuadriculaPublicaciones panelFotos;
-	private PanelCuadriculaPublicaciones panelAlbum;
+	private PanelCuadriculaFotos panelFotos;
+	private PanelCuadriculaAlbums panelAlbum;
 	private String estadoPanel;
 	private GridBagConstraints gbc_panelFotos;
+	private JButton btnAlbum;
+	private JButton btnFotos;
 
 
 	/**
@@ -34,7 +36,7 @@ public class PanelFotoAlbum extends JPanel {
 	public PanelFotoAlbum() {
 		this.setSize(450, 600);
 		crearPanel();
-		
+		cargarPublicaciones();
 	}
 	
 	private void crearPanel() {
@@ -53,7 +55,7 @@ public class PanelFotoAlbum extends JPanel {
 	}
 	
 	private void crearBotones() {
-		JButton btnFotos = new JButton("Fotos");
+		btnFotos = new JButton("Fotos");
 		btnFotos.setBackground(new Color(66, 61, 67));
 		btnFotos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_btnFotos = new GridBagConstraints();
@@ -64,7 +66,7 @@ public class PanelFotoAlbum extends JPanel {
 		add(btnFotos, gbc_btnFotos);
 		btnFotos.setBorder(null);
 		
-		JButton btnAlbum = new JButton("Album");
+		btnAlbum = new JButton("Album");
 		btnAlbum.setBackground(new Color(42, 45, 46));
 		btnAlbum.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_btnAlbum = new GridBagConstraints();
@@ -89,16 +91,18 @@ public class PanelFotoAlbum extends JPanel {
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (tipo != estadoPanel) {
-					if (tipo == ALBUM) {
+					if (tipo == FOTO) {
 						estadoPanel = FOTO;
 						remove(panelAlbum);
 						add(panelFotos, gbc_panelFotos);
+						btnAlbum.setBackground(new Color(42, 45, 46));
 						
 						panelFotos.updateUI();
 					} else {
 						estadoPanel = ALBUM;
 						remove(panelFotos);
 						add(panelAlbum, gbc_panelFotos);
+						btnFotos.setBackground(new Color(42, 45, 46));
 						
 						panelAlbum.updateUI();
 					}
@@ -110,7 +114,7 @@ public class PanelFotoAlbum extends JPanel {
 	
 	private void crearPanelesPublicaciones() {
 		//Creamos el panel de fotos, que es el que se muestra primero por defecto
-		panelFotos = new PanelCuadriculaPublicaciones();
+		panelFotos = new PanelCuadriculaFotos();
 		gbc_panelFotos = new GridBagConstraints();
 		gbc_panelFotos.gridwidth = 3;
 		gbc_panelFotos.insets = new Insets(0, 0, 0, 5);
@@ -122,7 +126,7 @@ public class PanelFotoAlbum extends JPanel {
 		estadoPanel = FOTO;
 		
 		//Creamos el panel de albums
-		panelAlbum = new PanelCuadriculaPublicaciones();
+		panelAlbum = new PanelCuadriculaAlbums();
 		GridBagConstraints gbc_panelAlbum = new GridBagConstraints();
 		gbc_panelAlbum.gridwidth = 3;
 		gbc_panelAlbum.insets = new Insets(0, 0, 0, 5);

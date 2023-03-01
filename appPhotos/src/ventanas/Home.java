@@ -6,28 +6,19 @@ import javax.swing.JFrame;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 
-import modelo.RepoUsuarios;
 import modelo.Usuario;
 
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
-import java.awt.Panel;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import java.awt.Color;
 import javax.swing.JPanel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;

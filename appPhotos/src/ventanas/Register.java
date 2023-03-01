@@ -42,7 +42,6 @@ import controlador.Controlador;
 public class Register {
 	private JFrame frame;
 	private JTextField txtEmail;
-	private JTextField nombre;
 	private JTextField txtNombre;
 	private JTextField txtUsuario;
 	private JPasswordField txtContraseña;
@@ -179,7 +178,6 @@ public class Register {
 	 * Crea el nombre field
 	 */
 	private void establecerNombre() {
-		nombre = new JTextField();
 		txtNombre = new JTextField();
 		txtNombre.setText("Nombre");
 		txtNombre.setToolTipText("");
@@ -408,7 +406,7 @@ public class Register {
 				//Si todos los campos son correctos
 				if (checkFields()) {
 					//Intentamos registrar parcialmente el usuario
-					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), txtContraseña.getText(), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
+					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), new String(txtContraseña.getPassword()), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
 						Register2 registro2 = new Register2();
 						registro2.mostrarVentana(frame);
 						frame.dispose();
@@ -489,8 +487,8 @@ public class Register {
 			estado = false;
 			info = "¡La contraseña no es valida!\nUna contraseña valida contiene 3-16 caracteres y mínimo una minúscula, mayúscula y dígito.";
 		}
-		
-		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || !txtConfirmar_contraseña.getPassword().equals(txtContraseña.getPassword())) {
+
+		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || !new String(txtConfirmar_contraseña.getPassword()).equals(new String(txtContraseña.getPassword()))) {
 			estado = false;
 			info = "¡Las contraseñas no son iguales!";
 		}

@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
+
+import controlador.Controlador;
+
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -32,7 +35,7 @@ public class Login {
 
 	private JFrame frame;
 	private JTextField txtUser;
-	private JPasswordField textPasswd;
+	private JPasswordField txtPasswd;
 	private JLabel foto;
 	private JButton btnLogin;
 	private JButton btnRegistrarse;
@@ -134,16 +137,16 @@ public class Login {
 		frame.getContentPane().add(txtUser, gbc_txtUser);
 		txtUser.setColumns(10);
 		
-		textPasswd = new JPasswordField();
-		textPasswd.setText("Contraseña");
-		textPasswd.setEchoChar((char)0);
-		GridBagConstraints gbc_textPasswd = new GridBagConstraints();
-		gbc_textPasswd.gridwidth = 3;
-		gbc_textPasswd.insets = new Insets(0, 0, 5, 5);
-		gbc_textPasswd.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPasswd.gridx = 1;
-		gbc_textPasswd.gridy = 6;
-		frame.getContentPane().add(textPasswd, gbc_textPasswd);
+		txtPasswd = new JPasswordField();
+		txtPasswd.setText("Contraseña");
+		txtPasswd.setEchoChar((char)0);
+		GridBagConstraints gbc_txtPasswd = new GridBagConstraints();
+		gbc_txtPasswd.gridwidth = 3;
+		gbc_txtPasswd.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPasswd.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPasswd.gridx = 1;
+		gbc_txtPasswd.gridy = 6;
+		frame.getContentPane().add(txtPasswd, gbc_txtPasswd);
 		btnMostrarPass2 = new JButton("");
 		btnMostrarPass2.setContentAreaFilled(false);
 		btnMostrarPass2.setBorderPainted(false);
@@ -160,9 +163,9 @@ public class Login {
 		
 		frame.getContentPane().add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
-		addManejadorContraseña(textPasswd);
+		addManejadorContraseña(txtPasswd);
 		addManejadorUsuario(txtUser);
-		addManejadorBotonesMostrarContraseña(btnMostrarPass2, textPasswd, "Contraseña");
+		addManejadorBotonesMostrarContraseña(btnMostrarPass2, txtPasswd, "Contraseña");
 	}
 	
 	/**
@@ -278,12 +281,14 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				//checkfield
 				if (checkFields()) {
-					System.out.println("a");
+					if(Controlador.getInstancia().loginUsuario(txtUser.getText(), new String(txtPasswd.getPassword()))) {
+						Home home = new Home();
+						home.mostrarVentana(frame);
+						frame.dispose();
+					} else {
+						JOptionPane.showMessageDialog(frame, "¡El nombre de usuario o la contraseña no es correcto!", "Rellene correctamente los campos", 0);
+					}
 				}
-				//VentanaMain ventana = new Register();
-				//ventana.mostrarVentana();
-				//frame.dispose();
-				
 			}
 		});
 	}
@@ -329,7 +334,7 @@ public class Login {
 			info = "¡El usuario no es correcto!";
 		}
 		
-		if(new String(textPasswd.getPassword()).equals("Contraseña") /*|| !match.matches()*/) {
+		if(new String(txtPasswd.getPassword()).equals("Contraseña") /*|| !match.matches()*/) {
 			estado = false;
 			info = "¡La contraseña es incorrecta!";
 		}

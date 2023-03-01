@@ -1,6 +1,5 @@
 package controlador;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -10,21 +9,17 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelo.Album;
 import modelo.DescuentoEdad;
 import modelo.DescuentoPopularidad;
-import modelo.Foto;
 import modelo.Publicacion;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
-import modelo.Variables;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
-import ventanas.Register2;
 
 public class Controlador {
 	private static Controlador unicaInstancia = null;
