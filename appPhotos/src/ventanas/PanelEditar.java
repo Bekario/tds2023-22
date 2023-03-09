@@ -242,7 +242,7 @@ public class PanelEditar extends JPanel {
 		btnMostrarPass = new JButton("");
 		btnMostrarPass.setBorderPainted(false);
 		btnMostrarPass.setContentAreaFilled(false);
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/mostrarcont.png"));
+		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/mostrarcont.png"));
         Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
         btnMostrarPass.setIcon(icono);
         
@@ -381,7 +381,7 @@ public class PanelEditar extends JPanel {
 				if (checkFields()) {
 					//Intentamos registrar parcialmente el usuario
 					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), txtContraseña.getText(), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
-						Register2 registro2 = new Register2();
+						PanelRegister2 registro2 = new PanelRegister2();
 						registro2.mostrarVentana(frame);
 						frame.dispose();
 					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado

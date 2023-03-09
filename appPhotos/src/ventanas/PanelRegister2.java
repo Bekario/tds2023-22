@@ -16,6 +16,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
@@ -41,9 +42,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 
 
-public class Register2 {
+public class PanelRegister2 extends JPanel {
 
-	private JFrame frame;
 	private JScrollPane scrollPane;
 	private JEditorPane descripcion;
 	private JButton btnborrar;
@@ -55,60 +55,26 @@ public class Register2 {
 	private final String FOTO_DEFECTO = "/imagenes/face-detection.png";
 	private JButton btnAtras;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		FlatMonokaiProIJTheme.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register2 window = new Register2();
-					window.frame.setVisible(true);
-					window.frame.getRootPane().requestFocus(false);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public Register2() {
-		initialize();
+	public PanelRegister2() {
+		this.setSize(450, 600);
+		crearPanel();
 	}
 	
-	/**
-	 * Muestra la ventana
-	 */
-	public void mostrarVentana(JFrame padre) {
-		frame.setLocationRelativeTo(padre);
-		frame.setVisible(true);
-		frame.getRootPane().requestFocus(false);
+	private void crearPanel() {
+		crearLayout();
+		establecerTitulo();
+		establecerBotones();
+		establecerImagenSubida();
+		establecerDescripcion();
 	}
 	
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Register2.class.getResource("/imagenes/camara-de-fotos.png")));
-		frame.setBounds(100, 100, 450, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	private void crearLayout() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 35, 0, 0, 35, 50, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 60, 0, 25, 0, 10, 30, 50, 50, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
-		
-		establecerTitulo();
-		establecerBotones();
-		establecerImagenSubida();
-		establecerDescripcion();
+		setLayout(gridBagLayout);
 	}
 	
 	/**
@@ -124,7 +90,7 @@ public class Register2 {
 		gbc_nombreApp.insets = new Insets(0, 0, 5, 5);
 		gbc_nombreApp.gridx = 2;
 		gbc_nombreApp.gridy = 1;
-		frame.getContentPane().add(nombreApp, gbc_nombreApp);
+		add(nombreApp, gbc_nombreApp);
 	}
 	
 	/**
@@ -132,7 +98,7 @@ public class Register2 {
 	 */
 	private void establecerImagenSubida() {
 		perfil = new JLabel("");
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/face-detection.png"));
+		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/face-detection.png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
 		
 		perfil.setIcon(icono);
@@ -141,7 +107,7 @@ public class Register2 {
 		gbc_perfil.insets = new Insets(0, 0, 5, 5);
 		gbc_perfil.gridx = 3;
 		gbc_perfil.gridy = 3;
-		frame.getContentPane().add(perfil, gbc_perfil);
+		add(perfil, gbc_perfil);
 		
 		fotoActual = "/imagenes/face-detection.png";
 	}
@@ -159,7 +125,7 @@ public class Register2 {
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 2;
 		gbc_scrollPane.gridy = 5;
-		frame.getContentPane().add(scrollPane, gbc_scrollPane);
+		add(scrollPane, gbc_scrollPane);
 		
 		descripcion = new JEditorPane();
 		descripcion.setText("Introduce una breve descripción sobre ti...");
@@ -201,7 +167,7 @@ public class Register2 {
 		gbc_btnMeterImg.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMeterImg.gridx = 2;
 		gbc_btnMeterImg.gridy = 3;
-		frame.getContentPane().add(btnMeterImg, gbc_btnMeterImg);
+		add(btnMeterImg, gbc_btnMeterImg);
 		
 		//Boton borrar texto
 		btnborrar = new JButton("Borrar Texto");
@@ -212,7 +178,7 @@ public class Register2 {
 		gbc_btnborrar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnborrar.gridx = 3;
 		gbc_btnborrar.gridy = 6;
-		frame.getContentPane().add(btnborrar, gbc_btnborrar);
+		add(btnborrar, gbc_btnborrar);
 		
 		//Boton registrarse
 		btnRegistrarse = new JButton("REGISTRARSE");
@@ -227,7 +193,7 @@ public class Register2 {
 		gbc_btnRegistrarse.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRegistrarse.gridx = 2;
 		gbc_btnRegistrarse.gridy = 8;
-		frame.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
+		add(btnRegistrarse, gbc_btnRegistrarse);
 		
 		//Boton atras
 		btnAtras = new JButton("      ATRÁS      ");
@@ -241,7 +207,7 @@ public class Register2 {
 		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAtras.gridx = 2;
 		gbc_btnAtras.gridy = 9;
-		frame.getContentPane().add(btnAtras, gbc_btnAtras);
+		add(btnAtras, gbc_btnAtras);
 		
 		addManejadorBotonColor(btnRegistrarse);
 		addManejadorBotonColor(btnAtras);

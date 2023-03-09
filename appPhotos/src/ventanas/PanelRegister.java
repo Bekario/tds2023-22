@@ -49,9 +49,6 @@ public class PanelRegister extends JPanel {
 	private JDateChooser dateChooser;
 	private JButton btnAtras;
 
-	/**
-	 * Create the application.
-	 */
 	public PanelRegister() {
 		this.setSize(450, 600);
 		crearPanel();
@@ -230,7 +227,7 @@ public class PanelRegister extends JPanel {
 		btnMostrarPass = new JButton("");
 		btnMostrarPass.setBorderPainted(false);
 		btnMostrarPass.setContentAreaFilled(false);
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/mostrarcont.png"));
+		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/mostrarcont.png"));
         Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
         btnMostrarPass.setIcon(icono);
         
@@ -369,8 +366,8 @@ public class PanelRegister extends JPanel {
 				if (checkFields()) {
 					//Intentamos registrar parcialmente el usuario
 					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), new String(txtContraseña.getPassword()), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
-						Register2 registro2 = new Register2();
-						registro2.mostrarVentana(frame);
+						PanelRegister2 registro2 = new PanelRegister2();
+						//registro2.mostrarVentana();
 					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
 						JOptionPane.showMessageDialog(this, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
 					}
