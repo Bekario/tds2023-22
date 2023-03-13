@@ -14,6 +14,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import controlador.Controlador;
 import modelo.Usuario;
 
 import java.awt.Insets;
@@ -300,7 +301,6 @@ public class PanelEditar extends JPanel {
 		add(btnGuardar, gbc_btnGuardar);
 		
 		addManejadorBotonColor(btnGuardar);
-		
 		addManejadorBotonGuardar(btnGuardar);	
 	}
 	
@@ -332,14 +332,8 @@ public class PanelEditar extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//Si todos los campos son correctos
 				if (checkFields()) {
-					//Intentamos registrar parcialmente el usuario
-					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), txtContraseña.getText(), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
-						PanelRegister2 registro2 = new PanelRegister2();
-						registro2.mostrarVentana(frame);
-						frame.dispose();
-					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
-						JOptionPane.showMessageDialog(frame, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
-					}
+					Controlador.getInstancia().modificarUsuario(txtUsuario.getText(), new String(txtContraseña.getPassword()) , txtEmail.getText(), txtNombre.getText());
+					padre.getHome().CambiarScrollPane(padre);
 				}
 			}
 		});
@@ -353,7 +347,7 @@ public class PanelEditar extends JPanel {
 	private void addManejadorBotonAtras(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				padre.getHome().addManejadorClickBoton(boton, padre);
+				padre.getHome().CambiarScrollPane(padre);
 			}
 	});
 }

@@ -88,6 +88,11 @@ public class PanelPerfil extends JPanel {
 		add(lblUsuario, gbc_lblUsuario);
 		
 		JButton btnEditarPerfil = new JButton("Editar");
+//		btnEditarPerfil.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				home.CambiarScrollPane(null);
+//			}
+//		});
 		
 		GridBagConstraints gbc_btnEditarPerfil = new GridBagConstraints();
 		gbc_btnEditarPerfil.gridheight = 3;
@@ -96,7 +101,8 @@ public class PanelPerfil extends JPanel {
 		gbc_btnEditarPerfil.gridx = 7;
 		gbc_btnEditarPerfil.gridy = 1;
 		add(btnEditarPerfil, gbc_btnEditarPerfil);
-		home.addManejadorClickBoton(btnEditarPerfil, new PanelEditar(usuario, this));
+		
+		home.addManejadorEdit(btnEditarPerfil, this);
 		
 		JLabel lblPublicaciones = new JLabel(String.valueOf(usuario.getNumeroPublicaciones()));
 		GridBagConstraints gbc_lblPublicaciones = new GridBagConstraints();

@@ -215,5 +215,16 @@ public class Home {
 			}
 		});
 	}
+	protected void CambiarScrollPane(JPanel panel) {
+				scrollPane.setViewportView(panel);
+
+		}
+	protected void addManejadorEdit(JButton boton, 	JPanel panel) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				scrollPane.setViewportView(new PanelEditar(new Usuario("adrian", "LOMO", "adrianpar@um.es", "Antonio Feo", LocalDate.now(), "C:\\Users\\adri2\\Desktop\\sexiest man in earth.png", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a dolor sit amet diam lacinia accumsan. Etiam pulvinar nisl malesuada."), panel));
+			}
+		});
+	}
 	
 }

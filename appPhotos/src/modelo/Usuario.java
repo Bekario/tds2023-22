@@ -148,6 +148,22 @@ public class Usuario {
 	public void setUsuariosSeguidores(List<String> usuariosSeguidores) {
 		this.usuariosSeguidores = usuariosSeguidores;
 	}
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public void setContraseña(String contraseña) {
+		this.contraseña = contraseña;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+
 	public void setUsuariosSeguidos(List<String> usuariosSeguidos) {
 		this.usuariosSeguidos = usuariosSeguidos;
 	}

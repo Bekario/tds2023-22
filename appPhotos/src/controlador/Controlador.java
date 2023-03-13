@@ -26,7 +26,7 @@ public class Controlador {
 	private RepoUsuarios repoUsuarios;
 	private RepoPublicaciones repoPublicaciones;
 	private Usuario usuarioActual;
-	private FactoriaDAO factoria;
+//	private FactoriaDAO factoria;
 	
 	//Numero de MGs necesarios para el descuento
 	private final int ME_GUSTAS = 1000;
@@ -42,9 +42,7 @@ public class Controlador {
 		usuarioActual = null;
 		repoUsuarios = RepoUsuarios.getUnicaInstancia();
 		repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
-		try {
-			factoria = FactoriaDAO.getInstancia();
-		} catch (DAOException e) {}
+		
 	}
 	
 	public static Controlador getInstancia() {
@@ -100,12 +98,34 @@ public class Controlador {
 	 * @param descripcion
 	 * @return
 	 */
+	
+	public void modificarUsuario(String usuario, String contraseña, String email, String nombreCompleto) {
+		RepoUsuarios.getUnicaInstancia().removeUsuario(usuarioActual);
+		usuarioActual.setUsuario(usuario);
+		usuarioActual.setContraseña(contraseña);
+		usuarioActual.setEmail(email);
+		usuarioActual.setNombreCompleto(nombreCompleto);
+		RepoUsuarios.getUnicaInstancia().addUsuario(usuarioActual);
+		try {
+			FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public void finalizarRegistroUsuario(String perfil, String descripcion) {
 		usuarioActual.setDescripcion(descripcion);
 		usuarioActual.setPerfil(perfil);
 
 		//Obtenemos el adaptador de usuario
-		AdaptadorUsuarioTDS usuarioDAO = (AdaptadorUsuarioTDS) factoria.getUsuarioDAO();
+		AdaptadorUsuarioTDS usuarioDAO=null;
+		try {
+			usuarioDAO = (AdaptadorUsuarioTDS) FactoriaDAO.getInstancia().getUsuarioDAO();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//Registramos al usuario en la base de datos
 		usuarioDAO.registrarUsuario(usuarioActual);
@@ -118,7 +138,13 @@ public class Controlador {
 		if (!esUsuarioRegistrado(usuario.getUsuario()))
 			return false;
 
-		IAdaptadorUsuarioDAO usuarioDAO = factoria.getUsuarioDAO();
+		IAdaptadorUsuarioDAO usuarioDAO=null;
+		try {
+			usuarioDAO = FactoriaDAO.getInstancia().getUsuarioDAO();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		usuarioDAO.borrarUsuario(usuario);
 
 		RepoUsuarios.getUnicaInstancia().removeUsuario(usuario);
@@ -130,7 +156,13 @@ public class Controlador {
 		if (esPublicacionRegistrada(publicacion.getCodigo()))
 			return false;
 
-		IAdaptadorPublicacionDAO publicacionDAO = factoria.getPublicacionDAO();
+		IAdaptadorPublicacionDAO publicacionDAO=null;
+		try {
+			publicacionDAO = FactoriaDAO.getInstancia().getPublicacionDAO();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		publicacionDAO.registrarPublicacion(publicacion);
 
 		RepoPublicaciones.getUnicaInstancia().addPublicacion(publicacion);
@@ -142,7 +174,13 @@ public class Controlador {
 		if (!esPublicacionRegistrada(publicacion.getCodigo()))
 			return false;
 		
-		IAdaptadorPublicacionDAO publicacionDAO = factoria.getPublicacionDAO();
+		IAdaptadorPublicacionDAO publicacionDAO=null;
+		try {
+			publicacionDAO = FactoriaDAO.getInstancia().getPublicacionDAO();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		publicacionDAO.borrarPublicacion(publicacion);
 
 		RepoPublicaciones.getUnicaInstancia().removePublicacion(publicacion);
