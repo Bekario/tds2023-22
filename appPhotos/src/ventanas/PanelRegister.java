@@ -1,6 +1,5 @@
 package ventanas;
 
-import java.awt.Toolkit;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.GridBagLayout;
@@ -48,8 +47,11 @@ public class PanelRegister extends JPanel {
 	private JButton btnLogin;
 	private JDateChooser dateChooser;
 	private JButton btnAtras;
+	
+	private Login padre;
 
-	public PanelRegister() {
+	public PanelRegister(Login padre) {
+		this.padre = padre;
 		this.setSize(450, 600);
 		crearPanel();
 		
@@ -63,6 +65,10 @@ public class PanelRegister extends JPanel {
 		establecerUsuario();
 		establecerContraseñasYBotones();
 		establecerBotonContinuar();
+	}
+	
+	public void mostrar() {
+		this.updateUI();
 	}
 	
 	private void crearLayout() {
@@ -271,20 +277,19 @@ public class PanelRegister extends JPanel {
 	 */
 	private void addManejadorConstraseña(JPasswordField contraseña, String defecto) {
 		contraseña.addFocusListener(new FocusAdapter() {
-			@SuppressWarnings("deprecation")
 			@Override
 			public void focusGained(FocusEvent e) {
-				if (contraseña.getText().equals(defecto)) {
+				if (new String(contraseña.getPassword()).equals(defecto)) {
 					contraseña.setEchoChar('●');
 					contraseña.setText("");
 				} else {
 					contraseña.selectAll();
 				}
 			}
-			@SuppressWarnings("deprecation")
+			
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (contraseña.getText().equals("")) {
+				if (new String(contraseña.getPassword()).equals("")) {
 					contraseña.setText(defecto);
 					contraseña.setEchoChar((char) 0);
 				}
@@ -366,10 +371,10 @@ public class PanelRegister extends JPanel {
 				if (checkFields()) {
 					//Intentamos registrar parcialmente el usuario
 					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), new String(txtContraseña.getPassword()), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
-						PanelRegister2 registro2 = new PanelRegister2();
+						padre.setPanelRegister2();
 						//registro2.mostrarVentana();
 					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
-						JOptionPane.showMessageDialog(this, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
+						JOptionPane.showMessageDialog(padre.getFrame(), "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
 					}
 				}
 			}
@@ -384,9 +389,7 @@ public class PanelRegister extends JPanel {
 	private void addManejadorBotonAtras(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
-				login.mostrarVentana(frame);
-				frame.dispose();
+				padre.setPanelLogin();
 			}
 		});
 		

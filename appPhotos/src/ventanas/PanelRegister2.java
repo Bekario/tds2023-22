@@ -1,15 +1,8 @@
 package ventanas;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
-import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
-
 import controlador.Controlador;
 import modelo.Usuario;
 
-import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.GridBagConstraints;
@@ -27,7 +20,6 @@ import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import java.io.File;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ScrollPaneConstants;
@@ -44,6 +36,7 @@ import javax.swing.UIManager;
 
 public class PanelRegister2 extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private JScrollPane scrollPane;
 	private JEditorPane descripcion;
 	private JButton btnborrar;
@@ -54,10 +47,17 @@ public class PanelRegister2 extends JPanel {
 	private String fotoActual;
 	private final String FOTO_DEFECTO = "/imagenes/face-detection.png";
 	private JButton btnAtras;
-
-	public PanelRegister2() {
+	
+	private Login padre;
+	
+	public PanelRegister2(Login padre) {
+		this.padre = padre;
 		this.setSize(450, 600);
 		crearPanel();
+	}
+	
+	public void mostrar() {
+		this.updateUI();
 	}
 	
 	private void crearPanel() {
@@ -226,11 +226,9 @@ public class PanelRegister2 extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//Si todos los campos son correctos
 				if(checkFields()) {
-					Login ventana = new Login();
-					ventana.mostrarVentana(frame);
+					padre.setPanelLogin();
 					//Borramos la foto subida (imagen temporal)
-					Controlador.getInstancia().eliminarFotoSubida(fotoActual);
-					frame.dispose();					
+					Controlador.getInstancia().eliminarFotoSubida(fotoActual);					
 				}
 			}
 		});
@@ -263,7 +261,7 @@ public class PanelRegister2 extends JPanel {
 				
 				//Comprobamos que la extension sea correcta
 				if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
-					JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
+					JOptionPane.showMessageDialog(padre.getFrame(), "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
 				} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
 					fotoActual = "tmp~tn"+fichero.getName();
 					Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fotoActual);
@@ -319,17 +317,11 @@ public class PanelRegister2 extends JPanel {
 	private void addManejadorBotonAtras(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PanelRegister register = new PanelRegister();
-				
 				//Vamos a sacar los datos del usuario parcial generado para rellenar los campos
 				Usuario user = Controlador.getInstancia().getUsuarioActual();
 				
 				//Rellenamos los campos con los datos anteriores
-				register.rellenarCampos(user.getUsuario(), user.getContraseña(), user.getEmail(), user.getNombreCompleto(), user.getFechaNacimiento());
-				
-				//Mostramos la ventana
-				register.mostrarVentana(frame);
-				frame.dispose();
+				padre.setPanelRegister(user.getUsuario(), user.getContraseña(), user.getEmail(), user.getNombreCompleto(), user.getFechaNacimiento());
 			}
 		});
 		
@@ -358,7 +350,7 @@ public class PanelRegister2 extends JPanel {
 		
 		//Si falta un campo, informamos
 		if(!estado) {
-			JOptionPane.showMessageDialog(frame, info, "Rellene correctamente los campos", 0);
+			JOptionPane.showMessageDialog(padre.getFrame(), info, "Rellene correctamente los campos", 0);
 		}
 		
 		return estado;

@@ -3,39 +3,24 @@ package ventanas;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 
-import controlador.Controlador;
-
 import java.awt.Toolkit;
+import java.time.LocalDate;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.GridBagConstraints;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import java.awt.Insets;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.UIManager;
 
 
 public class Login {
 
 	private JFrame frame;
-	private JLabel foto;
-
+	private JPanel panel;
+	
+	private PanelLogin panelLogin;
+	private PanelRegister panelRegister;
+	private PanelRegister2 panelRegister2;
 	/**
 	 * Launch the application.
 	 */
@@ -47,8 +32,6 @@ public class Login {
 					Login window = new Login();
 					window.frame.setVisible(true);
 					window.frame.getRootPane().requestFocus(false);
-					
-//					window.frame.setFocusableWindowState(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -60,7 +43,10 @@ public class Login {
 	 * Create the application.
 	 */
 	public Login() {
+		panelLogin = null;
 		initialize();
+		prepararPaneles();
+		setPanel(panelLogin);
 	}
 	
 	/**
@@ -81,20 +67,71 @@ public class Login {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/camara-de-fotos.png")));
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		frame.getContentPane().setLayout(gridBagLayout);
+		
+		
 	}
 	
-	/**
-	 * Establece la foto y el titulo de la aplicación
-	 */
-	private void establecerFotoTitulo() {
-		foto = new JLabel("");
-		foto.setIcon(new ImageIcon(Login.class.getResource("/imagenes/61-camera-gradient (1).gif")));
-		GridBagConstraints gbc_foto = new GridBagConstraints();
-		gbc_foto.insets = new Insets(0, 0, 5, 5);
-		gbc_foto.gridx = 2;
-		gbc_foto.gridy = 2;
-		frame.getContentPane().add(foto, gbc_foto);
+	private void prepararPaneles() {
+		panelLogin = new PanelLogin(this);
+		panelRegister = new PanelRegister(this);
+		panelRegister2= new PanelRegister2(this);
 	}
-
+	
+	private void setPanel(JPanel panel) {
+		if (this.panel != null) {
+			frame.getContentPane().remove(this.panel);			
+		}
+		this.panel = panel;
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		
+		frame.getContentPane().add(panel, gbc);
+		frame.getContentPane().repaint();
+	}
+	
+	public void cambiarHome() {
+		Home home = new Home();
+		home.mostrarVentana(frame);
+		frame.dispose();
+	}
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+	
+	public void setPanelLogin() {
+		setPanel(panelLogin);
+		panelLogin.mostrar();
+	}
+	
+	public void setPanelRegister() {
+		// Creamos un panel limpio
+		panelRegister = new PanelRegister(this);
+		setPanel(panelRegister);
+		// Lo mostramos
+		panelRegister.mostrar();
+	}
+	
+	public void setPanelRegister(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento) {
+		setPanel(panelRegister);
+		panelRegister.rellenarCampos(usuario, contraseña, email, nombreCompleto, fechaNacimiento);
+		panelRegister.mostrar();
+	}
+	public void setPanelRegister2() {
+		setPanel(panelRegister2);
+		panelRegister2.mostrar();
+	}
+	
+	public PanelRegister getPanelRegister() {
+		return panelRegister;
+	}
 }

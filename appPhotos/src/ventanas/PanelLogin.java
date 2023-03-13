@@ -1,14 +1,7 @@
 package ventanas;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
-import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
-
 import controlador.Controlador;
 
-import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.GridBagConstraints;
@@ -41,8 +34,11 @@ public class PanelLogin extends JPanel {
 	private JButton btnLogin;
 	private JButton btnRegistrarse;
 	private JButton btnMostrarPass2;
+	
+	private Login padre;
 
-	public PanelLogin() {
+	public PanelLogin(Login padre) {
+		this.padre = padre;
 		this.setSize(450, 600);
 		initialize();
 	}
@@ -55,6 +51,10 @@ public class PanelLogin extends JPanel {
 		establecerBotones();
 		establecerFotoTitulo();
 		establecerUsuarioEmail();
+	}
+	
+	public void mostrar() {
+		this.updateUI();
 	}
 	
 	private void establecerLayout() {
@@ -250,11 +250,9 @@ public class PanelLogin extends JPanel {
 				//checkfield
 				if (checkFields()) {
 					if(Controlador.getInstancia().loginUsuario(txtUser.getText(), new String(txtPasswd.getPassword()))) {
-						Home home = new Home();
-						home.mostrarVentana(frame);
-						frame.dispose();
+						padre.cambiarHome();
 					} else {
-						JOptionPane.showMessageDialog(frame, "¡El nombre de usuario o la contraseña no es correcto!", "Rellene correctamente los campos", 0);
+						JOptionPane.showMessageDialog(padre.getFrame(), "¡El nombre de usuario o la contraseña no es correcto!", "Rellene correctamente los campos", 0);
 					}
 				}
 			}
@@ -264,9 +262,7 @@ public class PanelLogin extends JPanel {
 	private void addManejadorRegistrarse(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PanelRegister ventana = new PanelRegister();
-				ventana.mostrarVentana(frame);
-				frame.dispose();
+				padre.setPanelRegister();
 			}
 		});
 	}
@@ -309,7 +305,7 @@ public class PanelLogin extends JPanel {
 		
 		
 		if(!estado) {
-			JOptionPane.showMessageDialog(frame, info, "Rellene correctamente los campos", 0);
+			JOptionPane.showMessageDialog(this, info, "Rellene correctamente los campos", 0);
 		}
 		
 		return estado;
