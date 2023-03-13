@@ -450,7 +450,7 @@ public class Register {
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				boton.setBackground(new Color(78,80,82));
+				boton.setBackground(UIManager.getColor("Button.background"));
 				boton.setForeground(new Color(218,200,41));
 			}
 		});

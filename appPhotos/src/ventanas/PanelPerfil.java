@@ -50,6 +50,9 @@ public class PanelPerfil extends JPanel {
 		generarPerfil();
 		
 	}
+	public Home getHome() {
+		return home;
+	}
 	private void crearPanel() {
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -85,11 +88,7 @@ public class PanelPerfil extends JPanel {
 		add(lblUsuario, gbc_lblUsuario);
 		
 		JButton btnEditarPerfil = new JButton("Editar");
-		btnEditarPerfil.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
+		
 		GridBagConstraints gbc_btnEditarPerfil = new GridBagConstraints();
 		gbc_btnEditarPerfil.gridheight = 3;
 		gbc_btnEditarPerfil.anchor = GridBagConstraints.EAST;
@@ -97,7 +96,7 @@ public class PanelPerfil extends JPanel {
 		gbc_btnEditarPerfil.gridx = 7;
 		gbc_btnEditarPerfil.gridy = 1;
 		add(btnEditarPerfil, gbc_btnEditarPerfil);
-		home.addManejadorClickBoton(btnEditarPerfil, new PanelEditar(usuario));
+		home.addManejadorClickBoton(btnEditarPerfil, new PanelEditar(usuario, this));
 		
 		JLabel lblPublicaciones = new JLabel(String.valueOf(usuario.getNumeroPublicaciones()));
 		GridBagConstraints gbc_lblPublicaciones = new GridBagConstraints();

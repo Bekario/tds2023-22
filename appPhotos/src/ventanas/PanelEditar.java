@@ -14,7 +14,6 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import controlador.Controlador;
 import modelo.Usuario;
 
 import java.awt.Insets;
@@ -31,20 +30,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
-import javax.swing.event.CaretListener;
 
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JTextFieldDateEditor;
-
-import javax.swing.event.CaretEvent;
 
 public class PanelEditar extends JPanel {
 	/**
@@ -61,15 +51,17 @@ public class PanelEditar extends JPanel {
 	private JPasswordField txtConfirmar_contraseña;
 	private JButton btnMostrarPass;
 	private JButton btnMostrarPass2;
-	private JButton btnLogin;
+	private JButton btnGuardar;
 	private JLabel lblNewLabel;
-
+	private JButton btnAtras;
+	private PanelPerfil padre;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelEditar(Usuario usuario) {
+	public PanelEditar(Usuario usuario, JPanel padre) {
 		this.usuario=usuario;
+		this.padre=(PanelPerfil)padre;
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
@@ -84,7 +76,8 @@ public class PanelEditar extends JPanel {
 		establecerNombre();
 		establecerUsuario();
 		establecerContraseñasYBotones();
-		establecerBotonContinuar();
+		establecerBotonGuardar();
+		establecerBotonAtras();
 	}
 	
 	/**
@@ -293,42 +286,60 @@ public class PanelEditar extends JPanel {
 	/**
 	 * Crea el boton continuar
 	 */
-	private void establecerBotonContinuar() {
-		btnLogin = new JButton("CONTINUAR");
-		btnLogin.setForeground(new Color(218, 200, 41));
-		btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnLogin.setBorderPainted(false);
-		btnLogin.setBackground(UIManager.getColor("Button.background"));
-		GridBagConstraints gbc_btnLogin = new GridBagConstraints();
-		gbc_btnLogin.fill = GridBagConstraints.VERTICAL;
-		gbc_btnLogin.insets = new Insets(0, 0, 5, 5);
-		gbc_btnLogin.gridx = 2;
-		gbc_btnLogin.gridy = 10;
-		add(btnLogin, gbc_btnLogin);
+	private void establecerBotonGuardar() {
+		btnGuardar = new JButton("GUARDAR");
+		btnGuardar.setForeground(new Color(218, 200, 41));
+		btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnGuardar.setBorderPainted(false);
+		btnGuardar.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnGuardar = new GridBagConstraints();
+		gbc_btnGuardar.fill = GridBagConstraints.VERTICAL;
+		gbc_btnGuardar.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGuardar.gridx = 2;
+		gbc_btnGuardar.gridy = 10;
+		add(btnGuardar, gbc_btnGuardar);
 		
-		addManejadorBotonColor(btnLogin);
+		addManejadorBotonColor(btnGuardar);
 		
-		addManejadorBotonContinuar(btnLogin);
-		
+		addManejadorBotonGuardar(btnGuardar);	
 	}
 	
+	
+	/**
+	 * Crea el boton continuar
+	 */
+	private void establecerBotonAtras() {
+		btnAtras = new JButton("ATRAS");
+		btnAtras.setForeground(new Color(218, 200, 41));
+		btnAtras.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnAtras.setBorderPainted(false);
+		btnAtras.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnAtras = new GridBagConstraints();
+		gbc_btnAtras.fill = GridBagConstraints.VERTICAL;
+		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAtras.gridx = 2;
+		gbc_btnAtras.gridy = 11;
+		add(btnAtras, gbc_btnAtras);
+		addManejadorBotonColor(btnAtras);
+		addManejadorBotonAtras(btnAtras);
+	}
 	/**
 	 * Controlamos el evento de registro
 	 * @param boton
 	 */
-	private void addManejadorBotonContinuar(JButton boton) {
+	private void addManejadorBotonGuardar(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Si todos los campos son correctos
 				if (checkFields()) {
 					//Intentamos registrar parcialmente el usuario
-					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), txtContraseña.getText(), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
-						Register2 registro2 = new Register2();
-						registro2.mostrarVentana(frame);
-						frame.dispose();
-					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
-						JOptionPane.showMessageDialog(frame, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
-					}
+//					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), txtContraseña.getText(), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
+//						Register2 registro2 = new Register2();
+//						registro2.mostrarVentana(frame);
+//						frame.dispose();
+//					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
+//						JOptionPane.showMessageDialog(frame, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
+//					}
 				}
 			}
 		});
@@ -340,8 +351,14 @@ public class PanelEditar extends JPanel {
 	 * @param boton
 	 */
 	private void addManejadorBotonAtras(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				padre.getHome().addManejadorClickBoton(boton, padre);
+			}
+	});
+}
+	
 		
-	}
 	
 	
 	/**
@@ -357,7 +374,7 @@ public class PanelEditar extends JPanel {
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				boton.setBackground(new Color(78,80,82));
+				boton.setBackground(UIManager.getColor("Button.background"));
 				boton.setForeground(new Color(218,200,41));
 			}
 		});
@@ -397,7 +414,7 @@ public class PanelEditar extends JPanel {
 			info = "¡La contraseña no es valida!\nUna contraseña valida contiene 3-16 caracteres y mínimo una minúscula, mayúscula y dígito.";
 		}
 		
-		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || !txtConfirmar_contraseña.getPassword().equals(txtContraseña.getPassword())) {
+		if(new String(txtConfirmar_contraseña.getPassword()).equals("Confirmar Contraseña") || !new String(txtConfirmar_contraseña.getPassword()).equals(new String(txtContraseña.getPassword()))) {
 			estado = false;
 			info = "¡Las contraseñas no son iguales!";
 		}
@@ -416,7 +433,6 @@ public class PanelEditar extends JPanel {
 		txtUsuario.setText(usuario);
 		txtEmail.setText(email);
 		txtNombre.setText(nombreCompleto);
-		dateChooser.setDate(Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 	}
 	
 
