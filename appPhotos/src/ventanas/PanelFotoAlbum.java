@@ -36,7 +36,7 @@ public class PanelFotoAlbum extends JPanel {
 	public PanelFotoAlbum() {
 		this.setSize(450, 600);
 		crearPanel();
-		cargarPublicaciones();
+		//cargarPublicaciones();
 	}
 	
 	private void crearPanel() {

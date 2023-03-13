@@ -34,6 +34,7 @@ import javax.swing.UIManager;
 
 public class PanelLogin extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private JTextField txtUser;
 	private JPasswordField txtPasswd;
 	private JLabel foto;
