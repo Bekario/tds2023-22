@@ -15,7 +15,6 @@ import java.awt.Insets;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import java.util.List;
 
 public class PanelCuadriculaPublicaciones extends JPanel {
 
@@ -32,8 +31,8 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		y = 0;
 		x = 0;
 		crearPanel();
-		
 	}
+	
 	private void crearPanel() {
 		crearLayout();
 	}
@@ -45,60 +44,13 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(125, 125, Image.SCALE_SMOOTH));
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(icono);
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		add(lblNewLabel, gbc_lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 1;
-		add(lblNewLabel_1, gbc_lblNewLabel_1);
-		lblNewLabel_1.setIcon(icono);
-		
-		JLabel lblNewLabel_2 = new JLabel("");
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_2.gridx = 2;
-		gbc_lblNewLabel_2.gridy = 2;
-		add(lblNewLabel_2, gbc_lblNewLabel_2);
-		lblNewLabel_2.setIcon(icono);
-	}
-	
-	/**
-	 * Añade una lista de publicaciones al panel
-	 * @param publicaciones publicaciones que se van a añadir
-	 */
-	public void addAlbums(List<Album> publicaciones) {
-		for (Publicacion p: publicaciones) {
-			addPublicacion(p);
-		}
-	}
-	
-	/**
-	 * Añade una lista de publicaciones al panel
-	 * @param publicaciones publicaciones que se van a añadir
-	 */
-	public void addFotos(List<Foto> publicaciones) {
-		for (Publicacion p: publicaciones) {
-			addPublicacion(p);
-		}
 	}
 	
 	/**
 	 * Añade una unica publicacion al panel
 	 * @param publicacion
 	 */
-	private void addPublicacion(Publicacion publicacion) {
+	protected void addPublicacion(Publicacion publicacion) {
 		ImageIcon imagen;
 		//Si es una foto, mostramos el path
 		if (publicacion.getClass().getName() == "modelo.Foto") {

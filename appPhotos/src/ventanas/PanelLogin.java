@@ -15,6 +15,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
@@ -31,9 +32,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 
 
-public class Login {
+public class PanelLogin extends JPanel {
 
-	private JFrame frame;
 	private JTextField txtUser;
 	private JPasswordField txtPasswd;
 	private JLabel foto;
@@ -41,61 +41,28 @@ public class Login {
 	private JButton btnRegistrarse;
 	private JButton btnMostrarPass2;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		FlatMonokaiProIJTheme.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login window = new Login();
-					window.frame.setVisible(true);
-					window.frame.getRootPane().requestFocus(false);
-					
-//					window.frame.setFocusableWindowState(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public Login() {
+	public PanelLogin() {
+		this.setSize(450, 600);
 		initialize();
-	}
-	
-	/**
-	 * Muestra la ventana
-	 */
-	public void mostrarVentana(JFrame padre) {
-		frame.setLocationRelativeTo(padre);
-		frame.setVisible(true);
-		frame.getRootPane().requestFocus(false);
 	}
 	
 	/**
 	 * Inicializa el frame y el layout
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setTitle("Login");
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/camara-de-fotos.png")));
-		frame.setBounds(100, 100, 450, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		establecerLayout();
+		establecerBotones();
+		establecerFotoTitulo();
+		establecerUsuarioEmail();
+	}
+	
+	private void establecerLayout() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 35, 0, 35, 50, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 50, 0, 0, 5, 0, 10, 50, 50, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
-		
-		establecerBotones();
-		establecerFotoTitulo();
-		establecerUsuarioEmail();
+		setLayout(gridBagLayout);
 	}
 	
 	/**
@@ -110,15 +77,15 @@ public class Login {
 		gbc_nombreApp.insets = new Insets(0, 0, 5, 5);
 		gbc_nombreApp.gridx = 2;
 		gbc_nombreApp.gridy = 1;
-		frame.getContentPane().add(nombreApp, gbc_nombreApp);
+		add(nombreApp, gbc_nombreApp);
 		
 		foto = new JLabel("");
-		foto.setIcon(new ImageIcon(Login.class.getResource("/imagenes/61-camera-gradient (1).gif")));
+		foto.setIcon(new ImageIcon(PanelLogin.class.getResource("/imagenes/61-camera-gradient (1).gif")));
 		GridBagConstraints gbc_foto = new GridBagConstraints();
 		gbc_foto.insets = new Insets(0, 0, 5, 5);
 		gbc_foto.gridx = 2;
 		gbc_foto.gridy = 2;
-		frame.getContentPane().add(foto, gbc_foto);
+		add(foto, gbc_foto);
 	}
 	
 	/**
@@ -134,7 +101,7 @@ public class Login {
 		gbc_txtUser.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtUser.gridx = 1;
 		gbc_txtUser.gridy = 4;
-		frame.getContentPane().add(txtUser, gbc_txtUser);
+		add(txtUser, gbc_txtUser);
 		txtUser.setColumns(10);
 		
 		txtPasswd = new JPasswordField();
@@ -146,7 +113,7 @@ public class Login {
 		gbc_txtPasswd.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtPasswd.gridx = 1;
 		gbc_txtPasswd.gridy = 6;
-		frame.getContentPane().add(txtPasswd, gbc_txtPasswd);
+		add(txtPasswd, gbc_txtPasswd);
 		btnMostrarPass2 = new JButton("");
 		btnMostrarPass2.setContentAreaFilled(false);
 		btnMostrarPass2.setBorderPainted(false);
@@ -161,7 +128,7 @@ public class Login {
 		gbc_btnMostrarPass2.gridy = 6;
 		
 		
-		frame.getContentPane().add(btnMostrarPass2, gbc_btnMostrarPass2);
+		add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
 		addManejadorContraseña(txtPasswd);
 		addManejadorUsuario(txtUser);
@@ -234,7 +201,7 @@ public class Login {
 		gbc_btnLogin.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLogin.gridx = 2;
 		gbc_btnLogin.gridy = 8;
-		frame.getContentPane().add(btnLogin, gbc_btnLogin);
+		add(btnLogin, gbc_btnLogin);
 		
 		btnRegistrarse = new JButton("  REGISTRARSE  ");
 		addManejadorRegistrarse(btnRegistrarse);
@@ -248,7 +215,7 @@ public class Login {
 		gbc_btnRegistrarse.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRegistrarse.gridx = 2;
 		gbc_btnRegistrarse.gridy = 9;
-		frame.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
+		add(btnRegistrarse, gbc_btnRegistrarse);
 		
 		addManejadorBotonColor(btnLogin);
 		addManejadorBotonColor(btnRegistrarse);

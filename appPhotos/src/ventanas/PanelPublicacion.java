@@ -69,7 +69,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_panelImagen.gridy = 1;
 		add(panelImagen, gbc_panelImagen);
 		
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
+		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
 		
 		lblFoto = new JLabel("");
@@ -97,7 +97,7 @@ public class PanelPublicacion extends JPanel {
 		gbl_panelInferior.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panelInferior.setLayout(gbl_panelInferior);
 		
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/frezze.png"));
+		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/frezze.png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		
 		JLabel lblLike = new JLabel("");
@@ -144,7 +144,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNombreUsuario.gridy = 0;
 		panelInferior.add(lblNombreUsuario, gbc_lblNombreUsuario);
 		
-		imagen = new ImageIcon(Register2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
+		imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
 		icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		
 		lblFotoPerfil = new JLabel("");
@@ -190,10 +190,10 @@ public class PanelPublicacion extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				ImageIcon imagen;
 				if(likePresionado) {
-					imagen = new ImageIcon(Register2.class.getResource("/imagenes/frezze.png"));
+					imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/frezze.png"));
 					likePresionado = false;
 				} else {
-					imagen = new ImageIcon(Register2.class.getResource("/imagenes/hotttt.png"));
+					imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/hotttt.png"));
 					likePresionado = true;
 				}
 				Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));

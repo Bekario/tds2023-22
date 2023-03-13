@@ -15,12 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.CaretEvent;
 
 public class PanelBuscar extends JPanel {
 	/**
@@ -44,9 +40,8 @@ public class PanelBuscar extends JPanel {
 		crearPanelBuscar();
 		crearPanelLista();
 	}
+	
 	private void crearPanelBuscar() {
-		
-		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{5, 0, 40, 5, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 40, 10, 0, 0};

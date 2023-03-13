@@ -1,8 +1,8 @@
 eclipse.preferences.version=1
 encoding//src/ventanas/Home.java=UTF-8
 encoding//src/ventanas/Login.java=UTF-8
-encoding//src/ventanas/Register.java=UTF-8
-encoding//src/ventanas/Register2.java=UTF-8
-encoding//src/ventanas/SelectorFechas.java=UTF-8
+encoding//src/ventanas/PanelLogin.java=UTF-8
+encoding//src/ventanas/PanelRegister.java=UTF-8
+encoding//src/ventanas/PanelRegister2.java=UTF-8
 encoding//src/ventanas/TarjetaCredito.java=UTF-8
 encoding/<project>=UTF-8

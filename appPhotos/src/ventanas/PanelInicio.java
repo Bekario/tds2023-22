@@ -41,7 +41,7 @@ public class PanelInicio extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		ImageIcon imagen = new ImageIcon(Register2.class.getResource("/imagenes/noPublicaciones.png"));
+		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/noPublicaciones.png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH));
 		
 		JLabel lblNewLabel = new JLabel("");
