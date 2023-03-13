@@ -333,15 +333,6 @@ public class PanelEditar extends JPanel {
 				//Si todos los campos son correctos
 				if (checkFields()) {
 					//Intentamos registrar parcialmente el usuario
-<<<<<<< HEAD
-//					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), txtContraseña.getText(), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
-//						Register2 registro2 = new Register2();
-//						registro2.mostrarVentana(frame);
-//						frame.dispose();
-//					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
-//						JOptionPane.showMessageDialog(frame, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
-//					}
-=======
 					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), txtContraseña.getText(), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
 						PanelRegister2 registro2 = new PanelRegister2();
 						registro2.mostrarVentana(frame);
@@ -349,7 +340,6 @@ public class PanelEditar extends JPanel {
 					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
 						JOptionPane.showMessageDialog(frame, "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
 					}
->>>>>>> branch 'main' of git@github.com:Bekario/tds2023-22.git
 				}
 			}
 		});
