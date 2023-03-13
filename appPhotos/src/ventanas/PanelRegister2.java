@@ -226,9 +226,13 @@ public class PanelRegister2 extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//Si todos los campos son correctos
 				if(checkFields()) {
-					padre.setPanelLogin();
-					//Borramos la foto subida (imagen temporal)
-					Controlador.getInstancia().eliminarFotoSubida(fotoActual);					
+					if (padre.registrarUsuario()) {
+						padre.setPanelLogin();
+						//Borramos la foto subida (imagen temporal)
+						Controlador.getInstancia().eliminarFotoSubida(fotoActual);											
+					} else {
+						JOptionPane.showMessageDialog(padre.getFrame(), "Este usuario ya está registrado", "Usuario ya registrado", 0);
+					}
 				}
 			}
 		});
@@ -245,10 +249,6 @@ public class PanelRegister2 extends JPanel {
 				Pattern regexpJpg = Pattern.compile(".+\\.jpg");
 				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg");
 				
-				//Si ya habia una foto temporal, la borramos
-				if(!fotoActual.equals(FOTO_DEFECTO)) {
-					Controlador.getInstancia().eliminarFotoSubida(fotoActual);
-				}
 				
 				//Creamos el selector de archivos con su filtro
 				JFileChooser selector = new JFileChooser();
@@ -258,17 +258,23 @@ public class PanelRegister2 extends JPanel {
 				
 				int resp = selector.showOpenDialog(selector);
 				File fichero = selector.getSelectedFile();
-				
-				//Comprobamos que la extension sea correcta
-				if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
-					JOptionPane.showMessageDialog(padre.getFrame(), "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
-				} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
-					fotoActual = "tmp~tn"+fichero.getName();
-					Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fotoActual);
+				if (fichero != null) {
+					//Si ya habia una foto temporal, la borramos
+					if(!fotoActual.equals(FOTO_DEFECTO)) {
+						Controlador.getInstancia().eliminarFotoSubida(fotoActual);
+					}
 					
-					ImageIcon imagen = new ImageIcon(System.getProperty("user.dir")+"/fotosSubidas/"+fotoActual);
-					Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
-					perfil.setIcon(icono);
+					//Comprobamos que la extension sea correcta
+					if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
+						JOptionPane.showMessageDialog(padre.getFrame(), "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
+					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
+						fotoActual = "tmp~tn"+fichero.getName();
+						Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fotoActual);
+						
+						ImageIcon imagen = new ImageIcon(System.getProperty("user.dir")+"/fotosSubidas/"+fotoActual);
+						Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
+						perfil.setIcon(icono);
+					}
 				}
 			}
 		});
@@ -317,11 +323,8 @@ public class PanelRegister2 extends JPanel {
 	private void addManejadorBotonAtras(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Vamos a sacar los datos del usuario parcial generado para rellenar los campos
-				Usuario user = Controlador.getInstancia().getUsuarioActual();
-				
 				//Rellenamos los campos con los datos anteriores
-				padre.setPanelRegister(user.getUsuario(), user.getContraseña(), user.getEmail(), user.getNombreCompleto(), user.getFechaNacimiento());
+				padre.setPanelRegisterRellenado();
 			}
 		});
 		
@@ -354,6 +357,14 @@ public class PanelRegister2 extends JPanel {
 		}
 		
 		return estado;
+	}
+	
+	public String getDescripcion() {
+		return descripcion.getText();
+	}
+	
+	public String getPerfil() {
+		return fotoActual;
 	}
 
 }

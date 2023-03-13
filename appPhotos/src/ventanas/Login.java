@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 
+import controlador.Controlador;
+
 import java.awt.Toolkit;
 import java.time.LocalDate;
 import java.awt.GridBagLayout;
@@ -108,6 +110,10 @@ public class Login {
 		return frame;
 	}
 	
+	public boolean registrarUsuario() {
+		return Controlador.getInstancia().registroUsuario(panelRegister.getUsuario(), panelRegister.getPass(), panelRegister.getEmail(), panelRegister.getNombre(), panelRegister.getFecha(), panelRegister2.getPerfil(), panelRegister2.getDescripcion());
+	}
+	
 	public void setPanelLogin() {
 		setPanel(panelLogin);
 		panelLogin.mostrar();
@@ -121,12 +127,13 @@ public class Login {
 		panelRegister.mostrar();
 	}
 	
-	public void setPanelRegister(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento) {
+	public void setPanelRegisterRellenado() {
 		setPanel(panelRegister);
-		panelRegister.rellenarCampos(usuario, contraseña, email, nombreCompleto, fechaNacimiento);
+		panelRegister.rellenarCampos(panelRegister.getUsuario(), panelRegister.getPass(), panelRegister.getEmail(), panelRegister.getNombre(), panelRegister.getFecha());
 		panelRegister.mostrar();
 	}
 	public void setPanelRegister2() {
+		panelRegister2 = new PanelRegister2(this);
 		setPanel(panelRegister2);
 		panelRegister2.mostrar();
 	}

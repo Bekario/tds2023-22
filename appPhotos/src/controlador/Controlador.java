@@ -56,10 +56,6 @@ public class Controlador {
 		return usuarioActual;
 	}
 
-	public boolean esUsuarioRegistrado(String login) {
-		return repoUsuarios.getUsuario(login) != null;
-	}
-
 	public boolean loginUsuario(String nombre, String password) {
 		Usuario usuario = RepoUsuarios.getUnicaInstancia().getUsuario(nombre);
 		if (usuario != null && usuario.getContraseña().equals(password)) {
@@ -78,16 +74,29 @@ public class Controlador {
 	 * @param fechaNacimiento
 	 * @return
 	 */
-	public boolean registroUsuarioParcial(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento) {
+	public boolean registroUsuario(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento, String perfil, String descripcion) {
 		//Comprobamos si el nombre de usuario esta ya registrado
 		if (esUsuarioRegistrado(usuario)) {
 			return false;
 		}
 		//Creamos un usuario provisional sin descripcion ni imagen de perfil
-		Usuario user = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, "", "");
+		usuarioActual = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, perfil, descripcion);
 		
-		//Lo establecemos como usuario actual
-		usuarioActual = user;
+		//Obtenemos el adaptador de usuario
+		AdaptadorUsuarioTDS usuarioDAO=null;
+		try {
+			usuarioDAO = (AdaptadorUsuarioTDS) FactoriaDAO.getInstancia().getUsuarioDAO();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Registramos al usuario en la base de datos
+		usuarioDAO.registrarUsuario(usuarioActual);
+		
+		//Lo añadimos en el repositorio de usuarios
+		RepoUsuarios.getUnicaInstancia().addUsuario(usuarioActual);
+		
 		return true;
 	}
 	
@@ -113,25 +122,6 @@ public class Controlador {
 			e.printStackTrace();
 		}
 		
-	}
-	public void finalizarRegistroUsuario(String perfil, String descripcion) {
-		usuarioActual.setDescripcion(descripcion);
-		usuarioActual.setPerfil(perfil);
-
-		//Obtenemos el adaptador de usuario
-		AdaptadorUsuarioTDS usuarioDAO=null;
-		try {
-			usuarioDAO = (AdaptadorUsuarioTDS) FactoriaDAO.getInstancia().getUsuarioDAO();
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//Registramos al usuario en la base de datos
-		usuarioDAO.registrarUsuario(usuarioActual);
-		
-		//Lo añadimos en el repositorio de usuarios
-		RepoUsuarios.getUnicaInstancia().addUsuario(usuarioActual);
 	}
 
 	public boolean borrarUsuario(Usuario usuario) {
@@ -237,6 +227,10 @@ public class Controlador {
 		}
 		
 		return listaBuscada;
+	}
+	
+	public boolean esUsuarioRegistrado(String usuario) {
+		return RepoUsuarios.getUnicaInstancia().comprobarUsuario(usuario);
 	}
 	
 }

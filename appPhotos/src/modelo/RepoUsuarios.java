@@ -62,4 +62,14 @@ public class RepoUsuarios {
 		 for (Usuario u: usuariosBD) 
 			     usuarios.put(u.getUsuario(), u);
 	}
+	
+	public boolean comprobarUsuario(String usuario) {
+		for (Usuario u: usuarios.values()) {
+			if (u.getUsuario() == usuario) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

@@ -310,7 +310,4 @@ public class PanelLogin extends JPanel {
 		
 		return estado;
 	}
-	
-
-
 }

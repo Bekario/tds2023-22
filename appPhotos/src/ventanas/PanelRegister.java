@@ -369,10 +369,9 @@ public class PanelRegister extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//Si todos los campos son correctos
 				if (checkFields()) {
-					//Intentamos registrar parcialmente el usuario
-					if (Controlador.getInstancia().registroUsuarioParcial(txtUsuario.getText(), new String(txtContraseña.getPassword()), txtEmail.getText(), txtNombre.getText(), dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
+					//Comprobamos si el nombre de usuario ya esta registrado
+					if (!Controlador.getInstancia().esUsuarioRegistrado(txtUsuario.getText())){
 						padre.setPanelRegister2();
-						//registro2.mostrarVentana();
 					} else { //Si falla el registro parcial es porque el nombre de usuario ya esta utilizado
 						JOptionPane.showMessageDialog(padre.getFrame(), "Este nombre de usuario ya está registrado, prueba con otro distinto", "Usuario ya registrado", 0);
 					}
@@ -475,4 +474,23 @@ public class PanelRegister extends JPanel {
 		dateChooser.setDate(Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 	}
 	
+	public String getUsuario() {
+		return txtUsuario.getText();
+	}
+	
+	public String getNombre() {
+		return txtNombre.getText();
+	}
+	
+	public String getPass() {
+		return new String(txtContraseña.getPassword());
+	}
+	
+	public String getEmail() {
+		return txtEmail.getText();
+	}
+	
+	public LocalDate getFecha() {
+		return dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	}
 }
