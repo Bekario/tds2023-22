@@ -45,6 +45,7 @@ import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 
 public class PanelEditar extends JPanel {
@@ -68,6 +69,7 @@ public class PanelEditar extends JPanel {
 	private PanelPerfil padre;
 	private JLabel lblFotoPerfil;
 	private JButton btnNewButton;
+	private JTextArea textArea;
 
 	/**
 	 * Create the panel.
@@ -78,9 +80,9 @@ public class PanelEditar extends JPanel {
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
-		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 0, 0, 5, 0, 10, 20, 50, 50, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 0, 0, 5, 0, 0, 10, 20, 50, 50, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 		
@@ -194,13 +196,22 @@ public class PanelEditar extends JPanel {
 	 * Crea los field contraseña y confirmar contraseña y sus botones
 	 */
 	private void establecerContraseñasYBotones() {
+	
+		textArea = new JTextArea();
+		textArea.setText(usuario.getDescripcion());
+		GridBagConstraints gbc_textArea = new GridBagConstraints();
+		gbc_textArea.insets = new Insets(0, 0, 5, 5);
+		gbc_textArea.fill = GridBagConstraints.BOTH;
+		gbc_textArea.gridx = 2;
+		gbc_textArea.gridy = 9;
+		add(textArea, gbc_textArea);
 		txtContraseña = new JPasswordField();
 		txtContraseña.setText(usuario.getContraseña());
 		GridBagConstraints gbc_txtContraseña = new GridBagConstraints();
 		gbc_txtContraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_txtContraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtContraseña.gridx = 2;
-		gbc_txtContraseña.gridy = 9;
+		gbc_txtContraseña.gridy = 10;
 		add(txtContraseña, gbc_txtContraseña);
 
 		txtConfirmar_contraseña = new JPasswordField();
@@ -215,7 +226,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnMostrarPass.anchor = GridBagConstraints.WEST;
 		gbc_btnMostrarPass.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMostrarPass.gridx = 3;
-		gbc_btnMostrarPass.gridy = 9;
+		gbc_btnMostrarPass.gridy = 10;
 		add(btnMostrarPass, gbc_btnMostrarPass);
 		txtConfirmar_contraseña.setText("Confirmar Contraseña");
 		txtConfirmar_contraseña.setEchoChar((char) 0);
@@ -223,7 +234,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtConfirmar_contraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_txtConfirmar_contraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtConfirmar_contraseña.gridx = 2;
-		gbc_txtConfirmar_contraseña.gridy = 10;
+		gbc_txtConfirmar_contraseña.gridy = 11;
 		add(txtConfirmar_contraseña, gbc_txtConfirmar_contraseña);
 		
 		btnMostrarPass2 = new JButton("");
@@ -235,7 +246,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnMostrarPass2.anchor = GridBagConstraints.WEST;
 		gbc_btnMostrarPass2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMostrarPass2.gridx = 3;
-		gbc_btnMostrarPass2.gridy = 10;
+		gbc_btnMostrarPass2.gridy = 11;
 		add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
 		addManejadorConstraseña(txtContraseña, "Contraseña");
@@ -312,7 +323,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnGuardar.fill = GridBagConstraints.VERTICAL;
 		gbc_btnGuardar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGuardar.gridx = 2;
-		gbc_btnGuardar.gridy = 12;
+		gbc_btnGuardar.gridy = 13;
 		add(btnGuardar, gbc_btnGuardar);
 		
 		addManejadorBotonColor(btnGuardar);
@@ -333,7 +344,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnAtras.fill = GridBagConstraints.VERTICAL;
 		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAtras.gridx = 2;
-		gbc_btnAtras.gridy = 13;
+		gbc_btnAtras.gridy = 14;
 		add(btnAtras, gbc_btnAtras);
 		addManejadorBotonColor(btnAtras);
 		addManejadorBotonAtras(btnAtras);
@@ -347,7 +358,7 @@ public class PanelEditar extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//Si todos los campos son correctos
 				if (checkFields()) {
-					Controlador.getInstancia().modificarUsuario(txtUsuario.getText(), new String(txtContraseña.getPassword()) , txtEmail.getText(), txtNombre.getText());
+					Controlador.getInstancia().modificarUsuario(txtUsuario.getText(), new String(txtContraseña.getPassword()) , txtEmail.getText(), txtNombre.getText(), textArea.getText());
 					padre.getHome().CambiarScrollPane(padre);
 				}
 			}

@@ -108,12 +108,13 @@ public class Controlador {
 	 * @return
 	 */
 	
-	public void modificarUsuario(String usuario, String contraseña, String email, String nombreCompleto) {
+	public void modificarUsuario(String usuario, String contraseña, String email, String nombreCompleto, String descripcion) {
 		RepoUsuarios.getUnicaInstancia().removeUsuario(usuarioActual);
 		usuarioActual.setUsuario(usuario);
 		usuarioActual.setContraseña(contraseña);
 		usuarioActual.setEmail(email);
 		usuarioActual.setNombreCompleto(nombreCompleto);
+		usuarioActual.setDescripcion(descripcion);
 		RepoUsuarios.getUnicaInstancia().addUsuario(usuarioActual);
 		try {
 			FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
