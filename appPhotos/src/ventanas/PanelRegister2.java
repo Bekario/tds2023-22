@@ -228,7 +228,7 @@ public class PanelRegister2 extends JPanel {
 				if(checkFields()) {
 					if (padre.registrarUsuario()) {
 						padre.setPanelLogin();
-						//Subimos la foto del perfil a la carpeta
+						//Subimos la foto del perfil a la carpeta fotosSubidas
 						Controlador.getInstancia().subirFotoPerfil(fotoActual);									
 					} else {
 						JOptionPane.showMessageDialog(padre.getFrame(), "Este usuario ya está registrado", "Usuario ya registrado", 0);

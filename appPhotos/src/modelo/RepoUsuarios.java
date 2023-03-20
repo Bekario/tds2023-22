@@ -65,7 +65,7 @@ public class RepoUsuarios {
 	
 	public boolean comprobarUsuario(String usuario) {
 		for (Usuario u: usuarios.values()) {
-			if (u.getUsuario() == usuario) {
+			if (u.getUsuario().equals(usuario)) {
 				return true;
 			}
 		}
