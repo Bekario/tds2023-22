@@ -389,7 +389,7 @@ public class PanelEditar extends JPanel {
 		});
 	}
 	private void establecerImagenSubida(String ruta) {
-		
+		System.out.println(ruta);
 		lblFotoPerfil = new JLabel(new ImageIcon(FotoPersonalizada.redondearFoto(ruta)));
 		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
 		gbc_lblFotoPerfil.insets = new Insets(0, 0, 5, 5);

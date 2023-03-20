@@ -72,9 +72,8 @@ public class PanelPerfil extends JPanel {
 		gbc_lblFotoPerfil.gridx = 1;
 		gbc_lblFotoPerfil.gridy = 1;
 		add(lblFotoPerfil, gbc_lblFotoPerfil);
-		ImageIcon imagen = new ImageIcon(usuario.getPerfil());
-		ImageIcon imagen2 = new ImageIcon(PanelPerfil.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
-		Icon icono = new ImageIcon(imagen2.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(usuario.getPerfil()));
+		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
 		lblFotoPerfil.setIcon(icono);
 		
 		JLabel lblUsuario = new JLabel(usuario.getUsuario());

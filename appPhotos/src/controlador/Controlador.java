@@ -197,9 +197,9 @@ public class Controlador {
 		return ruta;
 	}
 	
-	public boolean eliminarFotoSubida(String nombre) {
+	public boolean eliminarFotoSubida(String ruta) {
 		try {
-			Files.delete(FileSystems.getDefault().getPath(RUTA_IMAGENES+nombre));
+			Files.delete(FileSystems.getDefault().getPath(ruta));
 			return true;
 		} catch (IOException e) {
 			return false;
@@ -237,4 +237,8 @@ public class Controlador {
 		return RepoUsuarios.getUnicaInstancia().comprobarUsuario(usuario);
 	}
 	
+	public List<Publicacion> getPublicacionesSubidas(){
+		return RepoPublicaciones.getUnicaInstancia().getPublicaciones();
+	}
+ 	
 }

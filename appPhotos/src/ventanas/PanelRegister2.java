@@ -268,10 +268,9 @@ public class PanelRegister2 extends JPanel {
 					if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
 						JOptionPane.showMessageDialog(padre.getFrame(), "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
 					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
-						fotoActual = "tmp~tn"+fichero.getName();
-						Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fotoActual);
+						fotoActual = Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), "tmp~tn"+fichero.getName());
 						
-						ImageIcon imagen = new ImageIcon(System.getProperty("user.dir")+"/fotosSubidas/"+fotoActual);
+						ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(fotoActual));
 						Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
 						perfil.setIcon(icono);
 					}

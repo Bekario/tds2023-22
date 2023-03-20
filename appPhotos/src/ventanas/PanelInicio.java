@@ -4,21 +4,25 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.time.LocalDate;
 
 import javax.swing.JPanel;
 
-import modelo.Foto;
+import controlador.Controlador;
 import modelo.Publicacion;
-import modelo.Usuario;
 
 import javax.swing.JLabel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class PanelInicio extends JPanel {
+	private static final String NO_PUBLI = "no";
+	private static final String SI_PUBLI = "si";
+	
+	private static final long serialVersionUID = 1L;
 	private Home ventana;
 	private int y;
+	private String estado;
+	private JLabel lblNoPublis;
 	
 	/**
 	 * Create the panel.
@@ -26,11 +30,10 @@ public class PanelInicio extends JPanel {
 	public PanelInicio(Home ventana) {
 		this.ventana = ventana;
 		this.setSize(450, 490);
+		estado = NO_PUBLI;
 		y=0;
 		
-		crearPanel();
-		addPublicacion(new Foto("caMPO", "HOLA", LocalDate.now(), null, new Usuario("adri", "1234", "a@g", "Adrian Pardo", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg",  ""), "C:\\Users\\anton\\Desktop\\a.jpg"));
-		
+		crearPanel();		
 	}
 	
 	private void crearPanel() {
@@ -44,18 +47,33 @@ public class PanelInicio extends JPanel {
 		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/noPublicaciones.png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH));
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(icono);
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		add(lblNewLabel, gbc_lblNewLabel);
-		remove(lblNewLabel);
+		lblNoPublis = new JLabel("");
+		lblNoPublis.setIcon(icono);
+		GridBagConstraints gbc_lblNoPublis = new GridBagConstraints();
+		gbc_lblNoPublis.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNoPublis.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNoPublis.gridx = 0;
+		gbc_lblNoPublis.gridy = 0;
+		add(lblNoPublis, gbc_lblNoPublis);
+		
+		cargarFotos();
+	}
+	
+	/**
+	 * Carga la feed del usuario con las fotos subidas
+	 */
+	private void cargarFotos() {
+		for (Publicacion p: Controlador.getInstancia().getPublicacionesSubidas()) {
+			addPublicacion(p);
+		}
 	}
 	
 	public void addPublicacion(Publicacion publicacion) {
+		if(estado == NO_PUBLI) {
+			estado = SI_PUBLI;
+			remove(lblNoPublis);
+		}
+		
 		PanelPublicacion panelPublicacion = new PanelPublicacion(publicacion);
 		GridBagConstraints gbc_panelPublicacion = new GridBagConstraints();
 		gbc_panelPublicacion.insets = new Insets(0, 0, 5, 0);

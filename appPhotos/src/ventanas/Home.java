@@ -1,12 +1,9 @@
 package ventanas;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
-
-import modelo.Usuario;
+import controlador.Controlador;
 
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
@@ -18,7 +15,6 @@ import java.awt.Insets;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JPanel;
-import java.time.LocalDate;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -31,28 +27,6 @@ public class Home {
 	private PanelBuscar panelBusqueda;
 	private PanelInicio panelInicio;
 	private PanelPerfil panelPerfil;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		FlatMonokaiProIJTheme.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Home window = new Home();
-					window.frame.setVisible(true);
-					window.frame.getRootPane().requestFocus(false);
-					//RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("adrian", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg", " "));
-					//RepoUsuarios.getUnicaInstancia().addUsuario(new Usuario("antonio", "", "", "", LocalDate.now(), "C:\\Users\\anton\\Desktop\\a.jpg", " "));
-					
-//					window.frame.setFocusableWindowState(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -205,7 +179,7 @@ public class Home {
 	private void prepararTodosPaneles() {
 		panelBusqueda = new PanelBuscar();
 		panelInicio = new PanelInicio(this);  //MALENIA OJO CON EL CONSTRUCTOR
-		panelPerfil = new PanelPerfil(this, new Usuario("adrian", "LOMO", "adrianpar@um.es", "Antonio Feo", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a dolor sit amet diam lacinia accumsan. Etiam pulvinar nisl malesuada."));
+		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().getUsuarioActual());
 	}
 	
 	protected void addManejadorClickBoton(JButton boton, JPanel panel) {
@@ -222,7 +196,7 @@ public class Home {
 	protected void addManejadorEdit(JButton boton, 	JPanel panel) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				scrollPane.setViewportView(new PanelEditar(new Usuario("adrian", "LOMO", "adrianpar@um.es", "Antonio Feo", LocalDate.now(), "C:\\Users\\anton\\Desktop\\ParticipantImageServlet2.jpeg", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a dolor sit amet diam lacinia accumsan. Etiam pulvinar nisl malesuada."), panel));
+				scrollPane.setViewportView(new PanelEditar(Controlador.getInstancia().getUsuarioActual(), panel));
 			}
 		});
 	}

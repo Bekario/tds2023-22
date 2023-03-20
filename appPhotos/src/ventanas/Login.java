@@ -78,12 +78,19 @@ public class Login {
 		
 	}
 	
+	/**
+	 * Iniciamos los 3 paneles
+	 */
 	private void prepararPaneles() {
 		panelLogin = new PanelLogin(this);
 		panelRegister = new PanelRegister(this);
 		panelRegister2= new PanelRegister2(this);
 	}
 	
+	/**
+	 * Cambia el panel mostrado en la ventana por otro
+	 * @param panel que se va a establecer
+	 */
 	private void setPanel(JPanel panel) {
 		if (this.panel != null) {
 			frame.getContentPane().remove(this.panel);			
@@ -99,6 +106,9 @@ public class Login {
 		frame.getContentPane().repaint();
 	}
 	
+	/**
+	 * Cierra esta ventana y cambia a la ventana Home
+	 */
 	public void cambiarHome() {
 		Home home = new Home();
 		home.mostrarVentana(frame);
@@ -109,15 +119,25 @@ public class Login {
 		return frame;
 	}
 	
+	/**
+	 * Intenta registrar un usuario
+	 * @return booleano indicando si ha sido posible registrar el usuario
+	 */
 	public boolean registrarUsuario() {
 		return Controlador.getInstancia().registroUsuario(panelRegister.getUsuario(), panelRegister.getPass(), panelRegister.getEmail(), panelRegister.getNombre(), panelRegister.getFecha(), panelRegister2.getPerfil(), panelRegister2.getDescripcion());
 	}
 	
+	/**
+	 * Cambia el panel actual por el de login
+	 */
 	public void setPanelLogin() {
 		setPanel(panelLogin);
 		panelLogin.mostrar();
 	}
 	
+	/**
+	 * Cambia el panel actual por el de register
+	 */
 	public void setPanelRegister() {
 		// Creamos un panel limpio
 		panelRegister = new PanelRegister(this);
@@ -126,11 +146,18 @@ public class Login {
 		panelRegister.mostrar();
 	}
 	
+	/**
+	 * Cambia el panel actual por el de register con los datos rellenados anteriormente
+	 */
 	public void setPanelRegisterRellenado() {
 		setPanel(panelRegister);
 		panelRegister.rellenarCampos(panelRegister.getUsuario(), panelRegister.getPass(), panelRegister.getEmail(), panelRegister.getNombre(), panelRegister.getFecha());
 		panelRegister.mostrar();
 	}
+	
+	/**
+	 * Cambia el panel actual por el de register2
+	 */
 	public void setPanelRegister2() {
 		panelRegister2 = new PanelRegister2(this);
 		setPanel(panelRegister2);

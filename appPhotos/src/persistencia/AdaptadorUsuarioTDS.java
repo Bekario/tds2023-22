@@ -82,7 +82,6 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 						new Propiedad(PREMIUM, String.valueOf(usuario.getIsPremium())),
 						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
 						new Propiedad(PERFIL, usuario.getPerfil()),
-						new Propiedad(DESCRIPCION, usuario.getDescripcion()),
 						new Propiedad(NOTIFICACIONES, obtenerCodigosNotificaciones(usuario.getNotificaciones())),
 						new Propiedad(SEGUIDORES, obtenerStringSeguidores(usuario.getUsuariosSeguidores())),
 						//Para fotos y albums utilizamos la funcion para obtener codigos de publicaciones
