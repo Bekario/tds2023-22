@@ -11,25 +11,35 @@ import javax.swing.JOptionPane;
 
 import java.awt.GridBagConstraints;
 import java.awt.Font;
+import java.awt.Graphics2D;
+
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controlador.Controlador;
 import modelo.Usuario;
 
 import java.awt.Insets;
+import java.awt.RenderingHints;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 
 import java.util.regex.Matcher;
@@ -56,6 +66,8 @@ public class PanelEditar extends JPanel {
 	private JLabel lblNewLabel;
 	private JButton btnAtras;
 	private PanelPerfil padre;
+	private JLabel lblFotoPerfil;
+	private JButton btnNewButton;
 
 	/**
 	 * Create the panel.
@@ -66,19 +78,21 @@ public class PanelEditar extends JPanel {
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
-		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 5, 0, 10, 20, 50, 50, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 15, 0, 25, 0, 0, 0, 0, 0, 5, 0, 10, 20, 50, 50, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 		
 		establecerTitulo();
+	
 		establecerEmail();
 		establecerNombre();
 		establecerUsuario();
 		establecerContraseñasYBotones();
 		establecerBotonGuardar();
 		establecerBotonAtras();
+		establecerImagenSubida(usuario.getPerfil());
 	}
 	
 	/**
@@ -96,8 +110,9 @@ public class PanelEditar extends JPanel {
 	/**
 	 * Crea el email field
 	 */
-	private void establecerEmail() {
-		
+	
+
+	private void establecerEmail() {		
 		
 		txtEmail = new JTextField();
 		txtEmail.setText(usuario.getEmail());
@@ -107,7 +122,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtEmail.insets = new Insets(0, 0, 5, 5);
 		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtEmail.gridx = 2;
-		gbc_txtEmail.gridy = 3;
+		gbc_txtEmail.gridy = 5;
 		add(txtEmail, gbc_txtEmail);
 		txtEmail.setColumns(10);
 		
@@ -150,7 +165,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtNombre.gridx = 2;
-		gbc_txtNombre.gridy = 4;
+		gbc_txtNombre.gridy = 6;
 		add(txtNombre, gbc_txtNombre);
 		txtNombre.setColumns(10);
 		
@@ -169,7 +184,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
 		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtUsuario.gridx = 2;
-		gbc_txtUsuario.gridy = 6;
+		gbc_txtUsuario.gridy = 8;
 		add(txtUsuario, gbc_txtUsuario);
 		txtUsuario.setColumns(10);
 		
@@ -185,7 +200,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtContraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_txtContraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtContraseña.gridx = 2;
-		gbc_txtContraseña.gridy = 7;
+		gbc_txtContraseña.gridy = 9;
 		add(txtContraseña, gbc_txtContraseña);
 
 		txtConfirmar_contraseña = new JPasswordField();
@@ -200,7 +215,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnMostrarPass.anchor = GridBagConstraints.WEST;
 		gbc_btnMostrarPass.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMostrarPass.gridx = 3;
-		gbc_btnMostrarPass.gridy = 7;
+		gbc_btnMostrarPass.gridy = 9;
 		add(btnMostrarPass, gbc_btnMostrarPass);
 		txtConfirmar_contraseña.setText("Confirmar Contraseña");
 		txtConfirmar_contraseña.setEchoChar((char) 0);
@@ -208,7 +223,7 @@ public class PanelEditar extends JPanel {
 		gbc_txtConfirmar_contraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_txtConfirmar_contraseña.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtConfirmar_contraseña.gridx = 2;
-		gbc_txtConfirmar_contraseña.gridy = 8;
+		gbc_txtConfirmar_contraseña.gridy = 10;
 		add(txtConfirmar_contraseña, gbc_txtConfirmar_contraseña);
 		
 		btnMostrarPass2 = new JButton("");
@@ -220,7 +235,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnMostrarPass2.anchor = GridBagConstraints.WEST;
 		gbc_btnMostrarPass2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMostrarPass2.gridx = 3;
-		gbc_btnMostrarPass2.gridy = 8;
+		gbc_btnMostrarPass2.gridy = 10;
 		add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
 		addManejadorConstraseña(txtContraseña, "Contraseña");
@@ -297,7 +312,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnGuardar.fill = GridBagConstraints.VERTICAL;
 		gbc_btnGuardar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGuardar.gridx = 2;
-		gbc_btnGuardar.gridy = 10;
+		gbc_btnGuardar.gridy = 12;
 		add(btnGuardar, gbc_btnGuardar);
 		
 		addManejadorBotonColor(btnGuardar);
@@ -318,7 +333,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnAtras.fill = GridBagConstraints.VERTICAL;
 		gbc_btnAtras.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAtras.gridx = 2;
-		gbc_btnAtras.gridy = 11;
+		gbc_btnAtras.gridy = 13;
 		add(btnAtras, gbc_btnAtras);
 		addManejadorBotonColor(btnAtras);
 		addManejadorBotonAtras(btnAtras);
@@ -370,6 +385,59 @@ public class PanelEditar extends JPanel {
 			public void mouseExited(MouseEvent e) {
 				boton.setBackground(UIManager.getColor("Button.background"));
 				boton.setForeground(new Color(218,200,41));
+			}
+		});
+	}
+	private void establecerImagenSubida(String ruta) {
+		
+		
+		
+		lblFotoPerfil = new JLabel(new ImageIcon(FotoPersonalizada.redondearFoto(ruta)));
+		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
+		gbc_lblFotoPerfil.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFotoPerfil.gridx = 2;
+		gbc_lblFotoPerfil.gridy = 3;
+		add(lblFotoPerfil, gbc_lblFotoPerfil);
+		
+		btnNewButton = new JButton("Cambiar");
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.anchor = GridBagConstraints.ABOVE_BASELINE;
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton.gridx = 2;
+		gbc_btnNewButton.gridy = 4;
+		add(btnNewButton, gbc_btnNewButton);
+		addManejadorBotonInsertarImagen(btnNewButton);
+		//fotoActual = usuario.getPerfil();
+	}
+	
+	private void addManejadorBotonInsertarImagen(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Pattern regexpPng = Pattern.compile(".+\\.png");
+				Pattern regexpJpg = Pattern.compile(".+\\.jpg");
+				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg");
+				
+				
+				//Creamos el selector de archivos con su filtro
+				JFileChooser selector = new JFileChooser();
+				FileNameExtensionFilter filtro = new FileNameExtensionFilter("PNG, JPG, JPEG", "jpg", "png", "jpeg");
+				selector.setFileFilter(filtro);
+				selector.removeChoosableFileFilter(null);
+				
+				int resp = selector.showOpenDialog(selector);
+				File fichero = selector.getSelectedFile();
+				if (fichero != null) {
+					
+					//Comprobamos que la extension sea correcta
+					if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
+						JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
+					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
+//						fotoActual = fichero.getName();
+//						Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fichero.getName());
+						
+						establecerImagenSubida(fichero.getName());
+					}
+				}
 			}
 		});
 	}
