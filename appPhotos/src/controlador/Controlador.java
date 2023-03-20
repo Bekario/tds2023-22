@@ -186,19 +186,23 @@ public class Controlador {
 	 * @param path Ruta de la foto
 	 * @param nombre Nombre con el que se copia la foto
 	 */
-	public void insertarFotoSubida(String path, String nombre) {
+	public String insertarFotoSubida(String path, String nombre) {
+		String ruta = "";
 		try {
 			Files.copy(FileSystems.getDefault().getPath(path), FileSystems.getDefault().getPath(RUTA_IMAGENES+nombre), StandardCopyOption.REPLACE_EXISTING);
+			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+nombre).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return ruta;
 	}
 	
-	public void eliminarFotoSubida(String nombre) {
+	public boolean eliminarFotoSubida(String nombre) {
 		try {
 			Files.delete(FileSystems.getDefault().getPath(RUTA_IMAGENES+nombre));
+			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			return false;
 		}
 	}
 	

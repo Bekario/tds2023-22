@@ -390,8 +390,6 @@ public class PanelEditar extends JPanel {
 	}
 	private void establecerImagenSubida(String ruta) {
 		
-		
-		
 		lblFotoPerfil = new JLabel(new ImageIcon(FotoPersonalizada.redondearFoto(ruta)));
 		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
 		gbc_lblFotoPerfil.insets = new Insets(0, 0, 5, 5);
@@ -432,10 +430,15 @@ public class PanelEditar extends JPanel {
 					if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
 						JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
 					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
-//						fotoActual = fichero.getName();
-//						Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fichero.getName());
+						//Esto hay que hacerlo
+						//Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fichero.getName());
+						String ruta = fichero.getAbsolutePath();
+						remove(lblFotoPerfil);
+						usuario.setPerfil(ruta);
+						//modificar usuario MALENIA
+						establecerImagenSubida(ruta);
+						updateUI();
 						
-						establecerImagenSubida(fichero.getName());
 					}
 				}
 			}

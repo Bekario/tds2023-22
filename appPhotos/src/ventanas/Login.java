@@ -10,7 +10,6 @@ import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import controlador.Controlador;
 
 import java.awt.Toolkit;
-import java.time.LocalDate;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
