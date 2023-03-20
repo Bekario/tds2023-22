@@ -103,6 +103,7 @@ public class PanelBuscar extends JPanel {
 				panelListaUsuarios.quitarUsuarios();
 				List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
 				panelListaUsuarios.addListaUsuario(lista);
+				panelListaUsuarios.comprobarSeguidos(Controlador.getInstancia().getUsuarioActual(), Controlador.getInstancia().getUsuarioActual().getUsuariosSeguidos());
 				panelListaUsuarios.updateUI();
 			}
 		});

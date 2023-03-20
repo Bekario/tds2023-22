@@ -72,11 +72,15 @@ public class PanelUsuario extends JPanel {
 		add(btnSeguir, gbc_btnSeguir);
 	}
 	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
 	/**
 	 * Establece si se debe ver el boton o no
 	 * @param visibilidad
 	 */
-	private void setVisibilidadBotonSeguir(boolean visibilidad) {
+	public void setVisibilidadBotonSeguir(boolean visibilidad) {
 		btnSeguir.setVisible(visibilidad);
 	}
 }

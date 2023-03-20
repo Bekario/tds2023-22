@@ -5,10 +5,12 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
+import controlador.Controlador;
 import modelo.Foto;
 import modelo.Publicacion;
 import modelo.Usuario;
@@ -19,12 +21,14 @@ import javax.swing.ImageIcon;
 
 public class PanelListaUsuarios extends JPanel {
 	private int y;
+	private ArrayList<PanelUsuario> paneles;
 	
 	/**
 	 * Create the panel.
 	 */
 	public PanelListaUsuarios() {
 		this.setSize(450, 490);
+		paneles = new ArrayList<PanelUsuario>();
 		y=0;
 		
 		crearPanel();
@@ -48,6 +52,7 @@ public class PanelListaUsuarios extends JPanel {
 		gbc_panelUsuario.gridy = y;
 		y+=1;
 		add(panelUsuario, gbc_panelUsuario);
+		paneles.add(panelUsuario);
 	}
 	
 	public void addListaUsuario(List<Usuario> usuarios) {
@@ -59,6 +64,27 @@ public class PanelListaUsuarios extends JPanel {
 	public void quitarUsuarios() {
 		removeAll();
 		y=0;
+	}
+	
+	/**
+	 * Elimina el boton de seguir de aquellos usuario ya seguidos
+	 * @param usuario
+	 * @param seguidos
+	 */
+	public void comprobarSeguidos(String usuario, List<Usuario> seguidos) {
+		ArrayList<String> seguidosNombre = new ArrayList<String>();
+		seguidosNombre.add(usuario);
+		seguidos.stream()
+				.map(p -> p.getUsuario())
+				.forEach(u -> seguidosNombre.add(u));
+		//MALENIA STREAM
+		for (PanelUsuario p : paneles) {
+			for (String u : seguidosNombre) {
+				if(p.getUsuario().equals(u)) {
+					p.setVisibilidadBotonSeguir(false);
+				}
+			}
+		}
 	}
 	
 
