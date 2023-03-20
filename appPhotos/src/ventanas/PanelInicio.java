@@ -63,9 +63,9 @@ public class PanelInicio extends JPanel {
 	 * Carga la feed del usuario con las fotos subidas
 	 */
 	private void cargarFotos() {
-		for (Publicacion p: Controlador.getInstancia().getPublicacionesSubidas()) {
-			addPublicacion(p);
-		}
+		Controlador.getInstancia().getPublicacionesSubidas().stream()
+															.map(p -> (Publicacion) p)
+															.forEachOrdered(p -> addPublicacion(p));
 	}
 	
 	public void addPublicacion(Publicacion publicacion) {

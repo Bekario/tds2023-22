@@ -222,10 +222,12 @@ public class Controlador {
 	}
 	
 	public List<Usuario> obtenerUsuariosBuscados(String nombre){
+		//Lo convertimos a minuscula para no distinguir
+		nombre = nombre.toLowerCase();
 		List<Usuario> listaBuscada =  new ArrayList<Usuario>();
 		List<Usuario> listaTotal = repoUsuarios.getUsuarios();
 		for (Usuario usuario : listaTotal) {
-			if(usuario.getUsuario().startsWith(nombre)) {
+			if(usuario.getUsuario().toLowerCase().startsWith(nombre)) {
 				listaBuscada.add(usuario);
 			}
 		}
