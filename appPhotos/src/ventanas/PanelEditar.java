@@ -46,6 +46,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 
 public class PanelEditar extends JPanel {
@@ -69,6 +71,7 @@ public class PanelEditar extends JPanel {
 	private PanelPerfil padre;
 	private JLabel lblFotoPerfil;
 	private JButton btnNewButton;
+	private JScrollPane scrollPane;
 	private JTextArea textArea;
 
 	/**
@@ -196,15 +199,19 @@ public class PanelEditar extends JPanel {
 	 * Crea los field contraseña y confirmar contraseña y sus botones
 	 */
 	private void establecerContraseñasYBotones() {
-	
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 2;
+		gbc_scrollPane.gridy = 9;
+		add(scrollPane, gbc_scrollPane);
+		
 		textArea = new JTextArea();
 		textArea.setText(usuario.getDescripcion());
-		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.insets = new Insets(0, 0, 5, 5);
-		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 2;
-		gbc_textArea.gridy = 9;
-		add(textArea, gbc_textArea);
+		scrollPane.setViewportView(textArea);
 		txtContraseña = new JPasswordField();
 		txtContraseña.setText(usuario.getContraseña());
 		GridBagConstraints gbc_txtContraseña = new GridBagConstraints();
