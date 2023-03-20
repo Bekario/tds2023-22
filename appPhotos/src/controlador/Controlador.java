@@ -182,15 +182,24 @@ public class Controlador {
 	}
 	
 	/**
-	 * Inserta foto en la carpeta interna fotosSubidas
+	 * Inserta foto en la carpeta interna fotosSubidas con un nombre único
 	 * @param path Ruta de la foto
-	 * @param nombre Nombre con el que se copia la foto
 	 */
-	public String insertarFotoSubida(String path, String nombre) {
+	public String subirFotoPerfil(String path) {
 		String ruta = "";
+		String extension;
+		
+		//Obtenemos la extension del archivo
+		int index = path.lastIndexOf('.');
+        if (index == -1) {
+        	extension = "";
+        } else {
+        	extension = path.substring(index, path.length());
+        }
+		
 		try {
-			Files.copy(FileSystems.getDefault().getPath(path), FileSystems.getDefault().getPath(RUTA_IMAGENES+nombre), StandardCopyOption.REPLACE_EXISTING);
-			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+nombre).toString();
+			Files.copy(FileSystems.getDefault().getPath(path), FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+extension), StandardCopyOption.REPLACE_EXISTING);
+			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+"."+extension).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

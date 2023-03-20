@@ -228,8 +228,8 @@ public class PanelRegister2 extends JPanel {
 				if(checkFields()) {
 					if (padre.registrarUsuario()) {
 						padre.setPanelLogin();
-						//Borramos la foto subida (imagen temporal)
-						Controlador.getInstancia().eliminarFotoSubida(fotoActual);											
+						//Subimos la foto del perfil a la carpeta
+						Controlador.getInstancia().subirFotoPerfil(fotoActual);									
 					} else {
 						JOptionPane.showMessageDialog(padre.getFrame(), "Este usuario ya está registrado", "Usuario ya registrado", 0);
 					}
@@ -249,7 +249,6 @@ public class PanelRegister2 extends JPanel {
 				Pattern regexpJpg = Pattern.compile(".+\\.jpg");
 				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg");
 				
-				
 				//Creamos el selector de archivos con su filtro
 				JFileChooser selector = new JFileChooser();
 				FileNameExtensionFilter filtro = new FileNameExtensionFilter("PNG, JPG, JPEG", "jpg", "png", "jpeg");
@@ -259,16 +258,11 @@ public class PanelRegister2 extends JPanel {
 				int resp = selector.showOpenDialog(selector);
 				File fichero = selector.getSelectedFile();
 				if (fichero != null) {
-					//Si ya habia una foto temporal, la borramos
-					if(!fotoActual.equals(FOTO_DEFECTO)) {
-						Controlador.getInstancia().eliminarFotoSubida(fotoActual);
-					}
-					
 					//Comprobamos que la extension sea correcta
 					if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
 						JOptionPane.showMessageDialog(padre.getFrame(), "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
 					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
-						fotoActual = Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), "tmp~tn"+fichero.getName());
+						fotoActual = fichero.getAbsolutePath();
 						
 						ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(fotoActual));
 						Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));

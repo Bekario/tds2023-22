@@ -19,8 +19,7 @@ public class FotoPersonalizada {
 			master = ImageIO.read(new File(ruta));
 			master = resize(master, 70, 70);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("La imagen no existe");
 		}
 		
 		int diameter = Math.min(master.getWidth(), master.getHeight());
