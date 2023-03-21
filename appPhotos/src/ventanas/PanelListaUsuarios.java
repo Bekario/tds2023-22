@@ -71,16 +71,13 @@ public class PanelListaUsuarios extends JPanel {
 	 * @param usuario
 	 * @param seguidos
 	 */
-	public void comprobarSeguidos(String usuario, List<Usuario> seguidos) {
-		ArrayList<String> seguidosNombre = new ArrayList<String>();
-		seguidosNombre.add(usuario);
-		seguidos.stream()
-				.map(p -> p.getUsuario())
-				.forEach(u -> seguidosNombre.add(u));
+	public void comprobarSeguidos(String usuario, List<String> seguidos) {
+		//Introducimos el usuario para que no aparezca el boton para seguirse a uno mismo
+		seguidos.add(usuario);
 		//MALENIA STREAM
 		for (PanelUsuario p : paneles) {
-			for (String u : seguidosNombre) {
-				if(p.getUsuario().equals(u)) {
+			for (String u : seguidos) {
+				if(p.getUsuario().getUsuario().equals(u)) {
 					p.setVisibilidadBotonSeguir(false);
 				}
 			}

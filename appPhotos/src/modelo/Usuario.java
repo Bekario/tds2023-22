@@ -3,6 +3,7 @@ package modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Usuario {
@@ -140,10 +141,19 @@ public class Usuario {
 	public List<String> getUsuariosSeguidores() {
 		return usuariosSeguidores;
 	}
+	
 	public List<String> getUsuariosSeguidos() {
 		return usuariosSeguidos;
 	}
 	
+	public List<String> getUsuariosSeguidosNombre() {
+		List<String> nombresUsuarios = new ArrayList<String>();
+		//MALENIA STREAM
+		for(String u: usuariosSeguidos) {
+			nombresUsuarios.add(RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)).getUsuario());
+		}
+		return nombresUsuarios;
+	}
 	
 	public void setUsuariosSeguidores(List<String> usuariosSeguidores) {
 		this.usuariosSeguidores = usuariosSeguidores;

@@ -20,6 +20,7 @@ public class PanelUsuario extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton btnSeguir;
 	private Usuario usuario;
+	private JLabel lblSeguido;
 	
 	/**
 	 * Create the panel.
@@ -54,22 +55,28 @@ public class PanelUsuario extends JPanel {
 		
 		lblFoto.setIcon(icono);
 		
-		JLabel lblNewLabel = new JLabel(usuario.getUsuario());
-		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel.gridx = 3;
-		gbc_lblNewLabel.gridy = 0;
-		add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblNombreUsuario = new JLabel(usuario.getUsuario());
+		lblNombreUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		lblNombreUsuario.setForeground(new Color(255, 255, 255));
+		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
+		gbc_lblNombreUsuario.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNombreUsuario.gridx = 3;
+		gbc_lblNombreUsuario.gridy = 0;
+		add(lblNombreUsuario, gbc_lblNombreUsuario);
+		
+		//Utilizamos la misma posicion para el boton y para el label
+		GridBagConstraints gbc_btnSeguir_lbl_seguido = new GridBagConstraints();
+		gbc_btnSeguir_lbl_seguido.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSeguir_lbl_seguido.gridx = 5;
+		gbc_btnSeguir_lbl_seguido.gridy = 0;
+		
+		//Por defecto el label no se muestra
+		lblSeguido = new JLabel("Seguido");
+		add(lblSeguido, gbc_btnSeguir_lbl_seguido);
+		lblSeguido.setVisible(false);
 		
 		btnSeguir = new JButton("Seguir");
-		GridBagConstraints gbc_btnSeguir = new GridBagConstraints();
-		gbc_btnSeguir.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnSeguir.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSeguir.gridx = 5;
-		gbc_btnSeguir.gridy = 0;
-		add(btnSeguir, gbc_btnSeguir);
+		add(btnSeguir, gbc_btnSeguir_lbl_seguido);
 	}
 	
 	public Usuario getUsuario() {
@@ -82,5 +89,6 @@ public class PanelUsuario extends JPanel {
 	 */
 	public void setVisibilidadBotonSeguir(boolean visibilidad) {
 		btnSeguir.setVisible(visibilidad);
+		lblSeguido.setVisible(!visibilidad);
 	}
 }
