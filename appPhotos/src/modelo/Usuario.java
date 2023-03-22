@@ -67,18 +67,17 @@ public class Usuario {
 	 * Este usuario sigue a usuario
 	 * @param usuario al que se va a seguir
 	 */
-	public void seguir(Usuario usuario) {
+	public void seguirA(Usuario usuario) {
 		String codigo = String.valueOf(usuario.getCodigo());
+		//Añadimos a la lista de usuarios seguidos
 		usuariosSeguidos.add(codigo);
+		
+		//Añadimos en la la lista de usuarios seguidores a este usuario
+		usuario.addSeguidores(this.codigo);
 	}
 	
-	/**
-	 * Este usuario es seguido por otro usuario
-	 * @param usuario que sigue a este usuario
-	 */
-	public void seguido(Usuario usuario) {
-		String codigo = String.valueOf(usuario.getCodigo());
-		usuariosSeguidores.add(codigo);
+	private void addSeguidores(int codigo) {
+		usuariosSeguidores.add(String.valueOf(codigo));
 	}
 	
 	public void aumentarIndicePublicacion() {
@@ -183,9 +182,6 @@ public class Usuario {
 		return nombresUsuarios;
 	}
 	
-	public void setUsuariosSeguidores(List<String> usuariosSeguidores) {
-		this.usuariosSeguidores = usuariosSeguidores;
-	}
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
@@ -200,6 +196,10 @@ public class Usuario {
 
 	public void setNombreCompleto(String nombreCompleto) {
 		this.nombreCompleto = nombreCompleto;
+	}
+	
+	public void setUsuariosSeguidores(List<String> usuariosSeguidores) {
+		this.usuariosSeguidores = usuariosSeguidores;
 	}
 
 	public void setUsuariosSeguidos(List<String> usuariosSeguidos) {

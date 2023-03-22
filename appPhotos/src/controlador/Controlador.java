@@ -185,8 +185,7 @@ public class Controlador {
 	public boolean seguirUsuario(Usuario usuario) {
 		// Comprobamos que el usuario no sea seguido ya
 		if(!usuarioActual.comprobarSeguido(usuario)) {
-			usuarioActual.seguir(usuario);
-			usuario.seguido(usuarioActual);
+			usuarioActual.seguirA(usuario);
 			
 			// A continuacion, guardamos los cambios en el DAO
 			try {

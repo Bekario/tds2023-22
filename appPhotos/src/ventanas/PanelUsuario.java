@@ -54,7 +54,7 @@ public class PanelUsuario extends JPanel {
 		gbc_lblFoto.gridy = 0;
 		add(lblFoto, gbc_lblFoto);
 		
-		ImageIcon imagen = new ImageIcon(usuario.getPerfil());
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(usuario.getPerfil()));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
 		
 		lblFoto.setIcon(icono);
