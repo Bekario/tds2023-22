@@ -7,9 +7,6 @@ import java.awt.Image;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
-import javax.swing.JTextField;
-
-import controlador.Controlador;
 import modelo.Usuario;
 
 import java.awt.Insets;
@@ -17,18 +14,8 @@ import java.awt.Insets;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.CaretEvent;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
-import javax.swing.JToggleButton;
-import javax.swing.JSlider;
+
 
 public class PanelPerfil extends JPanel {
 	/**
@@ -109,27 +96,27 @@ public class PanelPerfil extends JPanel {
 		gbc_lblPublicaciones.gridy = 2;
 		add(lblPublicaciones, gbc_lblPublicaciones);
 		
-		JLabel lblSeguidores = new JLabel(String.valueOf(usuario.getNumeroSeguidos()));
+		JLabel lblSeguidores = new JLabel(String.valueOf(usuario.getNumeroSeguidores()));
 		GridBagConstraints gbc_lblSeguidores = new GridBagConstraints();
 		gbc_lblSeguidores.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSeguidores.gridx = 4;
 		gbc_lblSeguidores.gridy = 2;
 		add(lblSeguidores, gbc_lblSeguidores);
 		
-		JLabel lblSeguidos = new JLabel(String.valueOf(usuario.getNumeroSeguidores()));
+		JLabel lblSeguidos = new JLabel(String.valueOf(usuario.getNumeroSeguidos()));
 		GridBagConstraints gbc_lblSeguidos = new GridBagConstraints();
 		gbc_lblSeguidos.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSeguidos.gridx = 5;
 		gbc_lblSeguidos.gridy = 2;
 		add(lblSeguidos, gbc_lblSeguidos);
 		
-		JLabel lblNewLabel = new JLabel("publicaciones");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.NORTH;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 3;
-		gbc_lblNewLabel.gridy = 3;
-		add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblPublicaciones_1 = new JLabel("publicaciones");
+		GridBagConstraints gbc_lblPublicaciones_1 = new GridBagConstraints();
+		gbc_lblPublicaciones_1.anchor = GridBagConstraints.NORTH;
+		gbc_lblPublicaciones_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPublicaciones_1.gridx = 3;
+		gbc_lblPublicaciones_1.gridy = 3;
+		add(lblPublicaciones_1, gbc_lblPublicaciones_1);
 		
 		JLabel lblSeguidores_1 = new JLabel("seguidores");
 		GridBagConstraints gbc_lblSeguidores_1 = new GridBagConstraints();
