@@ -91,7 +91,7 @@ public class PanelBuscar extends JPanel {
 		gbc_panelListaUsuarios.gridx = 1;
 		gbc_panelListaUsuarios.gridy = 4;
 		add(panelListaUsuarios, gbc_panelListaUsuarios);
-		System.out.println(txtBarraBusqueda.getText());
+
 		addManejadorBuscar(btnBuscar);
 		this.repaint();
 		panelListaUsuarios.repaint();

@@ -31,6 +31,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	private final String PERFIL= "perfil";
 	private final String DESCRIPCION= "descripcion";
 	private final String SEGUIDORES= "seguidores";
+	private final String SEGUIDOS= "seguidos";
 	private final String NOTIFICACIONES= "notificaciones";
 	private final String FOTOS= "fotos";
 	private final String ALBUMS= "albums";
@@ -84,6 +85,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 						new Propiedad(PERFIL, usuario.getPerfil()),
 						new Propiedad(NOTIFICACIONES, obtenerCodigosNotificaciones(usuario.getNotificaciones())),
 						new Propiedad(SEGUIDORES, obtenerStringSeguidores(usuario.getUsuariosSeguidores())),
+						new Propiedad(SEGUIDOS, obtenerStringSeguidores(usuario.getUsuariosSeguidos())),
 						//Para fotos y albums utilizamos la funcion para obtener codigos de publicaciones
 						new Propiedad(FOTOS, obtenerCodigosPublicaciones(usuario.getFotos().stream()
 																					    .map(e -> (Publicacion) e)
@@ -133,6 +135,9 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 			} else if (prop.getNombre().equals(SEGUIDORES)) {
 				String seguidores = obtenerStringSeguidores(usuario.getUsuariosSeguidores());
 				prop.setValor(seguidores);
+			} else if (prop.getNombre().equals(SEGUIDOS)) {
+				String seguidos = obtenerStringSeguidores(usuario.getUsuariosSeguidos());
+				prop.setValor(seguidos);
 			} else if (prop.getNombre().equals(NOTIFICACIONES)) {
 				String notificaciones = obtenerCodigosNotificaciones(usuario.getNotificaciones());
 				prop.setValor(notificaciones);
@@ -172,6 +177,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		List<Album> albums = new ArrayList<Album>();
 		List<Notificacion> notificaciones = new ArrayList<Notificacion>();
 		List<String> seguidores = new ArrayList<String>();
+		List<String> seguidos = new ArrayList<String>();
 		
 		// recuperar entidad
 		eUsuario = servPersistencia.recuperarEntidad(codigo);
@@ -212,7 +218,10 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// seguidores
 		seguidores = obtenerSeguidores(servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES));
+		seguidos = obtenerSeguidores(servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDOS));
+		
 		user.setUsuariosSeguidores(seguidores);
+		user.setUsuariosSeguidos(seguidos);
 		
 		// recuperar propiedades que son objetos llamando a adaptadores
 		// notificaciones

@@ -23,8 +23,6 @@ import persistencia.IAdaptadorUsuarioDAO;
 
 public class Controlador {
 	private static Controlador unicaInstancia = null;
-	private RepoUsuarios repoUsuarios;
-	private RepoPublicaciones repoPublicaciones;
 	private Usuario usuarioActual;
 //	private FactoriaDAO factoria;
 	
@@ -40,9 +38,6 @@ public class Controlador {
 	
 	private Controlador() {
 		usuarioActual = null;
-		repoUsuarios = RepoUsuarios.getUnicaInstancia();
-		repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
-		
 	}
 	
 	public static Controlador getInstancia() {
@@ -179,7 +174,31 @@ public class Controlador {
 	}
 	
 	public boolean esPublicacionRegistrada(int codigo) {
-		return repoPublicaciones.getPublicacion(codigo) != null;
+		return RepoPublicaciones.getUnicaInstancia().getPublicacion(codigo) != null;
+	}
+	
+	/**
+	 * El usuario actual comienza a seguir a usuario
+	 * @param usuario al que se va a seguir
+	 * @return
+	 */
+	public boolean seguirUsuario(Usuario usuario) {
+		// Comprobamos que el usuario no sea seguido ya
+		if(!usuarioActual.comprobarSeguido(usuario)) {
+			usuarioActual.seguir(usuario);
+			usuario.seguido(usuarioActual);
+			
+			// A continuacion, guardamos los cambios en el DAO
+			try {
+				FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuario);
+				FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
+			} catch (DAOException e) {
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -235,7 +254,7 @@ public class Controlador {
 		//Lo convertimos a minuscula para no distinguir
 		nombre = nombre.toLowerCase();
 		List<Usuario> listaBuscada =  new ArrayList<Usuario>();
-		List<Usuario> listaTotal = repoUsuarios.getUsuarios();
+		List<Usuario> listaTotal = RepoUsuarios.getUnicaInstancia().getUsuarios();
 		for (Usuario usuario : listaTotal) {
 			if(usuario.getUsuario().toLowerCase().startsWith(nombre)) {
 				listaBuscada.add(usuario);

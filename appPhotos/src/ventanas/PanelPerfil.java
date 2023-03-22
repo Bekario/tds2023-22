@@ -39,7 +39,6 @@ public class PanelPerfil extends JPanel {
 	private Home home;
 	
 
-
 	/**
 	 * Create the panel.
 	 */

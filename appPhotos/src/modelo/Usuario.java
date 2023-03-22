@@ -3,7 +3,6 @@ package modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class Usuario {
@@ -51,6 +50,35 @@ public class Usuario {
 			return Variables.precioPremium;
 		}
 		return descuento.aplicarDescuento(this);
+	}
+	
+	/**
+	 * Comprueba si este usuario sigue a otro usuario
+	 * @param usuario que se va a comprobar
+	 * @return booleano indicando si esta seguido o no
+	 */
+	public boolean comprobarSeguido(Usuario usuario) {
+		String codigo = String.valueOf(usuario.getCodigo());
+		 return usuariosSeguidos.stream()
+						.anyMatch(u -> u.equals(codigo));
+	}
+	
+	/**
+	 * Este usuario sigue a usuario
+	 * @param usuario al que se va a seguir
+	 */
+	public void seguir(Usuario usuario) {
+		String codigo = String.valueOf(usuario.getCodigo());
+		usuariosSeguidos.add(codigo);
+	}
+	
+	/**
+	 * Este usuario es seguido por otro usuario
+	 * @param usuario que sigue a este usuario
+	 */
+	public void seguido(Usuario usuario) {
+		String codigo = String.valueOf(usuario.getCodigo());
+		usuariosSeguidores.add(codigo);
 	}
 	
 	public void aumentarIndicePublicacion() {

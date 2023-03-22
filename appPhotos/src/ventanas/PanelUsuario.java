@@ -6,12 +6,16 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controlador.Controlador;
 import modelo.Usuario;
 
 import javax.swing.JButton;
@@ -77,6 +81,8 @@ public class PanelUsuario extends JPanel {
 		
 		btnSeguir = new JButton("Seguir");
 		add(btnSeguir, gbc_btnSeguir_lbl_seguido);
+		
+		addManejadorBotonSeguir(btnSeguir);
 	}
 	
 	public Usuario getUsuario() {
@@ -90,5 +96,18 @@ public class PanelUsuario extends JPanel {
 	public void setVisibilidadBotonSeguir(boolean visibilidad) {
 		btnSeguir.setVisible(visibilidad);
 		lblSeguido.setVisible(!visibilidad);
+	}
+	
+	private void addManejadorBotonSeguir(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Comprobamos que el boton este visible, esto significa que no este ya seguido por el usuario
+				if(boton.isVisible()) {
+					Controlador.getInstancia().seguirUsuario(usuario);
+					setVisibilidadBotonSeguir(false);
+				}
+			}
+		});
+
 	}
 }
