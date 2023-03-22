@@ -2,24 +2,17 @@ package ventanas;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import controlador.Controlador;
-import modelo.Foto;
-import modelo.Publicacion;
 import modelo.Usuario;
 
-import javax.swing.JLabel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 public class PanelListaUsuarios extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
 	private int y;
 	private ArrayList<PanelUsuario> paneles;
 	

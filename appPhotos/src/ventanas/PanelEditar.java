@@ -366,7 +366,7 @@ public class PanelEditar extends JPanel {
 				//Si todos los campos son correctos
 				if (checkFields()) {
 					Controlador.getInstancia().modificarUsuario(txtUsuario.getText(), new String(txtContraseña.getPassword()) , txtEmail.getText(), txtNombre.getText(), textArea.getText());
-					padre.getHome().CambiarScrollPane(padre);
+					padre.getHome().setPanelPerfil();
 				}
 			}
 		});
@@ -380,7 +380,7 @@ public class PanelEditar extends JPanel {
 	private void addManejadorBotonAtras(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				padre.getHome().CambiarScrollPane(padre);
+				padre.getHome().setPanelPerfil();
 			}
 	});
 }

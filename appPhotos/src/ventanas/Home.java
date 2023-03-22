@@ -60,7 +60,6 @@ public class Home {
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		
 		prepararTodosPaneles();
 		establecerBarraSuperior();
 		establecerBarraInferior();
@@ -130,9 +129,9 @@ public class Home {
 		barraInferior.add(btnPerfil, gbc_btnPerfil);
 		btnPerfil.setBorder(null);
 		
-		addManejadorClickBoton(btnSearch, (JPanel) panelBusqueda);
-		addManejadorClickBoton(btnPrincipal, (JPanel) panelInicio);
-		addManejadorClickBoton(btnPerfil, (JPanel) panelPerfil);
+		addManejadorBotonBusqueda(btnSearch);
+		addManejadorBotonInicio(btnPrincipal);
+		addManejadorBotonPerfil(btnPerfil);
 	}
 	
 	private void establecerBarraSuperior() {
@@ -182,17 +181,55 @@ public class Home {
 		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().getUsuarioActual());
 	}
 	
-	protected void addManejadorClickBoton(JButton boton, JPanel panel) {
+	private void addManejadorBotonInicio(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				scrollPane.setViewportView(panel);
+				setPanelPublicaciones();
 			}
 		});
 	}
-	protected void CambiarScrollPane(JPanel panel) {
-				scrollPane.setViewportView(panel);
+	
+	private void addManejadorBotonBusqueda(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setPanelBusqueda();
+			}
+		});
+	}
+	
+	private void addManejadorBotonPerfil(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setPanelPerfil();
+			}
+		});
+	}
+	
+	private void cambiarScrollPane(JPanel panel) {
+		scrollPane.setViewportView(panel);
 
-		}
+	}
+	
+	public void setPanelEdit() {
+		//El panel editar debe contener los datos por defecto al accederse
+		cambiarScrollPane(new PanelEditar(Controlador.getInstancia().getUsuarioActual(), panelPerfil));
+	}
+	
+	public void setPanelPublicaciones() {
+		cambiarScrollPane(panelInicio);
+	}
+	
+	public void setPanelBusqueda() {
+		panelBusqueda.limpiarPanel();
+		cambiarScrollPane(panelBusqueda);
+	}
+	
+	public void setPanelPerfil() {
+		// Cada vez que cambiemos al panel perfil hay que generarlo de nuevo por si se ha subido una foto o editado algo
+		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().getUsuarioActual());
+		cambiarScrollPane(panelPerfil);
+	}
+	
 	protected void addManejadorEdit(JButton boton, 	JPanel panel) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

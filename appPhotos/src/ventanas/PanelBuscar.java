@@ -97,6 +97,12 @@ public class PanelBuscar extends JPanel {
 		panelListaUsuarios.repaint();
 	}
 	
+	public void limpiarPanel() {
+		txtBarraBusqueda.setText("");
+		panelListaUsuarios.quitarUsuarios();
+
+	}
+	
 	private void addManejadorBuscar(JButton btn) {
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
