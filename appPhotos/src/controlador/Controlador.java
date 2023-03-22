@@ -254,8 +254,10 @@ public class Controlador {
 		nombre = nombre.toLowerCase();
 		List<Usuario> listaBuscada =  new ArrayList<Usuario>();
 		List<Usuario> listaTotal = RepoUsuarios.getUnicaInstancia().getUsuarios();
+		// MALENIA STREAM
 		for (Usuario usuario : listaTotal) {
-			if(usuario.getUsuario().toLowerCase().startsWith(nombre)) {
+			// Comprobamos que el usuario coincida en sus primeras letras y que no sea el mismo
+			if(usuario.getUsuario().toLowerCase().startsWith(nombre) && !usuario.getUsuario().equals(usuarioActual.getUsuario())) {
 				listaBuscada.add(usuario);
 			}
 		}
