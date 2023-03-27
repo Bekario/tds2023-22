@@ -165,6 +165,7 @@ public class PanelCabeceraPerfil extends JPanel {
 		lblSeguidores.setText(String.valueOf(usuario.getNumeroSeguidores()));
 		lblSeguidos = new JLabel(String.valueOf(usuario.getNumeroSeguidos()));
 		textAreaDescripcion = new JTextArea(usuario.getDescripcion());
-
+		
+		this.updateUI();
 	}
 }
