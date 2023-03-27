@@ -15,8 +15,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+
+import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 
 public class PanelCabeceraPerfil extends JPanel {
@@ -137,7 +140,25 @@ public class PanelCabeceraPerfil extends JPanel {
 		add(lblSeguidos_1, gbc_lblSeguidos_1);
 		
 		
-	
+		textAreaDescripcion = new JTextArea(3, 10);
+		textAreaDescripcion.setWrapStyleWord(true);
+		textAreaDescripcion.setLineWrap(true);
+		textAreaDescripcion.setEditable(false);
+		textAreaDescripcion.setText(usuario.getDescripcion());
+		textAreaDescripcion.setFocusable(false);
+		textAreaDescripcion.setBackground(new Color(66, 61, 67));
+		JScrollPane scrollPane = new JScrollPane(textAreaDescripcion);
+		scrollPane.setViewportBorder(null);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridwidth = 7;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 5;
+		add(scrollPane, gbc_scrollPane);
+
 	}
 	
 	public void setUsuario(Usuario usuario) {
@@ -153,8 +174,8 @@ public class PanelCabeceraPerfil extends JPanel {
 		
 		lblPublicaciones.setText(String.valueOf(usuario.getNumeroPublicaciones()));
 		lblSeguidores.setText(String.valueOf(usuario.getNumeroSeguidores()));
-		lblSeguidos = new JLabel(String.valueOf(usuario.getNumeroSeguidos()));
-		textAreaDescripcion = new JTextArea(usuario.getDescripcion());
+		lblSeguidos.setText(String.valueOf(usuario.getNumeroSeguidos()));
+		textAreaDescripcion.setText(usuario.getDescripcion());
 		
 		this.updateUI();
 	}
