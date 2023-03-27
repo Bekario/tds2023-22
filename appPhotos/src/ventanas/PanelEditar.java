@@ -68,7 +68,7 @@ public class PanelEditar extends JPanel {
 	private JButton btnGuardar;
 	private JLabel lblNewLabel;
 	private JButton btnAtras;
-	private PanelPerfil padre;
+	private PanelCabeceraPerfil padre;
 	private JLabel lblFotoPerfil;
 	private JButton btnNewButton;
 	private JScrollPane scrollPane;
@@ -79,7 +79,7 @@ public class PanelEditar extends JPanel {
 	 */
 	public PanelEditar(Usuario usuario, JPanel padre) {
 		this.usuario=usuario;
-		this.padre=(PanelPerfil)padre;
+		this.padre=(PanelCabeceraPerfil)padre;
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
@@ -210,6 +210,7 @@ public class PanelEditar extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		
 		textArea = new JTextArea();
+		textArea.setLineWrap(true);
 		textArea.setText(usuario.getDescripcion());
 		scrollPane.setViewportView(textArea);
 		txtContraseña = new JPasswordField();
