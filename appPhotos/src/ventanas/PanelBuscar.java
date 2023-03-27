@@ -17,6 +17,8 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PanelBuscar extends JPanel {
 	/**
@@ -59,6 +61,18 @@ public class PanelBuscar extends JPanel {
 		add(lblTexto, gbc_lblTexto);
 		
 		txtBarraBusqueda = new JTextField();
+		txtBarraBusqueda.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==KeyEvent.VK_ENTER){
+					panelListaUsuarios.quitarUsuarios();
+					List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
+					panelListaUsuarios.addListaUsuario(lista);
+					panelListaUsuarios.comprobarSeguidos(Controlador.getInstancia().getUsuarioActual().getUsuario(), Controlador.getInstancia().getUsuarioActual().getUsuariosSeguidosNombre());
+					panelListaUsuarios.updateUI();
+				}
+			}
+		});
 		GridBagConstraints gbc_txtBarraBusqueda = new GridBagConstraints();
 		gbc_txtBarraBusqueda.insets = new Insets(0, 0, 5, 5);
 		gbc_txtBarraBusqueda.fill = GridBagConstraints.HORIZONTAL;
@@ -68,6 +82,7 @@ public class PanelBuscar extends JPanel {
 		txtBarraBusqueda.setColumns(10);
 		
 		btnBuscar = new JButton("");
+		btnBuscar.setFocusable(false);
 
 		btnBuscar.setBackground(new Color(45, 42, 46));
 		btnBuscar.setIcon(new ImageIcon(PanelBuscar.class.getResource("/imagenes/buscar.png")));

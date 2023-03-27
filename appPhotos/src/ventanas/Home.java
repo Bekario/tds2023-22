@@ -27,6 +27,7 @@ public class Home {
 	private PanelBuscar panelBusqueda;
 	private PanelInicio panelInicio;
 	private PanelPerfil panelPerfil;
+	private PanelSubir panelSubir;
 
 	/**
 	 * Create the application.
@@ -132,6 +133,7 @@ public class Home {
 		addManejadorBotonBusqueda(btnSearch);
 		addManejadorBotonInicio(btnPrincipal);
 		addManejadorBotonPerfil(btnPerfil);
+		addManejadorBotonSubir(btnSubirFoto);
 	}
 	
 	private void establecerBarraSuperior() {
@@ -179,6 +181,7 @@ public class Home {
 		panelBusqueda = new PanelBuscar();
 		panelInicio = new PanelInicio(this);  //MALENIA OJO CON EL CONSTRUCTOR
 		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().getUsuarioActual());
+		panelSubir = new PanelSubir();
 	}
 	
 	private void addManejadorBotonInicio(JButton boton) {
@@ -205,6 +208,14 @@ public class Home {
 		});
 	}
 	
+	private void addManejadorBotonSubir(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setPanelSubir();
+			}
+		});
+	}
+	
 	private void cambiarScrollPane(JPanel panel) {
 		scrollPane.setViewportView(panel);
 
@@ -222,6 +233,9 @@ public class Home {
 	public void setPanelBusqueda() {
 		panelBusqueda.limpiarPanel();
 		cambiarScrollPane(panelBusqueda);
+	}
+	public void setPanelSubir() {
+		cambiarScrollPane(panelSubir);
 	}
 	
 	public void setPanelPerfil() {

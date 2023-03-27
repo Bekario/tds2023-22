@@ -334,14 +334,16 @@ public class PanelRegister2 extends JPanel {
 		
 		//Comprobamos si hay una descripcion
 		if(descripcion.getText().equals("Introduce una breve descripción sobre ti...")) {
+			descripcion.setText("");
+		}
+		if(descripcion.getText().length()>200) {
 			estado = false;
-			info = "¡Escribe una descripcion!";
+			info = "¡Sabemos que eres muy interesante, pero el máximo de carácteres son 200 :( !";
 		}
 		
 		//Comprobamos que se ha seleccionado una foto
 		if(fotoActual.equals(FOTO_DEFECTO)) {
-			estado = false;
-			info = "¡Debes seleccionar una foto de perfil!";
+			
 		}
 		
 		//Si falta un campo, informamos
