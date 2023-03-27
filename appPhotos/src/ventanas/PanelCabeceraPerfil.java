@@ -15,7 +15,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 
 
@@ -26,6 +25,11 @@ public class PanelCabeceraPerfil extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario;
 	private Home home;
+	private JLabel lblPublicaciones;
+	private JLabel lblSeguidores;
+	private JLabel lblSeguidos;
+	private JLabel lblFotoPerfil;
+	private JTextArea textAreaDescripcion;
 	
 
 	/**
@@ -35,7 +39,6 @@ public class PanelCabeceraPerfil extends JPanel {
 		this.usuario=usuario;
 		this.home = home;
 		crearPanel();
-		generarPerfil();
 		
 	}
 	public Home getHome() {
@@ -49,10 +52,12 @@ public class PanelCabeceraPerfil extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
+		generarPerfil();
+		
 	}
 	private void generarPerfil() {
 		
-		JLabel lblFotoPerfil = new JLabel("");
+		lblFotoPerfil = new JLabel("");
 		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
 		gbc_lblFotoPerfil.gridheight = 3;
 		gbc_lblFotoPerfil.insets = new Insets(0, 0, 5, 5);
@@ -85,21 +90,21 @@ public class PanelCabeceraPerfil extends JPanel {
 		
 		home.addManejadorEdit(btnEditarPerfil, this);
 		
-		JLabel lblPublicaciones = new JLabel(String.valueOf(usuario.getNumeroPublicaciones()));
+		lblPublicaciones = new JLabel(String.valueOf(usuario.getNumeroPublicaciones()));
 		GridBagConstraints gbc_lblPublicaciones = new GridBagConstraints();
 		gbc_lblPublicaciones.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPublicaciones.gridx = 2;
 		gbc_lblPublicaciones.gridy = 2;
 		add(lblPublicaciones, gbc_lblPublicaciones);
 		
-		JLabel lblSeguidores = new JLabel(String.valueOf(usuario.getNumeroSeguidores()));
+		lblSeguidores = new JLabel(String.valueOf(usuario.getNumeroSeguidores()));
 		GridBagConstraints gbc_lblSeguidores = new GridBagConstraints();
 		gbc_lblSeguidores.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSeguidores.gridx = 3;
 		gbc_lblSeguidores.gridy = 2;
 		add(lblSeguidores, gbc_lblSeguidores);
 		
-		JLabel lblSeguidos = new JLabel(String.valueOf(usuario.getNumeroSeguidos()));
+		lblSeguidos = new JLabel(String.valueOf(usuario.getNumeroSeguidos()));
 		GridBagConstraints gbc_lblSeguidos = new GridBagConstraints();
 		gbc_lblSeguidos.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSeguidos.gridx = 4;
@@ -140,10 +145,27 @@ public class PanelCabeceraPerfil extends JPanel {
 		add(panel, gbc_panel);
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JTextArea textArea = new JTextArea(usuario.getDescripcion());
-		textArea.setLineWrap(true);
-		textArea.setEditable(false);
-		textArea.setSize(380, 200);
-		panel.add(textArea);
+		textAreaDescripcion = new JTextArea(usuario.getDescripcion());
+		textAreaDescripcion.setLineWrap(true);
+		textAreaDescripcion.setEditable(false);
+		textAreaDescripcion.setSize(380, 200);
+		panel.add(textAreaDescripcion);
+	}
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	public void actualizarCampos() {
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(usuario.getPerfil()));
+		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+		lblFotoPerfil.setIcon(icono);
+		
+		lblPublicaciones.setText(String.valueOf(usuario.getNumeroPublicaciones()));
+		lblSeguidores.setText(String.valueOf(usuario.getNumeroSeguidores()));
+		lblSeguidos = new JLabel(String.valueOf(usuario.getNumeroSeguidos()));
+		textAreaDescripcion = new JTextArea(usuario.getDescripcion());
+		
+		this.updateUI();
 	}
 }
