@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 
 
 public class PanelCabeceraPerfil extends JPanel {
@@ -146,9 +147,9 @@ public class PanelCabeceraPerfil extends JPanel {
 		textAreaDescripcion.setEditable(false);
 		textAreaDescripcion.setText(usuario.getDescripcion());
 		textAreaDescripcion.setFocusable(false);
-		textAreaDescripcion.setBackground(new Color(66, 61, 67));
+		textAreaDescripcion.setBackground(new Color(45, 42, 46));
 		JScrollPane scrollPane = new JScrollPane(textAreaDescripcion);
-		scrollPane.setViewportBorder(null);
+		scrollPane.setViewportBorder(new EmptyBorder(0, 0, 0, 0));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
