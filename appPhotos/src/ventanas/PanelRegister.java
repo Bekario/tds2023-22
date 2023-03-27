@@ -231,6 +231,7 @@ public class PanelRegister extends JPanel {
 
 		txtConfirmar_contraseña = new JPasswordField();
 		btnMostrarPass = new JButton("");
+		btnMostrarPass.setFocusable(false);
 		btnMostrarPass.setBorderPainted(false);
 		btnMostrarPass.setContentAreaFilled(false);
 		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/mostrarcont.png"));
@@ -253,6 +254,7 @@ public class PanelRegister extends JPanel {
 		add(txtConfirmar_contraseña, gbc_txtConfirmar_contraseña);
 		
 		btnMostrarPass2 = new JButton("");
+		btnMostrarPass2.setFocusable(false);
 		btnMostrarPass2.setBorderPainted(false);
 		btnMostrarPass2.setContentAreaFilled(false);
         btnMostrarPass2.setIcon(icono);

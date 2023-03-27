@@ -23,6 +23,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class PanelLogin extends JPanel {
@@ -106,6 +108,20 @@ public class PanelLogin extends JPanel {
 		txtUser.setColumns(10);
 		
 		txtPasswd = new JPasswordField();
+		txtPasswd.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==KeyEvent.VK_ENTER){
+					if (checkFields()) {
+						if(Controlador.getInstancia().loginUsuario(txtUser.getText(), new String(txtPasswd.getPassword()))) {
+							padre.cambiarHome();
+						} else {
+							JOptionPane.showMessageDialog(padre.getFrame(), "¡El nombre de usuario o la contraseña no es correcto!", "Rellene correctamente los campos", 0);
+						}
+					}
+				}
+			}
+		});
 		txtPasswd.setText("Contraseña");
 		txtPasswd.setEchoChar((char)0);
 		GridBagConstraints gbc_txtPasswd = new GridBagConstraints();
@@ -116,6 +132,7 @@ public class PanelLogin extends JPanel {
 		gbc_txtPasswd.gridy = 6;
 		add(txtPasswd, gbc_txtPasswd);
 		btnMostrarPass2 = new JButton("");
+		btnMostrarPass2.setFocusable(false);
 		btnMostrarPass2.setContentAreaFilled(false);
 		btnMostrarPass2.setBorderPainted(false);
 		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/mostrarcont.png"));
