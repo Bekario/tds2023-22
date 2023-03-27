@@ -231,6 +231,8 @@ public class PanelRegister2 extends JPanel {
 						//Subimos la foto del perfil a la carpeta fotosSubidas
 						if(!fotoActual.equals(FOTO_DEFECTO)) {
 							Controlador.getInstancia().subirFotoPerfil(fotoActual);																							
+						}else {
+							Controlador.getInstancia().subirFotoPerfilDefault();
 						}
 					} else {
 						JOptionPane.showMessageDialog(padre.getFrame(), "Este usuario ya está registrado", "Usuario ya registrado", 0);
