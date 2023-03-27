@@ -57,7 +57,7 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 		}
 	}
 	
-	public void limpiar () {
+	public void limpiar() {
 		estado = NO_ALBUM;
 		crearAlbumDefault();
 	}

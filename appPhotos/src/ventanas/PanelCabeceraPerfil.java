@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.FlowLayout;
+import javax.swing.JScrollPane;
 
 
 public class PanelCabeceraPerfil extends JPanel {
@@ -135,21 +136,8 @@ public class PanelCabeceraPerfil extends JPanel {
 		gbc_lblSeguidos_1.gridy = 3;
 		add(lblSeguidos_1, gbc_lblSeguidos_1);
 		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.gridwidth = 7;
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 5;
-		add(panel, gbc_panel);
-		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		textAreaDescripcion = new JTextArea(usuario.getDescripcion());
-		textAreaDescripcion.setLineWrap(true);
-		textAreaDescripcion.setEditable(false);
-		textAreaDescripcion.setSize(380, 200);
-		panel.add(textAreaDescripcion);
+	
 	}
 	
 	public void setUsuario(Usuario usuario) {

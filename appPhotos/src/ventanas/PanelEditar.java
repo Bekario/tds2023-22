@@ -48,6 +48,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import java.awt.FlowLayout;
+import javax.swing.JEditorPane;
 
 
 public class PanelEditar extends JPanel {
@@ -97,6 +99,7 @@ public class PanelEditar extends JPanel {
 		establecerContraseñasYBotones();
 		establecerBotonGuardar();
 		establecerBotonAtras();
+		establecerDescripcion();
 		establecerImagenSubida(usuario.getPerfil());
 	}
 	
@@ -177,11 +180,25 @@ public class PanelEditar extends JPanel {
 		addManejadorTextos(txtNombre, "Nombre");
 	}
 	
+	private void establecerDescripcion() {
+		textArea = new JTextArea(2, 20);
+		textArea.setLineWrap(true);
+		textArea.setText(usuario.getDescripcion());
+		
+		scrollPane = new JScrollPane(textArea);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 2;
+		gbc_scrollPane.gridy = 9;
+		add(scrollPane, gbc_scrollPane);
+	}
+	
 	/**
 	 * Crea el usuario field
 	 */
 	private void establecerUsuario() {
-		
 		txtUsuario = new JTextField();
 		txtUsuario.setText(usuario.getUsuario());
 		txtUsuario.setToolTipText("");
@@ -199,20 +216,6 @@ public class PanelEditar extends JPanel {
 	 * Crea los field contraseña y confirmar contraseña y sus botones
 	 */
 	private void establecerContraseñasYBotones() {
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 2;
-		gbc_scrollPane.gridy = 9;
-		add(scrollPane, gbc_scrollPane);
-		
-		textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setText(usuario.getDescripcion());
-		scrollPane.setViewportView(textArea);
 		txtContraseña = new JPasswordField();
 		txtContraseña.setText(usuario.getContraseña());
 		GridBagConstraints gbc_txtContraseña = new GridBagConstraints();
@@ -410,7 +413,6 @@ public class PanelEditar extends JPanel {
 		});
 	}
 	private void establecerImagenSubida(String ruta) {
-		System.out.println(ruta);
 		lblFotoPerfil = new JLabel(new ImageIcon(FotoPersonalizada.redondearFoto(ruta)));
 		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
 		gbc_lblFotoPerfil.insets = new Insets(0, 0, 5, 5);

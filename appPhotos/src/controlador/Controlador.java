@@ -3,6 +3,7 @@ package controlador;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.Period;
@@ -219,6 +220,17 @@ public class Controlador {
 		try {
 			Files.copy(FileSystems.getDefault().getPath(path), FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+extension), StandardCopyOption.REPLACE_EXISTING);
 			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+"."+extension).toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ruta;
+	}
+	
+	public String subirFotoDefectoPerfil() {
+		String ruta = "";
+		try {
+			Files.copy(Path.of(Controlador.class.getResource("/imagenes/face-detection.png").toString()), FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png"), StandardCopyOption.REPLACE_EXISTING);
+			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png").toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
