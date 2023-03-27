@@ -228,13 +228,13 @@ public class Controlador {
 	}
 	public String subirFotoPerfilDefault() {
 		String ruta = "/imagenes/face-detection.png";
-		System.out.println(FileSystems.getDefault().getPath(ruta));
 		try {
-			Files.copy(FileSystems.getDefault().getPath(System.getProperty("user.dir")+ruta), FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png"), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(Path.of(Controlador.class.getResource("/imagenes/face-detection.png").toString().substring(6)), FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png"), StandardCopyOption.REPLACE_EXISTING);
 			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png").toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		usuarioActual.setPerfil(ruta);
 		return ruta;
 	}
 	

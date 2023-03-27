@@ -234,7 +234,6 @@ public class PanelRegister2 extends JPanel {
 							Controlador.getInstancia().subirFotoPerfil(fotoActual);																							
 						}else {
 							Controlador.getInstancia().subirFotoPerfilDefault();
-							Controlador.getInstancia().getUsuarioActual().setPerfil(FileSystems.getDefault().getPath(System.getProperty("user.dir")+"/imagenes/face-detection.png").toString());
 						}
 					} else {
 						JOptionPane.showMessageDialog(padre.getFrame(), "Este usuario ya está registrado", "Usuario ya registrado", 0);
