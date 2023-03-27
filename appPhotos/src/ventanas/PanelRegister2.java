@@ -229,7 +229,9 @@ public class PanelRegister2 extends JPanel {
 					if (padre.registrarUsuario()) {
 						padre.setPanelLogin();
 						//Subimos la foto del perfil a la carpeta fotosSubidas
-						Controlador.getInstancia().subirFotoPerfil(fotoActual);									
+						if(!fotoActual.equals(FOTO_DEFECTO)) {
+							Controlador.getInstancia().subirFotoPerfil(fotoActual);																							
+						}
 					} else {
 						JOptionPane.showMessageDialog(padre.getFrame(), "Este usuario ya está registrado", "Usuario ya registrado", 0);
 					}
@@ -339,11 +341,6 @@ public class PanelRegister2 extends JPanel {
 		if(descripcion.getText().length()>200) {
 			estado = false;
 			info = "¡Sabemos que eres muy interesante, pero el máximo de carácteres son 200 :( !";
-		}
-		
-		//Comprobamos que se ha seleccionado una foto
-		if(fotoActual.equals(FOTO_DEFECTO)) {
-			
 		}
 		
 		//Si falta un campo, informamos

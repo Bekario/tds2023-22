@@ -226,17 +226,6 @@ public class Controlador {
 		return ruta;
 	}
 	
-	public String subirFotoDefectoPerfil() {
-		String ruta = "";
-		try {
-			Files.copy(Path.of(Controlador.class.getResource("/imagenes/face-detection.png").toString()), FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png"), StandardCopyOption.REPLACE_EXISTING);
-			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png").toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ruta;
-	}
-	
 	public boolean eliminarFotoSubida(String ruta) {
 		try {
 			Files.delete(FileSystems.getDefault().getPath(ruta));
