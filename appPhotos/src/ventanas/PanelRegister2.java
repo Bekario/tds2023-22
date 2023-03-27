@@ -20,6 +20,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import java.io.File;
+import java.nio.file.FileSystems;
 import java.util.regex.Pattern;
 
 import javax.swing.ScrollPaneConstants;
@@ -233,6 +234,7 @@ public class PanelRegister2 extends JPanel {
 							Controlador.getInstancia().subirFotoPerfil(fotoActual);																							
 						}else {
 							Controlador.getInstancia().subirFotoPerfilDefault();
+							Controlador.getInstancia().getUsuarioActual().setPerfil(FileSystems.getDefault().getPath(System.getProperty("user.dir")+"/imagenes/face-detection.png").toString());
 						}
 					} else {
 						JOptionPane.showMessageDialog(padre.getFrame(), "Este usuario ya está registrado", "Usuario ya registrado", 0);
