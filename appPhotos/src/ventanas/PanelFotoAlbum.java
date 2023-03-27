@@ -142,6 +142,16 @@ public class PanelFotoAlbum extends JPanel {
 		panelFotos.addFotos(u.getFotos());
 	}
 	
+	private void limpiarPanelesPublicaciones() {
+		panelAlbum.limpiar();
+		panelFotos.limpiar();
+	}
+	
+	public void actualizarPanel(){
+		limpiarPanelesPublicaciones();
+		cargarPublicaciones();
+	}
+	
 
 	
 

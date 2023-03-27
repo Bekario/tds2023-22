@@ -226,7 +226,7 @@ public class Home {
 	
 	public void setPanelPerfil() {
 		// Cada vez que cambiemos al panel perfil hay que generarlo de nuevo por si se ha subido una foto o editado algo
-		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().getUsuarioActual());
+		panelPerfil.actualizar(Controlador.getInstancia().getUsuarioActual());
 		cambiarScrollPane(panelPerfil);
 	}
 	

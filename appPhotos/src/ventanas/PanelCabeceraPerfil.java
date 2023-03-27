@@ -156,7 +156,9 @@ public class PanelCabeceraPerfil extends JPanel {
 		this.usuario = usuario;
 	}
 	
-	public void actualizarCampos() {
+	public void actualizarCampos(Usuario usuario) {
+		setUsuario(usuario);
+		
 		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(usuario.getPerfil()));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
 		lblFotoPerfil.setIcon(icono);

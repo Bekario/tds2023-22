@@ -57,6 +57,10 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 		}
 	}
 
-	
+	public void limpiar () {
+		estado = NO_FOTOS;
+		crearFotoDefault();
+	}
+
 
 }
