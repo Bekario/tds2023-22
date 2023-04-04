@@ -68,13 +68,13 @@ public class PanelEditar extends JPanel {
 	private JButton btnMostrarPass;
 	private JButton btnMostrarPass2;
 	private JButton btnGuardar;
-	private JLabel lblNewLabel;
+	private JLabel lblCabecera;
 	private JButton btnAtras;
 	private PanelCabeceraPerfil padre;
 	private JLabel lblFotoPerfil;
-	private JButton btnNewButton;
+	private JButton btnCambiarFoto;
 	private JScrollPane scrollPane;
-	private JTextArea textArea;
+	private JTextArea txtDescripcion;
 
 	/**
 	 * Create the panel.
@@ -107,12 +107,12 @@ public class PanelEditar extends JPanel {
 	 * Crea el titulo
 	 */
 	private void establecerTitulo() {
-		lblNewLabel = new JLabel("Editar perfil");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 2;
-		gbc_lblNewLabel.gridy = 1;
-		add(lblNewLabel, gbc_lblNewLabel);
+		lblCabecera = new JLabel("Editar perfil");
+		GridBagConstraints gbc_lblCabecera = new GridBagConstraints();
+		gbc_lblCabecera.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCabecera.gridx = 2;
+		gbc_lblCabecera.gridy = 1;
+		add(lblCabecera, gbc_lblCabecera);
 	}
 	
 	/**
@@ -181,11 +181,13 @@ public class PanelEditar extends JPanel {
 	}
 	
 	private void establecerDescripcion() {
-		textArea = new JTextArea(2, 20);
-		textArea.setLineWrap(true);
-		textArea.setText(usuario.getDescripcion());
+		txtDescripcion = new JTextArea(2, 20);
+		txtDescripcion.setLineWrap(true);
+		if(usuario.getDescripcion().equals("")){
+			txtDescripcion.setText("Introduce una breve descripción sobre ti..."); 
+		}else txtDescripcion.setText(usuario.getDescripcion());
 		
-		scrollPane = new JScrollPane(textArea);
+		scrollPane = new JScrollPane(txtDescripcion);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
@@ -193,6 +195,24 @@ public class PanelEditar extends JPanel {
 		gbc_scrollPane.gridx = 2;
 		gbc_scrollPane.gridy = 9;
 		add(scrollPane, gbc_scrollPane);
+		addManejadorDescripcion(txtDescripcion);
+	}
+	
+	private void addManejadorDescripcion(JTextArea descripcion) {
+		descripcion.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (descripcion.getText().equals("Introduce una breve descripción sobre ti...")) {
+					descripcion.setText("");
+				}
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (descripcion.getText().equals("")) {
+					descripcion.setText("Introduce una breve descripción sobre ti...");
+				}
+			}
+		});
 	}
 	
 	/**
@@ -371,7 +391,7 @@ public class PanelEditar extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//Si todos los campos son correctos
 				if (checkFields()) {
-					Controlador.getInstancia().modificarUsuario(txtUsuario.getText(), new String(txtContraseña.getPassword()) , txtEmail.getText(), txtNombre.getText(), textArea.getText());
+					Controlador.getInstancia().modificarUsuario(txtUsuario.getText(), new String(txtContraseña.getPassword()) , txtEmail.getText(), txtNombre.getText(), txtDescripcion.getText());
 					padre.getHome().setPanelPerfil();
 				}
 			}
@@ -420,14 +440,14 @@ public class PanelEditar extends JPanel {
 		gbc_lblFotoPerfil.gridy = 3;
 		add(lblFotoPerfil, gbc_lblFotoPerfil);
 		
-		btnNewButton = new JButton("Cambiar");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.anchor = GridBagConstraints.ABOVE_BASELINE;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 4;
-		add(btnNewButton, gbc_btnNewButton);
-		addManejadorBotonInsertarImagen(btnNewButton);
+		btnCambiarFoto = new JButton("Cambiar");
+		GridBagConstraints gbc_btnCambiarFoto = new GridBagConstraints();
+		gbc_btnCambiarFoto.anchor = GridBagConstraints.ABOVE_BASELINE;
+		gbc_btnCambiarFoto.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCambiarFoto.gridx = 2;
+		gbc_btnCambiarFoto.gridy = 4;
+		add(btnCambiarFoto, gbc_btnCambiarFoto);
+		addManejadorBotonInsertarImagen(btnCambiarFoto);
 		//fotoActual = usuario.getPerfil();
 	}
 	
@@ -479,6 +499,14 @@ public class PanelEditar extends JPanel {
 		Matcher match = regexEmail.matcher(txtEmail.getText());
 		
 		String info = "";
+		//Comprobamos si hay una descripcion
+		if(txtDescripcion.getText().equals("Introduce una breve descripción sobre ti...")) {
+			txtDescripcion.setText("");
+		}
+		if(txtDescripcion.getText().length()>200) {
+			estado = false;
+			info = "¡Sabemos que eres muy interesante, pero el máximo de carácteres son 200 :( !";
+		}
 		
 		//Comprobamos si es un correo basico
 		if(txtEmail.getText().equals("Email") /*|| !match.matches()*/) {
