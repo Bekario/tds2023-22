@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 public class FotoPersonalizada {
 	
 	public static BufferedImage redondearFoto(String ruta) {
-		
 		BufferedImage master=null;
 		try {
 			master = ImageIO.read(new File(ruta));

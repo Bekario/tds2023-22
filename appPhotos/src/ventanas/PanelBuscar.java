@@ -93,6 +93,7 @@ public class PanelBuscar extends JPanel {
 		add(btnBuscar, gbc_btnBuscar);
 		btnBuscar.setBorder(null);
 		
+		//Funcionalidad opcional
 		//addManejadorBuscar2(txtBarraBusqueda);
 		
 	}

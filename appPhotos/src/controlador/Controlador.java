@@ -234,7 +234,12 @@ public class Controlador {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//Cambiamos la ruta
 		usuarioActual.setPerfil(ruta);
+		//Lo persistimos
+		try {
+			FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
+		} catch (DAOException e) {e.printStackTrace();}
 		return ruta;
 	}
 	

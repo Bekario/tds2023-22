@@ -99,7 +99,7 @@ public class PanelRegister2 extends JPanel {
 	 */
 	private void establecerImagenSubida() {
 		perfil = new JLabel("");
-		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/face-detection.png"));
+		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource(FOTO_DEFECTO));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
 		
 		perfil.setIcon(icono);
