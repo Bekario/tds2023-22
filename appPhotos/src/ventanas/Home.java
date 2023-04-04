@@ -134,6 +134,13 @@ public class Home {
 		addManejadorBotonInicio(btnPrincipal);
 		addManejadorBotonPerfil(btnPerfil);
 		addManejadorBotonSubir(btnSubirFoto);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/imagenes/mas.png")));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.gridx = 5;
+		gbc_lblNewLabel.gridy = 0;
+		barraInferior.add(lblNewLabel, gbc_lblNewLabel);
 	}
 	
 	private void establecerBarraSuperior() {
