@@ -443,6 +443,10 @@ public class PanelRegister extends JPanel {
 			estado = false;
 			info = "¡El nombre de usuario no es valido!";
 		}
+		if(txtUsuario.getText().matches(".*[@|¿|?|:| ].*")) {
+			estado = false;
+			info = "¡El nombre de usuario no es valido!";
+		}
 		
 		match = regexPass.matcher(new String(txtContraseña.getPassword()));
 		if(new String(txtContraseña.getPassword()).equals("Contraseña") /*|| !match.matches()*/) {
