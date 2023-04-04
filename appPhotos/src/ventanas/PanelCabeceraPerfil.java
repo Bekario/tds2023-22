@@ -17,10 +17,11 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
 
 
 public class PanelCabeceraPerfil extends JPanel {
@@ -35,6 +36,7 @@ public class PanelCabeceraPerfil extends JPanel {
 	private JLabel lblSeguidos;
 	private JLabel lblFotoPerfil;
 	private JTextArea textAreaDescripcion;
+	private JLabel lblUsuario;
 	
 
 	/**
@@ -73,7 +75,7 @@ public class PanelCabeceraPerfil extends JPanel {
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
 		lblFotoPerfil.setIcon(icono);
 		
-		JLabel lblUsuario = new JLabel(usuario.getUsuario());
+		lblUsuario = new JLabel(usuario.getUsuario());
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		GridBagConstraints gbc_lblUsuario = new GridBagConstraints();
 		gbc_lblUsuario.gridwidth = 3;
@@ -142,14 +144,15 @@ public class PanelCabeceraPerfil extends JPanel {
 		
 		
 		textAreaDescripcion = new JTextArea(3, 10);
+		textAreaDescripcion.setFocusable(false);
 		textAreaDescripcion.setWrapStyleWord(true);
 		textAreaDescripcion.setLineWrap(true);
 		textAreaDescripcion.setEditable(false);
 		textAreaDescripcion.setText(usuario.getDescripcion());
-		textAreaDescripcion.setFocusable(false);
 		textAreaDescripcion.setBackground(new Color(45, 42, 46));
+
 		JScrollPane scrollPane = new JScrollPane(textAreaDescripcion);
-		scrollPane.setViewportBorder(new EmptyBorder(0, 0, 0, 0));
+		scrollPane.setViewportBorder(null);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -172,7 +175,7 @@ public class PanelCabeceraPerfil extends JPanel {
 		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(usuario.getPerfil()));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
 		lblFotoPerfil.setIcon(icono);
-		
+		lblUsuario.setText(usuario.getUsuario());
 		lblPublicaciones.setText(String.valueOf(usuario.getNumeroPublicaciones()));
 		lblSeguidores.setText(String.valueOf(usuario.getNumeroSeguidores()));
 		lblSeguidos.setText(String.valueOf(usuario.getNumeroSeguidos()));
