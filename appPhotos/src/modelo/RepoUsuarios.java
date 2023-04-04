@@ -48,7 +48,12 @@ public class RepoUsuarios {
 	public Usuario getUsuario(String usuario) {
 		return usuarios.get(usuario); 
 	}
-	
+	public Usuario getEmail(String email) {
+		for (Usuario u: usuarios.values()) {
+			if (u.getEmail().equals(email)) return u;
+		}
+		return null;
+	}
 	public void addUsuario(Usuario usuario) {
 		usuarios.put(usuario.getUsuario(), usuario);
 	}

@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import modelo.DescuentoEdad;
@@ -55,6 +56,7 @@ public class Controlador {
 
 	public boolean loginUsuario(String nombre, String password) {
 		Usuario usuario = RepoUsuarios.getUnicaInstancia().getUsuario(nombre);
+		if (usuario == null) usuario = RepoUsuarios.getUnicaInstancia().getEmail(nombre);
 		if (usuario != null && usuario.getContraseña().equals(password)) {
 			this.usuarioActual = usuario;
 			return true;
@@ -76,7 +78,7 @@ public class Controlador {
 		if (esUsuarioRegistrado(usuario)) {
 			return false;
 		}
-		//Creamos un usuario provisional sin descripcion ni imagen de perfil
+		//Creamos un usuario provisional sin descripcion ni imagen de perfil 
 		usuarioActual = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, perfil, descripcion);
 		
 		//Obtenemos el adaptador de usuario
@@ -271,7 +273,7 @@ public class Controlador {
 	public List<Usuario> obtenerUsuariosBuscados(String nombre){
 		//Lo convertimos a minuscula para no distinguir
 		nombre = nombre.toLowerCase();
-		List<Usuario> listaBuscada =  new ArrayList<Usuario>();
+		HashSet<Usuario> listaBuscada =  new HashSet<Usuario>();
 		List<Usuario> listaTotal = RepoUsuarios.getUnicaInstancia().getUsuarios();
 		// MALENIA STREAM
 		for (Usuario usuario : listaTotal) {
@@ -279,9 +281,15 @@ public class Controlador {
 			if(usuario.getUsuario().toLowerCase().startsWith(nombre) && !usuario.getUsuario().equals(usuarioActual.getUsuario())) {
 				listaBuscada.add(usuario);
 			}
+			if(usuario.getNombreCompleto().toLowerCase().startsWith(nombre) && !usuario.getNombreCompleto().equals(usuarioActual.getNombreCompleto())) {
+				listaBuscada.add(usuario);
+			}
+			if(usuario.getEmail().toLowerCase().startsWith(nombre) && !usuario.getEmail().equals(usuarioActual.getEmail())) {
+				listaBuscada.add(usuario);
+			}
 		}
-		
-		return listaBuscada;
+		List<Usuario> list= new ArrayList<Usuario>(listaBuscada);
+		return list;
 	}
 	
 	public boolean esUsuarioRegistrado(String usuario) {

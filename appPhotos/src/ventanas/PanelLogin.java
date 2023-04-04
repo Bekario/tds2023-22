@@ -96,7 +96,7 @@ public class PanelLogin extends JPanel {
 	 */
 	private void establecerUsuarioEmail() {
 		txtUser = new JTextField();
-		txtUser.setText("Usuario");
+		txtUser.setText("Usuario/Email");
 		txtUser.setToolTipText("");
 		GridBagConstraints gbc_txtUser = new GridBagConstraints();
 		gbc_txtUser.gridwidth = 3;
@@ -116,7 +116,7 @@ public class PanelLogin extends JPanel {
 						if(Controlador.getInstancia().loginUsuario(txtUser.getText(), new String(txtPasswd.getPassword()))) {
 							padre.cambiarHome();
 						} else {
-							JOptionPane.showMessageDialog(padre.getFrame(), "¡El nombre de usuario o la contraseña no es correcto!", "Rellene correctamente los campos", 0);
+							JOptionPane.showMessageDialog(padre.getFrame(), "¡El nombre de usuario/email o la contraseña no es correcto!", "Rellene correctamente los campos", 0);
 						}
 					}
 				}
@@ -161,7 +161,7 @@ public class PanelLogin extends JPanel {
 		txtUser.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				if(txtUser.getText().equals("Usuario")) {
+				if(txtUser.getText().equals("Usuario/Email")) {
 					txtUser.setText("");
 				}
 				else {
@@ -171,7 +171,7 @@ public class PanelLogin extends JPanel {
 			@Override
 			public void focusLost(FocusEvent e) {
 				if(txtUser.getText().equals(""))
-					txtUser.setText("Usuario");
+					txtUser.setText("Usuario/Email");
 			}
 		});
 	}
@@ -269,7 +269,7 @@ public class PanelLogin extends JPanel {
 					if(Controlador.getInstancia().loginUsuario(txtUser.getText(), new String(txtPasswd.getPassword()))) {
 						padre.cambiarHome();
 					} else {
-						JOptionPane.showMessageDialog(padre.getFrame(), "¡El nombre de usuario o la contraseña no es correcto!", "Rellene correctamente los campos", 0);
+						JOptionPane.showMessageDialog(padre.getFrame(), "¡El nombre de usuario/email o la contraseña no es correcto!", "Rellene correctamente los campos", 0);
 					}
 				}
 			}
