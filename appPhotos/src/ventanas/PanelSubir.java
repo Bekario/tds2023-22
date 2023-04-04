@@ -40,6 +40,7 @@ public class PanelSubir extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanelBackground panelBackground;
+	private JButton btnContinuar;
 	private boolean subido;
 
 	/**
@@ -116,22 +117,15 @@ public class PanelSubir extends JPanel {
 		subir.setContentType("text/html");
 		panelBackground.repaint();
 		
-		
-		JButton btnContinuar = new JButton("CONTINUAR");
-		btnContinuar.setForeground(new Color(218, 200, 41));
-		btnContinuar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnContinuar.setBorderPainted(false);
-		btnContinuar.setBackground(UIManager.getColor("Button.background"));
-		GridBagConstraints gbc_btnContinuar = new GridBagConstraints();
-		gbc_btnContinuar.fill = GridBagConstraints.VERTICAL;
-		gbc_btnContinuar.insets = new Insets(0, 0, 5, 5);
-		gbc_btnContinuar.gridx = 1;
-		gbc_btnContinuar.gridy = 7;
-		add(btnContinuar, gbc_btnContinuar);
-		
-		addManejadorBotonColor(btnContinuar);
 		addManejadorBotonInsertarImagen(subir);
 		addManejadorDragAndDrop(subir);
+	}
+	
+	public void reiniciarPanel() {
+		panelBackground.setBackground(PanelSubir.class.getResource("/imagenes/foto_defecto.png"));
+		if(subido == true)
+			remove(btnContinuar);
+		subido = false;
 	}
 	
 	private void addManejadorDragAndDrop(JEditorPane editor) {
@@ -197,6 +191,21 @@ public class PanelSubir extends JPanel {
 	private void seleccionarFoto(String ruta) {
 		try {
 			panelBackground.setBackground(new URL("file:/" + ruta));
+			subido = true;
+			btnContinuar = new JButton("CONTINUAR");
+			btnContinuar.setForeground(new Color(218, 200, 41));
+			btnContinuar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+			btnContinuar.setBorderPainted(false);
+			btnContinuar.setBackground(UIManager.getColor("Button.background"));
+			GridBagConstraints gbc_btnContinuar = new GridBagConstraints();
+			gbc_btnContinuar.fill = GridBagConstraints.VERTICAL;
+			gbc_btnContinuar.insets = new Insets(0, 0, 5, 5);
+			gbc_btnContinuar.gridx = 1;
+			gbc_btnContinuar.gridy = 7;
+			add(btnContinuar, gbc_btnContinuar);
+			
+			addManejadorBotonColor(btnContinuar);
+			this.updateUI();
 		} catch (MalformedURLException e) {
 			System.err.println("La ruta esta mal formada");
 			e.printStackTrace();

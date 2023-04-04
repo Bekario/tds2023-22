@@ -242,6 +242,7 @@ public class Home {
 		cambiarScrollPane(panelBusqueda);
 	}
 	public void setPanelSubir() {
+		panelSubir.reiniciarPanel();
 		cambiarScrollPane(panelSubir);
 	}
 	
