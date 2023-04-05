@@ -20,6 +20,11 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
 
 public class Home {
 	private JFrame frame;
@@ -135,12 +140,38 @@ public class Home {
 		addManejadorBotonPerfil(btnPerfil);
 		addManejadorBotonSubir(btnSubirFoto);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/imagenes/mas.png")));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridx = 5;
-		gbc_lblNewLabel.gridy = 0;
-		barraInferior.add(lblNewLabel, gbc_lblNewLabel);
+		JButton btnAjustes = new JButton("");
+		btnAjustes.setBackground(new Color(192, 192, 192));
+		btnAjustes.setIcon(new ImageIcon(Home.class.getResource("/imagenes/elipsis.png")));
+		
+		JPopupMenu popupMenu = new JPopupMenu();
+		btnAjustes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+				super.mouseClicked(e);
+			}
+		});
+		addPopup(btnAjustes, popupMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Premium");
+		popupMenu.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exportar Excel");
+		popupMenu.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Exportar PDF");
+		popupMenu.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Cerrar sesión");
+		popupMenu.add(mntmNewMenuItem_3);
+		GridBagConstraints gbc_btnAjustes = new GridBagConstraints();
+		gbc_btnAjustes.gridx = 5;
+		gbc_btnAjustes.gridy = 0;
+		barraInferior.add(btnAjustes, gbc_btnAjustes);
+		btnAjustes.setBorder(null);
+		
+
 	}
 	
 	private void establecerBarraSuperior() {
@@ -260,4 +291,21 @@ public class Home {
 		});
 	}
 	
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
 }
