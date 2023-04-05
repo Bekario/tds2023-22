@@ -21,6 +21,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -34,34 +36,48 @@ import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import controlador.Controlador;
+
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import java.awt.Component;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JTextArea;
+
 public class PanelSubir extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanelBackground panelBackground;
+	private JPanelBackground panelFoto;
 	private JButton btnContinuar;
 	private boolean subido;
+	private JTextField txtTitulo;
+	private JScrollPane scrollPane;
+	private JTextArea txtDescripcion;
+	private String fotoActual;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelSubir() {
 		subido = false;
+		fotoActual = null;
 		this.setSize(450, 600);
 		crearPanel();
 		
 	}
 	private void crearPanel() {
 		crearPanelSubir();
+		establecerCamposTexto();
 	}
 	
 	private void crearPanelSubir() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 300, 15, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 15, 256, 15, 50, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 10, 256, 15, 0, 80, 15, 50, 15, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		JLabel lblTitulo = new JLabel("Subir foto");
 		lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 19));
@@ -73,6 +89,7 @@ public class PanelSubir extends JPanel {
 		add(lblTitulo, gbc_lblTitulo);
 		
 		JEditorPane editorInfo = new JEditorPane();
+		editorInfo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		GridBagConstraints gbc_editorInfo = new GridBagConstraints();
 		gbc_editorInfo.insets = new Insets(0, 0, 5, 5);
 		gbc_editorInfo.fill = GridBagConstraints.BOTH;
@@ -81,31 +98,26 @@ public class PanelSubir extends JPanel {
 		add(editorInfo, gbc_editorInfo);
 		
 		editorInfo.setContentType("text/html");
-		editorInfo.setText("<center>Anímate a compartir una foto con tus amigos.<br> Puedes arrastrar la foto sobre la imagen o hacerle click.</center>");
+		editorInfo.setText("<center>Anímate a compartir una foto con tus amigos.<br> Puedes arrastrar la foto sobre la imagen.<br>También puedes hacer click sobre ella.</center>");
 		editorInfo.setEditable(false);
 		
 		
-		panelBackground = new JPanelBackground();
-		panelBackground.setBackground(PanelSubir.class.getResource("/imagenes/foto_defecto.png"));
-		GridBagConstraints gbc_panelBackground = new GridBagConstraints();
-		gbc_panelBackground.insets = new Insets(0, 0, 5, 5);
-		gbc_panelBackground.fill = GridBagConstraints.BOTH;
-		gbc_panelBackground.gridx = 1;
-		gbc_panelBackground.gridy = 5;
-		add(panelBackground, gbc_panelBackground);
-		GridBagLayout gbl_panelBackground = new GridBagLayout();
-		gbl_panelBackground.columnWidths = new int[]{0, 0};
-		gbl_panelBackground.rowHeights = new int[]{100, 0, 0};
-		gbl_panelBackground.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panelBackground.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		panelBackground.setLayout(gbl_panelBackground);
+		panelFoto = new JPanelBackground();
+		panelFoto.setBackground(PanelSubir.class.getResource("/imagenes/foto_defecto.png"));
+		GridBagConstraints gbc_panelFoto = new GridBagConstraints();
+		gbc_panelFoto.insets = new Insets(0, 0, 5, 5);
+		gbc_panelFoto.fill = GridBagConstraints.BOTH;
+		gbc_panelFoto.gridx = 1;
+		gbc_panelFoto.gridy = 5;
+		add(panelFoto, gbc_panelFoto);
+		GridBagLayout gbl_panelFoto = new GridBagLayout();
+		gbl_panelFoto.columnWidths = new int[]{0, 0};
+		gbl_panelFoto.rowHeights = new int[]{100, 0, 0};
+		gbl_panelFoto.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panelFoto.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		panelFoto.setLayout(gbl_panelFoto);
 		
 		JEditorPane subir = new JEditorPane();
-		subir.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
 		subir.setBackground(new Color(0, 0, 0, 0));
 		subir.setEditable(false);
 		GridBagConstraints gbc_subir = new GridBagConstraints();
@@ -113,19 +125,100 @@ public class PanelSubir extends JPanel {
 		gbc_subir.fill = GridBagConstraints.BOTH;
 		gbc_subir.gridx = 0;
 		gbc_subir.gridy = 0;
-		panelBackground.add(subir, gbc_subir);
+		panelFoto.add(subir, gbc_subir);
 		subir.setContentType("text/html");
-		panelBackground.repaint();
+		panelFoto.repaint();
 		
 		addManejadorBotonInsertarImagen(subir);
 		addManejadorDragAndDrop(subir);
 	}
 	
+	private void establecerCamposTexto() {
+		txtTitulo = new JTextField();
+		txtTitulo.setToolTipText("");
+		txtTitulo.setText("Título");
+		txtTitulo.setColumns(10);
+		GridBagConstraints gbc_txtTitulo = new GridBagConstraints();
+		gbc_txtTitulo.insets = new Insets(0, 0, 5, 5);
+		gbc_txtTitulo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTitulo.gridx = 1;
+		gbc_txtTitulo.gridy = 7;
+		add(txtTitulo, gbc_txtTitulo);
+		
+		
+		txtDescripcion = new JTextArea(3, 20);
+		txtDescripcion.setText("Descripción");
+		txtDescripcion.setWrapStyleWord(true);
+		txtDescripcion.setLineWrap(true);
+		
+		scrollPane = new JScrollPane(txtDescripcion);
+		scrollPane.setViewportBorder(null);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 8;
+		add(scrollPane, gbc_scrollPane);
+		
+		addManejadorTexto(txtTitulo, "Título");
+		addManejadorArea(txtDescripcion, "Descripción");
+	}
+	
+	/**
+	 * Gestiona las animaciones de los campos de texto
+	 * @param texto Campo de texto
+	 */
+	private void addManejadorTexto(JTextField texto, String cadena) {
+		texto.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(texto.getText().equals(cadena)) {
+					texto.setText("");
+				}
+				else {
+					texto.selectAll();
+				}
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(texto.getText().equals(""))
+					texto.setText(cadena);
+			}
+		});
+	}
+	
+	/**
+	 * Gestiona las animaciones de los campos de text area
+	 * @param texto Campo de texto
+	 */
+	private void addManejadorArea(JTextArea texto, String cadena) {
+		texto.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(texto.getText().equals(cadena)) {
+					texto.setText("");
+				}
+				else {
+					texto.selectAll();
+				}
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(texto.getText().equals(""))
+					texto.setText(cadena);
+			}
+		});
+	}
+	
 	public void reiniciarPanel() {
-		panelBackground.setBackground(PanelSubir.class.getResource("/imagenes/foto_defecto.png"));
+		panelFoto.setBackground(PanelSubir.class.getResource("/imagenes/foto_defecto.png"));
 		if(subido == true)
 			remove(btnContinuar);
 		subido = false;
+		fotoActual = null;
+		txtDescripcion.setText("Descripción");
+		txtTitulo.setText("Título");
 	}
 	
 	private void addManejadorDragAndDrop(JEditorPane editor) {
@@ -190,7 +283,7 @@ public class PanelSubir extends JPanel {
 	
 	private void seleccionarFoto(String ruta) {
 		try {
-			panelBackground.setBackground(new URL("file:/" + ruta));
+			panelFoto.setBackground(new URL("file:/" + ruta));
 			subido = true;
 			btnContinuar = new JButton("CONTINUAR");
 			btnContinuar.setForeground(new Color(218, 200, 41));
@@ -201,15 +294,59 @@ public class PanelSubir extends JPanel {
 			gbc_btnContinuar.fill = GridBagConstraints.VERTICAL;
 			gbc_btnContinuar.insets = new Insets(0, 0, 5, 5);
 			gbc_btnContinuar.gridx = 1;
-			gbc_btnContinuar.gridy = 7;
+			gbc_btnContinuar.gridy = 10;
 			add(btnContinuar, gbc_btnContinuar);
 			
+			fotoActual = ruta;
+			
+			addManejadorContinuar(btnContinuar);
 			addManejadorBotonColor(btnContinuar);
 			this.updateUI();
 		} catch (MalformedURLException e) {
 			System.err.println("La ruta esta mal formada");
 			e.printStackTrace();
 		}
+	}
+	
+	private void addManejadorContinuar(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//checkfield
+				if (checkFields()) {
+					
+				}
+			}
+		});
+		
+		
+	}
+	
+	private boolean checkFields() {
+		boolean estado = true;
+		
+		String info = "";
+		
+		//Comprobamos si es un correo basico
+		if(txtTitulo.getText().equals("Título")) {
+			estado = false;
+			info = "¡Este título no es válido!";
+		}
+		
+		if(txtDescripcion.getText().equals("Descripción") || txtDescripcion.getText().length() >= 200) {
+			estado = false;
+			info = "¡Introduce una descripción válida de menos de 200 caracteres!";
+		}
+		
+		if (fotoActual.equals(null)) {
+			estado = false;
+			info = "¡Debes seleccionar una foto!";
+		}
+		
+		if(!estado) {
+			JOptionPane.showMessageDialog(this, info, "Rellene correctamente los campos", 0);
+		}
+		
+		return estado;
 	}
 	
 	/**

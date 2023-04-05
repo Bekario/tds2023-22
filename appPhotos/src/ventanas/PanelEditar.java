@@ -182,6 +182,7 @@ public class PanelEditar extends JPanel {
 	
 	private void establecerDescripcion() {
 		txtDescripcion = new JTextArea(2, 20);
+		txtDescripcion.setWrapStyleWord(true);
 		txtDescripcion.setLineWrap(true);
 		if(usuario.getDescripcion().equals("")){
 			txtDescripcion.setText("Introduce una breve descripción sobre ti..."); 
