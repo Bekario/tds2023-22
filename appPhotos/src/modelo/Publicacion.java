@@ -16,9 +16,9 @@ public abstract class Publicacion {
 	private List<Comentario> comentarios;
 	
 	// Constructor
-	public Publicacion(String titulo, String descipcion, LocalDate fecha, List<String> hastags, Usuario usuario) {
+	public Publicacion(String titulo, String descripcion, LocalDate fecha, List<String> hastags, Usuario usuario) {
 		this.titulo=titulo;
-		this.descripcion=descipcion;
+		this.descripcion=descripcion;
 		this.hashtags=hastags;
 		this.usuario=usuario;
 		this.fecha=fecha;

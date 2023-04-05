@@ -10,9 +10,12 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import modelo.DescuentoEdad;
 import modelo.DescuentoPopularidad;
+import modelo.Foto;
 import modelo.Publicacion;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
@@ -22,12 +25,10 @@ import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
-import ventanas.PanelRegister2;
 
 public class Controlador {
 	private static Controlador unicaInstancia = null;
 	private Usuario usuarioActual;
-//	private FactoriaDAO factoria;
 	
 	//Numero de MGs necesarios para el descuento
 	private final int ME_GUSTAS = 1000;
@@ -141,30 +142,29 @@ public class Controlador {
 		return true;
 	}
 	
-	public boolean añadirPublicacion(Publicacion publicacion) {
-		//Comprobamos si la publicacion esta registrada
-		if (esPublicacionRegistrada(publicacion.getCodigo()))
-			return false;
-
-		IAdaptadorPublicacionDAO publicacionDAO=null;
+	public boolean añadirFoto(String titulo, String descripcion, String path) {
+		List<String> hashtags = procesarHashtags(descripcion);
+		
+		Foto publi = new Foto(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, path);
+		
+		IAdaptadorPublicacionDAO publicacionDAO = null;
 		try {
 			publicacionDAO = FactoriaDAO.getInstancia().getPublicacionDAO();
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		publicacionDAO.registrarPublicacion(publicacion);
+		publicacionDAO.registrarPublicacion(publi);
 
-		RepoPublicaciones.getUnicaInstancia().addPublicacion(publicacion);
+		RepoPublicaciones.getUnicaInstancia().addPublicacion(publi);
 		return true;	
-		}
+	}
 	
 	public boolean borrarPublicacion(Publicacion publicacion) {
 		//Comprobamos si la publicacion esta registrada
 		if (!esPublicacionRegistrada(publicacion.getCodigo()))
 			return false;
 		
-		IAdaptadorPublicacionDAO publicacionDAO=null;
+		IAdaptadorPublicacionDAO publicacionDAO = null;
 		try {
 			publicacionDAO = FactoriaDAO.getInstancia().getPublicacionDAO();
 		} catch (DAOException e) {
@@ -179,6 +179,17 @@ public class Controlador {
 	
 	public boolean esPublicacionRegistrada(int codigo) {
 		return RepoPublicaciones.getUnicaInstancia().getPublicacion(codigo) != null;
+	}
+	
+	private List<String> procesarHashtags(String texto) {
+		Pattern MY_PATTERN = Pattern.compile("#(\\S{1,15})\\b");
+		Matcher mat = MY_PATTERN.matcher(texto);
+		List<String> hash = new ArrayList<String>();
+		while (mat.find()) {
+		  hash.add(mat.group(1));
+		}
+		
+		return hash;
 	}
 	
 	/**

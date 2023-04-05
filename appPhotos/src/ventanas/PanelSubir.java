@@ -313,7 +313,9 @@ public class PanelSubir extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//checkfield
 				if (checkFields()) {
-					
+					if (Controlador.getInstancia().añadirFoto(txtTitulo.getText(), txtDescripcion.getText(), fotoActual)) {
+						
+					}
 				}
 			}
 		});
