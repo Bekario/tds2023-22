@@ -58,8 +58,12 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 	}
 	
 	public void limpiar() {
-		estado = NO_ALBUM;
-		crearAlbumDefault();
+		if (estado == SI_ALBUM) {
+			estado = NO_ALBUM;
+			crearAlbumDefault();			
+		}
+
+		super.borrarTodasPublicaciones();
 	}
 
 	

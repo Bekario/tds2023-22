@@ -156,6 +156,16 @@ public class Controlador {
 		publicacionDAO.registrarPublicacion(publi);
 
 		RepoPublicaciones.getUnicaInstancia().addPublicacion(publi);
+		
+		usuarioActual.addFoto(publi);
+		
+		try {
+			FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return true;	
 	}
 	

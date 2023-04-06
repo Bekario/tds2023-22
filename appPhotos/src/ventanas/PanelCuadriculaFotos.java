@@ -27,9 +27,6 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 		super();
 		estado = NO_FOTOS;
 		crearFotoDefault();
-		updateUI();
-		addFotos(Controlador.getInstancia().getUsuarioActual().getFotos());
-		
 	}
 	
 	/**
@@ -54,6 +51,7 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 		//Comprobamos si ha de quitar la imagen por defecto
 		if (estado == NO_FOTOS && fotos.size() > 0) {
 			estado = SI_FOTOS;
+
 			remove(lblImagen);
 		}
 		
@@ -63,8 +61,12 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 	}
 
 	public void limpiar() {
-		estado = NO_FOTOS;
-		crearFotoDefault();
+		if(estado == SI_FOTOS) {
+			estado = NO_FOTOS;
+			crearFotoDefault();			
+		}
+		super.borrarTodasPublicaciones();
+		
 	}
 
 

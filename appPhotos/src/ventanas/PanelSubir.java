@@ -348,7 +348,7 @@ public class PanelSubir extends JPanel {
 		return estado;
 	}
 	
-	/**
+	/**MALENIA SE USA TOO MUCH
 	 * Gestiona los cambios de color al pasar el raton encima de un boton
 	 * @param boton Boton que se desea que aplique el efecto
 	 */
