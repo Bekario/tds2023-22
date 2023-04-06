@@ -17,6 +17,7 @@ import java.awt.dnd.DropTargetDropEvent;
 
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -52,11 +53,13 @@ public class PanelSubir extends JPanel {
 	private JScrollPane scrollPane;
 	private JTextArea txtDescripcion;
 	private String fotoActual;
+	private Home padre;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelSubir() {
+	public PanelSubir(Home home) {
+		padre = home;
 		subido = false;
 		fotoActual = null;
 		this.setSize(450, 600);
@@ -70,9 +73,9 @@ public class PanelSubir extends JPanel {
 	
 	private void crearPanelSubir() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{15, 300, 15, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 10, 256, 15, 0, 80, 15, 50, 15, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{15, 285, 15, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 10, 285, 15, 0, 80, 15, 50, 15, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		JLabel lblTitulo = new JLabel("Subir foto");
@@ -108,7 +111,7 @@ public class PanelSubir extends JPanel {
 		add(panelFoto, gbc_panelFoto);
 		GridBagLayout gbl_panelFoto = new GridBagLayout();
 		gbl_panelFoto.columnWidths = new int[]{0, 0};
-		gbl_panelFoto.rowHeights = new int[]{100, 0, 0};
+		gbl_panelFoto.rowHeights = new int[]{0, 0, 0};
 		gbl_panelFoto.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panelFoto.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panelFoto.setLayout(gbl_panelFoto);
@@ -311,7 +314,7 @@ public class PanelSubir extends JPanel {
 				//checkfield
 				if (checkFields()) {
 					if (Controlador.getInstancia().añadirFoto(txtTitulo.getText(), txtDescripcion.getText(), fotoActual)) {
-						
+						padre.setPanelPerfil();
 					}
 				}
 			}

@@ -10,8 +10,6 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import controlador.Controlador;
-
 public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 
 	private static final long serialVersionUID = 1L;

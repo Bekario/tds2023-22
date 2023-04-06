@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 
 import java.awt.GridBagConstraints;
 import java.awt.Font;
-import java.awt.Graphics2D;
 
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -21,25 +20,20 @@ import controlador.Controlador;
 import modelo.Usuario;
 
 import java.awt.Insets;
-import java.awt.RenderingHints;
 
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 
 import java.util.regex.Matcher;
@@ -48,8 +42,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import java.awt.FlowLayout;
-import javax.swing.JEditorPane;
 
 
 public class PanelEditar extends JPanel {
@@ -60,7 +52,6 @@ public class PanelEditar extends JPanel {
 	private Usuario usuario;
 	private JFrame frame;
 	private JTextField txtEmail;
-	private JTextField nombre;
 	private JTextField txtNombre;
 	private JTextField txtUsuario;
 	private JPasswordField txtContraseña;
@@ -165,7 +156,6 @@ public class PanelEditar extends JPanel {
 	 * Crea el nombre field
 	 */
 	private void establecerNombre() {
-		nombre = new JTextField();
 		txtNombre = new JTextField();
 		txtNombre.setText(usuario.getNombreCompleto());
 		txtNombre.setToolTipText("");

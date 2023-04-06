@@ -219,7 +219,7 @@ public class Home {
 		panelBusqueda = new PanelBuscar(this);
 		panelInicio = new PanelInicio(this);
 		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().getUsuarioActual());
-		panelSubir = new PanelSubir();
+		panelSubir = new PanelSubir(this);
 	}
 	
 	private void addManejadorBotonInicio(JButton boton) {
