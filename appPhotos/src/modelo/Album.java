@@ -2,6 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,6 +17,24 @@ public class Album extends Publicacion {
 	
 	public void addFoto(Foto foto) {
 		fotos.add(foto);
+	}
+	
+	@Override
+	public void darMeGusta() {
+		// Le damos me gusta a todas las fotos
+		for (Foto f : fotos ) {
+			f.darMeGusta();
+		}
+		super.darMeGusta();
+	}
+	
+	@Override
+	public void quitarMeGusta() {
+		// Le damos me gusta a todas las fotos
+		for (Foto f : fotos ) {
+			f.quitarMeGusta();
+		}
+		super.quitarMeGusta();
 	}
 	
 	//Metodos get / set

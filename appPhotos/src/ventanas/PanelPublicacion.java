@@ -12,11 +12,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controlador.Controlador;
 import modelo.Foto;
 import modelo.Publicacion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ResourceBundle.Control;
 
 public class PanelPublicacion extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -192,12 +194,15 @@ public class PanelPublicacion extends JPanel {
 				if(likePresionado) {
 					imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/frezze.png"));
 					likePresionado = false;
+					Controlador.getInstancia().quitarMeGusta(publicacion);
 				} else {
 					imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/hotttt.png"));
 					likePresionado = true;
+					Controlador.getInstancia().darMeGusta(publicacion);
 				}
 				Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 				label.setIcon(icono);
+				lblNumLikes.setText(String.valueOf(publicacion.getMegusta()));
 			}
 		});
 	}

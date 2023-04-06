@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import persistencia.DAOException;
+import persistencia.FactoriaDAO;
+
 public abstract class Publicacion {
 	private Usuario usuario;
 	private int codigo;
@@ -25,6 +28,26 @@ public abstract class Publicacion {
 		megusta=0;
 		comentarios = new ArrayList<Comentario>();
 		codigo = 0;
+	}
+	
+	public void darMeGusta() {
+		megusta++;
+		// Ahora hay que actualizar los DAO y repos
+		RepoPublicaciones.getUnicaInstancia().removePublicacion(this);
+		RepoPublicaciones.getUnicaInstancia().addPublicacion(this);
+		try {
+			FactoriaDAO.getInstancia().getPublicacionDAO().modificarPublicacion(this);
+		} catch (DAOException e) {e.printStackTrace();}		
+	}
+	
+	public void quitarMeGusta() {
+		megusta--;
+		// Ahora hay que actualizar los DAO y repos
+		RepoPublicaciones.getUnicaInstancia().removePublicacion(this);
+		RepoPublicaciones.getUnicaInstancia().addPublicacion(this);
+		try {
+			FactoriaDAO.getInstancia().getPublicacionDAO().modificarPublicacion(this);
+		} catch (DAOException e) {e.printStackTrace();}		
 	}
 	
 	// Metodos get / set

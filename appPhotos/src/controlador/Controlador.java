@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
+
+import modelo.Album;
 import modelo.DescuentoEdad;
 import modelo.DescuentoPopularidad;
 import modelo.Foto;
@@ -311,6 +314,14 @@ public class Controlador {
 		}
 		List<Usuario> list= new ArrayList<Usuario>(listaBuscada);
 		return list;
+	}
+	
+	public void darMeGusta(Publicacion publicacion) {
+		publicacion.darMeGusta();
+	}	
+	
+	public void quitarMeGusta(Publicacion publicacion) {
+		publicacion.quitarMeGusta();
 	}
 	
 	public boolean esUsuarioRegistrado(String usuario) {
