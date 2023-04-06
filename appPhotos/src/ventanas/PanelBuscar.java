@@ -21,19 +21,19 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PanelBuscar extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JTextField txtBarraBusqueda;
 	private PanelListaUsuarios panelListaUsuarios;
 	private JButton btnBuscar;
+	private Home home;
 
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelBuscar() {
+	public PanelBuscar(Home padre) {
+		home = padre;
 		this.setSize(450, 600);
 		crearPanel();
 		
@@ -99,7 +99,7 @@ public class PanelBuscar extends JPanel {
 	}
 	
 	private void crearPanelLista() {
-		panelListaUsuarios = new PanelListaUsuarios();
+		panelListaUsuarios = new PanelListaUsuarios(home);
 		GridBagConstraints gbc_panelListaUsuarios = new GridBagConstraints();
 		gbc_panelListaUsuarios.gridwidth = 2;
 		gbc_panelListaUsuarios.insets = new Insets(0, 0, 0, 5);
@@ -131,7 +131,7 @@ public class PanelBuscar extends JPanel {
 		});
 	}
 	
-	/*Este funciona cuando escribes en campo de texto
+	/*Este funciona cuando escribes en campo de texto, muy ineficiente
 	 * private void addManejadorBuscar2(JTextField txt) {
 		txt.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {

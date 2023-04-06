@@ -10,6 +10,8 @@ import java.awt.Font;
 import modelo.Usuario;
 
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,15 +21,12 @@ import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
+
+import controlador.Controlador;
 
 
 public class PanelCabeceraPerfil extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario;
 	private Home home;
@@ -37,6 +36,8 @@ public class PanelCabeceraPerfil extends JPanel {
 	private JLabel lblFotoPerfil;
 	private JTextArea textAreaDescripcion;
 	private JLabel lblUsuario;
+	private JButton btn;
+	private JLabel lblSeguido;
 	
 
 	/**
@@ -53,7 +54,7 @@ public class PanelCabeceraPerfil extends JPanel {
 	}
 	private void crearPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 15, 0, 0, 0, 15, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 15, 0, 0, 0, 15, 72, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0, 15, 0, 15, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -85,17 +86,34 @@ public class PanelCabeceraPerfil extends JPanel {
 		gbc_lblUsuario.gridy = 1;
 		add(lblUsuario, gbc_lblUsuario);
 		
-		JButton btnEditarPerfil = new JButton("Editar");
+		GridBagConstraints gbc_btn = new GridBagConstraints();
+		gbc_btn.gridheight = 3;
+		gbc_btn.anchor = GridBagConstraints.EAST;
+		gbc_btn.insets = new Insets(0, 0, 5, 0);
+		gbc_btn.gridx = 6;
+		gbc_btn.gridy = 1;
 		
-		GridBagConstraints gbc_btnEditarPerfil = new GridBagConstraints();
-		gbc_btnEditarPerfil.gridheight = 3;
-		gbc_btnEditarPerfil.anchor = GridBagConstraints.EAST;
-		gbc_btnEditarPerfil.insets = new Insets(0, 0, 5, 0);
-		gbc_btnEditarPerfil.gridx = 6;
-		gbc_btnEditarPerfil.gridy = 1;
-		add(btnEditarPerfil, gbc_btnEditarPerfil);
 		
-		home.addManejadorEdit(btnEditarPerfil, this);
+		// Si este perfil no es del usuarioActual, no mostramos el boton editar
+		if (usuario.getUsuario().equals(Controlador.getInstancia().getUsuarioActual().getUsuario())) {
+			btn = new JButton("Editar");
+			
+			home.addManejadorEdit(btn, this);	
+		} else { //Si no es el actual, ponemos el boton de seguir
+			//Por defecto el label no se muestra
+			lblSeguido = new JLabel("Seguido");
+			add(lblSeguido, gbc_btn);
+			
+			btn = new JButton("Seguir");
+			addManejadorBotonSeguir(btn);
+			
+			//Comprobamos si el usuario ya esta siendo seguido
+			setVisibilidadBotonSeguir(!Controlador.getInstancia().getUsuarioActual().comprobarSeguido(usuario));
+
+		}
+		
+		
+		add(btn, gbc_btn);
 		
 		lblPublicaciones = new JLabel(String.valueOf(usuario.getNumeroPublicaciones()));
 		GridBagConstraints gbc_lblPublicaciones = new GridBagConstraints();
@@ -163,6 +181,28 @@ public class PanelCabeceraPerfil extends JPanel {
 		gbc_scrollPane.gridy = 5;
 		add(scrollPane, gbc_scrollPane);
 
+	}
+	
+	private void addManejadorBotonSeguir(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Comprobamos que el boton este visible, esto significa que no este ya seguido por el usuario
+				if(boton.isVisible()) {
+					Controlador.getInstancia().seguirUsuario(usuario);
+					setVisibilidadBotonSeguir(false);
+					actualizarCampos(usuario);
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Establece si se debe ver el boton o no
+	 * @param visibilidad
+	 */
+	public void setVisibilidadBotonSeguir(boolean visibilidad) {
+		btn.setVisible(visibilidad);
+		lblSeguido.setVisible(!visibilidad);
 	}
 	
 	public void setUsuario(Usuario usuario) {

@@ -10,9 +10,7 @@ import java.awt.Insets;
 
 
 public class PanelPerfil extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario;
 	private Home home;

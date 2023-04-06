@@ -216,8 +216,8 @@ public class Home {
 	}
 	
 	private void prepararTodosPaneles() {
-		panelBusqueda = new PanelBuscar();
-		panelInicio = new PanelInicio(this);  //MALENIA OJO CON EL CONSTRUCTOR
+		panelBusqueda = new PanelBuscar(this);
+		panelInicio = new PanelInicio(this);
 		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().getUsuarioActual());
 		panelSubir = new PanelSubir();
 	}
@@ -281,6 +281,10 @@ public class Home {
 		// Cada vez que cambiemos al panel perfil hay que generarlo de nuevo por si se ha subido una foto o editado algo
 		panelPerfil.actualizar(Controlador.getInstancia().getUsuarioActual());
 		cambiarScrollPane(panelPerfil);
+	}
+	
+	public void setPanel(JPanel panel) {
+		cambiarScrollPane(panel);
 	}
 	
 	protected void addManejadorEdit(JButton boton, 	JPanel panel) {

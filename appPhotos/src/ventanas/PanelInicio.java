@@ -19,7 +19,7 @@ public class PanelInicio extends JPanel {
 	private static final String SI_PUBLI = "si";
 	
 	private static final long serialVersionUID = 1L;
-	private Home ventana;
+	private Home padre;
 	private int y;
 	private String estado;
 	private JLabel lblNoPublis;
@@ -27,8 +27,8 @@ public class PanelInicio extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelInicio(Home ventana) {
-		this.ventana = ventana;
+	public PanelInicio(Home home) {
+		this.padre = home;
 		this.setSize(450, 490);
 		estado = NO_PUBLI;
 		y=0;
@@ -74,7 +74,7 @@ public class PanelInicio extends JPanel {
 			remove(lblNoPublis);
 		}
 		
-		PanelPublicacion panelPublicacion = new PanelPublicacion(publicacion);
+		PanelPublicacion panelPublicacion = new PanelPublicacion(padre, publicacion);
 		GridBagConstraints gbc_panelPublicacion = new GridBagConstraints();
 		gbc_panelPublicacion.insets = new Insets(0, 0, 5, 0);
 		gbc_panelPublicacion.fill = GridBagConstraints.BOTH;

@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import controlador.Controlador;
 import modelo.Foto;
 import modelo.Publicacion;
+import modelo.Usuario;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -31,11 +32,13 @@ public class PanelPublicacion extends JPanel {
 	private JLabel lblTitulo;
 	private JLabel lblNombreUsuario;
 	private JLabel lblNumComentarios;
+	private Home home;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelPublicacion(Publicacion publicacion) {
+	public PanelPublicacion(Home padre, Publicacion publicacion) {
+		home = padre;
 		likePresionado = false;
 		this.publicacion = publicacion;
 		crearPanel();
@@ -146,6 +149,8 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNombreUsuario.gridy = 0;
 		panelInferior.add(lblNombreUsuario, gbc_lblNombreUsuario);
 		
+		addManejadorClickUsuario(lblNombreUsuario, publicacion.getUsuario());
+		
 		imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
 		icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		
@@ -157,7 +162,19 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblFotoPerfil.gridy = 0;
 		panelInferior.add(lblFotoPerfil, gbc_lblFotoPerfil);
 		
+		addManejadorClickUsuario(lblFotoPerfil, publicacion.getUsuario());
+		
 		addManejadorClickLike(lblLike);
+	}
+	
+	private void addManejadorClickUsuario(JLabel label, Usuario usuario) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				home.setPanel(new PanelPerfil(home, usuario));
+			}
+		});
+
 	}
 	
 	private void crearBarraSuperior() {

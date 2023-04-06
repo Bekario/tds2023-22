@@ -3,6 +3,8 @@ package ventanas;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,13 @@ public class PanelListaUsuarios extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int y;
 	private ArrayList<PanelUsuario> paneles;
+	private Home home;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelListaUsuarios() {
+	public PanelListaUsuarios(Home home) {
+		this.home = home;
 		this.setSize(450, 490);
 		paneles = new ArrayList<PanelUsuario>();
 		y=0;
@@ -46,6 +50,8 @@ public class PanelListaUsuarios extends JPanel {
 		y+=1;
 		add(panelUsuario, gbc_panelUsuario);
 		paneles.add(panelUsuario);
+		
+		addManejadorClickUsuario(panelUsuario, usuario);
 	}
 	
 	public void addListaUsuario(List<Usuario> usuarios) {
@@ -57,6 +63,16 @@ public class PanelListaUsuarios extends JPanel {
 	public void quitarUsuarios() {
 		removeAll();
 		y=0;
+	}
+	
+	private void addManejadorClickUsuario(PanelUsuario u, Usuario usuario) {
+		u.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				home.setPanel(new PanelPerfil(home, usuario));
+			}
+		});
+
 	}
 	
 	/**
