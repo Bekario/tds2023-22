@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.ImageIcon;
-
-import modelo.Album;
 import modelo.DescuentoEdad;
 import modelo.DescuentoPopularidad;
 import modelo.Foto;
@@ -214,6 +211,29 @@ public class Controlador {
 		// Comprobamos que el usuario no sea seguido ya
 		if(!usuarioActual.comprobarSeguido(usuario)) {
 			usuarioActual.seguirA(usuario);
+			
+			// A continuacion, guardamos los cambios en el DAO
+			try {
+				FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuario);
+				FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
+			} catch (DAOException e) {
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * El usuario actual deja de seguir a usuario
+	 * @param usuario al que se va a dejar de seguir
+	 * @return
+	 */
+	public boolean dejarDeSeguirUsuario(Usuario usuario) {
+		// Comprobamos que el usuario este siendo seguido
+		if(usuarioActual.comprobarSeguido(usuario)) {
+			usuarioActual.dejarDeSeguirA(usuario);
 			
 			// A continuacion, guardamos los cambios en el DAO
 			try {

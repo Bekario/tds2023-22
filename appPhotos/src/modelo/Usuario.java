@@ -76,8 +76,25 @@ public class Usuario {
 		usuario.addSeguidores(this.codigo);
 	}
 	
+	/**
+	 * Este usuario deja de seguir a usuario
+	 * @param usuario al que se va a dejar de seguir
+	 */
+	public void dejarDeSeguirA(Usuario usuario) {
+		String codigo = String.valueOf(usuario.getCodigo());
+		//Quitamos de la lista de usuarios seguidos
+		usuariosSeguidos.remove(codigo);
+		
+		//Quitamos de la la lista de usuarios seguidores a este usuario
+		usuario.removeSeguidores(this.codigo);
+	}
+	
 	private void addSeguidores(int codigo) {
 		usuariosSeguidores.add(String.valueOf(codigo));
+	}
+	
+	private void removeSeguidores(int codigo) {
+		usuariosSeguidores.remove(String.valueOf(codigo));
 	}
 	
 	public void aumentarIndicePublicacion() {

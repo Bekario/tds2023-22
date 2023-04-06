@@ -12,6 +12,8 @@ import modelo.Usuario;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -54,7 +56,7 @@ public class PanelCabeceraPerfil extends JPanel {
 	}
 	private void crearPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 15, 0, 0, 0, 15, 72, 0};
+		gridBagLayout.columnWidths = new int[]{0, 15, 0, 0, 0, 15, 80, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0, 15, 0, 15, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -88,7 +90,6 @@ public class PanelCabeceraPerfil extends JPanel {
 		
 		GridBagConstraints gbc_btn = new GridBagConstraints();
 		gbc_btn.gridheight = 3;
-		gbc_btn.anchor = GridBagConstraints.EAST;
 		gbc_btn.insets = new Insets(0, 0, 5, 0);
 		gbc_btn.gridx = 6;
 		gbc_btn.gridy = 1;
@@ -103,16 +104,14 @@ public class PanelCabeceraPerfil extends JPanel {
 			//Por defecto el label no se muestra
 			lblSeguido = new JLabel("Seguido");
 			add(lblSeguido, gbc_btn);
+			addManejadorDejarDeSeguir(lblSeguido);
 			
 			btn = new JButton("Seguir");
 			addManejadorBotonSeguir(btn);
 			
 			//Comprobamos si el usuario ya esta siendo seguido
 			setVisibilidadBotonSeguir(!Controlador.getInstancia().getUsuarioActual().comprobarSeguido(usuario));
-
 		}
-		
-		
 		add(btn, gbc_btn);
 		
 		lblPublicaciones = new JLabel(String.valueOf(usuario.getNumeroPublicaciones()));
@@ -190,6 +189,20 @@ public class PanelCabeceraPerfil extends JPanel {
 				if(boton.isVisible()) {
 					Controlador.getInstancia().seguirUsuario(usuario);
 					setVisibilidadBotonSeguir(false);
+					actualizarCampos(usuario);
+				}
+			}
+		});
+	}
+	
+	private void addManejadorDejarDeSeguir(JLabel label) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Comprobamos que el label este visible, si esta visible es porque esta siendo seguido
+				if(label.isVisible()) {
+					Controlador.getInstancia().dejarDeSeguirUsuario(usuario);
+					setVisibilidadBotonSeguir(true);
 					actualizarCampos(usuario);
 				}
 			}

@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -82,6 +84,7 @@ public class PanelUsuario extends JPanel {
 		add(btnSeguir, gbc_btnSeguir_lbl_seguido);
 		
 		addManejadorBotonSeguir(btnSeguir);
+		addManejadorDejarDeSeguir(lblSeguido);
 	}
 	
 	public Usuario getUsuario() {
@@ -108,5 +111,18 @@ public class PanelUsuario extends JPanel {
 			}
 		});
 
+	}
+	
+	private void addManejadorDejarDeSeguir(JLabel label) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Comprobamos que el label este visible, si esta visible es porque esta siendo seguido
+				if(label.isVisible()) {
+					Controlador.getInstancia().dejarDeSeguirUsuario(usuario);
+					setVisibilidadBotonSeguir(true);
+				}
+			}
+		});
 	}
 }

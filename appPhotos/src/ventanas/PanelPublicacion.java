@@ -19,7 +19,6 @@ import modelo.Usuario;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ResourceBundle.Control;
 
 public class PanelPublicacion extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -105,7 +104,7 @@ public class PanelPublicacion extends JPanel {
 		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/frezze.png"));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		
-		JLabel lblLike = new JLabel("");
+		lblLike = new JLabel("");
 		lblLike.setIcon(icono);
 		GridBagConstraints gbc_lblLike = new GridBagConstraints();
 		gbc_lblLike.insets = new Insets(0, 0, 0, 5);

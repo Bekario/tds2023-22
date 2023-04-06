@@ -60,7 +60,7 @@ public class ControladorTest {
 		AdaptadorPublicacionTDS f = (AdaptadorPublicacionTDS) factoria.getPublicacionDAO();
 		
 		//Registramos foto
-		controlador.añadirPublicacion((Publicacion)foto);
+		controlador.añadirFoto((Publicacion)foto);
 		Foto recuperado = (Foto) f.recuperarPublicacion(foto.getCodigo());
 		assertEquals("La foto no se recupera correctamente con el codigo cuando no existe.", foto, recuperado);
 		/*Controlador.getInstancia().borrarPublicacion(foto);

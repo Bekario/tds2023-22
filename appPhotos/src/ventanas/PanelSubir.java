@@ -17,7 +17,6 @@ import java.awt.dnd.DropTargetDropEvent;
 
 import javax.swing.JButton;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
