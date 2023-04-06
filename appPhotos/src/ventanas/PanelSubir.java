@@ -2,7 +2,6 @@ package ventanas;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,8 +15,6 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -40,7 +37,6 @@ import controlador.Controlador;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
-import java.awt.Component;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
 
@@ -220,15 +216,15 @@ public class PanelSubir extends JPanel {
 		txtDescripcion.setText("Descripción");
 		txtTitulo.setText("Título");
 	}
-	
+	//MALENIA lo usamos 3 4 veces en todo el programa, unificar?
 	private void addManejadorDragAndDrop(JEditorPane editor) {
 		editor.setDropTarget(new DropTarget() {
 			private static final long serialVersionUID = 1L;
 			public synchronized void drop(DropTargetDropEvent evt) {
 				try {
-					Pattern regexpPng = Pattern.compile(".+\\.png");
-					Pattern regexpJpg = Pattern.compile(".+\\.jpg");
-					Pattern regexpJpeg = Pattern.compile(".+\\.jpeg");
+					Pattern regexpPng = Pattern.compile(".+\\.png", Pattern.CASE_INSENSITIVE);
+					Pattern regexpJpg = Pattern.compile(".+\\.jpg", Pattern.CASE_INSENSITIVE);
+					Pattern regexpJpeg = Pattern.compile(".+\\.jpeg", Pattern.CASE_INSENSITIVE);
 					evt.acceptDrop(DnDConstants.ACTION_COPY);
 					@SuppressWarnings("unchecked")
 					List<File> droppedFiles = (List<File>)
@@ -248,14 +244,15 @@ public class PanelSubir extends JPanel {
 	
 	/**
 	 * Encargado de seleccionar la imagen del sistema con un JFileChooser
+	 * MALENIA lo usamos 3 4 veces en todo el programa, unificar?
 	 */
 	private void addManejadorBotonInsertarImagen(JEditorPane editor) {
 		editor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Pattern regexpPng = Pattern.compile(".+\\.png");
-				Pattern regexpJpg = Pattern.compile(".+\\.jpg");
-				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg");
+				Pattern regexpPng = Pattern.compile(".+\\.png", Pattern.CASE_INSENSITIVE);
+				Pattern regexpJpg = Pattern.compile(".+\\.jpg", Pattern.CASE_INSENSITIVE);
+				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg", Pattern.CASE_INSENSITIVE);
 				
 				//Creamos el selector de archivos con su filtro
 				JFileChooser selector = new JFileChooser();

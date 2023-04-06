@@ -451,13 +451,13 @@ public class PanelEditar extends JPanel {
 		addManejadorBotonInsertarImagen(btnCambiarFoto);
 		//fotoActual = usuario.getPerfil();
 	}
-	
+	//MALENIA lo usamos 3 4 veces en todo el programa, unificar?
 	private void addManejadorBotonInsertarImagen(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Pattern regexpPng = Pattern.compile(".+\\.png");
-				Pattern regexpJpg = Pattern.compile(".+\\.jpg");
-				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg");
+				Pattern regexpPng = Pattern.compile(".+\\.png", Pattern.CASE_INSENSITIVE);
+				Pattern regexpJpg = Pattern.compile(".+\\.jpg", Pattern.CASE_INSENSITIVE);
+				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg", Pattern.CASE_INSENSITIVE);
 				
 				
 				//Creamos el selector de archivos con su filtro

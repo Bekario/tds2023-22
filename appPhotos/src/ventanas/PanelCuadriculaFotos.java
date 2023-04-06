@@ -10,6 +10,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import controlador.Controlador;
+
 public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +27,9 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 		super();
 		estado = NO_FOTOS;
 		crearFotoDefault();
+		updateUI();
+		addFotos(Controlador.getInstancia().getUsuarioActual().getFotos());
+		
 	}
 	
 	/**
@@ -46,7 +51,7 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 	 * @param publicaciones publicaciones que se van a añadir
 	 */
 	public void addFotos(List<Foto> fotos) {
-		//Comprobamos si ha que quitar la imagen por defecto
+		//Comprobamos si ha de quitar la imagen por defecto
 		if (estado == NO_FOTOS && fotos.size() > 0) {
 			estado = SI_FOTOS;
 			remove(lblImagen);

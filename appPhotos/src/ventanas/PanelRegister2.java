@@ -1,7 +1,6 @@
 package ventanas;
 
 import controlador.Controlador;
-import modelo.Usuario;
 
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -20,7 +19,6 @@ import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import java.io.File;
-import java.nio.file.FileSystems;
 import java.util.regex.Pattern;
 
 import javax.swing.ScrollPaneConstants;
@@ -245,14 +243,15 @@ public class PanelRegister2 extends JPanel {
 	}
 	
 	/**
-	 * Encargado de seleccionar la imagen del sistema con un JFileChooser
+	 * Encargado de seleccionar la imagen del sistema con un JFileChooser 
+	 * MALENIA lo usamos 3 4 veces en todo el programa, unificar?
 	 */
 	private void addManejadorBotonInsertarImagen(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Pattern regexpPng = Pattern.compile(".+\\.png");
-				Pattern regexpJpg = Pattern.compile(".+\\.jpg");
-				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg");
+				Pattern regexpPng = Pattern.compile(".+\\.png", Pattern.CASE_INSENSITIVE);
+				Pattern regexpJpg = Pattern.compile(".+\\.jpg", Pattern.CASE_INSENSITIVE);
+				Pattern regexpJpeg = Pattern.compile(".+\\.jpeg", Pattern.CASE_INSENSITIVE);
 				
 				//Creamos el selector de archivos con su filtro
 				JFileChooser selector = new JFileChooser();
