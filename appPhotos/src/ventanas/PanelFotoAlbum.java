@@ -22,6 +22,8 @@ public class PanelFotoAlbum extends JPanel {
 	private static final String FOTO = "foto";
 	private static final String ALBUM = "album";
 	
+	private Usuario usuario;
+	
 	private PanelCuadriculaFotos panelFotos;
 	private PanelCuadriculaAlbums panelAlbum;
 	private String estadoPanel;
@@ -33,10 +35,11 @@ public class PanelFotoAlbum extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelFotoAlbum() {
+	public PanelFotoAlbum(Usuario usuario) {
 		this.setSize(450, 600);
+		this.usuario = usuario;
 		crearPanel();
-		//cargarPublicaciones();
+		cargarPublicaciones();
 	}
 	
 	private void crearPanel() {
@@ -137,9 +140,8 @@ public class PanelFotoAlbum extends JPanel {
 	}
 	
 	private void cargarPublicaciones() {
-		Usuario u = Controlador.getInstancia().getUsuarioActual();
-		panelAlbum.addAlbums(u.getAlbums());
-		panelFotos.addFotos(u.getFotos());
+		panelAlbum.addAlbums(usuario.getAlbums());
+		panelFotos.addFotos(usuario.getFotos());
 	}
 	
 	private void limpiarPanelesPublicaciones() {
