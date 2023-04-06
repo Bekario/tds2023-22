@@ -45,9 +45,7 @@ import javax.swing.ScrollPaneConstants;
 
 
 public class PanelEditar extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario;
 	private JFrame frame;
