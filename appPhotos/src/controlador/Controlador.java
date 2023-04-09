@@ -9,9 +9,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,7 +55,11 @@ public class Controlador {
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
 	}
-
+	
+	public void cerrarSesion() {
+		usuarioActual = null;
+	}
+	
 	public boolean loginUsuario(String nombre, String password) {
 		Usuario usuario = RepoUsuarios.getUnicaInstancia().getUsuario(nombre);
 		if (usuario == null) usuario = RepoUsuarios.getUnicaInstancia().getEmail(nombre);
@@ -357,12 +359,18 @@ public class Controlador {
 	
 	public List<Publicacion> getPublicacionesSubidasSeguidores(){
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
-			
+		
+		//MALENIA STREAM
 		for (Usuario u : usuarioActual.getUsuariosSeguidosOb()) {
 			pub.addAll(u.getFotos());
 		}
 		 Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
 		 return pub;
+	}
+	
+	public void convertirUsuarioPremium() {
+		usuarioActual.setPremium(true);
+
 	}
  	
 }

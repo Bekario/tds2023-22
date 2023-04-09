@@ -5,8 +5,8 @@ public class DescuentoEdad implements Descuento{
 	private final double DESCUENTO = 0.4;
 	
 	@Override
-	public float aplicarDescuento(Usuario usuario) {
-		return (float) (Variables.precioPremium - (Variables.precioPremium * DESCUENTO));
+	public float aplicarDescuento(Usuario usuario, float precio) {
+		return (float) (precio - (precio * DESCUENTO));
 	}
 	
 }

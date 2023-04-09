@@ -1,6 +1,6 @@
 package modelo;
 
 public class Variables {
-	static float precioPremium = 10;
+	public static float precioPremium = (float) 7.47;
 
 }

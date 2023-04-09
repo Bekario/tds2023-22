@@ -1,16 +1,14 @@
 package ventanas;
 
-import java.awt.EventQueue;
 
-import javax.swing.JFrame;
+import controlador.Controlador;
 
-import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
-import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
 import java.awt.Font;
@@ -29,9 +27,9 @@ import javax.swing.event.CaretEvent;
 import javax.swing.JProgressBar;
 
 
-public class TarjetaCredito {
+public class PanelTarjeta extends JPanel {
 
-	private JFrame frmPagoConTarjeta;
+	private static final long serialVersionUID = 1L;
 	private JTextField txtNumTarjeta;
 	private JTextField txtTitular;
 	private JTextField txtCVV;
@@ -42,11 +40,14 @@ public class TarjetaCredito {
 	private JLabel lblFecha;
 	private JLabel lblCVC;
 	private JButton btnRegistrarse;
+	private JProgressBar progressBar;
+	private Home padre;
 	
 	private final String TITULAR = "Titular";
 	private final String NUMEROTARJETA = "Numero de tarjeta";
 	private final String CVV = "CVV / CVC";
 	private final String FECHACADUCIDAD = "Fecha de caducidad";
+	private float precio;
 	
 	//Para determinar el tipo de tarjeta
 	private final String MASTERCARD = "5";
@@ -56,58 +57,27 @@ public class TarjetaCredito {
 	private final int MAXNUMTARJETA = 16;
 	private final int MAXFECHACADUCIDAD = 5;
 	private final int MAXCVV = 3;
-	private JProgressBar progressBar;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		FlatMonokaiProIJTheme.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TarjetaCredito window = new TarjetaCredito();
-					window.frmPagoConTarjeta.setVisible(true);
-					window.frmPagoConTarjeta.getRootPane().requestFocus(false);
-//					window.frame.setFocusableWindowState(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public TarjetaCredito() {
-		initialize();
-	}
-	
-	/**
-	 * Muestra la ventana
-	 */
-	public void mostrarVentana(JFrame padre) {
-		frmPagoConTarjeta.setLocationRelativeTo(padre);
-		frmPagoConTarjeta.setVisible(true);
-		frmPagoConTarjeta.getRootPane().requestFocus(false);
+	public PanelTarjeta(Home home, float precio) {
+		padre = home;
+		this.precio = precio;
+		this.setSize(450, 600);
+		crearPanel();
 	}
 	
 	/**
 	 * Inicializa el frame y el layout
 	 */
-	private void initialize() {
-		frmPagoConTarjeta = new JFrame();
-		frmPagoConTarjeta.setTitle("Pago con tarjeta de crédito");
-		frmPagoConTarjeta.setIconImage(Toolkit.getDefaultToolkit().getImage(TarjetaCredito.class.getResource("/imagenes/camara-de-fotos.png")));
-		frmPagoConTarjeta.setBounds(100, 100, 450, 600);
-		frmPagoConTarjeta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	private void crearPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 128, 128, 50, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 60, 180, 0, 0, 0, 0, 30, 50, 0, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 30, 180, 0, 0, 0, 0, 30, 50, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		frmPagoConTarjeta.getContentPane().setLayout(gridBagLayout);
+		setLayout(gridBagLayout);
 		
 		establecerBotones();
 		establecerTitulo();
@@ -129,7 +99,7 @@ public class TarjetaCredito {
 		gbc_nombreApp.insets = new Insets(0, 0, 5, 5);
 		gbc_nombreApp.gridx = 1;
 		gbc_nombreApp.gridy = 1;
-		frmPagoConTarjeta.getContentPane().add(nombreApp, gbc_nombreApp);
+		add(nombreApp, gbc_nombreApp);
 		
 		
 	}
@@ -147,7 +117,7 @@ public class TarjetaCredito {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 3;
-		frmPagoConTarjeta.getContentPane().add(panel, gbc_panel);
+		add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{35, 90, 90, 10, 68, 5, 0};
 		gbl_panel.rowHeights = new int[]{79, 27, 26, 0, 0};
@@ -222,7 +192,7 @@ public class TarjetaCredito {
 		gbc_txtNumTarjeta.insets = new Insets(0, 0, 5, 5);
 		gbc_txtNumTarjeta.gridx = 1;
 		gbc_txtNumTarjeta.gridy = 5;
-		frmPagoConTarjeta.getContentPane().add(txtNumTarjeta, gbc_txtNumTarjeta);
+		add(txtNumTarjeta, gbc_txtNumTarjeta);
 		
 		//Titular
 		txtTitular = new JTextField();
@@ -235,7 +205,7 @@ public class TarjetaCredito {
 		gbc_txtTitular.insets = new Insets(0, 0, 5, 5);
 		gbc_txtTitular.gridx = 1;
 		gbc_txtTitular.gridy = 6;
-		frmPagoConTarjeta.getContentPane().add(txtTitular, gbc_txtTitular);
+		add(txtTitular, gbc_txtTitular);
 		
 		//CVV
 		txtCVV = new JTextField();
@@ -247,7 +217,7 @@ public class TarjetaCredito {
 		gbc_txtCVV.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCVV.gridx = 1;
 		gbc_txtCVV.gridy = 7;
-		frmPagoConTarjeta.getContentPane().add(txtCVV, gbc_txtCVV);
+		add(txtCVV, gbc_txtCVV);
 		
 		//Fecha de caducidad
 		txtFechaDeCaducidad = new JTextField();
@@ -259,7 +229,7 @@ public class TarjetaCredito {
 		gbc_txtFechaDeCaducidad.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFechaDeCaducidad.gridx = 2;
 		gbc_txtFechaDeCaducidad.gridy = 7;
-		frmPagoConTarjeta.getContentPane().add(txtFechaDeCaducidad, gbc_txtFechaDeCaducidad);
+		add(txtFechaDeCaducidad, gbc_txtFechaDeCaducidad);
 		
 		//Animacion de los text field
 		addManejadorTextField(txtFechaDeCaducidad, FECHACADUCIDAD);
@@ -280,10 +250,10 @@ public class TarjetaCredito {
 				if(texto.getText().length() > 0) {
 					String cadena = texto.getText().substring(0, 1);
 					if(cadena.equals(VISA)) {
-						etiqueta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/visa.png")));
+						etiqueta.setIcon(new ImageIcon(PanelTarjeta.class.getResource("/imagenes/visa.png")));
 						panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-azul.png"));
 					} else if(cadena.equals(MASTERCARD)) {
-						etiqueta.setIcon(new ImageIcon(TarjetaCredito.class.getResource("/imagenes/mastercard.png")));
+						etiqueta.setIcon(new ImageIcon(PanelTarjeta.class.getResource("/imagenes/mastercard.png")));
 						panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-rojo.png"));
 					} else {
 						etiqueta.setIcon(null);
@@ -358,7 +328,7 @@ public class TarjetaCredito {
 	 * Establece el boton para procesar el pago
 	 */
 	private void establecerBotones() {
-		btnRegistrarse = new JButton("PROCESAR PAGO");
+		btnRegistrarse = new JButton("PROCESAR PAGO ("+ String.valueOf(precio)+"€)");
 		btnRegistrarse.setForeground(new Color(218, 200, 41));
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBorderPainted(false);
@@ -369,7 +339,7 @@ public class TarjetaCredito {
 		gbc_btnRegistrarse.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRegistrarse.gridx = 1;
 		gbc_btnRegistrarse.gridy = 9;
-		frmPagoConTarjeta.getContentPane().add(btnRegistrarse, gbc_btnRegistrarse);
+		add(btnRegistrarse, gbc_btnRegistrarse);
 		
 		//Animacion de color
 		addManejadorBotonColor(btnRegistrarse);
@@ -391,11 +361,14 @@ public class TarjetaCredito {
 		gbc_progressBar.insets = new Insets(0, 0, 5, 5);
 		gbc_progressBar.gridx = 1;
 		gbc_progressBar.gridy = 4;
-		frmPagoConTarjeta.getContentPane().add(progressBar, gbc_progressBar);
+		add(progressBar, gbc_progressBar);
 	}
 	
 	private void simularPago() {
 		progressBar.setIndeterminate(true);
+		JOptionPane.showMessageDialog(this, "Pago realizado correctamente", "", 1);
+		Controlador.getInstancia().convertirUsuarioPremium();
+		padre.setPanelPublicaciones();
 	}
 	
 	/**
@@ -424,9 +397,6 @@ public class TarjetaCredito {
 				//checkfield
 				if (checkFields()) {
 					simularPago();
-					JOptionPane.showMessageDialog(frmPagoConTarjeta, "Pago realizado correctamente", "", 1);
-					
-					//Poner que si el pago es correcto se haga premium y volver a ventana
 				}
 			}
 		});
@@ -462,7 +432,7 @@ public class TarjetaCredito {
 		}	
 		
 		if(!estado) {
-			JOptionPane.showMessageDialog(frmPagoConTarjeta, info, "Rellene correctamente los campos", 0);
+			JOptionPane.showMessageDialog(this, info, "Rellene correctamente los campos", 0);
 		}
 		
 		return estado;

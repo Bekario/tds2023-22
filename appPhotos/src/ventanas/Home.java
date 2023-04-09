@@ -155,6 +155,11 @@ public class Home {
 		addPopup(btnAjustes, popupMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Premium");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setPanelPremium();
+			}
+		});
 		popupMenu.add(mntmNewMenuItem);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exportar Excel");
@@ -163,8 +168,16 @@ public class Home {
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Exportar PDF");
 		popupMenu.add(mntmNewMenuItem_2);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Cerrar sesión");
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Top Me Gusta");
 		popupMenu.add(mntmNewMenuItem_3);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Cerrar sesión");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cambiarLogin();
+			}
+		});
+		popupMenu.add(mntmNewMenuItem_4);
 		GridBagConstraints gbc_btnAjustes = new GridBagConstraints();
 		gbc_btnAjustes.gridx = 5;
 		gbc_btnAjustes.gridy = 0;
@@ -283,8 +296,19 @@ public class Home {
 		cambiarScrollPane(panelPerfil);
 	}
 	
+	public void setPanelPremium() {
+		cambiarScrollPane(new PanelPremium(this, Controlador.getInstancia().getUsuarioActual()));
+	}
+	
 	public void setPanel(JPanel panel) {
 		cambiarScrollPane(panel);
+	}
+	
+	private void cambiarLogin() {
+		Controlador.getInstancia().cerrarSesion();
+		Login login = new Login();
+		login.mostrarVentana(frame);
+		frame.dispose();
 	}
 	
 	protected void addManejadorEdit(JButton boton, 	JPanel panel) {

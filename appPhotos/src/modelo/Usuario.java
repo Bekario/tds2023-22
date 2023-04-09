@@ -45,11 +45,11 @@ public class Usuario {
 	}
 	
 	//Metodos
-	public float calcularPrecioPremium(){
+	public float calcularPrecioPremium(float precio){
 		if (descuento == null) {
-			return Variables.precioPremium;
+			return precio;
 		}
-		return descuento.aplicarDescuento(this);
+		return descuento.aplicarDescuento(this, precio);
 	}
 	
 	/**
