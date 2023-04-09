@@ -8,7 +8,10 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -350,6 +353,16 @@ public class Controlador {
 	
 	public List<Publicacion> getPublicacionesSubidas(){
 		return RepoPublicaciones.getUnicaInstancia().getPublicaciones();
+	}
+	
+	public List<Publicacion> getPublicacionesSubidasSeguidores(){
+		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
+			
+		for (Usuario u : usuarioActual.getUsuariosSeguidosOb()) {
+			pub.addAll(u.getFotos());
+		}
+		 Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
+		 return pub;
 	}
  	
 }
