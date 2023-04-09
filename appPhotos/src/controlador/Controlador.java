@@ -30,12 +30,7 @@ import persistencia.IAdaptadorUsuarioDAO;
 public class Controlador {
 	private static Controlador unicaInstancia = null;
 	private Usuario usuarioActual;
-	
-	//Numero de MGs necesarios para el descuento
-	private final int ME_GUSTAS = 1000;
-	//Edades entre las que se aplica el descuento
-	private final int EDAD_MIN = 18;
-	private final int EDAD_MAX = 25;
+
 	//Ruta imagenes
 	private final String RUTA_IMAGENES = System.getProperty("user.dir")+"/fotosSubidas/";
 	
@@ -301,21 +296,6 @@ public class Controlador {
 			return true;
 		} catch (IOException e) {
 			return false;
-		}
-	}
-	
-	public void comprobarDescuento(Usuario usuario) { //ponerlo en usuario
-		int edad = Period.between(usuario.getFechaNacimiento(), LocalDate.now()).getYears();
-		int numMG = usuario.getFotos().stream()
-				.map(mg -> mg.getMegusta())
-				.reduce(0, (accum, mg) -> accum + mg);
-		
-		if(edad >= EDAD_MIN && edad <= EDAD_MAX) {
-			usuario.setDescuento(new DescuentoEdad());
-		} else if(numMG >= ME_GUSTAS) {
-			usuario.setDescuento(new DescuentoPopularidad());
-		} else {
-			usuario.setDescuento(null); //MALENIA
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,8 +23,11 @@ public class Usuario {
 	private List<Album> albums;
 	private Descuento descuento; //Optional malenia
 	
-	//Indice para numerar las fotos subidas por el usuario
-	private int indicePubliacion;
+	//Numero de MGs necesarios para el descuento
+	private final int ME_GUSTAS = 1000;
+	//Edades entre las que se aplica el descuento
+	private final int EDAD_MIN = 18;
+	private final int EDAD_MAX = 25;
 	
 	//Constructor
 	public Usuario(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento, String perfil, String descripcion) {
@@ -36,7 +40,6 @@ public class Usuario {
 		this.descripcion = descripcion;
 		isPremium = false; //Inicialmente un usuario no es Premium
 		codigo = 0;
-		indicePubliacion = 0;
 		usuariosSeguidores = new ArrayList<String>();
 		usuariosSeguidos = new ArrayList<String>();
 		notificaciones = new ArrayList<Notificacion>();
@@ -46,10 +49,26 @@ public class Usuario {
 	
 	//Metodos
 	public float calcularPrecioPremium(float precio){
+		comprobarDescuento(); //MALENIA
 		if (descuento == null) {
 			return precio;
 		}
 		return descuento.aplicarDescuento(this, precio);
+	}
+	
+	public void comprobarDescuento() {
+		int edad = Period.between(getFechaNacimiento(), LocalDate.now()).getYears();
+		int numMG = getFotos().stream()
+				.map(mg -> mg.getMegusta())
+				.reduce(0, (accum, mg) -> accum + mg);
+		
+		if(edad >= EDAD_MIN && edad <= EDAD_MAX) {
+			setDescuento(new DescuentoEdad());
+		} else if(numMG >= ME_GUSTAS) {
+			setDescuento(new DescuentoPopularidad());
+		} else {
+			setDescuento(null); //MALENIA
+		}
 	}
 	
 	/**
@@ -97,10 +116,6 @@ public class Usuario {
 		usuariosSeguidores.remove(String.valueOf(codigo));
 	}
 	
-	public void aumentarIndicePublicacion() {
-		indicePubliacion++;
-	}
-	
 	public void addFoto(Foto p) {
 		fotos.add(p);
 	}
@@ -114,10 +129,6 @@ public class Usuario {
 	}
 	
 	//Metodos Get / Set
-	public int getIndicePubliacion() {
-		return indicePubliacion;
-	}
-	
 	public String getUsuario() {
 		return usuario;
 	}
@@ -258,7 +269,7 @@ public class Usuario {
 				&& Objects.equals(contraseña, other.contraseña) && Objects.equals(descripcion, other.descripcion)
 				&& Objects.equals(descuento, other.descuento) && Objects.equals(email, other.email)
 				&& Objects.equals(fechaNacimiento, other.fechaNacimiento) && Objects.equals(fotos, other.fotos)
-				&& indicePubliacion == other.indicePubliacion && isPremium == other.isPremium
+				&& isPremium == other.isPremium
 				&& Objects.equals(nombreCompleto, other.nombreCompleto)
 				&& Objects.equals(notificaciones, other.notificaciones) && Objects.equals(perfil, other.perfil)
 				&& Objects.equals(usuario, other.usuario)
