@@ -53,7 +53,7 @@ public class Usuario {
 		if (descuento == null) {
 			return precio;
 		}
-		return descuento.aplicarDescuento(this, precio);
+		return descuento.aplicarDescuento(precio);
 	}
 	
 	public void comprobarDescuento() {
