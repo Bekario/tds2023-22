@@ -49,6 +49,7 @@ public class PanelCrearAlbum extends JPanel {
 	private boolean subido;
 	private String fotoActual;
 	private Home padre;
+	private PanelCuadriculaFotos panelCuadriculaFotos;
 
 	/**
 	 * Create the panel.
@@ -57,22 +58,23 @@ public class PanelCrearAlbum extends JPanel {
 		padre = home;
 		subido = false;
 		fotoActual = null;
-		this.setSize(450, 600);
+		this.setSize(450, 800);
 		crearPanel();
 		
 	}
 	private void crearPanel() {
-		crearPanelSubir();
-		establecerCamposTexto();
-	}
-	
-	private void crearPanelSubir() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 285, 15, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 10, 285, 15, 0, 80, 15, 50, 15, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 15, 450, 15, 50, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		
+		crearTextoYBotones();
+		crearPanelFotos();
+	}
+	
+	private void crearTextoYBotones() {
 		JLabel lblTitulo = new JLabel("Crear Álbum");
 		lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
@@ -94,118 +96,43 @@ public class PanelCrearAlbum extends JPanel {
 		editorInfo.setContentType("text/html");
 		editorInfo.setText("<center>¡Crea un álbum con tus mejores fotos!<br>La primera imagen será la portada.<br>Haz click sobre las imagenes y serán seleccionadas.</center>");
 		editorInfo.setEditable(false);
+		
 	}
 	
-	private void establecerCamposTexto() {
+	private void crearPanelFotos() {
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 5;
+		add(scrollPane, gbc_scrollPane);
+		
+		panelCuadriculaFotos = new PanelCuadriculaFotos();
+		GridBagLayout gridBagLayout = (GridBagLayout) panelCuadriculaFotos.getLayout();
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0};
+		gridBagLayout.rowHeights = new int[]{0, 0};
+		scrollPane.setViewportView(panelCuadriculaFotos);
+		
+		JButton btnContinuar_1 = new JButton("CONTINUAR");
+		btnContinuar_1.setForeground(new Color(218, 200, 41));
+		btnContinuar_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnContinuar_1.setBorderPainted(false);
+		btnContinuar_1.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnContinuar_1 = new GridBagConstraints();
+		gbc_btnContinuar_1.fill = GridBagConstraints.VERTICAL;
+		gbc_btnContinuar_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnContinuar_1.gridx = 1;
+		gbc_btnContinuar_1.gridy = 7;
+		add(btnContinuar_1, gbc_btnContinuar_1);
 	}
 	
-	/**
-	 * Gestiona las animaciones de los campos de texto
-	 * @param texto Campo de texto
-	 */
-	private void addManejadorTexto(JTextField texto, String cadena) {
-	}
 	
-	/**
-	 * Gestiona las animaciones de los campos de text area
-	 * @param texto Campo de texto
-	 */
-	private void addManejadorArea(JTextArea texto, String cadena) {
-	}
-	
-	public void reiniciarPanel() {
-		panelFoto.setBackground(PanelCrearAlbum.class.getResource("/imagenes/foto_defecto.png"));
-		if(subido == true)
-			remove(btnContinuar);
-		subido = false;
-		fotoActual = null;
-		txtDescripcion.setText("Descripción");
-		txtTitulo.setText("Título");
-	}
-	//MALENIA lo usamos 3 4 veces en todo el programa, unificar?
-	private void addManejadorDragAndDrop(JEditorPane editor) {
-
-	}
-	
-	/**
-	 * Encargado de seleccionar la imagen del sistema con un JFileChooser
-	 * MALENIA lo usamos 3 4 veces en todo el programa, unificar?
-	 */
-	private void addManejadorBotonInsertarImagen(JEditorPane editor) {
-	}
 	
 	private void crearMessageDialog(String descripcion, String titulo, int icono) {
 		JOptionPane.showMessageDialog(this, descripcion, titulo, icono);
-	}
-	
-	private void seleccionarFoto(String ruta) {
-		try {
-			panelFoto.setBackground(new URL("file:/" + ruta));
-			subido = true;
-			btnContinuar = new JButton("CONTINUAR");
-			btnContinuar.setForeground(new Color(218, 200, 41));
-			btnContinuar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-			btnContinuar.setBorderPainted(false);
-			btnContinuar.setBackground(UIManager.getColor("Button.background"));
-			GridBagConstraints gbc_btnContinuar = new GridBagConstraints();
-			gbc_btnContinuar.fill = GridBagConstraints.VERTICAL;
-			gbc_btnContinuar.insets = new Insets(0, 0, 5, 5);
-			gbc_btnContinuar.gridx = 1;
-			gbc_btnContinuar.gridy = 10;
-			add(btnContinuar, gbc_btnContinuar);
-			
-			fotoActual = ruta;
-			
-			addManejadorContinuar(btnContinuar);
-			addManejadorBotonColor(btnContinuar);
-			this.updateUI();
-		} catch (MalformedURLException e) {
-			System.err.println("La ruta esta mal formada");
-			e.printStackTrace();
-		}
-	}
-	
-	private void addManejadorContinuar(JButton boton) {
-		boton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//checkfield
-				if (checkFields()) {
-					if (Controlador.getInstancia().añadirFoto(txtTitulo.getText(), txtDescripcion.getText(), fotoActual)) {
-						padre.setPanelPerfil();
-					}
-				}
-			}
-		});
-		
-		
-	}
-	
-	private boolean checkFields() {
-		boolean estado = true;
-		
-		String info = "";
-		
-		//Comprobamos si es un correo basico
-		if(txtTitulo.getText().equals("Título")) {
-			estado = false;
-			info = "¡Este título no es válido!";
-		}
-		
-		if(txtDescripcion.getText().equals("Descripción") || txtDescripcion.getText().length() >= 200) {
-			estado = false;
-			info = "¡Introduce una descripción válida de menos de 200 caracteres!";
-		}
-		
-		if (fotoActual.equals(null)) {
-			estado = false;
-			info = "¡Debes seleccionar una foto!";
-		}
-		
-		if(!estado) {
-			JOptionPane.showMessageDialog(this, info, "Rellene correctamente los campos", 0);
-		}
-		
-		return estado;
 	}
 	
 	/**MALENIA SE USA TOO MUCH

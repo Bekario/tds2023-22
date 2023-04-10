@@ -12,8 +12,7 @@ import modelo.Foto;
 import modelo.Publicacion;
 
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -24,14 +23,14 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	private static final int RESOLUCION_PUBLICACION = 125;
 	private int x;
 	private int y;
-	private List<JLabel> lista;
+	private HashMap<Publicacion, JLabel> lista;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelCuadriculaPublicaciones() {
 		this.setSize(460, 600);
-		lista = new ArrayList<JLabel>();
+		lista = new HashMap<Publicacion, JLabel>();
 		y = 0;
 		x = 0;
 		crearPanel();
@@ -73,7 +72,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		gbc_lblNewLabel.gridy = y;
 		add(lblPublicacion, gbc_lblNewLabel);
 		
-		lista.add(lblPublicacion);
+		lista.put(publicacion, lblPublicacion);
 		
 		x++;
 		
@@ -83,18 +82,20 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		}
 	}
 	
+	public HashMap<Publicacion, JLabel> getLista() {
+		return lista;
+	}
+	
 	protected void borrarTodasPublicaciones() {
 		//Quitamos todas las publicaciones
-		for(JLabel l: lista) {
-			remove(l);
-		}
+		lista.clear();
 		
 		//Reiniciamos las posiciones
 		x = 0;
 		y = 0;
 		
 		//Lista vacia
-		lista = new ArrayList<JLabel>();
+		lista = new HashMap<Publicacion, JLabel>();
 	}
 	
 	
