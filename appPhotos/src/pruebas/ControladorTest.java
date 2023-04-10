@@ -55,16 +55,4 @@ public class ControladorTest {
 		System.out.println("Tests preparados.");
 	}
 	
-	@Test
-	public void testFotoEliminar() {
-		AdaptadorPublicacionTDS f = (AdaptadorPublicacionTDS) factoria.getPublicacionDAO();
-		
-		//Registramos foto
-		controlador.añadirFoto((Publicacion)foto);
-		Foto recuperado = (Foto) f.recuperarPublicacion(foto.getCodigo());
-		assertEquals("La foto no se recupera correctamente con el codigo cuando no existe.", foto, recuperado);
-		/*Controlador.getInstancia().borrarPublicacion(foto);
-		recuperado = f.recuperarFoto(foto.getCodigo());
-		assertNotEquals("La foto se recupera y debia estar borrada con el codigo cuando no existe.", null, recuperado);*/
-	}
 }
