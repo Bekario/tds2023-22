@@ -113,7 +113,7 @@ public class PanelFotoAlbum extends JPanel {
 	private void addManejadorBotonAñadirAlbum(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				padre.setPanel(panelFotos);
+				padre.setPanel(new PanelCrearAlbum(padre));
 			}
 		});
 
