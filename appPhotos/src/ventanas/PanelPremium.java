@@ -17,6 +17,9 @@ import java.awt.Font;
 import javax.swing.JEditorPane;
 import javax.swing.JButton;
 import javax.swing.UIManager;
+
+import controlador.Controlador;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -103,7 +106,10 @@ public class PanelPremium extends JPanel {
 		add(btnPagar, gbc_btnPagar);
 		
 		addManejadorBotonColor(btnPagar);
-		addManejadorBotonPagar(btnPagar);
+		if(!Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
+			addManejadorBotonPagar(btnPagar);
+			
+		}else btnPagar.setText("PAGADO");
 	}
 	
 	private void addManejadorBotonPagar(JButton boton) {

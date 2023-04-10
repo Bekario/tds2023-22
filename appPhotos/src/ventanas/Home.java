@@ -163,12 +163,22 @@ public class Home {
 		popupMenu.add(mntmNewMenuItem);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exportar Excel");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setPanelPremium();
+			}
+		});
 		popupMenu.add(mntmNewMenuItem_1);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Exportar PDF");
 		popupMenu.add(mntmNewMenuItem_2);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Top Me Gusta");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setPanelTop();
+			}
+		});
 		popupMenu.add(mntmNewMenuItem_3);
 		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Cerrar sesión");
@@ -187,6 +197,7 @@ public class Home {
 
 	}
 	
+
 	private void establecerBarraSuperior() {
 		JPanel barraSuperior = new JPanel();
 		barraSuperior.setBackground(Color.LIGHT_GRAY);
@@ -277,6 +288,7 @@ public class Home {
 		cambiarScrollPane(new PanelEditar(Controlador.getInstancia().getUsuarioActual(), panelPerfil));
 	}
 	
+	
 	public void setPanelPublicaciones() {
 		cambiarScrollPane(panelInicio);
 	}
@@ -296,6 +308,10 @@ public class Home {
 		cambiarScrollPane(panelPerfil);
 	}
 	
+	protected void setPanelTop() {		
+		setPanel(new PanelInicio(this, Controlador.getInstancia().getPublicacionesTop()));
+		
+	}
 	public void setPanelPremium() {
 		cambiarScrollPane(new PanelPremium(this, Controlador.getInstancia().getUsuarioActual()));
 	}

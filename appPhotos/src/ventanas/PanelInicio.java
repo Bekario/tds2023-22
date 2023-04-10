@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -33,9 +34,18 @@ public class PanelInicio extends JPanel {
 		estado = NO_PUBLI;
 		y=0;
 		
-		crearPanel();		
+		crearPanel();	
+		cargarFotos();
 	}
-	
+	public PanelInicio(Home home, List<Publicacion> fotos) {
+		this.padre = home;
+		this.setSize(450, 490);
+		estado = NO_PUBLI;
+		y=0;
+		
+		crearPanel();
+		cargarFotos(fotos);
+	}
 	private void crearPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -56,7 +66,6 @@ public class PanelInicio extends JPanel {
 		gbc_lblNoPublis.gridy = 0;
 		add(lblNoPublis, gbc_lblNoPublis);
 		
-		cargarFotos();
 	}
 	
 	/**
@@ -66,6 +75,11 @@ public class PanelInicio extends JPanel {
 		Controlador.getInstancia().getPublicacionesSubidasSeguidores().stream()
 															.map(p -> (Publicacion) p)
 															.forEachOrdered(p -> addPublicacion(p));
+	}
+	private void cargarFotos(List<Publicacion> fotos) {
+		fotos.stream()
+					.map(p -> (Publicacion) p)
+					.forEachOrdered(p -> addPublicacion(p));
 	}
 	
 	public void addPublicacion(Publicacion publicacion) {

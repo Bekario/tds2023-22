@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -351,6 +352,16 @@ public class Controlador {
 	public void convertirUsuarioPremium() {
 		usuarioActual.setPremium(true);
 
+	}
+
+	public List<Publicacion> getPublicacionesTop() {
+		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
+		 Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
+		 if(pub.size()>=10) {
+			 pub= pub.subList(0, 9);
+			 
+		 }
+		 return pub;
 	}
  	
 }
