@@ -357,7 +357,7 @@ public class Controlador {
 	public List<Publicacion> getPublicacionesTop() {
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
 		 Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
-		 if(pub.size()>=10) {
+		 if(pub.size()>10) {
 			 pub= pub.subList(0, 9);
 			 
 		 }

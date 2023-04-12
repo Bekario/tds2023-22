@@ -25,6 +25,7 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class Home {
 	private JFrame frame;
@@ -165,18 +166,36 @@ public class Home {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exportar Excel");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setPanelPremium();
+				if(Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
+					setPanelPremium();
+				}else {	
+					JOptionPane.showMessageDialog(null, "Esta es una función premium", "Debes ser premium", 2);
+				}
 			}
 		});
 		popupMenu.add(mntmNewMenuItem_1);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Exportar PDF");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
+					//TODO
+				}else {
+					JOptionPane.showMessageDialog(null, "Esta es una función premium", "Debes ser premium", 2);
+				}
+			}
+		});
+
 		popupMenu.add(mntmNewMenuItem_2);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Top Me Gusta");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setPanelTop();
+				if(Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
+					setPanelTop();
+				}else {
+					JOptionPane.showMessageDialog(null, "Esta es una función premium", "Debes ser premium", 2);
+				}
 			}
 		});
 		popupMenu.add(mntmNewMenuItem_3);
