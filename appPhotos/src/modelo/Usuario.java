@@ -197,6 +197,15 @@ public class Usuario {
 		return usuariosSeguidores;
 	}
 	
+	public List<Usuario> getUsuariosSeguidoresOb() {
+		List<Usuario> Usuarios = new ArrayList<Usuario>();
+		//MALENIA STREAM
+		for(String u: usuariosSeguidores) {
+			Usuarios.add(RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)));
+		}
+		return Usuarios;
+	}
+	
 	public List<String> getUsuariosSeguidos() {
 		return usuariosSeguidos;
 	}

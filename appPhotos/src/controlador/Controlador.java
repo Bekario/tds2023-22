@@ -6,17 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import modelo.DescuentoEdad;
-import modelo.DescuentoPopularidad;
+import adaptadores.AdaptadorPDF;
 import modelo.Foto;
 import modelo.Publicacion;
 import modelo.RepoPublicaciones;
@@ -34,8 +31,6 @@ public class Controlador {
 
 	//Ruta imagenes
 	private final String RUTA_IMAGENES = System.getProperty("user.dir")+"/fotosSubidas/";
-	
-	//TODO FALTA GENERADOR PDF Y GENERADOR EXCEL
 	
 	private Controlador() {
 		usuarioActual = null;
@@ -160,12 +155,8 @@ public class Controlador {
 		
 		usuarioActual.addFoto(publi);
 		
-		try {
-			FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// A continuacion, guardamos los cambios
+		actualizarUsuario(usuarioActual);
 		
 		return true;	
 	}
@@ -213,13 +204,9 @@ public class Controlador {
 		if(!usuarioActual.comprobarSeguido(usuario)) {
 			usuarioActual.seguirA(usuario);
 			
-			// A continuacion, guardamos los cambios en el DAO
-			try {
-				FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuario);
-				FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
-			} catch (DAOException e) {
-				e.printStackTrace();
-			}
+			// A continuacion, guardamos los cambios 
+			actualizarUsuario(usuarioActual);
+			actualizarUsuario(usuario);
 			
 			return true;
 		}
@@ -236,13 +223,9 @@ public class Controlador {
 		if(usuarioActual.comprobarSeguido(usuario)) {
 			usuarioActual.dejarDeSeguirA(usuario);
 			
-			// A continuacion, guardamos los cambios en el DAO
-			try {
-				FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuario);
-				FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
-			} catch (DAOException e) {
-				e.printStackTrace();
-			}
+			// A continuacion, guardamos los cambios
+			actualizarUsuario(usuarioActual);
+			actualizarUsuario(usuario);
 			
 			return true;
 		}
@@ -351,6 +334,7 @@ public class Controlador {
 	
 	public void convertirUsuarioPremium() {
 		usuarioActual.setPremium(true);
+		actualizarUsuario(usuarioActual);
 
 	}
 
@@ -362,6 +346,29 @@ public class Controlador {
 			 
 		 }
 		 return pub;
+	}
+	
+	public void generarPDF() {
+		AdaptadorPDF a = new AdaptadorPDF();
+		a.crearArchivo(usuarioActual.getUsuariosSeguidoresOb(), usuarioActual.getUsuario()+"_seguidores");
+
+	}
+	
+	/**
+	 * Actualiza los datos del usuario en el repositorio y en el DAO
+	 * @param usuario
+	 */
+	private void actualizarUsuario(Usuario usuario) {
+		RepoUsuarios.getUnicaInstancia().removeUsuario(usuario);
+		RepoUsuarios.getUnicaInstancia().addUsuario(usuario);
+		
+		// A continuacion, guardamos los cambios en el DAO
+		try {
+			FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuario);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
 	}
  	
 }

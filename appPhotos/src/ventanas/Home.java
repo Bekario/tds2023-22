@@ -179,7 +179,8 @@ public class Home {
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
-					//TODO
+					Controlador.getInstancia().generarPDF();
+					JOptionPane.showMessageDialog(null, "¡Documento pdf generado con exito!", "PDF generado", 1);
 				}else {
 					JOptionPane.showMessageDialog(null, "Esta es una función premium", "Debes ser premium", 2);
 				}
