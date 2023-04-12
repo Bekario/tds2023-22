@@ -29,7 +29,6 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelCuadriculaPublicaciones() {
-		this.setSize(460, 600);
 		lista = new HashMap<Publicacion, JLabel>();
 		y = 0;
 		x = 0;

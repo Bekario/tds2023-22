@@ -39,6 +39,7 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
+import java.awt.Component;
 
 public class PanelCrearAlbum extends JPanel {
 	/**
@@ -49,7 +50,8 @@ public class PanelCrearAlbum extends JPanel {
 	private boolean subido;
 	private String fotoActual;
 	private Home padre;
-	private PanelCuadriculaFotos panelCuadriculaFotos;
+	private PanelSeleccionarFotos panelSeleccionarFotos;
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -65,9 +67,9 @@ public class PanelCrearAlbum extends JPanel {
 	private void crearPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 285, 15, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 15, 450, 15, 50, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 15, 450, 15, 0, 0, 15, 50, 15, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		crearTextoYBotones();
@@ -97,10 +99,59 @@ public class PanelCrearAlbum extends JPanel {
 		editorInfo.setText("<center>¡Crea un álbum con tus mejores fotos!<br>La primera imagen será la portada.<br>Haz click sobre las imagenes y serán seleccionadas.</center>");
 		editorInfo.setEditable(false);
 		
+		textField = new JTextField();
+		textField.setToolTipText("");
+		textField.setText("Título");
+		textField.setColumns(10);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 7;
+		add(textField, gbc_textField);
+		
+		addManejadorTexto(textField, "Título");
+		
+		JTextArea txtDescripcion = new JTextArea(3, 20);
+		txtDescripcion.setWrapStyleWord(true);
+		txtDescripcion.setText("Descripción");
+		txtDescripcion.setLineWrap(true);
+		
+		addManejadorArea(txtDescripcion, "Descripción");
+
+		JScrollPane scrollPane = new JScrollPane(txtDescripcion);
+		scrollPane.setViewportBorder(null);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 8;
+		add(scrollPane, gbc_scrollPane);
+		
+		JButton btnContinuar_1 = new JButton("CONTINUAR");
+		btnContinuar_1.setForeground(new Color(218, 200, 41));
+		btnContinuar_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnContinuar_1.setBorderPainted(false);
+		btnContinuar_1.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnContinuar_1 = new GridBagConstraints();
+		gbc_btnContinuar_1.fill = GridBagConstraints.VERTICAL;
+		gbc_btnContinuar_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnContinuar_1.gridx = 1;
+		gbc_btnContinuar_1.gridy = 10;
+		add(btnContinuar_1, gbc_btnContinuar_1);
+		
+	}
+	
+	private void addManejadorBotonContinuar(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 	}
 	
 	private void crearPanelFotos() {
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -110,23 +161,11 @@ public class PanelCrearAlbum extends JPanel {
 		gbc_scrollPane.gridy = 5;
 		add(scrollPane, gbc_scrollPane);
 		
-		panelCuadriculaFotos = new PanelCuadriculaFotos();
-		GridBagLayout gridBagLayout = (GridBagLayout) panelCuadriculaFotos.getLayout();
+		panelSeleccionarFotos = new PanelSeleccionarFotos(Controlador.getInstancia().getUsuarioActual().getFotos());
+		GridBagLayout gridBagLayout = (GridBagLayout) panelSeleccionarFotos.getLayout();
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
-		scrollPane.setViewportView(panelCuadriculaFotos);
-		
-		JButton btnContinuar_1 = new JButton("CONTINUAR");
-		btnContinuar_1.setForeground(new Color(218, 200, 41));
-		btnContinuar_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnContinuar_1.setBorderPainted(false);
-		btnContinuar_1.setBackground(UIManager.getColor("Button.background"));
-		GridBagConstraints gbc_btnContinuar_1 = new GridBagConstraints();
-		gbc_btnContinuar_1.fill = GridBagConstraints.VERTICAL;
-		gbc_btnContinuar_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnContinuar_1.gridx = 1;
-		gbc_btnContinuar_1.gridy = 7;
-		add(btnContinuar_1, gbc_btnContinuar_1);
+		scrollPane.setViewportView(panelSeleccionarFotos);	
 	}
 	
 	
@@ -150,6 +189,52 @@ public class PanelCrearAlbum extends JPanel {
 			public void mouseExited(MouseEvent e) {
 				boton.setBackground(new Color(78,80,82));
 				boton.setForeground(new Color(218,200,41));
+			}
+		});
+	}
+	
+	/**
+	 * Gestiona las animaciones de los campos de texto
+	 * @param texto Campo de texto
+	 */
+	private void addManejadorTexto(JTextField texto, String cadena) {
+		texto.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(texto.getText().equals(cadena)) {
+					texto.setText("");
+				}
+				else {
+					texto.selectAll();
+				}
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(texto.getText().equals(""))
+					texto.setText(cadena);
+			}
+		});
+	}
+	
+	/**
+	 * Gestiona las animaciones de los campos de text area
+	 * @param texto Campo de texto
+	 */
+	private void addManejadorArea(JTextArea texto, String cadena) {
+		texto.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(texto.getText().equals(cadena)) {
+					texto.setText("");
+				}
+				else {
+					texto.selectAll();
+				}
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(texto.getText().equals(""))
+					texto.setText(cadena);
 			}
 		});
 	}
