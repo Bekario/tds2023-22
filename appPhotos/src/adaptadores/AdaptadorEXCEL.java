@@ -1,7 +1,6 @@
 package adaptadores;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +19,7 @@ public class AdaptadorEXCEL implements IAdaptadorSeguidores {
 	@Override
 	public void crearArchivo(List<Usuario> seguidores, String nombreArchivo) {
 		HSSFWorkbook workbook = new HSSFWorkbook();
+
         HSSFSheet sheet = workbook.createSheet();
         workbook.setSheetName(0, "Tus Seguidores");
 
@@ -61,6 +61,7 @@ public class AdaptadorEXCEL implements IAdaptadorSeguidores {
 			file = new FileOutputStream(f);
 			workbook.write(file);
 			file.close();
+			workbook.close();
 		} catch (IOException e) {
 			System.err.println("Error al crear fichero excel");
 			e.printStackTrace();
