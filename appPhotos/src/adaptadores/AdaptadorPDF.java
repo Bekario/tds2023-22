@@ -35,7 +35,7 @@ public class AdaptadorPDF implements IAdaptadorSeguidores {
             PdfPTable table = new PdfPTable(3);   
              
             // Creamos las tres celdas iniciales
-            table.addCell(new Paragraph("Nombre", FontFactory.getFont("arial", 14, Font.BOLD, BaseColor.BLACK)));
+            table.addCell(new Paragraph("Usuario", FontFactory.getFont("arial", 14, Font.BOLD, BaseColor.BLACK)));
             table.addCell(new Paragraph("Email", FontFactory.getFont("arial", 14, Font.BOLD, BaseColor.BLACK)));
             table.addCell(new Paragraph("Descripción", FontFactory.getFont("arial", 14, Font.BOLD, BaseColor.BLACK)));
             

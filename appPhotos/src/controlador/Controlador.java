@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
 import modelo.Foto;
 import modelo.Publicacion;
@@ -351,8 +352,13 @@ public class Controlador {
 	public void generarPDF() {
 		AdaptadorPDF a = new AdaptadorPDF();
 		a.crearArchivo(usuarioActual.getUsuariosSeguidoresOb(), usuarioActual.getUsuario()+"_seguidores");
-
 	}
+	
+	public void generarEXCEL() {
+		AdaptadorEXCEL a = new AdaptadorEXCEL();
+		a.crearArchivo(usuarioActual.getUsuariosSeguidoresOb(), usuarioActual.getUsuario()+"_seguidores");
+	}
+	
 	
 	/**
 	 * Actualiza los datos del usuario en el repositorio y en el DAO

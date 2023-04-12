@@ -167,7 +167,8 @@ public class Home {
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
-					setPanelPremium();
+					Controlador.getInstancia().generarEXCEL();
+					JOptionPane.showMessageDialog(null, "¡Documento excel generado con exito!", "Excel generado", 1);
 				}else {	
 					JOptionPane.showMessageDialog(null, "Esta es una función premium", "Debes ser premium", 2);
 				}
