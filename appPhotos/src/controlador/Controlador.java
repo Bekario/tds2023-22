@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
+import modelo.Album;
 import modelo.Foto;
 import modelo.Publicacion;
 import modelo.RepoPublicaciones;
@@ -155,6 +156,37 @@ public class Controlador {
 		RepoPublicaciones.getUnicaInstancia().addPublicacion(publi);
 		
 		usuarioActual.addFoto(publi);
+		
+		// A continuacion, guardamos los cambios
+		actualizarUsuario(usuarioActual);
+		
+		return true;	
+	}
+	
+	public boolean añadirAlbum(String titulo, String descripcion, List<Foto> fotos) {
+		List<String> hashtags = procesarHashtags(descripcion);
+		
+		//Creamos el album
+		Album publi = new Album(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual);
+		
+		//Introducimos las fotos en el album
+		fotos.stream()
+			 .forEachOrdered(f -> publi.addFoto(f));
+		
+		//Almacenamos el nuevo album en el DAO
+		IAdaptadorPublicacionDAO publicacionDAO = null;
+		try {
+			publicacionDAO = FactoriaDAO.getInstancia().getPublicacionDAO();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		publicacionDAO.registrarPublicacion(publi);
+		
+		//Almacenamos el album en el repositorio
+		RepoPublicaciones.getUnicaInstancia().addPublicacion(publi);
+		
+		//Añadimos el album al usuario
+		usuarioActual.addAlbum(publi);
 		
 		// A continuacion, guardamos los cambios
 		actualizarUsuario(usuarioActual);

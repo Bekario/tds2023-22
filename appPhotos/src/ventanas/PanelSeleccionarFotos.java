@@ -16,6 +16,7 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 
 	private static final long serialVersionUID = 1L;
 	private HashMap<Publicacion, JLabel> seleccionados;
+	private Publicacion portada;
 	
 	/**
 	 * Create the panel.
@@ -24,6 +25,7 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 		super();
 		addFotos(fotos);
 		seleccionados = new HashMap<Publicacion, JLabel>();
+		portada = null;
 		cargarManejadores();
 	}
 	
@@ -39,12 +41,21 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(seleccionados.containsKey(publicacion)) {
-					seleccionados.remove(publicacion);
-					foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));
+					seleccionados.remove(publicacion);				
+					foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));		
+				} else if (portada.equals(publicacion)) {
+					portada = null;
+					foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));	
 				} else {
-					seleccionados.put(publicacion, foto);
+					if(portada == null) {
+						portada = publicacion;			
+					} else {
+						seleccionados.put(publicacion, foto);
+					}
 					foto.setBorder(new LineBorder(new Color(218, 200, 41), 2, true));
 				}
+				System.out.println("portada = "+portada.getTitulo());
+				System.out.println("seleccionados = "+seleccionados.size());
 			}
 		});
 

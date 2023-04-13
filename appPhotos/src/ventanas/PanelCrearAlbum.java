@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -34,6 +35,7 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controlador.Controlador;
+import modelo.Foto;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -52,6 +54,7 @@ public class PanelCrearAlbum extends JPanel {
 	private Home padre;
 	private PanelSeleccionarFotos panelSeleccionarFotos;
 	private JTextField textField;
+	private JTextArea txtDescripcion;
 
 	/**
 	 * Create the panel.
@@ -112,7 +115,7 @@ public class PanelCrearAlbum extends JPanel {
 		
 		addManejadorTexto(textField, "Título");
 		
-		JTextArea txtDescripcion = new JTextArea(3, 20);
+		txtDescripcion = new JTextArea(3, 20);
 		txtDescripcion.setWrapStyleWord(true);
 		txtDescripcion.setText("Descripción");
 		txtDescripcion.setLineWrap(true);
@@ -146,7 +149,8 @@ public class PanelCrearAlbum extends JPanel {
 	private void addManejadorBotonContinuar(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				List<Foto> fotos = new ArrayList<Foto>();
+				Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText(), fotos);
 			}
 		});
 	}
