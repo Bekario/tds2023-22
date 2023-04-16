@@ -58,7 +58,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		if (publicacion.getClass().getName() == "modelo.Foto") {
 			imagen = new ImageIcon(((Foto) publicacion).getPath());			
 		} else { //Si es un album, mostramos el path de la primera foto
-			imagen = new ImageIcon(((Album) publicacion).getFotos().get(0).getPath());	
+			imagen = new ImageIcon(((Album) publicacion).getPortada().getPath());	
 		}
 		
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(RESOLUCION_PUBLICACION, RESOLUCION_PUBLICACION, Image.SCALE_SMOOTH));

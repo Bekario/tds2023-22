@@ -10,10 +10,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Font;
 
 import java.awt.Insets;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -22,47 +18,36 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 import javax.swing.UIManager;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controlador.Controlador;
-import modelo.Foto;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
-import java.awt.Component;
 
 public class PanelCrearAlbum extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton btnContinuar;
-	private boolean subido;
-	private String fotoActual;
+	private JButton btnContinuar_1;
 	private Home padre;
 	private PanelSeleccionarFotos panelSeleccionarFotos;
 	private JTextField textField;
 	private JTextArea txtDescripcion;
+	
+	private final String TITULO = "Título";
+	private final String DESCRIPCION = "Descripción";
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelCrearAlbum(Home home) {
 		padre = home;
-		subido = false;
-		fotoActual = null;
 		this.setSize(450, 800);
 		crearPanel();
 		
@@ -104,7 +89,7 @@ public class PanelCrearAlbum extends JPanel {
 		
 		textField = new JTextField();
 		textField.setToolTipText("");
-		textField.setText("Título");
+		textField.setText(TITULO);
 		textField.setColumns(10);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
@@ -113,14 +98,14 @@ public class PanelCrearAlbum extends JPanel {
 		gbc_textField.gridy = 7;
 		add(textField, gbc_textField);
 		
-		addManejadorTexto(textField, "Título");
+		addManejadorTexto(textField, TITULO);
 		
 		txtDescripcion = new JTextArea(3, 20);
 		txtDescripcion.setWrapStyleWord(true);
-		txtDescripcion.setText("Descripción");
+		txtDescripcion.setText(DESCRIPCION);
 		txtDescripcion.setLineWrap(true);
 		
-		addManejadorArea(txtDescripcion, "Descripción");
+		addManejadorArea(txtDescripcion, DESCRIPCION);
 
 		JScrollPane scrollPane = new JScrollPane(txtDescripcion);
 		scrollPane.setViewportBorder(null);
@@ -132,7 +117,7 @@ public class PanelCrearAlbum extends JPanel {
 		gbc_scrollPane.gridy = 8;
 		add(scrollPane, gbc_scrollPane);
 		
-		JButton btnContinuar_1 = new JButton("CONTINUAR");
+		btnContinuar_1 = new JButton("CONTINUAR");
 		btnContinuar_1.setForeground(new Color(218, 200, 41));
 		btnContinuar_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnContinuar_1.setBorderPainted(false);
@@ -144,13 +129,20 @@ public class PanelCrearAlbum extends JPanel {
 		gbc_btnContinuar_1.gridy = 10;
 		add(btnContinuar_1, gbc_btnContinuar_1);
 		
+		addManejadorBotonContinuar(btnContinuar_1);
+		addManejadorBotonColor(btnContinuar_1);
+		
 	}
 	
 	private void addManejadorBotonContinuar(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<Foto> fotos = new ArrayList<Foto>();
-				Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText(), fotos);
+				// Comprobamos que exista como minimo una portada
+				if (checkFields()) {
+					Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText(), panelSeleccionarFotos.getListaSeleccionados(), panelSeleccionarFotos.getPortada());
+					padre.setPanelPerfil();					
+				}
+				
 			}
 		});
 	}
@@ -242,4 +234,31 @@ public class PanelCrearAlbum extends JPanel {
 			}
 		});
 	}
+	
+	/**
+	 * Comprueba que todos los campos tengan un dato valido
+	 * @return booleano indicando si estan correctos los campos
+	 */
+	private boolean checkFields() {
+		boolean estado = true;
+		String info = "";
+		
+		//Comprobamos si es un correo basico
+		if(textField.getText().equals(TITULO)) {
+			estado = false;
+			info = "¡Debes introducir un título al álbum!";
+		}
+		
+		if (panelSeleccionarFotos.getPortada() == null) {
+			info = "¡Debes seleccionar como minimo una portada (resaltada en rojo)!";
+			estado = false;
+		}
+		
+		if(!estado) {
+			crearMessageDialog(info, "Rellene correctamente los campos", 0);
+		}
+		
+		return estado;
+	}
+	
 }

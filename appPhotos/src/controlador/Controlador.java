@@ -163,7 +163,7 @@ public class Controlador {
 		return true;	
 	}
 	
-	public boolean añadirAlbum(String titulo, String descripcion, List<Foto> fotos, Foto portada) {
+	public boolean añadirAlbum(String titulo, String descripcion, List<Publicacion> fotos, Foto portada) {
 		List<String> hashtags = procesarHashtags(descripcion);
 		
 		//Creamos el album
@@ -171,7 +171,7 @@ public class Controlador {
 		
 		//Introducimos las fotos en el album
 		fotos.stream()
-			 .forEachOrdered(f -> publi.addFoto(f));
+			 .forEachOrdered(f -> publi.addFoto((Foto) f));
 		
 		//Almacenamos el nuevo album en el DAO
 		IAdaptadorPublicacionDAO publicacionDAO = null;
