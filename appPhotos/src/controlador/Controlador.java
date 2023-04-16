@@ -163,11 +163,11 @@ public class Controlador {
 		return true;	
 	}
 	
-	public boolean añadirAlbum(String titulo, String descripcion, List<Foto> fotos) {
+	public boolean añadirAlbum(String titulo, String descripcion, List<Foto> fotos, Foto portada) {
 		List<String> hashtags = procesarHashtags(descripcion);
 		
 		//Creamos el album
-		Album publi = new Album(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual);
+		Album publi = new Album(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, portada);
 		
 		//Introducimos las fotos en el album
 		fotos.stream()
