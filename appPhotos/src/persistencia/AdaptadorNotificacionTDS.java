@@ -10,7 +10,6 @@ import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import beans.Entidad;
 import beans.Propiedad;
-import modelo.Foto;
 import modelo.Notificacion;
 import modelo.Publicacion;
 

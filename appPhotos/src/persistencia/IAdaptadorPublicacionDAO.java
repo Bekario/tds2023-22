@@ -1,7 +1,6 @@
 package persistencia;
 
 import java.util.List;
-import modelo.Foto;
 import modelo.Publicacion;
 
 public interface IAdaptadorPublicacionDAO {

@@ -3,7 +3,6 @@ package persistencia;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -33,6 +32,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	private final String USUARIO="usuario";	
 	private final String PATH="path";
 	private final String FOTOS="fotos";
+	private final String PORTADA="portada";
 	
 	//Para comprobar si es foto album, el campo fotos o path tendra este valor
 	private final String VACIO="vacio";
@@ -82,12 +82,14 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 				new Propiedad(COMENTARIOS, obtenerStringDeComentarios(publicacion.getComentarios()))));
 		
 		
-		//Ahora comprobamos si es una foto o publicacion
+		//Ahora comprobamos si es una foto o un album
 		if (publicacion.getClass().getName().equals(FOTO)) {
 			propiedades.add(new Propiedad(PATH, ((Foto) publicacion).getPath()));
 			propiedades.add(new Propiedad(FOTOS, VACIO));
+			propiedades.add(new Propiedad(PORTADA, VACIO));
 		} else {
 			propiedades.add(new Propiedad(FOTOS, obtenerStringDeFotos(((Album) publicacion).getFotos())));
+			propiedades.add(new Propiedad(PORTADA, String.valueOf(((Album) publicacion).getPortada().getCodigo())));
 			propiedades.add(new Propiedad(PATH, VACIO));
 		}
 		
@@ -135,6 +137,8 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 			} else {
 				if (prop.getNombre().equals(FOTOS)) {
 					prop.setValor(obtenerStringDeFotos(((Album) publicacion).getFotos()));
+				} else if (prop.getNombre().equals(PORTADA)) {
+					prop.setValor(String.valueOf(((Album) publicacion).getPortada().getCodigo()));
 				}   
 			}
 			
@@ -189,7 +193,9 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 			
 			return foto;
 		} else {
-			Album album = new Album(titulo, descipcion, fecha, hashtags, usuario);
+			// Obtenemos la foto de portada
+			Foto portada = obtenerFotoDesdeString(servPersistencia.recuperarPropiedadEntidad(ePublicacion, PORTADA));
+			Album album = new Album(titulo, descipcion, fecha, hashtags, usuario, portada);
 			
 			album.setCodigo(codigo);
 			album.setUsuario(usuario);
@@ -218,6 +224,11 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	}
 
 	//-----------------------------------------
+	
+	private Foto obtenerFotoDesdeString(String foto) {
+		AdaptadorPublicacionTDS adaptadorP = AdaptadorPublicacionTDS.getUnicaInstancia();
+		return (Foto) adaptadorP.recuperarPublicacion(Integer.valueOf(foto));
+	}
 	
 	/**
 	 * Obtiene un string con los hashtags separados con espacios

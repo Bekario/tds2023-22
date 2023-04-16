@@ -7,11 +7,13 @@ import java.util.Objects;
 
 public class Album extends Publicacion {
 	private List<Foto> fotos;
+	private Foto portada;
 	
 	//Constructor
-	public Album(String titulo, String descipcion, LocalDate fecha, List<String> hastags, Usuario usuario) {
+	public Album(String titulo, String descipcion, LocalDate fecha, List<String> hastags, Usuario usuario, Foto portada) {
 		super(titulo, descipcion, fecha, hastags, usuario);
 		this.fotos = new ArrayList<Foto>();
+		this.portada = portada;
 	}
 	
 	public void addFoto(Foto foto) {
@@ -54,6 +56,14 @@ public class Album extends Publicacion {
 			return false;
 		Album other = (Album) obj;
 		return Objects.equals(fotos, other.fotos);
+	}
+
+	public Foto getPortada() {
+		return portada;
+	}
+	
+	public void setPortada(Foto portada) {
+		this.portada = portada;
 	}
 	
 }
