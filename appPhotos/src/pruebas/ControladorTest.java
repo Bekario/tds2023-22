@@ -46,7 +46,7 @@ public class ControladorTest {
 		hashtags.add("Familia");
 		hashtags.add("Buenrollo");	
 		foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hashtags, usuario, "foto"); 
-		album = new Album("Paris", "Viaje familiar a paris", LocalDate.of(2023, 1, 1), hashtags, usuario);
+		album = new Album("Paris", "Viaje familiar a paris", LocalDate.of(2023, 1, 1), hashtags, usuario, foto);
 		notificacion = new Notificacion(LocalDate.of(2023, 1, 1), foto);
 		notificacion2 = new Notificacion(LocalDate.of(2023, 1, 1), album);
 
