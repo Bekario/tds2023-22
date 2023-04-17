@@ -54,8 +54,13 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 		}
 		
 		for (Publicacion p: fotos) {
-			super.addPublicacion(p);
+			addPublicacion(p);
 		}
+	}
+	
+	@Override
+	protected void addPublicacion(Publicacion publicacion) {
+		super.addPublicacion(publicacion);
 	}
 
 	public void limpiar() {

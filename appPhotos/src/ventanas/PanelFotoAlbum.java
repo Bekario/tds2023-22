@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 
+import modelo.Album;
+import modelo.Foto;
 import modelo.Usuario;
 
 import java.awt.Insets;
@@ -181,11 +183,22 @@ public class PanelFotoAlbum extends JPanel {
 		panelFotos.addFotos(usuario.getFotos());
 	}
 	
+	public void addAlbum(Album album) {
+		panelAlbum.addPublicacion(album);
+	}
+	
+	public void addFoto(Foto foto) {
+		panelFotos.addPublicacion(foto);
+	}
+	
 	private void limpiarPanelesPublicaciones() {
 		panelAlbum.limpiar();
 		panelFotos.limpiar();
 	}
 	
+	/**
+	 * Actualiza el panel entero, todas las publicaciones se borran y se vuelven a poner
+	 */
 	public void actualizarPanel(){
 		limpiarPanelesPublicaciones();
 		cargarPublicaciones();

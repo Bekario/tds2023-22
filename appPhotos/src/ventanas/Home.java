@@ -4,6 +4,7 @@ package ventanas;
 import javax.swing.JFrame;
 
 import controlador.Controlador;
+import modelo.Publicacion;
 
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
@@ -324,8 +325,8 @@ public class Home {
 	}
 	
 	public void setPanelPerfil() {
-		// Cada vez que cambiemos al panel perfil hay que generarlo de nuevo por si se ha subido una foto o editado algo
-		panelPerfil.actualizar(Controlador.getInstancia().getUsuarioActual());
+		// Cada vez que cambiemos al panel perfil hay que actualizar la cabecera
+		panelPerfil.actualizarCabecera();
 		cambiarScrollPane(panelPerfil);
 	}
 	
@@ -373,4 +374,13 @@ public class Home {
 			}
 		});
 	}
+	
+	/**
+	 * Actualiza el panelPerfil con la nueva publicacion subida
+	 */
+	public void subirPublicacion(Publicacion publicacion) {
+		panelPerfil.addPublicacion(publicacion);
+	}
+	
+	
 }

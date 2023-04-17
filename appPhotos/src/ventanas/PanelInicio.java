@@ -27,6 +27,7 @@ public class PanelInicio extends JPanel {
 	
 	/**
 	 * Create the panel.
+	 * @wbp.parser.constructor
 	 */
 	public PanelInicio(Home home) {
 		this.padre = home;
@@ -37,6 +38,12 @@ public class PanelInicio extends JPanel {
 		crearPanel();	
 		cargarFotos();
 	}
+	
+	/**
+	 * Crea un panel de inicio utilizando las fotos (panel top 10 publicaciones)
+	 * @param home
+	 * @param fotos
+	 */
 	public PanelInicio(Home home, List<Publicacion> fotos) {
 		this.padre = home;
 		this.setSize(450, 490);

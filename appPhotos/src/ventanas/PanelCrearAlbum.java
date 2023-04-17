@@ -19,6 +19,7 @@ import javax.swing.JEditorPane;
 import javax.swing.UIManager;
 
 import controlador.Controlador;
+import modelo.Album;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -53,7 +54,7 @@ public class PanelCrearAlbum extends JPanel {
 		gridBagLayout.columnWidths = new int[]{15, 285, 15, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 15, 450, 15, 0, 0, 15, 50, 15, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		crearTextoYBotones();
@@ -80,7 +81,7 @@ public class PanelCrearAlbum extends JPanel {
 		add(editorInfo, gbc_editorInfo);
 		
 		editorInfo.setContentType("text/html");
-		editorInfo.setText("<center>¡Crea un álbum con tus mejores fotos!<br>La primera imagen será la portada.<br>Haz click sobre las imagenes y serán seleccionadas.</center>");
+		editorInfo.setText("<center>¡Crea un álbum con tus mejores fotos!<br>La imagen seleccionada en color rojo es la portada.<br>Haz click sobre las imagenes y serán seleccionadas.</center>");
 		editorInfo.setEditable(false);
 		
 		textField = new JTextField();
@@ -135,7 +136,11 @@ public class PanelCrearAlbum extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Comprobamos que exista como minimo una portada
 				if (checkFields()) {
-					Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText(), panelSeleccionarFotos.getListaSeleccionados(), panelSeleccionarFotos.getPortada());
+					Album album = Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText(), panelSeleccionarFotos.getListaSeleccionados(), panelSeleccionarFotos.getPortada());
+					//Subimos el album al perfil
+					padre.subirPublicacion(album);
+					
+					//Mostramos el panelPerfil
 					padre.setPanelPerfil();					
 				}
 				
@@ -144,20 +149,14 @@ public class PanelCrearAlbum extends JPanel {
 	}
 	
 	private void crearPanelFotos() {
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 1;
-		gbc_scrollPane.gridy = 5;
-		add(scrollPane, gbc_scrollPane);
-		
 		panelSeleccionarFotos = new PanelSeleccionarFotos(Controlador.getInstancia().getUsuarioActual().getFotos());
-		GridBagLayout gridBagLayout = (GridBagLayout) panelSeleccionarFotos.getLayout();
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0};
-		gridBagLayout.rowHeights = new int[]{0, 0};
-		scrollPane.setViewportView(panelSeleccionarFotos);	
+		GridBagConstraints gbc_panelSeleccionarFotos_1 = new GridBagConstraints();
+		gbc_panelSeleccionarFotos_1.insets = new Insets(0, 0, 5, 5);
+		gbc_panelSeleccionarFotos_1.fill = GridBagConstraints.BOTH;
+		gbc_panelSeleccionarFotos_1.gridx = 1;
+		gbc_panelSeleccionarFotos_1.gridy = 5;
+		add(panelSeleccionarFotos, gbc_panelSeleccionarFotos_1);
+		
 	}
 	
 	

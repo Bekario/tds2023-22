@@ -4,6 +4,10 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 
 import java.awt.GridBagConstraints;
+
+import modelo.Album;
+import modelo.Foto;
+import modelo.Publicacion;
 import modelo.Usuario;
 
 import java.awt.Insets;
@@ -28,9 +32,11 @@ public class PanelPerfil extends JPanel {
 		generarCabecera();
 		
 	}
+	
 	public Home getHome() {
 		return home;
 	}
+	
 	private void crearPanel() {
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -41,6 +47,7 @@ public class PanelPerfil extends JPanel {
 		setLayout(gridBagLayout);
 		
 	}
+	
 	private void generarCabecera() {
 		panelCabeceraPerfil = new PanelCabeceraPerfil(home, usuario);
 		GridBagConstraints gbc_panelCabeceraPerfil = new GridBagConstraints();
@@ -59,9 +66,36 @@ public class PanelPerfil extends JPanel {
 		add(panelFotoAlbum, gbc_panelFotoAlbum);
 	}
 	
-	public void actualizar(Usuario usuario) {
+	/**
+	 * Añade una unica publicacion, si es album se añade al PanelCuadriculaAlbum, en caso contrario se añade al PanelCuadriculaFotos
+	 * @param publicacion
+	 */
+	protected void addPublicacion(Publicacion publicacion) {
+		//Si es una foto, añadimos una foto
+		if (publicacion.getClass().getName() == "modelo.Foto") {
+			panelFotoAlbum.addFoto((Foto) publicacion);
+		} else { //Si es un album, añadimos un album
+			panelFotoAlbum.addAlbum((Album) publicacion);
+		}
+	}
+	
+	/**
+	 * Actualiza la cabecera y el panel de fotos y albumes
+	 * @param usuario
+	 */
+	public void actualizarCompleto(Usuario usuario) {
+		actualizarCabecera();
+		actualizarFotoAlbum();
+	}
+	
+	public void actualizarCabecera() {
 		panelCabeceraPerfil.actualizarCampos(usuario);
+		this.updateUI();
+	}
+	
+	public void actualizarFotoAlbum() {
 		panelFotoAlbum.actualizarPanel();
+		this.updateUI();
 	}
 		
 

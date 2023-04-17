@@ -140,7 +140,7 @@ public class Controlador {
 		return true;
 	}
 	
-	public boolean añadirFoto(String titulo, String descripcion, String path) {
+	public Foto añadirFoto(String titulo, String descripcion, String path) {
 		List<String> hashtags = procesarHashtags(descripcion);
 		
 		Foto publi = new Foto(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, path);
@@ -160,10 +160,10 @@ public class Controlador {
 		// A continuacion, guardamos los cambios
 		actualizarUsuario(usuarioActual);
 		
-		return true;	
+		return publi;	
 	}
 	
-	public boolean añadirAlbum(String titulo, String descripcion, List<Publicacion> fotos, Foto portada) {
+	public Album añadirAlbum(String titulo, String descripcion, List<Publicacion> fotos, Foto portada) {
 		List<String> hashtags = procesarHashtags(descripcion);
 		
 		//Creamos el album
@@ -191,7 +191,7 @@ public class Controlador {
 		// A continuacion, guardamos los cambios
 		actualizarUsuario(usuarioActual);
 		
-		return true;	
+		return publi;	
 	}
 	
 	public boolean borrarPublicacion(Publicacion publicacion) {
