@@ -46,7 +46,7 @@ public class VentanaPublicacion extends JFrame {
 	 */
 	public VentanaPublicacion() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 400);
+		setBounds(100, 100, 800, 420);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -55,7 +55,7 @@ public class VentanaPublicacion extends JFrame {
 		gbl_contentPane.columnWidths = new int[]{0, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		JLabel lblNewLabel = new JLabel("");
@@ -66,6 +66,14 @@ public class VentanaPublicacion extends JFrame {
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
+		
+		PanelComentario panelComentario = new PanelComentario();
+		GridBagConstraints gbc_panelComentario= new GridBagConstraints();
+		gbc_panelComentario.gridwidth = 2;
+		gbc_panelComentario.fill = GridBagConstraints.BOTH;
+		gbc_panelComentario.gridx = 1;
+		gbc_panelComentario.gridy = 0;
+		getContentPane().add(panelComentario, gbc_panelComentario);
 	}
 
 }

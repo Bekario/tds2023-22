@@ -2,7 +2,7 @@ package modelo;
 
 public class Comentario {
 	private int codigo;
-	private String texto;
+	private String texto; //El texto incluye ya el usuario
 	
 	// Comentario
 	public Comentario(String texto) {
