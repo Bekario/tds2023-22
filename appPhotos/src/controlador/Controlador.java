@@ -142,8 +142,9 @@ public class Controlador {
 	
 	public Foto añadirFoto(String titulo, String descripcion, String path) {
 		List<String> hashtags = procesarHashtags(descripcion);
-		
+				
 		Foto publi = new Foto(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, path);
+		
 		
 		IAdaptadorPublicacionDAO publicacionDAO = null;
 		try {
@@ -156,9 +157,15 @@ public class Controlador {
 		RepoPublicaciones.getUnicaInstancia().addPublicacion(publi);
 		
 		usuarioActual.addFoto(publi);
+
+		//Subimos la foto a la carpeta fotos subidas
+		publi.setPath(subirPublicacion(path, publi.getCodigo()));
+		System.out.println();
+		publicacionDAO.modificarPublicacion(publi);
 		
-		// A continuacion, guardamos los cambios
+		// A continuacion, guardamos los cambios en el usuario y la publicacion
 		actualizarUsuario(usuarioActual);
+		
 		
 		return publi;	
 	}
@@ -266,7 +273,7 @@ public class Controlador {
 	}
 	
 	/**
-	 * Inserta foto en la carpeta interna fotosSubidas con un nombre único
+	 * Inserta la foto de perfil en la carpeta interna fotosSubidas con un nombre único
 	 * @param path Ruta de la foto
 	 */
 	public String subirFotoPerfil(String path) {
@@ -289,6 +296,7 @@ public class Controlador {
 		}
 		return ruta;
 	}
+	
 	public String subirFotoPerfilDefault() {
 		String ruta = "/imagenes/face-detection.png";
 		try {
@@ -306,6 +314,30 @@ public class Controlador {
 		return ruta;
 	}
 	
+	/**
+	 * Inserta la publicacion en la carpeta interna fotosSubidas con un nombre único
+	 * @param path Ruta de la foto
+	 */
+	public String subirPublicacion(String path, int codigo) {
+		String ruta = "";
+		String extension;
+		
+		//Obtenemos la extension del archivo
+		int index = path.lastIndexOf('.');
+        if (index == -1) {
+        	extension = "";
+        } else {
+        	extension = path.substring(index, path.length());
+        }
+		
+		try {
+			Files.copy(FileSystems.getDefault().getPath(path), FileSystems.getDefault().getPath(RUTA_IMAGENES+"publicacion_"+usuarioActual.getUsuario()+"_"+String.valueOf(codigo)+extension), StandardCopyOption.REPLACE_EXISTING);
+			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+"publicacion_"+usuarioActual.getUsuario()+"_"+String.valueOf(codigo)+extension).toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ruta;
+	}
 	
 	public boolean eliminarFotoSubida(String ruta) {
 		try {

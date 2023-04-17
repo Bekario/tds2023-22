@@ -59,6 +59,11 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 	
 	@Override
 	protected void addPublicacion(Publicacion publicacion) {
+		//Comprobamos si ha que quitar la imagen por defecto
+		if (estado == NO_ALBUM) {
+			estado = SI_ALBUM;
+			remove(lblImagen);
+		}
 		super.addPublicacion(publicacion);
 	}
 	

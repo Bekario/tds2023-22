@@ -8,22 +8,21 @@ import java.util.Comparator;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runners.Parameterized.AfterParam;
 
+import modelo.Album;
 import modelo.Foto;
 import modelo.Publicacion;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
-import persistencia.FactoriaDAO;
 
 public class RepositoriosTest {
 	private static Usuario u1;
 	private static Usuario u2;
 	private static Usuario u3;
-	private static Publicacion p1;
-	private static Publicacion p2;
-	private static Publicacion p3;
+	private static Foto p1;
+	private static Foto p2;
+	private static Album p3;
 	private static RepoUsuarios repositorio = RepoUsuarios.getUnicaInstancia();
 	private static RepoPublicaciones repositorioP = RepoPublicaciones.getUnicaInstancia();
 	private static ArrayList<Usuario> listaUsuarios;
@@ -49,7 +48,9 @@ public class RepositoriosTest {
 		p1.setCodigo(3);
 		p2 = new Foto("A2", "D2", LocalDate.now(), hashtags, u2, "path");
 		p2.setCodigo(4);
-		p3 = new Foto("A3", "D3", LocalDate.now(), hashtags, u3, "path");
+		p3 = new Album("A3", "D3", LocalDate.now(), hashtags, u3, p2);
+		p3.addFoto(p1);
+		p3.addFoto(p2);
 		p3.setCodigo(5);
 		
 		listaUsuarios = new ArrayList<Usuario>();

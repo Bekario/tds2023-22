@@ -68,6 +68,7 @@ public class PersistenciaTest {
 		
 		System.out.println("Test basico UsuarioDAO superado!");
 	}
+	
 	@Test
 	public void testComentarioDAO() {
 		AdaptadorComentarioTDS c = (AdaptadorComentarioTDS) factoria.getComentarioDAO();
@@ -120,7 +121,8 @@ public class PersistenciaTest {
 		assertEquals("La fecha no coincide",album.getFecha(), recuperado.getFecha());
 		assertEquals("Los hashtags no coinciden",album.getHashtags(), recuperado.getHashtags());
 		assertEquals("El usuario no coincide",album.getUsuario(), recuperado.getUsuario());
-
+		assertEquals("La portada no coincide",album.getPortada(), recuperado.getPortada());
+		
 		
 		System.out.println("Test basico PublicacionDAO con albumes superado!");
 		
