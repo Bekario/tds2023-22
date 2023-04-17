@@ -17,10 +17,6 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
@@ -232,10 +228,10 @@ public class PanelTarjeta extends JPanel {
 		add(txtFechaDeCaducidad, gbc_txtFechaDeCaducidad);
 		
 		//Animacion de los text field
-		addManejadorTextField(txtFechaDeCaducidad, FECHACADUCIDAD);
-		addManejadorTextField(txtCVV, CVV);
-		addManejadorTextField(txtNumTarjeta, NUMEROTARJETA);
-		addManejadorTextField(txtTitular, TITULAR);
+		Manejadores.addManejadorTextos(txtFechaDeCaducidad, FECHACADUCIDAD);
+		Manejadores.addManejadorTextos(txtCVV, CVV);
+		Manejadores.addManejadorTextos(txtNumTarjeta, NUMEROTARJETA);
+		Manejadores.addManejadorTextos(txtTitular, TITULAR);
 	}
 	
 	/**
@@ -263,29 +259,6 @@ public class PanelTarjeta extends JPanel {
 					etiqueta.setIcon(null);
 					panel.setBackground(Login.class.getResource("/imagenes/tarjeta-de-credito-default.png"));
 				}
-			}
-		});
-	}
-	
-	/**
-	 * Gestiona las animaciones del campo usuario
-	 * @param txtUser Campo de usuario
-	 */
-	private void addManejadorTextField(JTextField textField, String texto) {
-		textField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if(textField.getText().equals(texto)) {
-					textField.setText("");
-				}
-				else {
-					textField.selectAll();
-				}
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(textField.getText().equals(""))
-					textField.setText(texto);
 			}
 		});
 	}
@@ -342,7 +315,7 @@ public class PanelTarjeta extends JPanel {
 		add(btnRegistrarse, gbc_btnRegistrarse);
 		
 		//Animacion de color
-		addManejadorBotonColor(btnRegistrarse);
+		Manejadores.addManejadorBotonColor(btnRegistrarse);
 		
 		//Procesamiento del pago
 		addManejadorPago(btnRegistrarse);
@@ -369,26 +342,6 @@ public class PanelTarjeta extends JPanel {
 		JOptionPane.showMessageDialog(this, "Pago realizado correctamente", "", 1);
 		Controlador.getInstancia().convertirUsuarioPremium();
 		padre.setPanelPublicaciones();
-	}
-	
-	/**
-	 * Gestiona los cambios de color al pasar el raton encima de un boton
-	 * @param boton Boton que se desea que aplique el efecto
-	 */
-	private void addManejadorBotonColor(JButton boton) {
-		boton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				boton.setBackground(new Color(218,200,41));
-				boton.setForeground(new Color(78,80,82));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				boton.setBackground(new Color(78,80,82));
-				boton.setForeground(new Color(218,200,41));
-				
-			}
-		});
 	}
 	
 	private void addManejadorPago(JButton boton) {

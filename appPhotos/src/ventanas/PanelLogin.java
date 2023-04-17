@@ -18,10 +18,6 @@ import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -148,59 +144,9 @@ public class PanelLogin extends JPanel {
 		
 		add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
-		addManejadorContraseña(txtPasswd);
-		addManejadorUsuario(txtUser);
-		addManejadorBotonesMostrarContraseña(btnMostrarPass2, txtPasswd, "Contraseña");
-	}
-	
-	/**
-	 * Gestiona las animaciones del campo usuario
-	 * @param txtUser Campo de usuario
-	 */
-	private void addManejadorUsuario(JTextField txtUser) {
-		txtUser.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if(txtUser.getText().equals("Usuario/Email")) {
-					txtUser.setText("");
-				}
-				else {
-					txtUser.selectAll();
-				}
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(txtUser.getText().equals(""))
-					txtUser.setText("Usuario/Email");
-			}
-		});
-	}
-	
-	/**
-	 * Gestiona las animaciones del campo contraseña
-	 * @param textPasswd Campo de contraseña
-	 */
-	private void addManejadorContraseña(JPasswordField textPasswd) {
-		textPasswd.addFocusListener(new FocusAdapter() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void focusGained(FocusEvent e) {
-				if(textPasswd.getText().equals("Contraseña")) {
-					textPasswd.setEchoChar('●');
-					textPasswd.setText("");					
-				}else {
-					textPasswd.selectAll();
-				}
-			}
-			@SuppressWarnings("deprecation")
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(textPasswd.getText().equals("")) {
-					textPasswd.setText("Contraseña");
-					textPasswd.setEchoChar((char)0);
-				}
-			}
-		});
+		Manejadores.addManejadorContraseña(txtPasswd, "Contraseña");
+		Manejadores.addManejadorTextos(txtUser, "Usuario/Email");
+		Manejadores.addManejadorBotonesMostrarContraseña(btnMostrarPass2, txtPasswd, "Contraseña");
 	}
 	
 	/**
@@ -235,32 +181,11 @@ public class PanelLogin extends JPanel {
 		gbc_btnRegistrarse.gridy = 9;
 		add(btnRegistrarse, gbc_btnRegistrarse);
 		
-		addManejadorBotonColor(btnLogin);
-		addManejadorBotonColor(btnRegistrarse);
+		Manejadores.addManejadorBotonColor(btnLogin);
+		Manejadores.addManejadorBotonColor(btnRegistrarse);
 		
 	}
 	
-	private void addManejadorBotonesMostrarContraseña(JButton boton, JPasswordField contraseña, String defecto){
-		boton.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void mousePressed(MouseEvent e) {
-				boton.setContentAreaFilled(true);
-				if (!contraseña.getText().equals(defecto)) {					
-					contraseña.setEchoChar((char) 0);
-				}
-			}
-			@SuppressWarnings("deprecation")
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				boton.setContentAreaFilled(false);
-				if (!contraseña.getText().equals(defecto)) {					
-					contraseña.setEchoChar('●');
-				}
-			}
-		});
-	}
-
 	private void addManejadorLogin(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -284,26 +209,6 @@ public class PanelLogin extends JPanel {
 		});
 	}
 	
-	
-	/**
-	 * Gestiona los cambios de color al pasar el raton encima de un boton
-	 * @param boton Boton que se desea que aplique el efecto
-	 */
-	private void addManejadorBotonColor(JButton boton) {
-		boton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				boton.setBackground(new Color(218,200,41));
-				boton.setForeground(new Color(78,80,82));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				boton.setBackground(new Color(78,80,82));
-				boton.setForeground(new Color(218,200,41));
-				
-			}
-		});
-	}
 	private boolean checkFields() {
 		boolean estado = true;
 		

@@ -18,8 +18,6 @@ import java.awt.dnd.DropTargetDropEvent;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -159,54 +157,8 @@ public class PanelSubir extends JPanel {
 		gbc_scrollPane.gridy = 8;
 		add(scrollPane, gbc_scrollPane);
 		
-		addManejadorTexto(txtTitulo, "Título");
-		addManejadorArea(txtDescripcion, "Descripción");
-	}
-	
-	/**
-	 * Gestiona las animaciones de los campos de texto
-	 * @param texto Campo de texto
-	 */
-	private void addManejadorTexto(JTextField texto, String cadena) {
-		texto.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if(texto.getText().equals(cadena)) {
-					texto.setText("");
-				}
-				else {
-					texto.selectAll();
-				}
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(texto.getText().equals(""))
-					texto.setText(cadena);
-			}
-		});
-	}
-	
-	/**
-	 * Gestiona las animaciones de los campos de text area
-	 * @param texto Campo de texto
-	 */
-	private void addManejadorArea(JTextArea texto, String cadena) {
-		texto.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if(texto.getText().equals(cadena)) {
-					texto.setText("");
-				}
-				else {
-					texto.selectAll();
-				}
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(texto.getText().equals(""))
-					texto.setText(cadena);
-			}
-		});
+		Manejadores.addManejadorTextos(txtTitulo, "Título");
+		Manejadores.addManejadorArea(txtDescripcion, "Descripción");
 	}
 	
 	public void reiniciarPanel() {
@@ -299,7 +251,7 @@ public class PanelSubir extends JPanel {
 			fotoActual = ruta;
 			
 			addManejadorContinuar(btnContinuar);
-			addManejadorBotonColor(btnContinuar);
+			Manejadores.addManejadorBotonColor(btnContinuar);
 			this.updateUI();
 		} catch (MalformedURLException e) {
 			System.err.println("La ruta esta mal formada");
@@ -349,23 +301,5 @@ public class PanelSubir extends JPanel {
 		
 		return estado;
 	}
-	
-	/**MALENIA SE USA TOO MUCH
-	 * Gestiona los cambios de color al pasar el raton encima de un boton
-	 * @param boton Boton que se desea que aplique el efecto
-	 */
-	private void addManejadorBotonColor(JButton boton) {
-		boton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				boton.setBackground(new Color(218,200,41));
-				boton.setForeground(new Color(78,80,82));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				boton.setBackground(new Color(78,80,82));
-				boton.setForeground(new Color(218,200,41));
-			}
-		});
-	}
+
 }

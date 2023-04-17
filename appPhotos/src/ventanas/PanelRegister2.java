@@ -26,10 +26,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 
 
@@ -130,29 +126,10 @@ public class PanelRegister2 extends JPanel {
 		descripcion.setText("Introduce una breve descripción sobre ti...");
 		scrollPane.setViewportView(descripcion);
 		
-		addManejadorDescripcion(descripcion);
+		Manejadores.addManejadorDescripcion(descripcion, "Introduce una breve descripción sobre ti...");
 	}
 	
-	/**
-	 * Gestiona que el texto se borre alhacer click o se seleccione
-	 * @param descripcion Campo descripcion
-	 */
-	private void addManejadorDescripcion(JEditorPane descripcion) {
-		descripcion.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (descripcion.getText().equals("Introduce una breve descripción sobre ti...")) {
-					descripcion.setText("");
-				}
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (descripcion.getText().equals("")) {
-					descripcion.setText("Introduce una breve descripción sobre ti...");
-				}
-			}
-		});
-	}
+
 	
 	/**
 	 * Establece el boton de insertar imagen, borrar texto y registrarse
@@ -208,8 +185,8 @@ public class PanelRegister2 extends JPanel {
 		gbc_btnAtras.gridy = 9;
 		add(btnAtras, gbc_btnAtras);
 		
-		addManejadorBotonColor(btnRegistrarse);
-		addManejadorBotonColor(btnAtras);
+		Manejadores.addManejadorBotonColor(btnRegistrarse);
+		Manejadores.addManejadorBotonColor(btnAtras);
 		
 		addManejadorBotonBorrar(btnborrar);
 		addManejadorBotonInsertarImagen(btnMeterImg);
@@ -273,26 +250,6 @@ public class PanelRegister2 extends JPanel {
 						perfil.setIcon(icono);
 					}
 				}
-			}
-		});
-	}
-	
-	/**
-	 * Gestiona los cambios de color al pasar el raton encima de un boton
-	 * @param boton Boton que se desea que aplique el efecto
-	 */
-	private void addManejadorBotonColor(JButton boton) {
-		boton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				boton.setBackground(new Color(218,200,41));
-				boton.setForeground(new Color(78,80,82));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				boton.setBackground(new Color(78,80,82));
-				boton.setForeground(new Color(218,200,41));
-				
 			}
 		});
 	}

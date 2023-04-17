@@ -29,10 +29,6 @@ import javax.swing.JFrame;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.time.LocalDate;
 
@@ -123,31 +119,7 @@ public class PanelEditar extends JPanel {
 		add(txtEmail, gbc_txtEmail);
 		txtEmail.setColumns(10);
 		
-		addManejadorTextos(txtEmail, "Email");
-	}
-	
-	/**
-	 * Añade una animacion al introducir texto a los campos de texto
-	 * @param texto Campo de texto
-	 * @param defecto String que debe ser sustituida (por defecto)
-	 */
-	private void addManejadorTextos(JTextField texto, String defecto) {
-		texto.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (texto.getText().equals(defecto)) {
-					texto.setText("");
-				} else {
-					texto.selectAll();
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (texto.getText().equals(""))
-					texto.setText(defecto);
-			}
-		});
+		Manejadores.addManejadorTextos(txtEmail, "Email");
 	}
 	
 	/**
@@ -165,7 +137,7 @@ public class PanelEditar extends JPanel {
 		add(txtNombre, gbc_txtNombre);
 		txtNombre.setColumns(10);
 		
-		addManejadorTextos(txtNombre, "Nombre");
+		Manejadores.addManejadorTextos(txtNombre, "Nombre");
 	}
 	
 	private void establecerDescripcion() {
@@ -184,24 +156,8 @@ public class PanelEditar extends JPanel {
 		gbc_scrollPane.gridx = 2;
 		gbc_scrollPane.gridy = 9;
 		add(scrollPane, gbc_scrollPane);
-		addManejadorDescripcion(txtDescripcion);
-	}
-	
-	private void addManejadorDescripcion(JTextArea descripcion) {
-		descripcion.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (descripcion.getText().equals("Introduce una breve descripción sobre ti...")) {
-					descripcion.setText("");
-				}
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (descripcion.getText().equals("")) {
-					descripcion.setText("Introduce una breve descripción sobre ti...");
-				}
-			}
-		});
+		
+		Manejadores.addManejadorArea(txtDescripcion, "Introduce una breve descripción sobre ti...");
 	}
 	
 	/**
@@ -219,7 +175,7 @@ public class PanelEditar extends JPanel {
 		add(txtUsuario, gbc_txtUsuario);
 		txtUsuario.setColumns(10);
 		
-		addManejadorTextos(txtUsuario, "Usuario");
+		Manejadores.addManejadorTextos(txtUsuario, "Usuario");
 	}
 	/**
 	 * Crea los field contraseña y confirmar contraseña y sus botones
@@ -271,65 +227,11 @@ public class PanelEditar extends JPanel {
 		gbc_btnMostrarPass2.gridy = 11;
 		add(btnMostrarPass2, gbc_btnMostrarPass2);
 		
-		addManejadorConstraseña(txtContraseña, "Contraseña");
-		addManejadorConstraseña(txtConfirmar_contraseña, "Confirmar Contraseña");
+		Manejadores.addManejadorContraseña(txtContraseña, "Contraseña");
+		Manejadores.addManejadorContraseña(txtConfirmar_contraseña, "Confirmar Contraseña");
 		
-		addManejadorBotonesMostrarContraseña(btnMostrarPass, txtContraseña, "Contraseña");
-		addManejadorBotonesMostrarContraseña(btnMostrarPass2, txtConfirmar_contraseña, "Confirmar Contraseña");
-	}
-	
-	/**
-	 * Añade una animacion a los campos de contraseña
-	 * @param contraseña Campo de contraseña
-	 */
-	private void addManejadorConstraseña(JPasswordField contraseña, String defecto) {
-		contraseña.addFocusListener(new FocusAdapter() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (contraseña.getText().equals(defecto)) {
-					contraseña.setEchoChar('●');
-					contraseña.setText("");
-				} else {
-					contraseña.selectAll();
-				}
-			}
-			@SuppressWarnings("deprecation")
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (contraseña.getText().equals("")) {
-					contraseña.setText(defecto);
-					contraseña.setEchoChar((char) 0);
-				}
-			}
-		});
-	}
-	
-	/**
-	 * Añade funcionalidad a los botones de mostrar contraseña
-	 * @param boton Boton
-	 * @param contraseña Campo de contraseña
-	 * @param defecto String por defecto
-	 */
-	private void addManejadorBotonesMostrarContraseña(JButton boton, JPasswordField contraseña, String defecto){
-		boton.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void mousePressed(MouseEvent e) {
-				boton.setContentAreaFilled(true);
-				if (!contraseña.getText().equals(defecto)) {					
-					contraseña.setEchoChar((char) 0);
-				}
-			}
-			@SuppressWarnings("deprecation")
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				boton.setContentAreaFilled(false);
-				if (!contraseña.getText().equals(defecto)) {					
-					contraseña.setEchoChar('●');
-				}
-			}
-		});
+		Manejadores.addManejadorBotonesMostrarContraseña(btnMostrarPass, txtContraseña, "Contraseña");
+		Manejadores.addManejadorBotonesMostrarContraseña(btnMostrarPass2, txtConfirmar_contraseña, "Confirmar Contraseña");
 	}
 	
 	/**
@@ -348,7 +250,7 @@ public class PanelEditar extends JPanel {
 		gbc_btnGuardar.gridy = 13;
 		add(btnGuardar, gbc_btnGuardar);
 		
-		addManejadorBotonColor(btnGuardar);
+		Manejadores.addManejadorBotonColor(btnGuardar);
 		addManejadorBotonGuardar(btnGuardar);	
 	}
 	
@@ -368,7 +270,8 @@ public class PanelEditar extends JPanel {
 		gbc_btnAtras.gridx = 2;
 		gbc_btnAtras.gridy = 14;
 		add(btnAtras, gbc_btnAtras);
-		addManejadorBotonColor(btnAtras);
+		
+		Manejadores.addManejadorBotonColor(btnAtras);
 		addManejadorBotonAtras(btnAtras);
 	}
 	/**
@@ -397,30 +300,9 @@ public class PanelEditar extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				padre.getHome().setPanelPerfil();
 			}
-	});
-}
-	
-		
-	
-	
-	/**
-	 * Gestiona los cambios de color al pasar el raton encima de un boton
-	 * @param boton Boton que se desea que aplique el efecto
-	 */
-	private void addManejadorBotonColor(JButton boton) {
-		boton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				boton.setBackground(new Color(218,200,41));
-				boton.setForeground(new Color(78,80,82));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				boton.setBackground(UIManager.getColor("Button.background"));
-				boton.setForeground(new Color(218,200,41));
-			}
 		});
 	}
+
 	private void establecerImagenSubida(String ruta) {
 		lblFotoPerfil = new JLabel(new ImageIcon(FotoPersonalizada.redondearFoto(ruta)));
 		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
@@ -439,6 +321,7 @@ public class PanelEditar extends JPanel {
 		addManejadorBotonInsertarImagen(btnCambiarFoto);
 		//fotoActual = usuario.getPerfil();
 	}
+	
 	//MALENIA lo usamos 3 4 veces en todo el programa, unificar?
 	private void addManejadorBotonInsertarImagen(JButton boton) {
 		boton.addActionListener(new ActionListener() {

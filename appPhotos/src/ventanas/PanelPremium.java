@@ -4,12 +4,9 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 
 import java.awt.GridBagConstraints;
-import modelo.Usuario;
 import modelo.Variables;
 
 import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -28,7 +25,6 @@ import java.awt.event.ActionEvent;
 public class PanelPremium extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Usuario usuario;
 	private Home home;
 	private float precio = Variables.precioPremium;
 	
@@ -36,8 +32,7 @@ public class PanelPremium extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelPremium(Home home, Usuario usuario) {
-		this.usuario=usuario;
+	public PanelPremium(Home home) {
 		this.home = home;
 		crearPanel();
 		
@@ -105,7 +100,8 @@ public class PanelPremium extends JPanel {
 		gbc_btnPagar.gridy = 8;
 		add(btnPagar, gbc_btnPagar);
 		
-		addManejadorBotonColor(btnPagar);
+		Manejadores.addManejadorBotonColor(btnPagar);
+		
 		if(!Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
 			addManejadorBotonPagar(btnPagar);
 			
@@ -119,27 +115,5 @@ public class PanelPremium extends JPanel {
 			}
 		});
 	}
-	
-	/**
-	 * Gestiona los cambios de color al pasar el raton encima de un boton
-	 * @param boton Boton que se desea que aplique el efecto
-	 */
-	private void addManejadorBotonColor(JButton boton) {
-		boton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				boton.setBackground(new Color(218,200,41));
-				boton.setForeground(new Color(78,80,82));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				boton.setBackground(new Color(78,80,82));
-				boton.setForeground(new Color(218,200,41));
-				
-			}
-		});
-	}
-	
-	
 
 }

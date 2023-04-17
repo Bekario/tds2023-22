@@ -334,7 +334,7 @@ public class Home {
 		
 	}
 	public void setPanelPremium() {
-		cambiarScrollPane(new PanelPremium(this, Controlador.getInstancia().getUsuarioActual()));
+		cambiarScrollPane(new PanelPremium(this));
 	}
 	
 	public void setPanel(JPanel panel) {

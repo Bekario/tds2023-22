@@ -14,10 +14,6 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JEditorPane;
 import javax.swing.UIManager;
@@ -98,14 +94,14 @@ public class PanelCrearAlbum extends JPanel {
 		gbc_textField.gridy = 7;
 		add(textField, gbc_textField);
 		
-		addManejadorTexto(textField, TITULO);
+		Manejadores.addManejadorTextos(textField, TITULO);
 		
 		txtDescripcion = new JTextArea(3, 20);
 		txtDescripcion.setWrapStyleWord(true);
 		txtDescripcion.setText(DESCRIPCION);
 		txtDescripcion.setLineWrap(true);
 		
-		addManejadorArea(txtDescripcion, DESCRIPCION);
+		Manejadores.addManejadorArea(txtDescripcion, DESCRIPCION);
 
 		JScrollPane scrollPane = new JScrollPane(txtDescripcion);
 		scrollPane.setViewportBorder(null);
@@ -130,7 +126,7 @@ public class PanelCrearAlbum extends JPanel {
 		add(btnContinuar_1, gbc_btnContinuar_1);
 		
 		addManejadorBotonContinuar(btnContinuar_1);
-		addManejadorBotonColor(btnContinuar_1);
+		Manejadores.addManejadorBotonColor(btnContinuar_1);
 		
 	}
 	
@@ -168,71 +164,6 @@ public class PanelCrearAlbum extends JPanel {
 	
 	private void crearMessageDialog(String descripcion, String titulo, int icono) {
 		JOptionPane.showMessageDialog(this, descripcion, titulo, icono);
-	}
-	
-	/**MALENIA SE USA TOO MUCH
-	 * Gestiona los cambios de color al pasar el raton encima de un boton
-	 * @param boton Boton que se desea que aplique el efecto
-	 */
-	private void addManejadorBotonColor(JButton boton) {
-		boton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				boton.setBackground(new Color(218,200,41));
-				boton.setForeground(new Color(78,80,82));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				boton.setBackground(new Color(78,80,82));
-				boton.setForeground(new Color(218,200,41));
-			}
-		});
-	}
-	
-	/**
-	 * Gestiona las animaciones de los campos de texto
-	 * @param texto Campo de texto
-	 */
-	private void addManejadorTexto(JTextField texto, String cadena) {
-		texto.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if(texto.getText().equals(cadena)) {
-					texto.setText("");
-				}
-				else {
-					texto.selectAll();
-				}
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(texto.getText().equals(""))
-					texto.setText(cadena);
-			}
-		});
-	}
-	
-	/**
-	 * Gestiona las animaciones de los campos de text area
-	 * @param texto Campo de texto
-	 */
-	private void addManejadorArea(JTextArea texto, String cadena) {
-		texto.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				if(texto.getText().equals(cadena)) {
-					texto.setText("");
-				}
-				else {
-					texto.selectAll();
-				}
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(texto.getText().equals(""))
-					texto.setText(cadena);
-			}
-		});
 	}
 	
 	/**
