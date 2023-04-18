@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 
 import controlador.Controlador;
 import modelo.Comentario;
@@ -48,8 +49,7 @@ public class PanelComentario extends JPanel {
 	private JTextField textField;
 	private JScrollPane scrollPane;
 	private JPanel panel;
-	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_1;
+	private JLabel comentario;
 	private int y;
 	private JButton lblEnviar;
 	/**
@@ -60,10 +60,8 @@ public class PanelComentario extends JPanel {
 		this.publicacion = publicacion;
 		y=0;
 		crearPanel();
-//		establecerDatosPublicacion();
-	
+//		establecerDatosPublicacion();	
 	}
-	
 
 	private void crearPanel() {
 		this.setSize(400, 400);
@@ -149,10 +147,14 @@ public class PanelComentario extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode()==KeyEvent.VK_ENTER){
-					Comentario c= Controlador.getInstancia().addComentario(publicacion, textField.getText());
-					addComentario(c);
+					Controlador.getInstancia().addComentario(publicacion, textField.getText());
+					addComentario(Controlador.getInstancia().getUsuarioActual().getUsuario()+": "+textField.getText());
 					updateUI();
 					textField.setText("");
+					
+					//Bajamos la barra hasta abajo
+					JScrollBar verScrBar= scrollPane.getVerticalScrollBar();
+					verScrBar.setValue(verScrBar.getMaximum());
 				}
 			}
 		});
@@ -169,10 +171,14 @@ public class PanelComentario extends JPanel {
 		lblEnviar.setBorder(null);
 		lblEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Comentario c = Controlador.getInstancia().addComentario(publicacion, textField.getText());
-				addComentario(c);
+				Controlador.getInstancia().addComentario(publicacion, Controlador.getInstancia().getUsuarioActual().getUsuario()+": "+textField.getText());
+				addComentario(textField.getText());
 				updateUI();
 				textField.setText("");
+				
+				//Bajamos la barra hasta abajo
+				JScrollBar verScrBar= scrollPane.getVerticalScrollBar();
+				verScrBar.setValue(verScrBar.getMaximum());
 			}
 		});
 		imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/enviar.png"));
@@ -255,19 +261,22 @@ public class PanelComentario extends JPanel {
 	
 	public void addComentario(List<Comentario> comentarios) {
 		comentarios.stream()
-				   .forEachOrdered(c -> addComentario(c));
+				   .forEachOrdered(c -> addComentario(c.getTexto()));
 		
 	}
-	public void addComentario(Comentario c) {
-		lblNewLabel = new JLabel(c.getTexto());
+	public void addComentario(String texto) {
+		comentario = new JLabel(texto);
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = y++; 
-		panel.add(lblNewLabel, gbc_lblNewLabel);
+		gbc_lblNewLabel.gridy = y; 
+		panel.add(comentario, gbc_lblNewLabel);
+		
+		y++;
+		
 		System.out.println(y);
-		System.out.println(c.getTexto());
+		System.out.println(texto);
 	}
 	
 	private void addManejadorClickLike(JLabel label) {

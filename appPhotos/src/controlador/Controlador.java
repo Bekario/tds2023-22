@@ -19,7 +19,6 @@ import modelo.Album;
 import modelo.Comentario;
 import modelo.Foto;
 import modelo.Publicacion;
-import modelo.RepoComentarios;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
@@ -459,9 +458,11 @@ public class Controlador {
 
 	
 
-	public Comentario addComentario(Publicacion publicacion, String text) {
+	public void addComentario(Publicacion publicacion, String text) {
+		//Creamos un objeto comentario
 		Comentario c= new Comentario(usuarioActual.getUsuario()+": "+text);
 		
+		//Persistimos el comentario
 		IAdaptadorComentarioDAO comentarioDAO = null;
 		try {
 			comentarioDAO = FactoriaDAO.getInstancia().getComentarioDAO();
@@ -469,11 +470,10 @@ public class Controlador {
 			e.printStackTrace();
 		}
 		comentarioDAO.registrarComentario(c);
-		RepoComentarios.getUnicaInstancia().addComentario(c);
-		publicacion.addComentario(c);
-//		actualizarPublicacion(publicacion);
 		
-		return c;
+		//Añadimos a la publicacion el comentario
+		publicacion.addComentario(c);
+		actualizarPublicacion(publicacion);
 	}
 
 		
