@@ -2,31 +2,22 @@ package ventanas;
 
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-
 import java.awt.GridBagLayout;
 import java.awt.Image;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.GridBagConstraints;
 import java.awt.Font;
-
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import controlador.Controlador;
-import modelo.Usuario;
-
 import java.awt.Insets;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -43,7 +34,6 @@ import javax.swing.ScrollPaneConstants;
 public class PanelEditar extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Usuario usuario;
 	private JFrame frame;
 	private JTextField txtEmail;
 	private JTextField txtNombre;
@@ -60,13 +50,26 @@ public class PanelEditar extends JPanel {
 	private JButton btnCambiarFoto;
 	private JScrollPane scrollPane;
 	private JTextArea txtDescripcion;
+	
+	private String email;
+	private String nombreCompleto;
+	private String usuario;
+	private String descripcion;
+	private String contraseña;
+	private String perfil;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelEditar(Usuario usuario, JPanel padre) {
-		this.usuario=usuario;
+	public PanelEditar(JPanel padre, String email, String nombreCompleto, String usuario, String descripcion, String contraseña, String perfil) {
 		this.padre=(PanelCabeceraPerfil)padre;
+		this.email = email;
+		this.nombreCompleto = nombreCompleto;
+		this.usuario = usuario;
+		this.contraseña = contraseña;
+		this.perfil = perfil;
+		this.descripcion = descripcion;
+		
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
@@ -76,8 +79,8 @@ public class PanelEditar extends JPanel {
 				Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 		
+		
 		establecerTitulo();
-	
 		establecerEmail();
 		establecerNombre();
 		establecerUsuario();
@@ -85,7 +88,7 @@ public class PanelEditar extends JPanel {
 		establecerBotonGuardar();
 		establecerBotonAtras();
 		establecerDescripcion();
-		establecerImagenSubida(usuario.getPerfil());
+		establecerImagenSubida(perfil);
 	}
 	
 	/**
@@ -108,7 +111,7 @@ public class PanelEditar extends JPanel {
 	private void establecerEmail() {		
 		
 		txtEmail = new JTextField();
-		txtEmail.setText(usuario.getEmail());
+		txtEmail.setText(email);
 		txtEmail.setToolTipText("");
 
 		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
@@ -127,7 +130,7 @@ public class PanelEditar extends JPanel {
 	 */
 	private void establecerNombre() {
 		txtNombre = new JTextField();
-		txtNombre.setText(usuario.getNombreCompleto());
+		txtNombre.setText(nombreCompleto);
 		txtNombre.setToolTipText("");
 		GridBagConstraints gbc_txtNombre = new GridBagConstraints();
 		gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
@@ -144,9 +147,9 @@ public class PanelEditar extends JPanel {
 		txtDescripcion = new JTextArea(2, 20);
 		txtDescripcion.setWrapStyleWord(true);
 		txtDescripcion.setLineWrap(true);
-		if(usuario.getDescripcion().equals("")){
+		if(descripcion.equals("")){
 			txtDescripcion.setText("Introduce una breve descripción sobre ti..."); 
-		}else txtDescripcion.setText(usuario.getDescripcion());
+		}else txtDescripcion.setText(descripcion);
 		
 		scrollPane = new JScrollPane(txtDescripcion);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -165,7 +168,7 @@ public class PanelEditar extends JPanel {
 	 */
 	private void establecerUsuario() {
 		txtUsuario = new JTextField();
-		txtUsuario.setText(usuario.getUsuario());
+		txtUsuario.setText(usuario);
 		txtUsuario.setToolTipText("");
 		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
@@ -182,7 +185,7 @@ public class PanelEditar extends JPanel {
 	 */
 	private void establecerContraseñasYBotones() {
 		txtContraseña = new JPasswordField();
-		txtContraseña.setText(usuario.getContraseña());
+		txtContraseña.setText(contraseña);
 		GridBagConstraints gbc_txtContraseña = new GridBagConstraints();
 		gbc_txtContraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_txtContraseña.fill = GridBagConstraints.HORIZONTAL;
@@ -283,7 +286,7 @@ public class PanelEditar extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//Si todos los campos son correctos
 				if (checkFields()) {
-					Controlador.getInstancia().modificarUsuario(txtUsuario.getText(), new String(txtContraseña.getPassword()) , txtEmail.getText(), txtNombre.getText(), txtDescripcion.getText());
+					Controlador.getInstancia().modificarUsuario(txtUsuario.getText(), new String(txtContraseña.getPassword()) , txtEmail.getText(), txtNombre.getText(), txtDescripcion.getText(), perfil);
 					padre.getHome().setPanelPerfil();
 				}
 			}
@@ -318,8 +321,8 @@ public class PanelEditar extends JPanel {
 		gbc_btnCambiarFoto.gridx = 2;
 		gbc_btnCambiarFoto.gridy = 4;
 		add(btnCambiarFoto, gbc_btnCambiarFoto);
+		
 		addManejadorBotonInsertarImagen(btnCambiarFoto);
-		//fotoActual = usuario.getPerfil();
 	}
 	
 	//MALENIA lo usamos 3 4 veces en todo el programa, unificar?
@@ -340,20 +343,15 @@ public class PanelEditar extends JPanel {
 				int resp = selector.showOpenDialog(selector);
 				File fichero = selector.getSelectedFile();
 				if (fichero != null) {
-					
 					//Comprobamos que la extension sea correcta
 					if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
 						JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
 					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
-						//Esto hay que hacerlo
-						//Controlador.getInstancia().insertarFotoSubida(fichero.getAbsolutePath(), fichero.getName());
-						String ruta = fichero.getAbsolutePath();
+						perfil = fichero.getAbsolutePath();
 						remove(lblFotoPerfil);
-						usuario.setPerfil(ruta);
-						//modificar usuario MALENIA
-						establecerImagenSubida(ruta);
-						updateUI();
 						
+						establecerImagenSubida(perfil);
+						updateUI();
 					}
 				}
 			}
@@ -422,8 +420,4 @@ public class PanelEditar extends JPanel {
 		txtEmail.setText(email);
 		txtNombre.setText(nombreCompleto);
 	}
-	
-
-	
-
 }
