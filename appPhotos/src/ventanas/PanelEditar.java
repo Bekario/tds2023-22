@@ -61,7 +61,7 @@ public class PanelEditar extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelEditar(JPanel padre, String email, String nombreCompleto, String usuario, String descripcion, String contraseña, String perfil) {
+	public PanelEditar(JPanel padre) {
 		this.padre=(PanelCabeceraPerfil)padre;
 		this.email = email;
 		this.nombreCompleto = nombreCompleto;

@@ -1,13 +1,8 @@
 package ventanas;
 
 import javax.swing.JPanel;
-
-import controlador.Controlador;
-
 import java.awt.GridBagLayout;
-
 import java.awt.GridBagConstraints;
-
 import java.awt.Insets;
 
 
@@ -65,16 +60,19 @@ public class PanelPerfil extends JPanel {
 	}
 	
 	/**
-	 * Añade una unica publicacion, si es album se añade al PanelCuadriculaAlbum, en caso contrario se añade al PanelCuadriculaFotos
+	 * Añade una unica foto
 	 * @param publicacion
 	 */
-	protected void addPublicacion(int publicacion) {
-		//Si es una foto, añadimos una foto
-		if (publicacion.getClass().getName() == "modelo.Foto") {
-			panelFotoAlbum.addFoto((Foto) publicacion);
-		} else { //Si es un album, añadimos un album
-			panelFotoAlbum.addAlbum((Album) publicacion);
-		}
+	protected void addFoto(int publicacion) {
+		panelFotoAlbum.addFoto(publicacion);
+	}
+	
+	/**
+	 * Añade un unico album
+	 * @param publicacion
+	 */
+	protected void addAlbum(int publicacion) {
+		panelFotoAlbum.addAlbum(publicacion);
 	}
 	
 	/**

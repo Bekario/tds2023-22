@@ -95,7 +95,7 @@ public class PanelCabeceraPerfil extends JPanel {
 		
 		
 		// Si este perfil no es del usuarioActual, no mostramos el boton editar
-		if (usuario.equals(Controlador.getInstancia().getUsuarioActual().getUsuario())) {
+		if (usuario.equals(Controlador.getInstancia().obtenerUsuarioActual())) {
 			btn = new JButton("Editar");
 			
 			home.addManejadorEdit(btn, this);	

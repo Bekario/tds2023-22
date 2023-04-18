@@ -217,34 +217,28 @@ public class PanelPublicacion extends JPanel {
 				}
 				Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 				label.setIcon(icono);
-				lblNumLikes.setText(Controlador.getInstancia().obtenerMeGusta(publicacion));
+				lblNumLikes.setText(Controlador.getInstancia().obtenerMeGustaPublicacion(publicacion));
 			}
 		});
 	}
 	
 	private void establecerDatosPublicacion() {
-		lblTitulo.setText(publicacion.getTitulo());
-		lblNumLikes.setText(String.valueOf(publicacion.getMegusta()));
-		lblNombreUsuario.setText(publicacion.getUsuario().getUsuario());
-		lblNumComentarios.setText(String.valueOf(publicacion.getComentarios().size()));
+		String usuario = Controlador.getInstancia().obtenerUsuario(publicacion);
+		lblTitulo.setText(Controlador.getInstancia().obtenerTituloPublicacion(publicacion));
+		lblNumLikes.setText(Controlador.getInstancia().obtenerMeGustaPublicacion(publicacion));
+		lblNombreUsuario.setText(usuario);
+		lblNumComentarios.setText(String.valueOf(Controlador.getInstancia().obtenerComentariosPublicacion(publicacion).size()));
 		
-		ImageIcon imagen = new ImageIcon(publicacion.getUsuario().getPerfil());
+		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPerfil(usuario));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		
 		lblFotoPerfil.setIcon(icono);
 		
-		imagen = new ImageIcon(((Foto) publicacion).getPath());
+		imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(publicacion));
 		icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
 		
 		lblFoto.setIcon(icono);
 	
 		
 	}
-	
-	public void setPublicacion(Publicacion publicacion) {
-		this.publicacion = publicacion;
-		establecerDatosPublicacion();
-	}
-	
-
 }

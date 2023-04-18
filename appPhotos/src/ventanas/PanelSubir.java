@@ -32,7 +32,6 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controlador.Controlador;
-import modelo.Foto;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -40,9 +39,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
 
 public class PanelSubir extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JPanelBackground panelFoto;
 	private JButton btnContinuar;
@@ -265,9 +262,9 @@ public class PanelSubir extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				//checkfield
 				if (checkFields()) {
-					Foto foto = Controlador.getInstancia().añadirFoto(txtTitulo.getText(), txtDescripcion.getText(), fotoActual);
+					int foto = Controlador.getInstancia().añadirFoto(txtTitulo.getText(), txtDescripcion.getText(), fotoActual);
 					//Añadimos la nueva foto al perfil
-					padre.subirPublicacion(foto);
+					padre.subirFoto(foto);
 					
 					//Mostramos el panelPerfil
 					padre.setPanelPerfil();

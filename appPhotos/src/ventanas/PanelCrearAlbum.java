@@ -19,7 +19,6 @@ import javax.swing.JEditorPane;
 import javax.swing.UIManager;
 
 import controlador.Controlador;
-import modelo.Album;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -134,9 +133,9 @@ public class PanelCrearAlbum extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Comprobamos que exista como minimo una portada
 				if (checkFields()) {
-					Album album = Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText(), panelSeleccionarFotos.getListaSeleccionados(), panelSeleccionarFotos.getPortada());
+					int album = Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText(), panelSeleccionarFotos.getListaSeleccionados(), panelSeleccionarFotos.getPortada());
 					//Subimos el album al perfil
-					padre.subirPublicacion(album);
+					padre.subirAlbum(album);
 					
 					//Mostramos el panelPerfil
 					padre.setPanelPerfil();					
@@ -147,7 +146,7 @@ public class PanelCrearAlbum extends JPanel {
 	}
 	
 	private void crearPanelFotos() {
-		panelSeleccionarFotos = new PanelSeleccionarFotos(Controlador.getInstancia().getUsuarioActual().getFotos());
+		panelSeleccionarFotos = new PanelSeleccionarFotos(Controlador.getInstancia().obtenerFotos(Controlador.getInstancia().obtenerUsuarioActual()));
 		GridBagConstraints gbc_panelSeleccionarFotos_1 = new GridBagConstraints();
 		gbc_panelSeleccionarFotos_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panelSeleccionarFotos_1.fill = GridBagConstraints.BOTH;

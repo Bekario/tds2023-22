@@ -1,14 +1,8 @@
 package ventanas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
-
-import modelo.Publicacion;
 
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -21,9 +15,6 @@ import javax.swing.ImageIcon;
 
 public class VentanaPublicacion extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
@@ -32,7 +23,7 @@ public class VentanaPublicacion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPublicacion(Publicacion p) {
+	public VentanaPublicacion(int p) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 420);
 		contentPane = new JPanel();

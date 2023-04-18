@@ -14,8 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.swing.ImageIcon;
-
 import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
 import modelo.Album;
@@ -142,7 +140,7 @@ public class Controlador {
 		return true;
 	}
 	
-	public Foto añadirFoto(String titulo, String descripcion, String path) {
+	public int añadirFoto(String titulo, String descripcion, String path) {
 		List<String> hashtags = procesarHashtags(descripcion);
 				
 		Foto publi = new Foto(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, path);
@@ -169,10 +167,10 @@ public class Controlador {
 		actualizarUsuario(usuarioActual);
 		
 		
-		return publi;	
+		return publi.getCodigo();	
 	}
 	
-	public Album añadirAlbum(String titulo, String descripcion, List<Integer> fotos, int portada) {
+	public int añadirAlbum(String titulo, String descripcion, List<Integer> fotos, int portada) {
 		List<String> hashtags = procesarHashtags(descripcion);
 		
 		
@@ -202,7 +200,7 @@ public class Controlador {
 		// A continuacion, guardamos los cambios
 		actualizarUsuario(usuarioActual);
 		
-		return publi;	
+		return publi.getCodigo();	
 	}
 	
 	public boolean borrarPublicacion(Publicacion publicacion) {
@@ -436,14 +434,16 @@ public class Controlador {
 
 	}
 
-	public List<Publicacion> getPublicacionesTop() {
+	public List<Integer> getPublicacionesTop() {
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
 		 Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
 		 if(pub.size()>10) {
 			 pub= pub.subList(0, 9);
 			 
 		 }
-		 return pub;
+		 return pub.stream()
+				   .map(p -> p.getCodigo())
+				   .collect(Collectors.toList());
 	}
 	
 	public void generarPDF() {
@@ -487,7 +487,9 @@ public class Controlador {
 
 	}
 
-	public void addComentario(Publicacion publicacion, String text) {
+	public void addComentario(int publicacion, String text) {
+		Publicacion p = RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion);
+		
 		//Creamos un objeto comentario
 		Comentario c= new Comentario(usuarioActual.getUsuario()+": "+text);
 		
@@ -501,8 +503,8 @@ public class Controlador {
 		comentarioDAO.registrarComentario(c);
 		
 		//Añadimos a la publicacion el comentario
-		publicacion.addComentario(c);
-		actualizarPublicacion(publicacion);
+		p.addComentario(c);
+		actualizarPublicacion(p);
 	}
 	
 	/**
@@ -559,8 +561,31 @@ public class Controlador {
 		return RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).getUsuario().getUsuario();
 	}
 	
-	public String obtenerMeGusta(int publicacion) {
+	public String obtenerMeGustaPublicacion(int publicacion) {
 		return String.valueOf(RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).getMegusta());
 	}
+	
+	public String obtenerTituloPublicacion(int publicacion) {
+		return RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).getTitulo();
+	}
+	
+	public String obtenerDescripcionPublicacion(int publicacion) {
+		return RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).getDescripcion();
+	}
+	
+	public List<Integer> obtenerComentariosPublicacion(int publicacion) {
+		return RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).getComentarios().stream()
+																								 .map(c -> c.getCodigo())
+																								 .collect(Collectors.toList());
+	}
+	
+	public String obtenerTextoComentario(int publicacion, int comentario) {
+		Comentario com = RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).getComentarios().stream()
+																								 .filter(c -> comentario == c.getCodigo())
+																								 .findAny()
+																								 .orElse(null);
+		return com.getTexto();																				 
+	}
+	
 		
 }

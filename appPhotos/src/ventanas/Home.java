@@ -4,7 +4,6 @@ package ventanas;
 import javax.swing.JFrame;
 
 import controlador.Controlador;
-import modelo.Publicacion;
 
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
@@ -167,7 +166,7 @@ public class Home {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exportar Excel");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
+				if(Controlador.getInstancia().comprobarPremium()) {
 					Controlador.getInstancia().generarEXCEL();
 					JOptionPane.showMessageDialog(null, "¡Documento excel generado con exito!", "Excel generado", 1);
 				}else {	
@@ -180,7 +179,7 @@ public class Home {
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Exportar PDF");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
+				if(Controlador.getInstancia().comprobarPremium()) {
 					Controlador.getInstancia().generarPDF();
 					JOptionPane.showMessageDialog(null, "¡Documento pdf generado con exito!", "PDF generado", 1);
 				}else {
@@ -194,7 +193,7 @@ public class Home {
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Top Me Gusta");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
+				if(Controlador.getInstancia().comprobarPremium()) {
 					setPanelTop();
 				}else {
 					JOptionPane.showMessageDialog(null, "Esta es una función premium", "Debes ser premium", 2);
@@ -264,7 +263,7 @@ public class Home {
 	private void prepararTodosPaneles() {
 		panelBusqueda = new PanelBuscar(this);
 		panelInicio = new PanelInicio(this);
-		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().getUsuarioActual());
+		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().obtenerUsuarioActual());
 		panelSubir = new PanelSubir(this);
 	}
 	
@@ -307,7 +306,7 @@ public class Home {
 	
 	public void setPanelEdit() {
 		//El panel editar debe contener los datos por defecto al accederse
-		cambiarScrollPane(new PanelEditar(Controlador.getInstancia().getUsuarioActual(), panelPerfil));
+		cambiarScrollPane(new PanelEditar(panelPerfil));
 	}
 	
 	
@@ -352,7 +351,7 @@ public class Home {
 	protected void addManejadorEdit(JButton boton, 	JPanel panel) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				scrollPane.setViewportView(new PanelEditar(Controlador.getInstancia().getUsuarioActual(), panel));
+				scrollPane.setViewportView(new PanelEditar(panel));
 			}
 		});
 	}
@@ -376,10 +375,17 @@ public class Home {
 	}
 	
 	/**
-	 * Actualiza el panelPerfil con la nueva publicacion subida
+	 * Actualiza el panelPerfil con la nueva foto subida
 	 */
-	public void subirPublicacion(Publicacion publicacion) {
-		panelPerfil.addPublicacion(publicacion);
+	public void subirFoto(int publicacion) {
+		panelPerfil.addFoto(publicacion);
+	}
+	
+	/**
+	 * Actualiza el panelPerfil con el nuevo album subido
+	 */
+	public void subirAlbum(int publicacion) {
+		panelPerfil.addAlbum(publicacion);
 	}
 	
 	
