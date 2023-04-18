@@ -50,6 +50,16 @@ public abstract class Publicacion {
 		} catch (DAOException e) {e.printStackTrace();}		
 	}
 	
+	public void addComentario(Comentario c) {
+		// Ahora hay que actualizar los DAO y repos
+		RepoPublicaciones.getUnicaInstancia().removePublicacion(this);
+		comentarios.add(c);
+		RepoPublicaciones.getUnicaInstancia().addPublicacion(this);
+		try {
+			FactoriaDAO.getInstancia().getPublicacionDAO().modificarPublicacion(this);
+		} catch (DAOException e) {e.printStackTrace();}		
+	}
+	
 	// Metodos get / set
 	public String getTitulo() {
 		return titulo;
@@ -97,6 +107,9 @@ public abstract class Publicacion {
 
 	public Usuario getUsuario() {
 		return usuario;
+	}
+	public int getNumComentarios() {
+		return comentarios.size();
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;

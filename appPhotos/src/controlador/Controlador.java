@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
 import modelo.Album;
+import modelo.Comentario;
 import modelo.Foto;
 import modelo.Publicacion;
 import modelo.RepoPublicaciones;
@@ -439,6 +440,15 @@ public class Controlador {
 			e.printStackTrace();
 		}
 
+	}
+
+
+
+	public Comentario addComentario(Publicacion publicacion, String text) {
+		Comentario c= new Comentario(usuarioActual.getUsuario()+": "+text);
+		publicacion.addComentario(c);
+		
+		return c;
 	}
  	
 }

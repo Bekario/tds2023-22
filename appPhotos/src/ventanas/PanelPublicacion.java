@@ -123,6 +123,13 @@ public class PanelPublicacion extends JPanel {
 		panelInferior.add(lblNumLikes, gbc_lblNumLikes);
 		
 		JLabel lblComentario = new JLabel("");
+		lblComentario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaPublicacion v = new VentanaPublicacion(publicacion);
+				v.mostrarVentana();
+			}
+		});
 		lblComentario.setIcon(new ImageIcon(PanelPublicacion.class.getResource("/imagenes/mensaje.png")));
 		GridBagConstraints gbc_lblComentario = new GridBagConstraints();
 		gbc_lblComentario.insets = new Insets(0, 0, 0, 5);

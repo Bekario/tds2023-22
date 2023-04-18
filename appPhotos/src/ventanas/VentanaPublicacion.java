@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
+
+import modelo.Publicacion;
+
 import java.awt.GridBagLayout;
 import java.awt.Image;
 
@@ -24,28 +27,13 @@ public class VentanaPublicacion extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		FlatMonokaiProIJTheme.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPublicacion frame = new VentanaPublicacion();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPublicacion() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public VentanaPublicacion(Publicacion p) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 420);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -67,7 +55,7 @@ public class VentanaPublicacion extends JFrame {
 		gbc_lblNewLabel.gridy = 0;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
 		
-		PanelComentario panelComentario = new PanelComentario();
+		PanelComentario panelComentario = new PanelComentario(p);
 		GridBagConstraints gbc_panelComentario= new GridBagConstraints();
 		gbc_panelComentario.gridwidth = 2;
 		gbc_panelComentario.fill = GridBagConstraints.BOTH;
@@ -75,5 +63,13 @@ public class VentanaPublicacion extends JFrame {
 		gbc_panelComentario.gridy = 0;
 		getContentPane().add(panelComentario, gbc_panelComentario);
 	}
+	/**
+	 * Muestra la ventana
+	 */
+	public void mostrarVentana() {
+		setVisible(true);
+		getRootPane().requestFocus(false);
+	}
+	
 
 }
