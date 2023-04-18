@@ -14,6 +14,8 @@ public class PanelListaUsuarios extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private int y;
+	private PanelUsuario panelUsuario;
+	
 	private ArrayList<PanelUsuario> paneles;
 	private Home home;
 	
@@ -32,31 +34,43 @@ public class PanelListaUsuarios extends JPanel {
 	private void crearPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 	}
 	
+<<<<<<< HEAD
 	public void addUsuario(String usuario) {
 		PanelUsuario panelUsuario = new PanelUsuario(usuario);
+=======
+	public void addUsuario(Usuario usuario) {
+		panelUsuario = new PanelUsuario(usuario);
+>>>>>>> branch 'main' of git@github.com:Bekario/tds2023-22.git
 		GridBagConstraints gbc_panelUsuario = new GridBagConstraints();
 		gbc_panelUsuario.insets = new Insets(0, 0, 5, 0);
 		gbc_panelUsuario.fill = GridBagConstraints.BOTH;
 		gbc_panelUsuario.gridx = 0;
 		gbc_panelUsuario.gridy = y;
-		y+=1;
 		add(panelUsuario, gbc_panelUsuario);
 		paneles.add(panelUsuario);
+		y++;
 		
 		addManejadorClickUsuario(panelUsuario, usuario);
 	}
 	
+<<<<<<< HEAD
 	public void addListaUsuario(List<String> usuarios) {
 		for (String usuario : usuarios) {
 			addUsuario(usuario);
 		}
+=======
+	public void addListaUsuario(List<Usuario> usuarios) {
+		usuarios.stream()
+				.forEach(u -> addUsuario(u));
+>>>>>>> branch 'main' of git@github.com:Bekario/tds2023-22.git
 	}
+
 	
 	public void quitarUsuarios() {
 		removeAll();
