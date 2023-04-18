@@ -13,9 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
-import modelo.Foto;
-import modelo.Publicacion;
-import modelo.Usuario;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,7 +20,6 @@ import java.awt.event.MouseEvent;
 public class PanelPublicacion extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private boolean likePresionado;
-	private Publicacion publicacion;
 	private JLabel lblFoto;
 	private JLabel lblNumLikes;
 	private JLabel lblFotoPerfil;
@@ -32,22 +28,17 @@ public class PanelPublicacion extends JPanel {
 	private JLabel lblNombreUsuario;
 	private JLabel lblNumComentarios;
 	private Home home;
+	private int publicacion;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelPublicacion(Home padre, Publicacion publicacion) {
+	public PanelPublicacion(Home padre, int publicacion) {
 		home = padre;
 		likePresionado = false;
 		this.publicacion = publicacion;
 		crearPanel();
 		establecerDatosPublicacion();
-	}
-	
-	public PanelPublicacion() {
-		likePresionado = false;
-		this.publicacion = null;
-		crearPanel();
 	}
 	
 	private void crearPanel() {
@@ -155,7 +146,8 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNombreUsuario.gridy = 0;
 		panelInferior.add(lblNombreUsuario, gbc_lblNombreUsuario);
 		
-		addManejadorClickUsuario(lblNombreUsuario, publicacion.getUsuario());
+		String usuario = Controlador.getInstancia().obtenerUsuario(publicacion);
+		addManejadorClickUsuario(lblNombreUsuario, usuario);
 		
 		imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
 		icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
@@ -168,12 +160,12 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblFotoPerfil.gridy = 0;
 		panelInferior.add(lblFotoPerfil, gbc_lblFotoPerfil);
 		
-		addManejadorClickUsuario(lblFotoPerfil, publicacion.getUsuario());
+		addManejadorClickUsuario(lblFotoPerfil, usuario);
 		
 		addManejadorClickLike(lblLike);
 	}
 	
-	private void addManejadorClickUsuario(JLabel label, Usuario usuario) {
+	private void addManejadorClickUsuario(JLabel label, String usuario) {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -225,7 +217,7 @@ public class PanelPublicacion extends JPanel {
 				}
 				Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 				label.setIcon(icono);
-				lblNumLikes.setText(String.valueOf(publicacion.getMegusta()));
+				lblNumLikes.setText(Controlador.getInstancia().obtenerMeGusta(publicacion));
 			}
 		});
 	}

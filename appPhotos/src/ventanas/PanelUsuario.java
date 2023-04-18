@@ -17,20 +17,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
-import modelo.Usuario;
 
 import javax.swing.JButton;
 
 public class PanelUsuario extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton btnSeguir;
-	private Usuario usuario;
 	private JLabel lblSeguido;
 	
+	private String usuario;
 	/**
 	 * Create the panel.
 	 */
-	public PanelUsuario(Usuario usuario) {
+	public PanelUsuario(String usuario) {
 		this.usuario = usuario;
 		crearPanel();
 	}
@@ -55,12 +54,12 @@ public class PanelUsuario extends JPanel {
 		gbc_lblFoto.gridy = 0;
 		add(lblFoto, gbc_lblFoto);
 		
-		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(usuario.getPerfil()));
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(Controlador.getInstancia().obtenerPerfil(usuario)));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
 		
 		lblFoto.setIcon(icono);
 		
-		JLabel lblNombreUsuario = new JLabel(usuario.getUsuario());
+		JLabel lblNombreUsuario = new JLabel(usuario);
 		lblNombreUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblNombreUsuario.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
@@ -87,7 +86,7 @@ public class PanelUsuario extends JPanel {
 		addManejadorDejarDeSeguir(lblSeguido);
 	}
 	
-	public Usuario getUsuario() {
+	public String getUsuario() {
 		return usuario;
 	}
 	

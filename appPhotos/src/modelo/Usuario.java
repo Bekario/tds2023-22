@@ -210,6 +210,9 @@ public class Usuario {
 		return usuariosSeguidos;
 	}
 	
+	/*
+	 * Obtiene los usuarios que este usuario sigue
+	 */
 	public List<String> getUsuariosSeguidosNombre() {
 		List<String> nombresUsuarios = new ArrayList<String>();
 		//MALENIA STREAM

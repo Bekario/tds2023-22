@@ -40,17 +40,13 @@ public class PanelCabeceraPerfil extends JPanel {
 	private JLabel lblSeguido;
 	
 	private String usuario;
-	private String descripcion;
-	private String perfil;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelCabeceraPerfil(Home home, String usuario, String descripcion, String perfil) {
+	public PanelCabeceraPerfil(Home home, String usuario) {
 		this.home = home;
 		this.usuario = usuario;
-		this.perfil = perfil;
-		this.descripcion = descripcion;
 		crearPanel();
 		
 	}
@@ -77,7 +73,7 @@ public class PanelCabeceraPerfil extends JPanel {
 		gbc_lblFotoPerfil.gridx = 0;
 		gbc_lblFotoPerfil.gridy = 1;
 		add(lblFotoPerfil, gbc_lblFotoPerfil);
-		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(perfil));
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(Controlador.getInstancia().obtenerPerfil(usuario)));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
 		lblFotoPerfil.setIcon(icono);
 		
@@ -168,7 +164,7 @@ public class PanelCabeceraPerfil extends JPanel {
 		textAreaDescripcion.setWrapStyleWord(true);
 		textAreaDescripcion.setLineWrap(true);
 		textAreaDescripcion.setEditable(false);
-		textAreaDescripcion.setText(descripcion);
+		textAreaDescripcion.setText(Controlador.getInstancia().obtenerDescripcion(usuario));
 		textAreaDescripcion.setBackground(new Color(45, 42, 46));
 
 		JScrollPane scrollPane = new JScrollPane(textAreaDescripcion);
@@ -223,15 +219,15 @@ public class PanelCabeceraPerfil extends JPanel {
 		lblSeguido.setVisible(!visibilidad);
 	}
 	
-	public void actualizarCampos(String usuario, String descripcion, String perfil) {
-		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(perfil));
+	public void actualizarCampos(String usuario) {
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(Controlador.getInstancia().obtenerPerfil(usuario)));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
 		lblFotoPerfil.setIcon(icono);
 		lblUsuario.setText(usuario);
 		lblPublicaciones.setText(Controlador.getInstancia().obtenerNumeroPublicaciones(usuario));
 		lblSeguidores.setText(Controlador.getInstancia().obtenerNumeroSeguidores(usuario));
 		lblSeguidos.setText(Controlador.getInstancia().obtenerNumeroSeguidos(usuario));
-		textAreaDescripcion.setText(descripcion);
+		textAreaDescripcion.setText(Controlador.getInstancia().obtenerDescripcion(usuario));
 		
 		this.updateUI();
 	}

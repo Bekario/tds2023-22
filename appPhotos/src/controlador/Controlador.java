@@ -50,10 +50,6 @@ public class Controlador {
 		return unicaInstancia;
 	}
 	
-	public Usuario getUsuarioActual() {
-		return usuarioActual;
-	}
-	
 	public void cerrarSesion() {
 		usuarioActual = null;
 	}
@@ -176,14 +172,16 @@ public class Controlador {
 		return publi;	
 	}
 	
-	public Album añadirAlbum(String titulo, String descripcion, List<Publicacion> fotos, Foto portada) {
+	public Album añadirAlbum(String titulo, String descripcion, List<Integer> fotos, int portada) {
 		List<String> hashtags = procesarHashtags(descripcion);
 		
+		
 		//Creamos el album
-		Album publi = new Album(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, portada);
+		Album publi = new Album(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, (Foto) RepoPublicaciones.getUnicaInstancia().getPublicacion(portada));
 		
 		//Introducimos las fotos en el album
 		fotos.stream()
+			 .map(f -> RepoPublicaciones.getUnicaInstancia().getPublicacion(f))
 			 .forEachOrdered(f -> publi.addFoto((Foto) f));
 		
 		//Almacenamos el nuevo album en el DAO
@@ -378,7 +376,7 @@ public class Controlador {
 		}
 	}
 	
-	public List<Usuario> obtenerUsuariosBuscados(String nombre){
+	public List<String> obtenerUsuariosBuscados(String nombre){
 		//Lo convertimos a minuscula para no distinguir
 		nombre = nombre.toLowerCase();
 		HashSet<Usuario> listaBuscada =  new HashSet<Usuario>();
@@ -397,15 +395,18 @@ public class Controlador {
 			}
 		}
 		List<Usuario> list= new ArrayList<Usuario>(listaBuscada);
-		return list;
+		
+		return list.stream()
+				.map(u -> u.getUsuario())
+				.collect(Collectors.toList());
 	}
 	
-	public void darMeGusta(Publicacion publicacion) {
-		publicacion.darMeGusta();
+	public void darMeGusta(int publicacion) {
+		RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).darMeGusta();
 	}	
 	
-	public void quitarMeGusta(Publicacion publicacion) {
-		publicacion.quitarMeGusta();
+	public void quitarMeGusta(int publicacion) {
+		RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).quitarMeGusta();
 	}
 	
 	public boolean esUsuarioRegistrado(String usuario) {
@@ -416,7 +417,7 @@ public class Controlador {
 		return RepoPublicaciones.getUnicaInstancia().getPublicaciones();
 	}
 	
-	public List<Publicacion> getPublicacionesSubidasSeguidores(){
+	public List<Integer> getPublicacionesSubidasSeguidores(){
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
 		
 		//MALENIA STREAM
@@ -424,7 +425,9 @@ public class Controlador {
 			pub.addAll(u.getFotos());
 		}
 		 Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
-		 return pub;
+		 return pub.stream()
+				 	.map(p -> p.getCodigo())
+				 	.collect(Collectors.toList());
 	}
 	
 	public void convertirUsuarioPremium() {
@@ -484,8 +487,6 @@ public class Controlador {
 
 	}
 
-	
-
 	public void addComentario(Publicacion publicacion, String text) {
 		//Creamos un objeto comentario
 		Comentario c= new Comentario(usuarioActual.getUsuario()+": "+text);
@@ -520,6 +521,10 @@ public class Controlador {
 		}
 	}
 	
+	public String obtenerUsuarioActual() {
+		return usuarioActual.getUsuario();
+	}
+	
 	public List<Integer> obtenerAlbums(String usuario) {
 		//Devolvemos la lista de albumes con sus codigos
 		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getAlbums().stream()
@@ -533,6 +538,29 @@ public class Controlador {
 															.map(f -> f.getCodigo())
 															.collect(Collectors.toList());
 	}
-
+	
+	public String obtenerPerfil(String usuario) {
+		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getPerfil();
+	}
+	
+	public String obtenerDescripcion(String usuario) {
+		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getDescripcion();
+	}
+	
+	public List<String> obtenerUsuariosSeguidos(String usuario) {
+		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getUsuariosSeguidosNombre();
+	}
+	
+	public boolean comprobarPremium() {
+		return usuarioActual.getIsPremium();
+	}
+	
+	public String obtenerUsuario(int publicacion) {
+		return RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).getUsuario().getUsuario();
+	}
+	
+	public String obtenerMeGusta(int publicacion) {
+		return String.valueOf(RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).getMegusta());
+	}
 		
 }

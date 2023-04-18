@@ -102,7 +102,7 @@ public class PanelPremium extends JPanel {
 		
 		Manejadores.addManejadorBotonColor(btnPagar);
 		
-		if(!Controlador.getInstancia().getUsuarioActual().getIsPremium()) {
+		if(!Controlador.getInstancia().comprobarPremium()) {
 			addManejadorBotonPagar(btnPagar);
 			
 		}else btnPagar.setText("PAGADO");

@@ -27,9 +27,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
 
 public class PanelCrearAlbum extends JPanel {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JButton btnContinuar_1;
 	private Home padre;
@@ -179,7 +177,7 @@ public class PanelCrearAlbum extends JPanel {
 			info = "¡Debes introducir un título al álbum!";
 		}
 		
-		if (panelSeleccionarFotos.getPortada() == null) {
+		if (panelSeleccionarFotos.getPortada() == -1) {
 			info = "¡Debes seleccionar como minimo una portada (resaltada en rojo)!";
 			estado = false;
 		}

@@ -10,8 +10,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import modelo.Usuario;
-
 public class PanelListaUsuarios extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -40,7 +38,7 @@ public class PanelListaUsuarios extends JPanel {
 		setLayout(gridBagLayout);
 	}
 	
-	public void addUsuario(Usuario usuario) {
+	public void addUsuario(String usuario) {
 		PanelUsuario panelUsuario = new PanelUsuario(usuario);
 		GridBagConstraints gbc_panelUsuario = new GridBagConstraints();
 		gbc_panelUsuario.insets = new Insets(0, 0, 5, 0);
@@ -54,8 +52,8 @@ public class PanelListaUsuarios extends JPanel {
 		addManejadorClickUsuario(panelUsuario, usuario);
 	}
 	
-	public void addListaUsuario(List<Usuario> usuarios) {
-		for (Usuario usuario : usuarios) {
+	public void addListaUsuario(List<String> usuarios) {
+		for (String usuario : usuarios) {
 			addUsuario(usuario);
 		}
 	}
@@ -65,7 +63,7 @@ public class PanelListaUsuarios extends JPanel {
 		y=0;
 	}
 	
-	private void addManejadorClickUsuario(PanelUsuario u, Usuario usuario) {
+	private void addManejadorClickUsuario(PanelUsuario u, String usuario) {
 		u.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -86,7 +84,7 @@ public class PanelListaUsuarios extends JPanel {
 		//MALENIA STREAM
 		for (PanelUsuario p : paneles) {
 			for (String u : seguidos) {
-				if(p.getUsuario().getUsuario().equals(u)) {
+				if(p.getUsuario().equals(u)) {
 					p.setVisibilidadBotonSeguir(false);
 				}
 			}

@@ -10,23 +10,20 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
-import modelo.Foto;
-import modelo.Publicacion;
-
 public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 
 	private static final long serialVersionUID = 1L;
-	private HashMap<Publicacion, JLabel> seleccionados;
-	private Publicacion portada;
+	private HashMap<Integer, JLabel> seleccionados;
+	private int portada;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelSeleccionarFotos(List<Foto> fotos) {
+	public PanelSeleccionarFotos(List<Integer> fotos) {
 		super();
 		addFotos(fotos);
-		seleccionados = new HashMap<Publicacion, JLabel>();
-		portada = null;
+		seleccionados = new HashMap<Integer, JLabel>();
+		portada = -1;
 		cargarManejadores();
 	}
 	
@@ -36,7 +33,7 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 
 	}
 	
-	private void addManejadorSeleccionar(JLabel foto, Publicacion publicacion) {
+	private void addManejadorSeleccionar(JLabel foto, int publicacion) {
 		foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));
 		foto.addMouseListener(new MouseAdapter() {
 			@Override
@@ -45,13 +42,13 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 					// Si la publicación esta contenida en seleccionados la quitamos
 					seleccionados.remove(publicacion);				
 					foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));		
-				} else if (publicacion.equals(portada)) {
+				} else if (publicacion == portada) {
 					// Si la publicación es la portada la quitamos
-					portada = null;
+					portada = -1;
 					foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));	
 				} else {
 					// Si no ha sido escogida
-					if(portada == null) {
+					if(portada == -1) {
 						// Si la portada esta libre, la imagen es la portada
 						portada = publicacion;		
 						foto.setBorder(new LineBorder(new Color(249, 100, 100), 2, true));
@@ -74,16 +71,16 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 
 	}
 	
-	public HashMap<Publicacion, JLabel> getSeleccionados() {
+	public HashMap<Integer, JLabel> getSeleccionados() {
 		return seleccionados;
 	}
 	
-	public List<Publicacion> getListaSeleccionados() {
-		return new ArrayList<Publicacion>(seleccionados.keySet());
+	public List<Integer> getListaSeleccionados() {
+		return new ArrayList<Integer>(seleccionados.keySet());
 	}
 	
-	public Foto getPortada() {
-		return (Foto) portada;
+	public int getPortada() {
+		return portada;
 	}
 
 }

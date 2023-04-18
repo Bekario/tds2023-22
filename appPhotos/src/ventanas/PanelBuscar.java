@@ -8,7 +8,6 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 import controlador.Controlador;
-import modelo.Usuario;
 
 import java.awt.Insets;
 import javax.swing.ImageIcon;
@@ -66,9 +65,11 @@ public class PanelBuscar extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode()==KeyEvent.VK_ENTER){
 					panelListaUsuarios.quitarUsuarios();
-					List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
+					List<String> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
 					panelListaUsuarios.addListaUsuario(lista);
-					panelListaUsuarios.comprobarSeguidos(Controlador.getInstancia().getUsuarioActual().getUsuario(), Controlador.getInstancia().getUsuarioActual().getUsuariosSeguidosNombre());
+					
+					String usuario = Controlador.getInstancia().obtenerUsuarioActual(); 
+					panelListaUsuarios.comprobarSeguidos(usuario, Controlador.getInstancia().obtenerUsuariosSeguidos(usuario));
 					panelListaUsuarios.updateUI();
 				}
 			}
@@ -123,9 +124,10 @@ public class PanelBuscar extends JPanel {
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelListaUsuarios.quitarUsuarios();
-				List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
+				List<String> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
 				panelListaUsuarios.addListaUsuario(lista);
-				panelListaUsuarios.comprobarSeguidos(Controlador.getInstancia().getUsuarioActual().getUsuario(), Controlador.getInstancia().getUsuarioActual().getUsuariosSeguidosNombre());
+				String usuario = Controlador.getInstancia().obtenerUsuarioActual(); 
+				panelListaUsuarios.comprobarSeguidos(usuario, Controlador.getInstancia().obtenerUsuariosSeguidos(usuario));
 				panelListaUsuarios.updateUI();
 			}
 		});

@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
-import modelo.Publicacion;
 
 import javax.swing.JLabel;
 import javax.swing.Icon;
@@ -44,7 +43,7 @@ public class PanelInicio extends JPanel {
 	 * @param home
 	 * @param fotos
 	 */
-	public PanelInicio(Home home, List<Publicacion> fotos) {
+	public PanelInicio(Home home, List<Integer> fotos) {
 		this.padre = home;
 		this.setSize(450, 490);
 		estado = NO_PUBLI;
@@ -80,16 +79,14 @@ public class PanelInicio extends JPanel {
 	 */
 	private void cargarFotos() {
 		Controlador.getInstancia().getPublicacionesSubidasSeguidores().stream()
-															.map(p -> (Publicacion) p)
 															.forEachOrdered(p -> addPublicacion(p));
 	}
-	private void cargarFotos(List<Publicacion> fotos) {
+	private void cargarFotos(List<Integer> fotos) {
 		fotos.stream()
-					.map(p -> (Publicacion) p)
 					.forEachOrdered(p -> addPublicacion(p));
 	}
 	
-	public void addPublicacion(Publicacion publicacion) {
+	public void addPublicacion(int publicacion) {
 		if(estado == NO_PUBLI) {
 			estado = SI_PUBLI;
 			remove(lblNoPublis);

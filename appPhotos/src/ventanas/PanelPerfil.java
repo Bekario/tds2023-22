@@ -1,14 +1,12 @@
 package ventanas;
 
 import javax.swing.JPanel;
+
+import controlador.Controlador;
+
 import java.awt.GridBagLayout;
 
 import java.awt.GridBagConstraints;
-
-import modelo.Album;
-import modelo.Foto;
-import modelo.Publicacion;
-import modelo.Usuario;
 
 import java.awt.Insets;
 
@@ -21,17 +19,13 @@ public class PanelPerfil extends JPanel {
 	private PanelFotoAlbum panelFotoAlbum;
 	
 	private String usuario;
-	private String descripcion;
-	private String perfil;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelPerfil(Home home, String email, String nombreCompleto, String usuario, String descripcion, String contraseña, String perfil,  String numSeguidores, String numSeguidos, String numPublicaciones) {
+	public PanelPerfil(Home home, String usuario) {
 		this.home = home;
 		this.usuario = usuario;
-		this.perfil = perfil;
-		this.descripcion = descripcion;
 		crearPanel();
 		generarCabecera();
 		
@@ -53,7 +47,7 @@ public class PanelPerfil extends JPanel {
 	}
 	
 	private void generarCabecera() {
-		panelCabeceraPerfil = new PanelCabeceraPerfil(home, usuario, descripcion, perfil);
+		panelCabeceraPerfil = new PanelCabeceraPerfil(home, usuario);
 		GridBagConstraints gbc_panelCabeceraPerfil = new GridBagConstraints();
 		gbc_panelCabeceraPerfil.insets = new Insets(0, 0, 5, 5);
 		gbc_panelCabeceraPerfil.fill = GridBagConstraints.BOTH;
@@ -74,7 +68,7 @@ public class PanelPerfil extends JPanel {
 	 * Añade una unica publicacion, si es album se añade al PanelCuadriculaAlbum, en caso contrario se añade al PanelCuadriculaFotos
 	 * @param publicacion
 	 */
-	protected void addPublicacion(Publicacion publicacion) {
+	protected void addPublicacion(int publicacion) {
 		//Si es una foto, añadimos una foto
 		if (publicacion.getClass().getName() == "modelo.Foto") {
 			panelFotoAlbum.addFoto((Foto) publicacion);
@@ -85,15 +79,14 @@ public class PanelPerfil extends JPanel {
 	
 	/**
 	 * Actualiza la cabecera y el panel de fotos y albumes
-	 * @param usuario
 	 */
-	public void actualizarCompleto(Usuario usuario) {
+	public void actualizarCompleto() {
 		actualizarCabecera();
 		actualizarFotoAlbum();
 	}
 	
 	public void actualizarCabecera() {
-		panelCabeceraPerfil.actualizarCampos(usuario, descripcion, perfil);
+		panelCabeceraPerfil.actualizarCampos(usuario);
 		this.updateUI();
 	}
 	
