@@ -1,14 +1,13 @@
 package ventanas;
 
 import javax.swing.JPanel;
+
+import controlador.Controlador;
+
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
-
-import modelo.Album;
-import modelo.Foto;
-import modelo.Usuario;
 
 import java.awt.Insets;
 import javax.swing.JButton;
@@ -28,8 +27,6 @@ public class PanelFotoAlbum extends JPanel {
 	private static final String FOTO = "foto";
 	private static final String ALBUM = "album";
 	
-	private Usuario usuario;
-	
 	private PanelCuadriculaFotos panelFotos;
 	private PanelCuadriculaAlbums panelAlbum;
 	private String estadoPanel;
@@ -40,15 +37,15 @@ public class PanelFotoAlbum extends JPanel {
 	private JPanel panel_2;
 	
 	private Home padre;
-
+	private String usuario;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelFotoAlbum(Home home, Usuario usuario) {
+	public PanelFotoAlbum(Home home, String usuario) {
 		padre = home;
-		this.setSize(450, 600);
 		this.usuario = usuario;
+		this.setSize(450, 600);
 		crearPanel();
 		cargarPublicaciones();
 	}
@@ -179,16 +176,16 @@ public class PanelFotoAlbum extends JPanel {
 	}
 	
 	private void cargarPublicaciones() {
-		panelAlbum.addAlbums(usuario.getAlbums());
-		panelFotos.addFotos(usuario.getFotos());
+		panelAlbum.addAlbums(Controlador.getInstancia().obtenerAlbums(usuario));
+		panelFotos.addFotos(Controlador.getInstancia().obtenerFotos(usuario));
 	}
 	
-	public void addAlbum(Album album) {
-		panelAlbum.addPublicacion(album);
+	public void addAlbum(int codigo) {
+		panelAlbum.addPublicacion(codigo);
 	}
 	
-	public void addFoto(Foto foto) {
-		panelFotos.addPublicacion(foto);
+	public void addFoto(int codigo) {
+		panelFotos.addPublicacion(codigo);
 	}
 	
 	private void limpiarPanelesPublicaciones() {

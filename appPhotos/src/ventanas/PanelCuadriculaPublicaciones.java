@@ -1,15 +1,14 @@
 package ventanas;
 
 import javax.swing.JPanel;
+
+import controlador.Controlador;
+
 import java.awt.GridBagLayout;
 import java.awt.Image;
 
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
-
-import modelo.Album;
-import modelo.Foto;
-import modelo.Publicacion;
 
 import java.awt.Insets;
 import java.util.HashMap;
@@ -23,13 +22,13 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	private static final int RESOLUCION_PUBLICACION = 125;
 	private int x;
 	private int y;
-	private HashMap<Publicacion, JLabel> lista;
+	private HashMap<Integer, JLabel> lista;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelCuadriculaPublicaciones() {
-		lista = new HashMap<Publicacion, JLabel>();
+		lista = new HashMap<Integer, JLabel>();
 		y = 0;
 		x = 0;
 		crearPanel();
@@ -52,15 +51,8 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	 * Añade una unica publicacion al panel
 	 * @param publicacion
 	 */
-	protected void addPublicacion(Publicacion publicacion) {
-		ImageIcon imagen;
-		//Si es una foto, mostramos el path
-		if (publicacion.getClass().getName() == "modelo.Foto") {
-			imagen = new ImageIcon(((Foto) publicacion).getPath());			
-		} else { //Si es un album, mostramos el path de la primera foto
-			imagen = new ImageIcon(((Album) publicacion).getPortada().getPath());	
-		}
-		
+	protected void addPublicacion(int codigo) {
+		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(codigo));			
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(RESOLUCION_PUBLICACION, RESOLUCION_PUBLICACION, Image.SCALE_SMOOTH));
 		
 		JLabel lblPublicacion = new JLabel("");
@@ -71,7 +63,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		gbc_lblNewLabel.gridy = y;
 		add(lblPublicacion, gbc_lblNewLabel);
 		
-		lista.put(publicacion, lblPublicacion);
+		lista.put(codigo, lblPublicacion);
 		
 		x++;
 		
@@ -81,7 +73,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		}
 	}
 	
-	public HashMap<Publicacion, JLabel> getLista() {
+	public HashMap<Integer, JLabel> getLista() {
 		return lista;
 	}
 	
@@ -94,7 +86,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		y = 0;
 		
 		//Lista vacia
-		lista = new HashMap<Publicacion, JLabel>();
+		lista = new HashMap<Integer, JLabel>();
 	}
 	
 	

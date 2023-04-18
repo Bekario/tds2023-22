@@ -1,7 +1,5 @@
 package ventanas;
 
-import modelo.Album;
-import modelo.Publicacion;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -45,26 +43,26 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 	 * Añade una lista de publicaciones al panel
 	 * @param publicaciones publicaciones que se van a añadir
 	 */
-	public void addAlbums(List<Album> albums) {
+	public void addAlbums(List<Integer> albums) {
 		//Comprobamos si ha que quitar la imagen por defecto
 		if (estado == NO_ALBUM && albums.size() > 0) {
 			estado = SI_ALBUM;
 			remove(lblImagen);
 		}
 		
-		for (Publicacion p: albums) {
-			addPublicacion(p);
+		for (int a: albums) {
+			addPublicacion(a);
 		}
 	}
 	
 	@Override
-	protected void addPublicacion(Publicacion publicacion) {
+	protected void addPublicacion(int codigo) {
 		//Comprobamos si ha que quitar la imagen por defecto
 		if (estado == NO_ALBUM) {
 			estado = SI_ALBUM;
 			remove(lblImagen);
 		}
-		super.addPublicacion(publicacion);
+		super.addPublicacion(codigo);
 	}
 	
 	public void limpiar() {

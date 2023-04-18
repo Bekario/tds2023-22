@@ -12,6 +12,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import javax.swing.ImageIcon;
 
 import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
@@ -242,14 +245,16 @@ public class Controlador {
 	 * @param usuario al que se va a seguir
 	 * @return
 	 */
-	public boolean seguirUsuario(Usuario usuario) {
+	public boolean seguirUsuario(String usuario) {
+		//Obtenemos el usuario a partir de su nombre de usuario
+		Usuario u = RepoUsuarios.getUnicaInstancia().getUsuario(usuario);
 		// Comprobamos que el usuario no sea seguido ya
-		if(!usuarioActual.comprobarSeguido(usuario)) {
-			usuarioActual.seguirA(usuario);
+		if(!usuarioActual.comprobarSeguido(u)) {
+			usuarioActual.seguirA(u);
 			
 			// A continuacion, guardamos los cambios 
 			actualizarUsuario(usuarioActual);
-			actualizarUsuario(usuario);
+			actualizarUsuario(u);
 			
 			return true;
 		}
@@ -261,18 +266,40 @@ public class Controlador {
 	 * @param usuario al que se va a dejar de seguir
 	 * @return
 	 */
-	public boolean dejarDeSeguirUsuario(Usuario usuario) {
+	public boolean dejarDeSeguirUsuario(String usuario) {
+		//Obtenemos el usuario a partir de su nombre de usuario
+		Usuario u = RepoUsuarios.getUnicaInstancia().getUsuario(usuario);
 		// Comprobamos que el usuario este siendo seguido
-		if(usuarioActual.comprobarSeguido(usuario)) {
-			usuarioActual.dejarDeSeguirA(usuario);
+		if(usuarioActual.comprobarSeguido(u)) {
+			usuarioActual.dejarDeSeguirA(u);
 			
 			// A continuacion, guardamos los cambios
 			actualizarUsuario(usuarioActual);
-			actualizarUsuario(usuario);
+			actualizarUsuario(u);
 			
 			return true;
 		}
 		return false;
+	}
+	
+	public String obtenerNumeroSeguidores(String usuario) {
+		return String.valueOf(RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getNumeroSeguidores());
+	}
+	
+	public String obtenerNumeroSeguidos(String usuario) {
+		return String.valueOf(RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getNumeroSeguidos());
+	}
+	
+	public String obtenerNumeroPublicaciones(String usuario) {
+		return String.valueOf(RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getNumeroPublicaciones());
+	}
+	
+	/**
+	 * Compruba si el usuarioActual sigue al usuario
+	 * @param usuario que se va a comprobar
+	 */
+	public boolean comprobarSeguido(String usuario) {
+		return usuarioActual.comprobarSeguido(RepoUsuarios.getUnicaInstancia().getUsuario(usuario));
 	}
 	
 	/**
@@ -475,6 +502,36 @@ public class Controlador {
 		//Añadimos a la publicacion el comentario
 		publicacion.addComentario(c);
 		actualizarPublicacion(publicacion);
+	}
+	
+	/**
+	 * Obtiene la portada de una publicacion sin importar si es un album o foto
+	 * @param codigo de la publicacion
+	 * @return
+	 */
+	public String obtenerPortadaPublicacion(int codigo) {
+		Publicacion publicacion = RepoPublicaciones.getUnicaInstancia().getPublicacion(codigo);
+		
+		//Si es una foto, devolvemos el path
+		if (publicacion.getClass().getName() == "modelo.Foto") {
+			return ((Foto) publicacion).getPath();			
+		} else { //Si es un album, devolvemos el path de la portada
+			return ((Album) publicacion).getPortada().getPath();	
+		}
+	}
+	
+	public List<Integer> obtenerAlbums(String usuario) {
+		//Devolvemos la lista de albumes con sus codigos
+		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getAlbums().stream()
+															.map(f -> f.getCodigo())
+															.collect(Collectors.toList());
+	}
+	
+	public List<Integer> obtenerFotos(String usuario) {
+		//Devolvemos la lista de fotos con sus codigos
+		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getFotos().stream()
+															.map(f -> f.getCodigo())
+															.collect(Collectors.toList());
 	}
 
 		

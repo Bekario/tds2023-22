@@ -16,18 +16,22 @@ import java.awt.Insets;
 public class PanelPerfil extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Usuario usuario;
 	private Home home;
 	private PanelCabeceraPerfil panelCabeceraPerfil;
 	private PanelFotoAlbum panelFotoAlbum;
 	
+	private String usuario;
+	private String descripcion;
+	private String perfil;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelPerfil(Home home, Usuario usuario) {
-		this.usuario=usuario;
+	public PanelPerfil(Home home, String email, String nombreCompleto, String usuario, String descripcion, String contraseña, String perfil,  String numSeguidores, String numSeguidos, String numPublicaciones) {
 		this.home = home;
+		this.usuario = usuario;
+		this.perfil = perfil;
+		this.descripcion = descripcion;
 		crearPanel();
 		generarCabecera();
 		
@@ -49,7 +53,7 @@ public class PanelPerfil extends JPanel {
 	}
 	
 	private void generarCabecera() {
-		panelCabeceraPerfil = new PanelCabeceraPerfil(home, usuario);
+		panelCabeceraPerfil = new PanelCabeceraPerfil(home, usuario, descripcion, perfil);
 		GridBagConstraints gbc_panelCabeceraPerfil = new GridBagConstraints();
 		gbc_panelCabeceraPerfil.insets = new Insets(0, 0, 5, 5);
 		gbc_panelCabeceraPerfil.fill = GridBagConstraints.BOTH;
@@ -89,7 +93,7 @@ public class PanelPerfil extends JPanel {
 	}
 	
 	public void actualizarCabecera() {
-		panelCabeceraPerfil.actualizarCampos(usuario);
+		panelCabeceraPerfil.actualizarCampos(usuario, descripcion, perfil);
 		this.updateUI();
 	}
 	
