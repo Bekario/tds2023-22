@@ -20,9 +20,7 @@ import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
 
 public class PanelFotoAlbum extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private static final String FOTO = "foto";
 	private static final String ALBUM = "album";
@@ -33,7 +31,7 @@ public class PanelFotoAlbum extends JPanel {
 	private GridBagConstraints gbc_panelFotos;
 	private JButton btnAlbum;
 	private JButton btnFotos;
-	private JButton btnAlbum_1;
+	private JButton btnAlbum_add;
 	private JPanel panel_2;
 	
 	private Home padre;
@@ -96,17 +94,20 @@ public class PanelFotoAlbum extends JPanel {
 		btnAlbum.setBorder(null);
 		addManejadorBotonPaneles(btnAlbum, panelAlbum, ALBUM);
 		
-		btnAlbum_1 = new JButton("");
-		
-		panel_2.add(btnAlbum_1);
-		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/add.png"));
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-		btnAlbum_1.setIcon(icono);
-		btnAlbum_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAlbum_1.setBorder(null);
-		btnAlbum_1.setBackground(new Color(42, 45, 46));
-		
-		addManejadorBotonAñadirAlbum(btnAlbum_1);
+		//Comprobamos si es el perfil del usuarioActual para añadir el boton de añadir album
+		if (Controlador.getInstancia().obtenerUsuarioActual().equals(usuario)) {
+			btnAlbum_add = new JButton("");
+			
+			panel_2.add(btnAlbum_add);
+			ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/add.png"));
+			Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+			btnAlbum_add.setIcon(icono);
+			btnAlbum_add.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			btnAlbum_add.setBorder(null);
+			btnAlbum_add.setBackground(new Color(42, 45, 46));
+			
+			addManejadorBotonAñadirAlbum(btnAlbum_add);			
+		}
 	}
 	
 	private void addManejadorBotonAñadirAlbum(JButton boton) {

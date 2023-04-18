@@ -238,7 +238,5 @@ public class PanelPublicacion extends JPanel {
 		icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
 		
 		lblFoto.setIcon(icono);
-	
-		
 	}
 }
