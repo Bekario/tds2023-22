@@ -267,6 +267,7 @@ public class PanelComentario extends JPanel {
 		gbc_lblNewLabel.gridy = y++; 
 		panel.add(lblNewLabel, gbc_lblNewLabel);
 		System.out.println(y);
+		System.out.println(c.getTexto());
 	}
 	
 	private void addManejadorClickLike(JLabel label) {

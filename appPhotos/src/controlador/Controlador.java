@@ -19,12 +19,14 @@ import modelo.Album;
 import modelo.Comentario;
 import modelo.Foto;
 import modelo.Publicacion;
+import modelo.RepoComentarios;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
+import persistencia.IAdaptadorComentarioDAO;
 import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
 
@@ -442,13 +444,37 @@ public class Controlador {
 
 	}
 
+	private void actualizarPublicacion(Publicacion p) {
+		RepoPublicaciones.getUnicaInstancia().removePublicacion(p);
+		RepoPublicaciones.getUnicaInstancia().addPublicacion(p);
+		
+		// A continuacion, guardamos los cambios en el DAO
+		try {
+			FactoriaDAO.getInstancia().getPublicacionDAO().modificarPublicacion(p);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 
+	}
+
+	
 
 	public Comentario addComentario(Publicacion publicacion, String text) {
 		Comentario c= new Comentario(usuarioActual.getUsuario()+": "+text);
+		
+		IAdaptadorComentarioDAO comentarioDAO = null;
+		try {
+			comentarioDAO = FactoriaDAO.getInstancia().getComentarioDAO();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		comentarioDAO.registrarComentario(c);
+		RepoComentarios.getUnicaInstancia().addComentario(c);
 		publicacion.addComentario(c);
+//		actualizarPublicacion(publicacion);
 		
 		return c;
 	}
- 	
+
+		
 }
