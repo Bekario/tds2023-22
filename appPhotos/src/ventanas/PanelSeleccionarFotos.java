@@ -3,8 +3,6 @@ package ventanas;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -28,18 +26,20 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 	}
 	
 	@Override
-	public void addFotos(List<Foto> fotos) {
-		
-		super.addFotos(fotos);
+	public List<JLabel> addFotos(List<Foto> fotos) {
+		 List<JLabel> labels = super.addFotos(fotos);
+		 cargarManejadores(fotos, labels);
+		 return labels;
 	}
 	
-	private void cargarManejadores(List<Foto> fotos) {
-		fotos.stream()
-			 .forEach(p -> addManejadorSeleccionar(getLista().get(p), p));
+	private void cargarManejadores(List<Foto> fotos, List<JLabel> labels) {
+		for(int i=0; i < fotos.size(); i++) {
+			addManejadorSeleccionar(fotos.get(i), labels.get(i));
+		}
 
 	}
 	
-	private void addManejadorSeleccionar(JLabel foto, Publicacion publicacion) {
+	private void addManejadorSeleccionar(Publicacion publicacion, JLabel foto) {
 		foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));
 		foto.addMouseListener(new MouseAdapter() {
 			@Override

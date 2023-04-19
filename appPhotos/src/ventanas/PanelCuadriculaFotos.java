@@ -2,6 +2,7 @@ package ventanas;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -44,7 +45,8 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 	 * Añade una lista de publicaciones al panel
 	 * @param publicaciones publicaciones que se van a añadir
 	 */
-	public void addFotos(List<Foto> fotos) {
+	public List<JLabel> addFotos(List<Foto> fotos) {
+		List<JLabel> labels = new ArrayList<JLabel>();
 		//Comprobamos si ha de quitar la imagen por defecto
 		if (estado == NO_FOTOS && fotos.size() > 0) {
 			estado = SI_FOTOS;
@@ -53,8 +55,9 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 		}
 		
 		for (Foto f: fotos) {
-			addPublicacion(f);
+			labels.add(addPublicacion(f));
 		}
+		return labels;
 	}
 
 	public void limpiar() {
