@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -60,7 +62,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		gbc_lblNewLabel.gridx = x;
 		gbc_lblNewLabel.gridy = y;
 		add(lblPublicacion, gbc_lblNewLabel);
-		
+		addManejadorClickUsuario(lblPublicacion, publi);
 		x++;
 		
 		if(x > 2) {
@@ -68,6 +70,16 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 			y++;
 		}
 		return lblPublicacion;
+	}
+	
+	private void addManejadorClickUsuario(JLabel label, Publicacion p) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaPublicacion v = new VentanaPublicacion(p);
+				v.mostrarVentana();
+			}
+		});
 	}
 	
 	protected void borrarTodasPublicaciones() {	
