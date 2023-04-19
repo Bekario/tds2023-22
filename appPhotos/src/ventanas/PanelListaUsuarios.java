@@ -17,7 +17,7 @@ public class PanelListaUsuarios extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int y;
 	
-	private ArrayList<PanelUsuario> paneles;
+	private List<PanelUsuario> paneles;
 	private Home home;
 	
 	/**

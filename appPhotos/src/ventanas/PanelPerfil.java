@@ -2,6 +2,7 @@ package ventanas;
 
 import javax.swing.JPanel;
 
+import modelo.Publicacion;
 import modelo.Usuario;
 
 import java.awt.GridBagLayout;
@@ -63,7 +64,7 @@ public class PanelPerfil extends JPanel {
 	 * Añade una unica foto
 	 * @param publicacion
 	 */
-	protected void addFoto(int publicacion) {
+	protected void addFoto(Publicacion publicacion) {
 		panelFotoAlbum.addFoto(publicacion);
 	}
 	
@@ -71,27 +72,19 @@ public class PanelPerfil extends JPanel {
 	 * Añade un unico album
 	 * @param publicacion
 	 */
-	protected void addAlbum(int publicacion) {
+	protected void addAlbum(Publicacion publicacion) {
 		panelFotoAlbum.addAlbum(publicacion);
 	}
 	
 	/**
 	 * Actualiza la cabecera y el panel de fotos y albumes
 	 */
-	public void actualizarCompleto(Usuario usuario) {
-		actualizarCabecera(usuario);
-		actualizarFotoAlbum();
-	}
 	
 	public void actualizarCabecera(Usuario usuario) {
 		panelCabeceraPerfil.actualizarCampos(usuario);
 		this.updateUI();
 	}
 	
-	public void actualizarFotoAlbum() {
-		panelFotoAlbum.actualizarPanel();
-		this.updateUI();
-	}
 		
 
 }
