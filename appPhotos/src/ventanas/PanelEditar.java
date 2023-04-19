@@ -77,7 +77,7 @@ public class PanelEditar extends JPanel {
 		Usuario usuario = Controlador.getInstancia().obtenerUsuarioActual();
 		perfil = usuario.getPerfil();
 		
-		establecerTitulo(usuario);
+		establecerTitulo();
 		establecerEmail(usuario);
 		establecerNombre(usuario);
 		establecerUsuario(usuario);
@@ -91,7 +91,7 @@ public class PanelEditar extends JPanel {
 	/**
 	 * Crea el titulo
 	 */
-	private void establecerTitulo(Usuario usuario) {
+	private void establecerTitulo() {
 		lblCabecera = new JLabel("Editar perfil");
 		GridBagConstraints gbc_lblCabecera = new GridBagConstraints();
 		gbc_lblCabecera.insets = new Insets(0, 0, 5, 5);

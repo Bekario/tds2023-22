@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 
 import java.awt.Insets;
-import java.util.HashMap;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -23,13 +22,11 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	private static final int RESOLUCION_PUBLICACION = 125;
 	private int x;
 	private int y;
-	private HashMap<Integer, JLabel> lista;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelCuadriculaPublicaciones() {
-		lista = new HashMap<Integer, JLabel>();
 		y = 0;
 		x = 0;
 		crearPanel();
@@ -53,7 +50,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	 * @param publicacion
 	 */
 	protected void addPublicacion(Publicacion publi) {
-		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(codigo));			
+		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(publi));			
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(RESOLUCION_PUBLICACION, RESOLUCION_PUBLICACION, Image.SCALE_SMOOTH));
 		
 		JLabel lblPublicacion = new JLabel("");
@@ -64,8 +61,6 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		gbc_lblNewLabel.gridy = y;
 		add(lblPublicacion, gbc_lblNewLabel);
 		
-		lista.put(codigo, lblPublicacion);
-		
 		x++;
 		
 		if(x > 2) {
@@ -74,20 +69,10 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		}
 	}
 	
-	public HashMap<Integer, JLabel> getLista() {
-		return lista;
-	}
-	
-	protected void borrarTodasPublicaciones() {
-		//Quitamos todas las publicaciones
-		lista.clear();
-		
+	protected void borrarTodasPublicaciones() {	
 		//Reiniciamos las posiciones
 		x = 0;
 		y = 0;
-		
-		//Lista vacia
-		lista = new HashMap<Integer, JLabel>();
 	}
 	
 	

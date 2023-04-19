@@ -393,12 +393,12 @@ public class Controlador {
 		return list;
 	}
 	
-	public void darMeGusta(int publicacion) {
-		RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).darMeGusta();
+	public void darMeGusta(Publicacion publicacion) {
+		RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion.getCodigo()).darMeGusta();
 	}	
 	
-	public void quitarMeGusta(int publicacion) {
-		RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion).quitarMeGusta();
+	public void quitarMeGusta(Publicacion publicacion) {
+		RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion.getCodigo()).quitarMeGusta();
 	}
 	
 	public boolean esUsuarioRegistrado(String usuario) {
@@ -481,9 +481,7 @@ public class Controlador {
 
 	}
 
-	public void addComentario(int publicacion, String text) {
-		Publicacion p = RepoPublicaciones.getUnicaInstancia().getPublicacion(publicacion);
-		
+	public void addComentario(Publicacion publicacion, String text) {
 		//Creamos un objeto comentario
 		Comentario c= new Comentario(usuarioActual.getUsuario()+": "+text);
 		
@@ -497,8 +495,8 @@ public class Controlador {
 		comentarioDAO.registrarComentario(c);
 		
 		//Añadimos a la publicacion el comentario
-		p.addComentario(c);
-		actualizarPublicacion(p);
+		publicacion.addComentario(c);
+		actualizarPublicacion(publicacion);
 	}
 	
 	/**
@@ -506,9 +504,7 @@ public class Controlador {
 	 * @param codigo de la publicacion
 	 * @return
 	 */
-	public String obtenerPortadaPublicacion(int codigo) {
-		Publicacion publicacion = RepoPublicaciones.getUnicaInstancia().getPublicacion(codigo);
-		
+	public String obtenerPortadaPublicacion(Publicacion publicacion) {
 		//Si es una foto, devolvemos el path
 		if (publicacion.getClass().getName() == "modelo.Foto") {
 			return ((Foto) publicacion).getPath();			

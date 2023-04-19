@@ -3,6 +3,7 @@ package ventanas;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
+import modelo.Publicacion;
 import modelo.Usuario;
 
 import java.awt.GridBagLayout;
@@ -180,28 +181,11 @@ public class PanelFotoAlbum extends JPanel {
 		panelFotos.addFotos(usuario.getFotos());
 	}
 	
-	public void addAlbum(int codigo) {
-		panelAlbum.addPublicacion(codigo);
+	public void addAlbum(Publicacion publicacion) {
+		panelAlbum.addPublicacion(publicacion);
 	}
 	
-	public void addFoto(int codigo) {
-		panelFotos.addPublicacion(codigo);
+	public void addFoto(Publicacion publicacion) {
+		panelFotos.addPublicacion(publicacion);
 	}
-	
-	private void limpiarPanelesPublicaciones() {
-		panelAlbum.limpiar();
-		panelFotos.limpiar();
-	}
-	
-	/**
-	 * Actualiza el panel entero, todas las publicaciones se borran y se vuelven a poner
-	 */
-	public void actualizarPanel(){
-		limpiarPanelesPublicaciones();
-		cargarPublicaciones();
-	}
-	
-
-	
-
 }

@@ -10,6 +10,8 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
+import modelo.Foto;
+
 public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 
 	private static final long serialVersionUID = 1L;
@@ -19,7 +21,7 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 	/**
 	 * Create the panel.
 	 */
-	public PanelSeleccionarFotos(List<Integer> fotos) {
+	public PanelSeleccionarFotos(List<Foto> fotos) {
 		super();
 		addFotos(fotos);
 		seleccionados = new HashMap<Integer, JLabel>();

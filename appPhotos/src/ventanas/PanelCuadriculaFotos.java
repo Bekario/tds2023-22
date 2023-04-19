@@ -56,15 +56,6 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 			addPublicacion(f);
 		}
 	}
-	
-	@Override
-	protected void addPublicacion(int codigo) {
-		if (estado == NO_FOTOS) {
-			estado = SI_FOTOS;
-			remove(lblImagen);
-		}
-		super.addPublicacion(codigo);
-	}
 
 	public void limpiar() {
 		if(estado == SI_FOTOS) {
