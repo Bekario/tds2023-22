@@ -8,9 +8,12 @@ import modelo.Publicacion;
 
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Insets;
 import java.awt.Font;
@@ -19,12 +22,17 @@ import javax.swing.JPanel;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.regex.Pattern;
+
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
@@ -245,6 +253,8 @@ public class Home {
 		gbc_Titulo.gridx = 1;
 		gbc_Titulo.gridy = 0;
 		barraSuperior.add(Titulo, gbc_Titulo);
+		
+		addManejadorBotonXml(Titulo);
 	}
 	
 	private void establecerPanelMedio() {
@@ -393,5 +403,30 @@ public class Home {
 		panelPerfil.addAlbum(publicacion);
 	}
 	
+	private void addManejadorBotonXml(JLabel label) {
+		label.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				Pattern regexpXml = Pattern.compile(".+\\.xml", Pattern.CASE_INSENSITIVE);
+				
+				//Creamos el selector de archivos con su filtro
+				JFileChooser selector = new JFileChooser();
+				FileNameExtensionFilter filtro = new FileNameExtensionFilter("xml", "xml");
+				selector.setFileFilter(filtro);
+				selector.removeChoosableFileFilter(null);
+				
+				int resp = selector.showOpenDialog(selector);
+				File fichero = selector.getSelectedFile();
+				if (fichero != null) {
+					//Comprobamos que la extension sea correcta
+					if(!regexpXml.matcher(fichero.getName()).matches()) {
+						JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
+					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, ejecutamos cargarfotos
+						Controlador.getInstancia().cargarFotos(fichero.getAbsolutePath());
+						recargarPanelInicio();
+					}
+				}
+			}
+		});
+	}
 	
 }

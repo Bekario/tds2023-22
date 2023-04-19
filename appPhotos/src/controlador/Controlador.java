@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EventObject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -28,8 +29,12 @@ import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorComentarioDAO;
 import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
+import umu.tds.fotos.ComponenteCargadorFotos;
+import umu.tds.fotos.FotosEvent;
+import umu.tds.fotos.IFotosListener;
 
-public class Controlador {
+
+public class Controlador implements IFotosListener {
 	private static Controlador unicaInstancia = null;
 	private Usuario usuarioActual;
 	
@@ -40,10 +45,16 @@ public class Controlador {
 	//Ruta imagenes
 	private final String RUTA_IMAGENES = System.getProperty("user.dir")+"/fotosSubidas/";
 	
+	//Cargador de fotos
+	ComponenteCargadorFotos c;
+	
 	private Controlador() {
 		usuarioActual = null;
 		portadaSeleccionada = null;
 		seleccionados = new ArrayList<Publicacion>();
+		//Añadimos el controlador como listener
+		c = new ComponenteCargadorFotos();
+		c.addListener(this);
 	}
 	
 	public static Controlador getInstancia() {
@@ -51,6 +62,18 @@ public class Controlador {
 			unicaInstancia = new Controlador();
 		}
 		return unicaInstancia;
+	}
+	
+	@Override
+	public void notificaNuevasFotos(EventObject e) {
+		List<umu.tds.fotos.Foto> fotos = ((FotosEvent) e).getFotos().getFoto();
+		fotos.stream()
+			 .forEach(f -> añadirFoto(f.getTitulo(), f.getDescripcion(), f.getPath()));
+		
+	}
+	
+	public void cargarFotos(String rutaXml) {
+		c.setArchivoFotos(rutaXml);
 	}
 	
 	public void cerrarSesion() {
@@ -147,7 +170,10 @@ public class Controlador {
 	
 	public Foto añadirFoto(String titulo, String descripcion, String path) {
 		List<String> hashtags = procesarHashtags(descripcion);
-				
+		
+		//MALENIA
+		//QUITAR LOS HASH DE LA DESCRIPCION
+		
 		Foto publi = new Foto(titulo, descripcion, LocalDateTime.now(), hashtags, usuarioActual, path);
 		
 		
@@ -539,7 +565,5 @@ public class Controlador {
 	
 	public void setPortadaSeleccionada(Publicacion portadaSeleccionada) {
 		this.portadaSeleccionada = portadaSeleccionada;
-	}
-	
-		
+	}		
 }
