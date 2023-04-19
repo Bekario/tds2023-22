@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
+import modelo.Publicacion;
+import modelo.Usuario;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,28 +29,31 @@ public class PanelPublicacion extends JPanel {
 	private JLabel lblTitulo;
 	private JLabel lblNombreUsuario;
 	private JLabel lblNumComentarios;
+	private JLabel lblComentario;
 	private Home home;
-	private int publicacion;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelPublicacion(Home padre, int publicacion) {
+	public PanelPublicacion(Home padre, Publicacion publicacion) {
 		home = padre;
 		likePresionado = false;
-		this.publicacion = publicacion;
-		crearPanel();
-		establecerDatosPublicacion();
+		crearPanel(publicacion);
 	}
 	
-	private void crearPanel() {
+	private void crearPanel(Publicacion p) {
 		this.setSize(450, 490);
-		crearPanelEImagen();
-		crearBarraInferior();
-		crearBarraSuperior();
+		crearPanelEImagen(Controlador.getInstancia().obtenerPortadaPublicacion(p));
+		crearBarraInferior(p.getMegusta(), p.getNumComentarios(), p.getUsuario().getUsuario());
+		crearBarraSuperior(p.getTitulo());
+		addManejadorClickUsuario(lblNombreUsuario, p.getUsuario());
+		addManejadorClickUsuario(lblFotoPerfil, p.getUsuario());
+		addManejadorClickLike(lblLike, p);
+		addManejadorClickUsuario(lblComentario, p);
+
 	}
 	
-	private void crearPanelEImagen() {
+	private void crearPanelEImagen(String portada) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 45, 0};
@@ -64,7 +69,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_panelImagen.gridy = 1;
 		add(panelImagen, gbc_panelImagen);
 		
-		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
+		ImageIcon imagen = new ImageIcon(portada);
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
 		
 		lblFoto = new JLabel("");
@@ -77,7 +82,7 @@ public class PanelPublicacion extends JPanel {
 
 	}
 	
-	private void crearBarraInferior() {
+	private void crearBarraInferior(int likes, int comentarios, String user) {
 		JPanel panelInferior = new JPanel();
 		panelInferior.setBackground(new Color(218, 200, 41));
 		GridBagConstraints gbc_panelInferior = new GridBagConstraints();
@@ -104,7 +109,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblLike.gridy = 0;
 		panelInferior.add(lblLike, gbc_lblLike);
 		
-		lblNumLikes = new JLabel("69");
+		lblNumLikes = new JLabel(String.valueOf(likes));
 		lblNumLikes.setForeground(new Color(0, 0, 0));
 		lblNumLikes.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNumLikes = new GridBagConstraints();
@@ -113,14 +118,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNumLikes.gridy = 0;
 		panelInferior.add(lblNumLikes, gbc_lblNumLikes);
 		
-		JLabel lblComentario = new JLabel("");
-		lblComentario.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VentanaPublicacion v = new VentanaPublicacion(publicacion);
-				v.mostrarVentana();
-			}
-		});
+		lblComentario = new JLabel("");
 		lblComentario.setIcon(new ImageIcon(PanelPublicacion.class.getResource("/imagenes/mensaje.png")));
 		GridBagConstraints gbc_lblComentario = new GridBagConstraints();
 		gbc_lblComentario.insets = new Insets(0, 0, 0, 5);
@@ -128,7 +126,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblComentario.gridy = 0;
 		panelInferior.add(lblComentario, gbc_lblComentario);
 		
-		lblNumComentarios = new JLabel("420");
+		lblNumComentarios = new JLabel(String.valueOf(comentarios));
 		lblNumComentarios.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblNumComentarios.setForeground(new Color(0, 0, 0));
 		GridBagConstraints gbc_lblNumComentarios = new GridBagConstraints();
@@ -137,7 +135,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNumComentarios.gridy = 0;
 		panelInferior.add(lblNumComentarios, gbc_lblNumComentarios);
 		
-		lblNombreUsuario = new JLabel("user.getNombre()");
+		lblNombreUsuario = new JLabel(user);
 		lblNombreUsuario.setForeground(new Color(0, 0, 0));
 		lblNombreUsuario.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
@@ -146,8 +144,6 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNombreUsuario.gridy = 0;
 		panelInferior.add(lblNombreUsuario, gbc_lblNombreUsuario);
 		
-		String usuario = Controlador.getInstancia().obtenerUsuario(publicacion);
-		addManejadorClickUsuario(lblNombreUsuario, usuario);
 		
 		imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
 		icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
@@ -160,12 +156,20 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblFotoPerfil.gridy = 0;
 		panelInferior.add(lblFotoPerfil, gbc_lblFotoPerfil);
 		
-		addManejadorClickUsuario(lblFotoPerfil, usuario);
 		
-		addManejadorClickLike(lblLike);
+	}
+
+	private void addManejadorClickUsuario(JLabel label, Publicacion p) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaPublicacion v = new VentanaPublicacion(p);
+				v.mostrarVentana();
+			}
+		});
 	}
 	
-	private void addManejadorClickUsuario(JLabel label, String usuario) {
+	private void addManejadorClickUsuario(JLabel label, Usuario usuario) {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -175,7 +179,7 @@ public class PanelPublicacion extends JPanel {
 
 	}
 	
-	private void crearBarraSuperior() {
+	private void crearBarraSuperior(String titulo) {
 		JPanel panelSuperior = new JPanel();
 		panelSuperior.setBackground(new Color(218, 200, 41));
 		GridBagConstraints gbc_panelSuperior = new GridBagConstraints();
@@ -191,7 +195,7 @@ public class PanelPublicacion extends JPanel {
 		gbl_panelSuperior.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelSuperior.setLayout(gbl_panelSuperior);
 		
-		lblTitulo = new JLabel("publicacion.getTitulo()");
+		lblTitulo = new JLabel(titulo);
 		lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblTitulo.setForeground(new Color(0, 0, 0));
 		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
@@ -201,7 +205,7 @@ public class PanelPublicacion extends JPanel {
 		panelSuperior.add(lblTitulo, gbc_lblTitulo);
 	}
 	
-	private void addManejadorClickLike(JLabel label) {
+	private void addManejadorClickLike(JLabel label, Publicacion p) {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -209,34 +213,17 @@ public class PanelPublicacion extends JPanel {
 				if(likePresionado) {
 					imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/frezze.png"));
 					likePresionado = false;
-					Controlador.getInstancia().quitarMeGusta(publicacion);
+					p.quitarMeGusta();
 				} else {
 					imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/hotttt.png"));
 					likePresionado = true;
-					Controlador.getInstancia().darMeGusta(publicacion);
+					p.darMeGusta();
 				}
 				Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 				label.setIcon(icono);
-				lblNumLikes.setText(Controlador.getInstancia().obtenerMeGustaPublicacion(publicacion));
+				lblNumLikes.setText(String.valueOf(p.getMegusta()));
 			}
 		});
 	}
 	
-	private void establecerDatosPublicacion() {
-		String usuario = Controlador.getInstancia().obtenerUsuario(publicacion);
-		lblTitulo.setText(Controlador.getInstancia().obtenerTituloPublicacion(publicacion));
-		lblNumLikes.setText(Controlador.getInstancia().obtenerMeGustaPublicacion(publicacion));
-		lblNombreUsuario.setText(usuario);
-		lblNumComentarios.setText(String.valueOf(Controlador.getInstancia().obtenerComentariosPublicacion(publicacion).size()));
-		
-		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPerfil(usuario));
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		
-		lblFotoPerfil.setIcon(icono);
-		
-		imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(publicacion));
-		icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
-		
-		lblFoto.setIcon(icono);
-	}
 }

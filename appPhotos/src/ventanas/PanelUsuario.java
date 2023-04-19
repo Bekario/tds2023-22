@@ -34,10 +34,14 @@ public class PanelUsuario extends JPanel {
 	
 	private void crearPanel(Usuario usuario) {
 		this.setSize(450, 64);
-		crearPanelEImagen(usuario);
+		crearPanelEImagen(usuario.getPerfil(), usuario.getUsuario());
+		addManejadorBotonSeguir(btnSeguir, usuario);
+		addManejadorDejarDeSeguir(lblSeguido, usuario);
+		// Comprobamos si debemos mostrar que el usuario es seguido o no
+		setVisibilidadBotonSeguir(!Controlador.getInstancia().obtenerUsuarioActual().comprobarSeguido(usuario));
 	}
 	
-	private void crearPanelEImagen(Usuario usuario) {	
+	private void crearPanelEImagen(String perfil, String usuario) {	
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{20, 60, 15, 160, 15, 0, 15, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
@@ -52,12 +56,12 @@ public class PanelUsuario extends JPanel {
 		gbc_lblFoto.gridy = 0;
 		add(lblFoto, gbc_lblFoto);
 		
-		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(usuario.getPerfil()));
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(perfil));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
 		
 		lblFoto.setIcon(icono);
 		
-		JLabel lblNombreUsuario = new JLabel(usuario.getUsuario());
+		JLabel lblNombreUsuario = new JLabel(usuario);
 		lblNombreUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblNombreUsuario.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
@@ -79,13 +83,6 @@ public class PanelUsuario extends JPanel {
 		btnSeguir = new JButton("Seguir");
 		add(btnSeguir, gbc_btnSeguir_lbl_seguido);
 		btnSeguir.setVisible(false);
-		
-		addManejadorBotonSeguir(btnSeguir, usuario);
-		addManejadorDejarDeSeguir(lblSeguido, usuario);
-		
-		// Comprobamos si debemos mostrar que el usuario es seguido o no
-		setVisibilidadBotonSeguir(!Controlador.getInstancia().obtenerUsuarioActual().comprobarSeguido(usuario));
-		
 
 	}
 	
