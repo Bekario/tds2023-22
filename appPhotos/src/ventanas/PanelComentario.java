@@ -60,7 +60,7 @@ public class PanelComentario extends JPanel {
 		this.setSize(400, 400);
 		crearPanelEImagen();
 		crearBarraInferior(String.valueOf(publicacion.getMegusta()));
-		crearBarraSuperior(publicacion.getUsuario().getUsuario(), publicacion.getTitulo(), publicacion.getDescripcion());
+		crearBarraSuperior(publicacion.getUsuario().getUsuario(), publicacion.getTitulo(), publicacion.getDescripcion(), publicacion.getUsuario().getPerfil());
 		addComentario(publicacion.getComentarios());
 		
 		addManejadorComentarioTextfield(textField, publicacion);
@@ -194,7 +194,7 @@ public class PanelComentario extends JPanel {
 
 	}
 	
-	private void crearBarraSuperior(String usuario, String titulo, String descripcion) {
+	private void crearBarraSuperior(String usuario, String titulo, String descripcion, String perfil) {
 		JPanel panelSuperior = new JPanel();
 		GridBagConstraints gbc_panelSuperior = new GridBagConstraints();
 		gbc_panelSuperior.insets = new Insets(0, 0, 5, 0);
@@ -219,7 +219,7 @@ public class PanelComentario extends JPanel {
 		gbc_lblNombreUsuario.gridy = 0;
 		panelSuperior.add(lblNombreUsuario, gbc_lblNombreUsuario);
 				
-		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
+		ImageIcon imagen = new ImageIcon(perfil);
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		
 		lblFotoPerfil = new JLabel("");

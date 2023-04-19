@@ -44,7 +44,7 @@ public class PanelPublicacion extends JPanel {
 	private void crearPanel(Publicacion p) {
 		this.setSize(450, 490);
 		crearPanelEImagen(Controlador.getInstancia().obtenerPortadaPublicacion(p));
-		crearBarraInferior(p.getMegusta(), p.getNumComentarios(), p.getUsuario().getUsuario());
+		crearBarraInferior(p.getMegusta(), p.getNumComentarios(), p.getUsuario().getUsuario(), p.getUsuario().getPerfil());
 		crearBarraSuperior(p.getTitulo());
 		addManejadorClickUsuario(lblNombreUsuario, p.getUsuario());
 		addManejadorClickUsuario(lblFotoPerfil, p.getUsuario());
@@ -82,7 +82,7 @@ public class PanelPublicacion extends JPanel {
 
 	}
 	
-	private void crearBarraInferior(int likes, int comentarios, String user) {
+	private void crearBarraInferior(int likes, int comentarios, String user, String perfil) {
 		JPanel panelInferior = new JPanel();
 		panelInferior.setBackground(new Color(218, 200, 41));
 		GridBagConstraints gbc_panelInferior = new GridBagConstraints();
@@ -145,7 +145,7 @@ public class PanelPublicacion extends JPanel {
 		panelInferior.add(lblNombreUsuario, gbc_lblNombreUsuario);
 		
 		
-		imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
+		imagen = new ImageIcon(perfil);
 		icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		
 		lblFotoPerfil = new JLabel("");
