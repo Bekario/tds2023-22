@@ -10,13 +10,14 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
+import controlador.Controlador;
 import modelo.Foto;
+import modelo.Publicacion;
 
 public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 
 	private static final long serialVersionUID = 1L;
-	private HashMap<Integer, JLabel> seleccionados;
-	private int portada;
+
 	
 	/**
 	 * Create the panel.
@@ -24,40 +25,45 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 	public PanelSeleccionarFotos(List<Foto> fotos) {
 		super();
 		addFotos(fotos);
-		seleccionados = new HashMap<Integer, JLabel>();
-		portada = -1;
-		cargarManejadores();
 	}
 	
-	private void cargarManejadores() {
-		getLista().keySet().stream()
-							.forEach(p -> addManejadorSeleccionar(getLista().get(p), p));
+	@Override
+	public void addFotos(List<Foto> fotos) {
+		
+		super.addFotos(fotos);
+	}
+	
+	private void cargarManejadores(List<Foto> fotos) {
+		fotos.stream()
+			 .forEach(p -> addManejadorSeleccionar(getLista().get(p), p));
 
 	}
 	
-	private void addManejadorSeleccionar(JLabel foto, int publicacion) {
+	private void addManejadorSeleccionar(JLabel foto, Publicacion publicacion) {
 		foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));
 		foto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(seleccionados.containsKey(publicacion)) {
+				List<Publicacion> seleccionados = Controlador.getInstancia().getSeleccionados();
+				if(seleccionados.contains(publicacion)) {
 					// Si la publicación esta contenida en seleccionados la quitamos
-					seleccionados.remove(publicacion);				
+					Controlador.getInstancia().removeSeleccionado(publicacion);			
 					foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));		
-				} else if (publicacion == portada) {
+				} else if (publicacion.equals(Controlador.getInstancia().getPortadaSeleccionada())) {
 					// Si la publicación es la portada la quitamos
-					portada = -1;
+					Controlador.getInstancia().setPortadaSeleccionada(null);
 					foto.setBorder(new LineBorder(new Color(60, 63, 65), 2, true));	
 				} else {
 					// Si no ha sido escogida
-					if(portada == -1) {
+					if(Controlador.getInstancia().getPortadaSeleccionada().equals(null)) {
 						// Si la portada esta libre, la imagen es la portada
-						portada = publicacion;		
+						Controlador.getInstancia().setPortadaSeleccionada(publicacion);		
 						foto.setBorder(new LineBorder(new Color(249, 100, 100), 2, true));
 
 					} else {
 						// Si la portada está cogida, se mete en la lista de seleccionados
-						seleccionados.put(publicacion, foto);
+						Controlador.getInstancia().addSeleccionado(publicacion);
+						
 						foto.setBorder(new LineBorder(new Color(218, 200, 41), 2, true));
 					}
 				}
@@ -72,17 +78,4 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 		});
 
 	}
-	
-	public HashMap<Integer, JLabel> getSeleccionados() {
-		return seleccionados;
-	}
-	
-	public List<Integer> getListaSeleccionados() {
-		return new ArrayList<Integer>(seleccionados.keySet());
-	}
-	
-	public int getPortada() {
-		return portada;
-	}
-
 }

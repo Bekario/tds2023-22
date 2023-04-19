@@ -49,7 +49,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	 * Añade una unica publicacion al panel
 	 * @param publicacion
 	 */
-	protected void addPublicacion(Publicacion publi) {
+	protected JLabel addPublicacion(Publicacion publi) {
 		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(publi));			
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(RESOLUCION_PUBLICACION, RESOLUCION_PUBLICACION, Image.SCALE_SMOOTH));
 		
@@ -67,6 +67,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 			x=0;
 			y++;
 		}
+		return lblPublicacion;
 	}
 	
 	protected void borrarTodasPublicaciones() {	

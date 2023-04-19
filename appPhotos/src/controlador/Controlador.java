@@ -33,7 +33,11 @@ import persistencia.IAdaptadorUsuarioDAO;
 public class Controlador {
 	private static Controlador unicaInstancia = null;
 	private Usuario usuarioActual;
-
+	
+	//Panel Seleccionar
+	private List<Publicacion> seleccionados;
+	private Publicacion portadaSeleccionada;
+	
 	//Ruta imagenes
 	private final String RUTA_IMAGENES = System.getProperty("user.dir")+"/fotosSubidas/";
 	
@@ -579,6 +583,26 @@ public class Controlador {
 																								 .findAny()
 																								 .orElse(null);
 		return com.getTexto();																				 
+	}
+	
+	public List<Publicacion> getSeleccionados() {
+		return seleccionados;
+	}
+	
+	public void addSeleccionado(Publicacion p) {
+		seleccionados.add(p);
+	}
+	
+	public void removeSeleccionado(Publicacion p) {
+		seleccionados.remove(p);
+	}
+	
+	public Publicacion getPortadaSeleccionada() {
+		return portadaSeleccionada;
+	}
+	
+	public void setPortadaSeleccionada(Publicacion portadaSeleccionada) {
+		this.portadaSeleccionada = portadaSeleccionada;
 	}
 	
 		
