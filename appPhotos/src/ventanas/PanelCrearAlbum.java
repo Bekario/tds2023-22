@@ -177,7 +177,7 @@ public class PanelCrearAlbum extends JPanel {
 			info = "¡Debes introducir un título al álbum!";
 		}
 		
-		if (panelSeleccionarFotos.getPortada() == -1) {
+		if (Controlador.getInstancia().getPortadaSeleccionada().equals(null)) {
 			info = "¡Debes seleccionar como minimo una portada (resaltada en rojo)!";
 			estado = false;
 		}
