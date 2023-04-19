@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import modelo.Album;
+import modelo.Publicacion;
 
 public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 
@@ -54,6 +55,15 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 		for (Album a: albums) {
 			addPublicacion(a);
 		}
+	}
+	
+	public void addAlbum(Publicacion publi) {
+		//Comprobamos si ha que quitar la imagen por defecto
+		if (estado == NO_ALBUM) {
+			estado = SI_ALBUM;
+			remove(lblImagen);
+		}
+		addPublicacion(publi);
 	}
 	
 	public void limpiar() {

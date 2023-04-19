@@ -43,6 +43,8 @@ public class Controlador {
 	
 	private Controlador() {
 		usuarioActual = null;
+		portadaSeleccionada = null;
+		seleccionados = new ArrayList<Publicacion>();
 	}
 	
 	public static Controlador getInstancia() {

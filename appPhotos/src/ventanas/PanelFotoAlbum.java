@@ -182,10 +182,10 @@ public class PanelFotoAlbum extends JPanel {
 	}
 	
 	public void addAlbum(Publicacion publicacion) {
-		panelAlbum.addPublicacion(publicacion);
+		panelAlbum.addAlbum(publicacion);
 	}
 	
 	public void addFoto(Publicacion publicacion) {
-		panelFotos.addPublicacion(publicacion);
+		panelFotos.addFoto(publicacion);
 	}
 }
