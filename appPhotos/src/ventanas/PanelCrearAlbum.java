@@ -19,6 +19,7 @@ import javax.swing.JEditorPane;
 import javax.swing.UIManager;
 
 import controlador.Controlador;
+import modelo.Album;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -133,7 +134,7 @@ public class PanelCrearAlbum extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Comprobamos que exista como minimo una portada
 				if (checkFields()) {
-					int album = Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText(), panelSeleccionarFotos.getListaSeleccionados(), panelSeleccionarFotos.getPortada());
+					Album album = Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText());
 					//Subimos el album al perfil
 					padre.subirAlbum(album);
 					
