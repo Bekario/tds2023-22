@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
+import modelo.Usuario;
 
 import javax.swing.JButton;
 
@@ -24,22 +25,19 @@ public class PanelUsuario extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton btnSeguir;
 	private JLabel lblSeguido;
-	
-	private String usuario;
 	/**
 	 * Create the panel.
 	 */
-	public PanelUsuario(String usuario) {
-		this.usuario = usuario;
-		crearPanel();
+	public PanelUsuario(Usuario usuario) {
+		crearPanel(usuario);
 	}
 	
-	private void crearPanel() {
+	private void crearPanel(Usuario usuario) {
 		this.setSize(450, 64);
-		crearPanelEImagen();
+		crearPanelEImagen(usuario);
 	}
 	
-	private void crearPanelEImagen() {
+	private void crearPanelEImagen(Usuario usuario) {	
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{20, 60, 15, 160, 15, 0, 15, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
@@ -54,12 +52,12 @@ public class PanelUsuario extends JPanel {
 		gbc_lblFoto.gridy = 0;
 		add(lblFoto, gbc_lblFoto);
 		
-		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(Controlador.getInstancia().obtenerPerfil(usuario)));
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(usuario.getPerfil()));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
 		
 		lblFoto.setIcon(icono);
 		
-		JLabel lblNombreUsuario = new JLabel(usuario);
+		JLabel lblNombreUsuario = new JLabel(usuario.getUsuario());
 		lblNombreUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblNombreUsuario.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
@@ -74,20 +72,21 @@ public class PanelUsuario extends JPanel {
 		gbc_btnSeguir_lbl_seguido.gridx = 5;
 		gbc_btnSeguir_lbl_seguido.gridy = 0;
 		
-		//Por defecto el label no se muestra
 		lblSeguido = new JLabel("Seguido");
 		add(lblSeguido, gbc_btnSeguir_lbl_seguido);
 		lblSeguido.setVisible(false);
 		
 		btnSeguir = new JButton("Seguir");
 		add(btnSeguir, gbc_btnSeguir_lbl_seguido);
+		btnSeguir.setVisible(false);
 		
-		addManejadorBotonSeguir(btnSeguir);
-		addManejadorDejarDeSeguir(lblSeguido);
-	}
-	
-	public String getUsuario() {
-		return usuario;
+		addManejadorBotonSeguir(btnSeguir, usuario);
+		addManejadorDejarDeSeguir(lblSeguido, usuario);
+		
+		// Comprobamos si debemos mostrar que el usuario es seguido o no
+		setVisibilidadBotonSeguir(!Controlador.getInstancia().obtenerUsuarioActual().comprobarSeguido(usuario));
+		
+
 	}
 	
 	/**
@@ -99,7 +98,7 @@ public class PanelUsuario extends JPanel {
 		lblSeguido.setVisible(!visibilidad);
 	}
 	
-	private void addManejadorBotonSeguir(JButton boton) {
+	private void addManejadorBotonSeguir(JButton boton, Usuario usuario) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Comprobamos que el boton este visible, esto significa que no este ya seguido por el usuario
@@ -112,7 +111,7 @@ public class PanelUsuario extends JPanel {
 
 	}
 	
-	private void addManejadorDejarDeSeguir(JLabel label) {
+	private void addManejadorDejarDeSeguir(JLabel label, Usuario usuario) {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

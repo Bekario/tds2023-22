@@ -3,6 +3,7 @@ package ventanas;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
+import modelo.Publicacion;
 
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -51,7 +52,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	 * Añade una unica publicacion al panel
 	 * @param publicacion
 	 */
-	protected void addPublicacion(int codigo) {
+	protected void addPublicacion(Publicacion publi) {
 		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(codigo));			
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(RESOLUCION_PUBLICACION, RESOLUCION_PUBLICACION, Image.SCALE_SMOOTH));
 		

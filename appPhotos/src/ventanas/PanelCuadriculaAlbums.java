@@ -8,6 +8,9 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import modelo.Album;
+import modelo.Publicacion;
+
 public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 
 	private static final long serialVersionUID = 1L;
@@ -43,26 +46,26 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 	 * Añade una lista de publicaciones al panel
 	 * @param publicaciones publicaciones que se van a añadir
 	 */
-	public void addAlbums(List<Integer> albums) {
+	public void addAlbums(List<Album> albums) {
 		//Comprobamos si ha que quitar la imagen por defecto
 		if (estado == NO_ALBUM && albums.size() > 0) {
 			estado = SI_ALBUM;
 			remove(lblImagen);
 		}
 		
-		for (int a: albums) {
+		for (Album a: albums) {
 			addPublicacion(a);
 		}
 	}
 	
 	@Override
-	protected void addPublicacion(int codigo) {
+	protected void addPublicacion(Publicacion publi) {
 		//Comprobamos si ha que quitar la imagen por defecto
 		if (estado == NO_ALBUM) {
 			estado = SI_ALBUM;
 			remove(lblImagen);
 		}
-		super.addPublicacion(codigo);
+		super.addPublicacion(publi);
 	}
 	
 	public void limpiar() {

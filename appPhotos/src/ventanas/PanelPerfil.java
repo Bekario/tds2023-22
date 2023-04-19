@@ -1,6 +1,9 @@
 package ventanas;
 
 import javax.swing.JPanel;
+
+import modelo.Usuario;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -12,17 +15,14 @@ public class PanelPerfil extends JPanel {
 	private Home home;
 	private PanelCabeceraPerfil panelCabeceraPerfil;
 	private PanelFotoAlbum panelFotoAlbum;
-	
-	private String usuario;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelPerfil(Home home, String usuario) {
+	public PanelPerfil(Home home, Usuario usuario) {
 		this.home = home;
-		this.usuario = usuario;
 		crearPanel();
-		generarCabecera();
+		generarCabecera(usuario);
 		
 	}
 	
@@ -41,7 +41,7 @@ public class PanelPerfil extends JPanel {
 		
 	}
 	
-	private void generarCabecera() {
+	private void generarCabecera(Usuario usuario) {
 		panelCabeceraPerfil = new PanelCabeceraPerfil(home, usuario);
 		GridBagConstraints gbc_panelCabeceraPerfil = new GridBagConstraints();
 		gbc_panelCabeceraPerfil.insets = new Insets(0, 0, 5, 5);
@@ -78,12 +78,12 @@ public class PanelPerfil extends JPanel {
 	/**
 	 * Actualiza la cabecera y el panel de fotos y albumes
 	 */
-	public void actualizarCompleto() {
-		actualizarCabecera();
+	public void actualizarCompleto(Usuario usuario) {
+		actualizarCabecera(usuario);
 		actualizarFotoAlbum();
 	}
 	
-	public void actualizarCabecera() {
+	public void actualizarCabecera(Usuario usuario) {
 		panelCabeceraPerfil.actualizarCampos(usuario);
 		this.updateUI();
 	}

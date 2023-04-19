@@ -241,16 +241,14 @@ public class Controlador {
 	 * @param usuario al que se va a seguir
 	 * @return
 	 */
-	public boolean seguirUsuario(String usuario) {
-		//Obtenemos el usuario a partir de su nombre de usuario
-		Usuario u = RepoUsuarios.getUnicaInstancia().getUsuario(usuario);
+	public boolean seguirUsuario(Usuario usuario) {
 		// Comprobamos que el usuario no sea seguido ya
-		if(!usuarioActual.comprobarSeguido(u)) {
-			usuarioActual.seguirA(u);
+		if(!usuarioActual.comprobarSeguido(usuario)) {
+			usuarioActual.seguirA(usuario);
 			
 			// A continuacion, guardamos los cambios 
 			actualizarUsuario(usuarioActual);
-			actualizarUsuario(u);
+			actualizarUsuario(usuario);
 			
 			return true;
 		}
@@ -262,16 +260,14 @@ public class Controlador {
 	 * @param usuario al que se va a dejar de seguir
 	 * @return
 	 */
-	public boolean dejarDeSeguirUsuario(String usuario) {
-		//Obtenemos el usuario a partir de su nombre de usuario
-		Usuario u = RepoUsuarios.getUnicaInstancia().getUsuario(usuario);
+	public boolean dejarDeSeguirUsuario(Usuario usuario) {
 		// Comprobamos que el usuario este siendo seguido
-		if(usuarioActual.comprobarSeguido(u)) {
-			usuarioActual.dejarDeSeguirA(u);
+		if(usuarioActual.comprobarSeguido(usuario)) {
+			usuarioActual.dejarDeSeguirA(usuario);
 			
 			// A continuacion, guardamos los cambios
 			actualizarUsuario(usuarioActual);
-			actualizarUsuario(u);
+			actualizarUsuario(usuario);
 			
 			return true;
 		}
@@ -294,8 +290,8 @@ public class Controlador {
 	 * Compruba si el usuarioActual sigue al usuario
 	 * @param usuario que se va a comprobar
 	 */
-	public boolean comprobarSeguido(String usuario) {
-		return usuarioActual.comprobarSeguido(RepoUsuarios.getUnicaInstancia().getUsuario(usuario));
+	public boolean comprobarSeguido(Usuario usuario) {
+		return usuarioActual.comprobarSeguido(usuario);
 	}
 	
 	/**
@@ -374,7 +370,7 @@ public class Controlador {
 		}
 	}
 	
-	public List<String> obtenerUsuariosBuscados(String nombre){
+	public List<Usuario> obtenerUsuariosBuscados(String nombre){
 		//Lo convertimos a minuscula para no distinguir
 		nombre = nombre.toLowerCase();
 		HashSet<Usuario> listaBuscada =  new HashSet<Usuario>();
@@ -394,9 +390,7 @@ public class Controlador {
 		}
 		List<Usuario> list= new ArrayList<Usuario>(listaBuscada);
 		
-		return list.stream()
-				.map(u -> u.getUsuario())
-				.collect(Collectors.toList());
+		return list;
 	}
 	
 	public void darMeGusta(int publicacion) {
@@ -523,8 +517,8 @@ public class Controlador {
 		}
 	}
 	
-	public String obtenerUsuarioActual() {
-		return usuarioActual.getUsuario();
+	public Usuario obtenerUsuarioActual() {
+		return usuarioActual;
 	}
 	
 	public List<Integer> obtenerAlbums(String usuario) {
@@ -542,6 +536,10 @@ public class Controlador {
 	}
 	
 	public String obtenerPerfil(String usuario) {
+		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getPerfil();
+	}
+	
+	public String obtenerEmail(String usuario) {
 		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getPerfil();
 	}
 	

@@ -12,6 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import controlador.Controlador;
+import modelo.Usuario;
+
 import java.awt.Insets;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -51,25 +53,13 @@ public class PanelEditar extends JPanel {
 	private JScrollPane scrollPane;
 	private JTextArea txtDescripcion;
 	
-	private String email;
-	private String nombreCompleto;
-	private String usuario;
-	private String descripcion;
-	private String contraseña;
 	private String perfil;
-
+	
 	/**
 	 * Create the panel.
 	 */
 	public PanelEditar(JPanel padre) {
 		this.padre=(PanelCabeceraPerfil)padre;
-		this.email = email;
-		this.nombreCompleto = nombreCompleto;
-		this.usuario = usuario;
-		this.contraseña = contraseña;
-		this.perfil = perfil;
-		this.descripcion = descripcion;
-		
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 35, 0, 35, 50, 0 };
@@ -79,22 +69,29 @@ public class PanelEditar extends JPanel {
 				Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 		
+		crearPanel();
 		
-		establecerTitulo();
-		establecerEmail();
-		establecerNombre();
-		establecerUsuario();
-		establecerContraseñasYBotones();
+	}
+	
+	private void crearPanel() {
+		Usuario usuario = Controlador.getInstancia().obtenerUsuarioActual();
+		perfil = usuario.getPerfil();
+		
+		establecerTitulo(usuario);
+		establecerEmail(usuario);
+		establecerNombre(usuario);
+		establecerUsuario(usuario);
+		establecerContraseñasYBotones(usuario);
 		establecerBotonGuardar();
 		establecerBotonAtras();
-		establecerDescripcion();
+		establecerDescripcion(usuario);
 		establecerImagenSubida(perfil);
 	}
 	
 	/**
 	 * Crea el titulo
 	 */
-	private void establecerTitulo() {
+	private void establecerTitulo(Usuario usuario) {
 		lblCabecera = new JLabel("Editar perfil");
 		GridBagConstraints gbc_lblCabecera = new GridBagConstraints();
 		gbc_lblCabecera.insets = new Insets(0, 0, 5, 5);
@@ -108,10 +105,10 @@ public class PanelEditar extends JPanel {
 	 */
 	
 
-	private void establecerEmail() {		
+	private void establecerEmail(Usuario usuario) {		
 		
 		txtEmail = new JTextField();
-		txtEmail.setText(email);
+		txtEmail.setText(usuario.getEmail());
 		txtEmail.setToolTipText("");
 
 		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
@@ -128,9 +125,9 @@ public class PanelEditar extends JPanel {
 	/**
 	 * Crea el nombre field
 	 */
-	private void establecerNombre() {
+	private void establecerNombre(Usuario usuario) {
 		txtNombre = new JTextField();
-		txtNombre.setText(nombreCompleto);
+		txtNombre.setText(usuario.getNombreCompleto());
 		txtNombre.setToolTipText("");
 		GridBagConstraints gbc_txtNombre = new GridBagConstraints();
 		gbc_txtNombre.insets = new Insets(0, 0, 5, 5);
@@ -143,13 +140,13 @@ public class PanelEditar extends JPanel {
 		Manejadores.addManejadorTextos(txtNombre, "Nombre");
 	}
 	
-	private void establecerDescripcion() {
+	private void establecerDescripcion(Usuario usuario) {
 		txtDescripcion = new JTextArea(2, 20);
 		txtDescripcion.setWrapStyleWord(true);
 		txtDescripcion.setLineWrap(true);
-		if(descripcion.equals("")){
+		if(usuario.getDescripcion().equals("")){
 			txtDescripcion.setText("Introduce una breve descripción sobre ti..."); 
-		}else txtDescripcion.setText(descripcion);
+		}else txtDescripcion.setText(usuario.getDescripcion());
 		
 		scrollPane = new JScrollPane(txtDescripcion);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -166,9 +163,9 @@ public class PanelEditar extends JPanel {
 	/**
 	 * Crea el usuario field
 	 */
-	private void establecerUsuario() {
+	private void establecerUsuario(Usuario usuario) {
 		txtUsuario = new JTextField();
-		txtUsuario.setText(usuario);
+		txtUsuario.setText(usuario.getUsuario());
 		txtUsuario.setToolTipText("");
 		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
@@ -183,9 +180,9 @@ public class PanelEditar extends JPanel {
 	/**
 	 * Crea los field contraseña y confirmar contraseña y sus botones
 	 */
-	private void establecerContraseñasYBotones() {
+	private void establecerContraseñasYBotones(Usuario usuario) {
 		txtContraseña = new JPasswordField();
-		txtContraseña.setText(contraseña);
+		txtContraseña.setText(usuario.getContraseña());
 		GridBagConstraints gbc_txtContraseña = new GridBagConstraints();
 		gbc_txtContraseña.insets = new Insets(0, 0, 5, 5);
 		gbc_txtContraseña.fill = GridBagConstraints.HORIZONTAL;

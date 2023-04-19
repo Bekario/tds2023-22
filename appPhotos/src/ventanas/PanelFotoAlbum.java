@@ -3,6 +3,7 @@ package ventanas;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
+import modelo.Usuario;
 
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -35,23 +36,21 @@ public class PanelFotoAlbum extends JPanel {
 	private JPanel panel_2;
 	
 	private Home padre;
-	private String usuario;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelFotoAlbum(Home home, String usuario) {
+	public PanelFotoAlbum(Home home, Usuario usuario) {
 		padre = home;
-		this.usuario = usuario;
 		this.setSize(450, 600);
-		crearPanel();
-		cargarPublicaciones();
+		crearPanel(usuario);
+		cargarPublicaciones(usuario);
 	}
 	
-	private void crearPanel() {
+	private void crearPanel(Usuario usuario) {
 		crearLayout();
 		crearPanelesPublicaciones();
-		crearBotones();
+		crearBotones(usuario);
 	}
 	
 	private void crearLayout() {
@@ -63,7 +62,7 @@ public class PanelFotoAlbum extends JPanel {
 		setLayout(gridBagLayout);
 	}
 	
-	private void crearBotones() {
+	private void crearBotones(Usuario usuario) {
 		btnFotos = new JButton("Fotos");
 		GridBagConstraints gbc_btnFotos = new GridBagConstraints();
 		gbc_btnFotos.anchor = GridBagConstraints.EAST;
@@ -176,9 +175,9 @@ public class PanelFotoAlbum extends JPanel {
 		add(panelAlbum, gbc_panelAlbum);
 	}
 	
-	private void cargarPublicaciones() {
-		panelAlbum.addAlbums(Controlador.getInstancia().obtenerAlbums(usuario));
-		panelFotos.addFotos(Controlador.getInstancia().obtenerFotos(usuario));
+	private void cargarPublicaciones(Usuario usuario) {
+		panelAlbum.addAlbums(usuario.getAlbums());
+		panelFotos.addFotos(usuario.getFotos());
 	}
 	
 	public void addAlbum(int codigo) {

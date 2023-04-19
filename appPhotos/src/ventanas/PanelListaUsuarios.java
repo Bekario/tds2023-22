@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import modelo.Usuario;
+
 public class PanelListaUsuarios extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -39,7 +41,7 @@ public class PanelListaUsuarios extends JPanel {
 		setLayout(gridBagLayout);
 	}
 	
-	public void addUsuario(String usuario) {
+	public void addUsuario(Usuario usuario) {
 		PanelUsuario panelUsuario = new PanelUsuario(usuario);
 		GridBagConstraints gbc_panelUsuario = new GridBagConstraints();
 		gbc_panelUsuario.insets = new Insets(0, 0, 5, 0);
@@ -53,8 +55,8 @@ public class PanelListaUsuarios extends JPanel {
 		addManejadorClickUsuario(panelUsuario, usuario);
 	}
 	
-	public void addListaUsuario(List<String> usuarios) {
-		for (String usuario : usuarios) {
+	public void addListaUsuario(List<Usuario> usuarios) {
+		for (Usuario usuario : usuarios) {
 			addUsuario(usuario);
 		}
 	}
@@ -65,7 +67,7 @@ public class PanelListaUsuarios extends JPanel {
 		y=0;
 	}
 	
-	private void addManejadorClickUsuario(PanelUsuario u, String usuario) {
+	private void addManejadorClickUsuario(PanelUsuario u, Usuario usuario) {
 		u.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -74,24 +76,5 @@ public class PanelListaUsuarios extends JPanel {
 		});
 
 	}
-	
-	/**
-	 * Elimina el boton de seguir de aquellos usuario ya seguidos
-	 * @param usuario
-	 * @param seguidos
-	 */
-	public void comprobarSeguidos(String usuario, List<String> seguidos) {
-		//Introducimos el usuario para que no aparezca el boton para seguirse a uno mismo
-		seguidos.add(usuario);
-		//MALENIA STREAM
-		for (PanelUsuario p : paneles) {
-			for (String u : seguidos) {
-				if(p.getUsuario().equals(u)) {
-					p.setVisibilidadBotonSeguir(false);
-				}
-			}
-		}
-	}
-	
 
 }
