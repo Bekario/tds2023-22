@@ -1,6 +1,6 @@
 package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,14 +12,14 @@ public abstract class Publicacion {
 	private Usuario usuario;
 	private int codigo;
 	private String titulo;
-	private LocalDate fecha;
+	private LocalDateTime fecha;
 	private String descripcion;
 	private int megusta;
 	private List<String> hashtags;
 	private List<Comentario> comentarios;
 	
 	// Constructor
-	public Publicacion(String titulo, String descripcion, LocalDate fecha, List<String> hastags, Usuario usuario) {
+	public Publicacion(String titulo, String descripcion, LocalDateTime fecha, List<String> hastags, Usuario usuario) {
 		this.titulo=titulo;
 		this.descripcion=descripcion;
 		this.hashtags=hastags;
@@ -65,7 +65,7 @@ public abstract class Publicacion {
 		return titulo;
 	}
 
-	public LocalDate getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
 

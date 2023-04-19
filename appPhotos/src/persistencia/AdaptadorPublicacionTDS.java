@@ -1,6 +1,6 @@
 package persistencia;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -159,7 +159,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		int megusta;
 		Usuario usuario;
 		List<String> hashtags = new ArrayList<String>(); 
-		LocalDate fecha;
+		LocalDateTime fecha;
 		List<Comentario> comentarios= new ArrayList<Comentario>();
 		
 		String path;
@@ -304,14 +304,8 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	 * @param publicaciones
 	 * @return
 	 */
-	private LocalDate obtenerFechaDesdeString(String fechaS) {
-
-		StringTokenizer strTok = new StringTokenizer(fechaS, "-");
-
-		int year = Integer.valueOf((String) strTok.nextElement());
-		int mes = Integer.valueOf((String) strTok.nextElement());
-		int dia = Integer.valueOf((String) strTok.nextElement());
-		return LocalDate.of(year, mes, dia);
+	private LocalDateTime obtenerFechaDesdeString(String fechaS) {
+		return LocalDateTime.parse(fechaS);
 	}
 	
 	/**

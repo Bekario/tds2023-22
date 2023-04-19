@@ -1,22 +1,17 @@
 package pruebas;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import controlador.Controlador;
 import modelo.Album;
 import modelo.Comentario;
 import modelo.Foto;
 import modelo.Notificacion;
-import modelo.Publicacion;
 import modelo.Usuario;
-import persistencia.AdaptadorPublicacionTDS;
 import persistencia.DAOException;
 import persistencia.TDSFactoriaDAO;
 
@@ -45,8 +40,8 @@ public class ControladorTest {
 		hashtags = new ArrayList<String>();
 		hashtags.add("Familia");
 		hashtags.add("Buenrollo");	
-		foto = new Foto("Mi tio","Foto con mi tio",LocalDate.of(2023, 1, 1), hashtags, usuario, "foto"); 
-		album = new Album("Paris", "Viaje familiar a paris", LocalDate.of(2023, 1, 1), hashtags, usuario, foto);
+		foto = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), hashtags, usuario, "foto"); 
+		album = new Album("Paris", "Viaje familiar a paris", LocalDateTime.of(2023, 1, 1, 12, 14, 33), hashtags, usuario, foto);
 		notificacion = new Notificacion(LocalDate.of(2023, 1, 1), foto);
 		notificacion2 = new Notificacion(LocalDate.of(2023, 1, 1), album);
 

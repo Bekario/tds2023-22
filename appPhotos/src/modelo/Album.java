@@ -1,6 +1,6 @@
 package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +10,7 @@ public class Album extends Publicacion {
 	private Foto portada;
 	
 	//Constructor
-	public Album(String titulo, String descipcion, LocalDate fecha, List<String> hastags, Usuario usuario, Foto portada) {
+	public Album(String titulo, String descipcion, LocalDateTime fecha, List<String> hastags, Usuario usuario, Foto portada) {
 		super(titulo, descipcion, fecha, hastags, usuario);
 		this.fotos = new ArrayList<Foto>();
 		this.portada = portada;

@@ -3,6 +3,7 @@ package pruebas;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -44,11 +45,11 @@ public class RepositoriosTest {
 		hashtags = new ArrayList<String>();
 		hashtags.add("Familia");
 		hashtags.add("Buenrollo");	
-		p1 = new Foto("A1", "D1", LocalDate.now(), hashtags, u1, "path");
+		p1 = new Foto("A1", "D1", LocalDateTime.now(), hashtags, u1, "path");
 		p1.setCodigo(3);
-		p2 = new Foto("A2", "D2", LocalDate.now(), hashtags, u2, "path");
+		p2 = new Foto("A2", "D2", LocalDateTime.now(), hashtags, u2, "path");
 		p2.setCodigo(4);
-		p3 = new Album("A3", "D3", LocalDate.now(), hashtags, u3, p2);
+		p3 = new Album("A3", "D3", LocalDateTime.now(), hashtags, u3, p2);
 		p3.addFoto(p1);
 		p3.addFoto(p2);
 		p3.setCodigo(5);

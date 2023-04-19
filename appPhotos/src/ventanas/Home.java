@@ -315,6 +315,10 @@ public class Home {
 		cambiarScrollPane(panelInicio);
 	}
 	
+	public void recargarPanelInicio() {
+		panelInicio = new PanelInicio(this);
+	}
+	
 	public void setPanelBusqueda() {
 		panelBusqueda.limpiarPanel();
 		cambiarScrollPane(panelBusqueda);

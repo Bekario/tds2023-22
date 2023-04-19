@@ -268,6 +268,7 @@ public class PanelSubir extends JPanel {
 					padre.subirFoto(foto);
 					
 					//Mostramos el panelPerfil
+					padre.recargarPanelInicio();
 					padre.setPanelPerfil();
 				}
 			}

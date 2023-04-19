@@ -1,6 +1,6 @@
 package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ public class Foto extends Publicacion{
 	private String path;
 	
 	//Constructor
-	public Foto(String titulo, String descipcion, LocalDate fecha, List<String> hastags, Usuario usuario, String path) {
+	public Foto(String titulo, String descipcion, LocalDateTime fecha, List<String> hastags, Usuario usuario, String path) {
 		super(titulo, descipcion, fecha, hastags, usuario);
 		this.path = path;
 	}

@@ -6,14 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
 import modelo.Album;
@@ -149,7 +148,7 @@ public class Controlador {
 	public Foto añadirFoto(String titulo, String descripcion, String path) {
 		List<String> hashtags = procesarHashtags(descripcion);
 				
-		Foto publi = new Foto(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, path);
+		Foto publi = new Foto(titulo, descripcion, LocalDateTime.now(), hashtags, usuarioActual, path);
 		
 		
 		IAdaptadorPublicacionDAO publicacionDAO = null;
@@ -181,7 +180,7 @@ public class Controlador {
 		
 		
 		//Creamos el album
-		Album publi = new Album(titulo, descripcion, LocalDate.now(), hashtags, usuarioActual, (Foto)portadaSeleccionada);
+		Album publi = new Album(titulo, descripcion, LocalDateTime.now(), hashtags, usuarioActual, (Foto)portadaSeleccionada);
 		
 		//Introducimos las fotos en el album
 		seleccionados.stream()
