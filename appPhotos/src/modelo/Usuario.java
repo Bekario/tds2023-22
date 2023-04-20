@@ -120,10 +120,17 @@ public class Usuario {
 		fotos.add(p);
 	}
 	
+	public void removeFoto(Foto p) {
+		fotos.remove(p);
+	}
+	
 	public void addAlbum(Album a) {
 		albums.add(a);
 	}
 	
+	public void removeAlbum(Album a) {
+		albums.remove(a);
+	}
 	public void addNotificacion(Notificacion n) {
 		notificaciones.add(n);
 	}

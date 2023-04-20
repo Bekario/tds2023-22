@@ -242,20 +242,31 @@ public class Controlador implements IFotosListener {
 		if (!esPublicacionRegistrada(publicacion.getCodigo()))
 			return false;
 		
-		IAdaptadorPublicacionDAO publicacionDAO = null;
+		IAdaptadorPublicacionDAO publicacionDAO;
+		RepoPublicaciones repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
 		try {
 			publicacionDAO = FactoriaDAO.getInstancia().getPublicacionDAO();
+			//Ahora comprobamos si la publicacion está contenida en un album y lo borramos
+			List<Album> albums = new ArrayList<Album>(usuarioActual.getAlbums()); //Hacemos una copia para evitar concurrent modification exception
+			
+			albums.stream()
+				  .filter(a -> a.comprobarFoto((Foto) publicacion))
+				  .forEach(a -> {publicacionDAO.borrarPublicacion(a); 
+				 				repoPublicaciones.removePublicacion(a);
+				 				usuarioActual.removeAlbum((Album) a);});
+			//Borramos la publicacion
+			publicacionDAO.borrarPublicacion(publicacion);
+			usuarioActual.removeFoto((Foto) publicacion);
+			
+			//Actualizamos el usuario
+			IAdaptadorUsuarioDAO u = FactoriaDAO.getInstancia().getUsuarioDAO();
+			u.modificarUsuario(usuarioActual);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		publicacionDAO.borrarPublicacion(publicacion);
-		RepoPublicaciones.getUnicaInstancia().removePublicacion(publicacion);
 		
-		//Ahora comprobamos si la publicacion está contenida en un album
-		/*usuarioActual.getAlbums().stream()
-								 .filter(a -> a.comprobarFoto(publicacion))
-								 .*/
+		repoPublicaciones.removePublicacion(publicacion);
+		
 		
 		return true;
 	}

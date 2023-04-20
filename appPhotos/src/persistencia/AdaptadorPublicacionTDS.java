@@ -147,7 +147,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	}
 
 	public Publicacion recuperarPublicacion(int codigo) {
-
 		// Si la entidad está en el pool la devuelve directamente
 		if (PoolDAO.getUnicaInstancia().contiene(codigo))
 			return (Publicacion) PoolDAO.getUnicaInstancia().getObjeto(codigo);
