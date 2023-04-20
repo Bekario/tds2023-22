@@ -239,7 +239,7 @@ public class Home {
 		GridBagLayout gbl_barraSuperior = new GridBagLayout();
 		gbl_barraSuperior.columnWidths = new int[]{10, 0, 0, 0, 10, 0};
 		gbl_barraSuperior.rowHeights = new int[]{0, 0};
-		gbl_barraSuperior.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_barraSuperior.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_barraSuperior.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		barraSuperior.setLayout(gbl_barraSuperior);
 		
@@ -256,6 +256,13 @@ public class Home {
 		addManejadorBotonXml(Titulo);
 		
 		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				recargarPanelInicio();
+			}
+		});
+		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/imagenes/refresh-page-option.png")));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel.gridx = 3;
@@ -332,7 +339,7 @@ public class Home {
 	}
 	
 	public void recargarPanelInicio() {
-		panelInicio = new PanelInicio(this);
+		panelInicio = new PanelInicio(this);		
 	}
 	
 	public void setPanelBusqueda() {
