@@ -64,16 +64,16 @@ public class PanelPerfil extends JPanel {
 	 * Añade una unica foto
 	 * @param publicacion
 	 */
-	protected void addFoto(Publicacion publicacion) {
-		panelFotoAlbum.addFoto(publicacion);
+	protected void addFoto(Publicacion publicacion, boolean borrable) {
+		panelFotoAlbum.addFoto(publicacion, borrable);
 	}
 	
 	/**
 	 * Añade un unico album
 	 * @param publicacion
 	 */
-	protected void addAlbum(Publicacion publicacion) {
-		panelFotoAlbum.addAlbum(publicacion);
+	protected void addAlbum(Publicacion publicacion, boolean borrable) {
+		panelFotoAlbum.addAlbum(publicacion, borrable);
 	}
 	
 	/**

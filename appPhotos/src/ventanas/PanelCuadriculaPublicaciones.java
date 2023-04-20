@@ -1,6 +1,8 @@
 package ventanas;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 import controlador.Controlador;
 import modelo.Publicacion;
@@ -9,16 +11,23 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 
 import java.awt.Insets;
+import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public class PanelCuadriculaPublicaciones extends JPanel {
+abstract class PanelCuadriculaPublicaciones extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static final int RESOLUCION_PUBLICACION = 125;
@@ -72,12 +81,78 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		return lblPublicacion;
 	}
 	
+	/**
+	 * Añade una publicacion que puede ser interactuada con click derecho para eliminarse
+	 * @param publi
+	 */
+	protected JLabel addPublicacionBorrable(Publicacion publi) {
+		PopupMenu popup = new PopupMenu();
+		popup.add("Eliminar");
+		return (JLabel) addManejadorBorrarPublicacion(addPublicacion(publi), popup, publi);
+	}
+	
+	private Component addManejadorBorrarPublicacion(JLabel label, PopupMenu popup, Publicacion p) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(SwingUtilities.isRightMouseButton(e)) {
+					crearPopUpMenu(label, e, p);
+				}
+				super.mouseClicked(e);
+			}
+		});
+		
+		return label;
+	}
+	
+	private void crearPopUpMenu(JLabel label, MouseEvent e, Publicacion p) {
+		JPopupMenu popupMenu = new JPopupMenu();
+		popupMenu.show(e.getComponent(), e.getX(), e.getY());
+		addPopup(label, popupMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Eliminar");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int seleccion = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres eliminar esta publicacion?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if (seleccion == 1) {
+					Controlador.getInstancia().borrarPublicacion(p);
+					//MALENIA
+					//FALTA ACTUALIZAR EL PANEL
+				}
+				
+				
+			}
+		});
+		popupMenu.add(mntmNewMenuItem);
+	}
+	
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
+	
 	private void addManejadorClickUsuario(JLabel label, Publicacion p) {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPublicacion v = new VentanaPublicacion(p);
-				v.mostrarVentana();
+				//Comprobamos que sea click izquierdo
+				if(SwingUtilities.isLeftMouseButton(e)) {
+					VentanaPublicacion v = new VentanaPublicacion(p);
+					v.mostrarVentana();
+				}
 			}
 		});
 	}

@@ -45,8 +45,9 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 	/**
 	 * Añade una lista de publicaciones al panel
 	 * @param publicaciones publicaciones que se van a añadir
+	 * @param borrable indica si la publicacion puede ser borrable o no
 	 */
-	public List<JLabel> addFotos(List<Foto> fotos) {
+	public List<JLabel> addFotos(List<Foto> fotos, boolean borrable) {
 		List<JLabel> labels = new ArrayList<JLabel>();
 		//Comprobamos si ha de quitar la imagen por defecto
 		if (estado == NO_FOTOS && fotos.size() > 0) {
@@ -54,20 +55,34 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 
 			remove(lblImagen);
 		}
-		
-		for (Foto f: fotos) {
-			labels.add(addPublicacion(f));
+		if (borrable) {
+			fotos.stream()
+			.forEachOrdered(f -> labels.add(addPublicacionBorrable(f)));			
+		} else {
+			fotos.stream()
+			.forEachOrdered(f -> labels.add(addPublicacion(f)));		
 		}
+
 		return labels;
 	}
 	
-	public void addFoto(Publicacion publi) {
+	/**
+	 * Añade una unica foto
+	 * @param borrable indica si la publicacion puede ser borrable o no
+	 * @param publi
+	 */
+	public void addFoto(Publicacion publi, boolean borrable) {
 		//Comprobamos si ha que quitar la imagen por defecto
 		if (estado == NO_FOTOS) {
 			estado = SI_FOTOS;
 			remove(lblImagen);
 		}
-		addPublicacion(publi);
+		
+		if(borrable) {
+			addPublicacionBorrable(publi);	
+		} else {
+			addPublicacion(publi);	
+		}
 	}
 
 	public void limpiar() {

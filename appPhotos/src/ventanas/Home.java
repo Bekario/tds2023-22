@@ -8,12 +8,11 @@ import modelo.Publicacion;
 
 import java.awt.Toolkit;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.Icon;
+
 import javax.swing.ImageIcon;
 import java.awt.Insets;
 import java.awt.Font;
@@ -393,14 +392,16 @@ public class Home {
 	 * Actualiza el panelPerfil con la nueva foto subida
 	 */
 	public void subirFoto(Publicacion publicacion) {
-		panelPerfil.addFoto(publicacion);
+		//Esta publicacion se puede borrar, ya que es subida por el usuario
+		panelPerfil.addFoto(publicacion, true);
 	}
 	
 	/**
 	 * Actualiza el panelPerfil con el nuevo album subido
 	 */
 	public void subirAlbum(Publicacion publicacion) {
-		panelPerfil.addAlbum(publicacion);
+		//Esta publicacion se puede borrar, ya que es subida por el usuario
+		panelPerfil.addAlbum(publicacion, true);
 	}
 	
 	private void addManejadorBotonXml(JLabel label) {

@@ -22,12 +22,12 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 	 */
 	public PanelSeleccionarFotos(List<Foto> fotos) {
 		super();
-		addFotos(fotos);
+		addFotos(fotos, false);
 	}
 	
 	@Override
-	public List<JLabel> addFotos(List<Foto> fotos) {
-		 List<JLabel> labels = super.addFotos(fotos);
+	public List<JLabel> addFotos(List<Foto> fotos, boolean borrable) {
+		 List<JLabel> labels = super.addFotos(fotos, borrable);
 		 cargarManejadores(fotos, labels);
 		 return labels;
 	}

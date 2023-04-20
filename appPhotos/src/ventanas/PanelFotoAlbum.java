@@ -177,15 +177,20 @@ public class PanelFotoAlbum extends JPanel {
 	}
 	
 	private void cargarPublicaciones(Usuario usuario) {
-		panelAlbum.addAlbums(usuario.getAlbums());
-		panelFotos.addFotos(usuario.getFotos());
+		//Comprobamos si publicacion puede permitir ser borrada
+		boolean borrable = false;
+		if(Controlador.getInstancia().obtenerUsuarioActual().equals(usuario) ) {
+			borrable = true;
+		}
+		panelAlbum.addAlbums(usuario.getAlbums(), borrable);
+		panelFotos.addFotos(usuario.getFotos(), borrable);
 	}
 	
-	public void addAlbum(Publicacion publicacion) {
-		panelAlbum.addAlbum(publicacion);
+	public void addAlbum(Publicacion publicacion, boolean borrable) {
+		panelAlbum.addAlbum(publicacion, borrable);
 	}
 	
-	public void addFoto(Publicacion publicacion) {
-		panelFotos.addFoto(publicacion);
+	public void addFoto(Publicacion publicacion, boolean borrable) {
+		panelFotos.addFoto(publicacion, borrable);
 	}
 }
