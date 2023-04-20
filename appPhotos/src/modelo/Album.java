@@ -67,8 +67,18 @@ public class Album extends Publicacion {
 	}
 	
 	public boolean eliminarFoto(Foto foto) {
-		if (foto.equals(portada)) {
-			
+		return fotos.remove(foto);
+	}
+	
+	/**
+	 * Comprueba si una foto es la portada del album o parte del mismo
+	 * @param foto
+	 */
+	public boolean comprobarFoto(Foto foto) {
+		if(fotos.contains(foto) || foto.equals(portada)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 	

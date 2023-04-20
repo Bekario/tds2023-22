@@ -250,10 +250,13 @@ public class Controlador implements IFotosListener {
 			e.printStackTrace();
 		}
 		publicacionDAO.borrarPublicacion(publicacion);
+		RepoPublicaciones.getUnicaInstancia().removePublicacion(publicacion);
 		
 		//Ahora comprobamos si la publicacion está contenida en un album
+		/*usuarioActual.getAlbums().stream()
+								 .filter(a -> a.comprobarFoto(publicacion))
+								 .*/
 		
-		RepoPublicaciones.getUnicaInstancia().removePublicacion(publicacion);
 		return true;
 	}
 	
