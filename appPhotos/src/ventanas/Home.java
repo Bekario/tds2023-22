@@ -254,6 +254,13 @@ public class Home {
 		barraSuperior.add(Titulo, gbc_Titulo);
 		
 		addManejadorBotonXml(Titulo);
+		
+		JLabel lblNewLabel = new JLabel("");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel.gridx = 3;
+		gbc_lblNewLabel.gridy = 0;
+		barraSuperior.add(lblNewLabel, gbc_lblNewLabel);
 	}
 	
 	private void establecerPanelMedio() {

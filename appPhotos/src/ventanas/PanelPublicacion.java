@@ -49,7 +49,8 @@ public class PanelPublicacion extends JPanel {
 		addManejadorClickUsuario(lblNombreUsuario, p.getUsuario());
 		addManejadorClickUsuario(lblFotoPerfil, p.getUsuario());
 		addManejadorClickLike(lblLike, p);
-		addManejadorClickUsuario(lblComentario, p);
+		Manejadores.addManejadorClickToFoto(lblComentario, p);
+		Manejadores.addManejadorClickToFoto(lblFoto, p);
 
 	}
 	
@@ -159,16 +160,7 @@ public class PanelPublicacion extends JPanel {
 		
 	}
 
-	private void addManejadorClickUsuario(JLabel label, Publicacion p) {
-		label.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VentanaPublicacion v = new VentanaPublicacion(p);
-				v.mostrarVentana();
-			}
-		});
-	}
-	
+
 	private void addManejadorClickUsuario(JLabel label, Usuario usuario) {
 		label.addMouseListener(new MouseAdapter() {
 			@Override

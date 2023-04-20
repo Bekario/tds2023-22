@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controlador.Controlador;
 import modelo.Publicacion;
 
 import java.awt.GridBagLayout;
@@ -40,7 +41,7 @@ public class VentanaPublicacion extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 		
 		JLabel lblNewLabel = new JLabel("");
-		ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/ParticipantImageServlet.jpg"));
+		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(p));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
 		lblNewLabel.setIcon(icono);
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();

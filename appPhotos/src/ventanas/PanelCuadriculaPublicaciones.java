@@ -71,7 +71,7 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 		gbc_lblNewLabel.gridx = x;
 		gbc_lblNewLabel.gridy = y;
 		add(lblPublicacion, gbc_lblNewLabel);
-		addManejadorClickUsuario(lblPublicacion, publi);
+		Manejadores.addManejadorClickToFoto(lblPublicacion, publi);
 		x++;
 		
 		if(x > 2) {
@@ -109,7 +109,7 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int seleccion = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres eliminar esta publicacion?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (seleccion == 0) {
-					boolean a = Controlador.getInstancia().borrarPublicacion(p);
+					Controlador.getInstancia().borrarPublicacion(p);
 					//MALENIA
 					//FALTA ACTUALIZAR EL PANEL
 				}
@@ -141,18 +141,6 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 		});
 	}
 	
-	private void addManejadorClickUsuario(JLabel label, Publicacion p) {
-		label.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//Comprobamos que sea click izquierdo
-				if(SwingUtilities.isLeftMouseButton(e)) {
-					VentanaPublicacion v = new VentanaPublicacion(p);
-					v.mostrarVentana();
-				}
-			}
-		});
-	}
 	
 	protected void borrarTodasPublicaciones() {	
 		//Reiniciamos las posiciones

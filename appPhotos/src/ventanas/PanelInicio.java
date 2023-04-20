@@ -97,7 +97,7 @@ public class PanelInicio extends JPanel {
 		PanelPublicacion panelPublicacion = new PanelPublicacion(padre, publicacion);
 		GridBagConstraints gbc_panelPublicacion = new GridBagConstraints();
 		gbc_panelPublicacion.insets = new Insets(0, 0, 5, 0);
-		gbc_panelPublicacion.fill = GridBagConstraints.BOTH;
+		gbc_panelPublicacion.fill = GridBagConstraints.CENTER;
 		gbc_panelPublicacion.gridx = 0;
 		gbc_panelPublicacion.gridy = y;
 		y+=5;

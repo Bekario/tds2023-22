@@ -8,9 +8,12 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import modelo.Publicacion;
 
 /**
  * Manejadores comunes, utilizados en diversas ventanas y paneles
@@ -143,6 +146,15 @@ public class Manejadores {
 				boton.setBackground(new Color(78,80,82));
 				boton.setForeground(new Color(218,200,41));
 				
+			}
+		});
+	}
+	public static void addManejadorClickToFoto(JLabel label, Publicacion p) {
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaPublicacion v = new VentanaPublicacion(p);
+				v.mostrarVentana();
 			}
 		});
 	}
