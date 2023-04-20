@@ -59,6 +59,7 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 	/**
 	 * Añade una unica publicacion al panel
 	 * @param publicacion
+	 * @param manejador true si se desea añadir un manejador a la publicacion
 	 */
 	protected JLabel addPublicacion(Publicacion publi) {
 		ImageIcon imagen = new ImageIcon(Controlador.getInstancia().obtenerPortadaPublicacion(publi));			
@@ -71,7 +72,6 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 		gbc_lblNewLabel.gridx = x;
 		gbc_lblNewLabel.gridy = y;
 		add(lblPublicacion, gbc_lblNewLabel);
-		Manejadores.addManejadorClickToFoto(lblPublicacion, publi);
 		x++;
 		
 		if(x > 2) {
@@ -82,13 +82,23 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 	}
 	
 	/**
+	 * Añade una publicacion con manejador de click
+	 * @param publi
+	 */
+	public JLabel addPublicacionConManejador(Publicacion publi) {
+		JLabel label = addPublicacion(publi);
+		Manejadores.addManejadorClickToFoto(label, publi);
+		return label;
+	}
+	
+	/**
 	 * Añade una publicacion que puede ser interactuada con click derecho para eliminarse
 	 * @param publi
 	 */
 	protected JLabel addPublicacionBorrable(Publicacion publi) {
 		PopupMenu popup = new PopupMenu();
 		popup.add("Eliminar");
-		return (JLabel) addManejadorBorrarPublicacion(addPublicacion(publi), publi);
+		return (JLabel) addManejadorBorrarPublicacion(addPublicacionConManejador(publi), publi);
 	}
 	
 	private Component addManejadorBorrarPublicacion(JLabel label, Publicacion p) {
