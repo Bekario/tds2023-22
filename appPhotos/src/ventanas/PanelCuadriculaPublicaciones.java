@@ -88,26 +88,20 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 	protected JLabel addPublicacionBorrable(Publicacion publi) {
 		PopupMenu popup = new PopupMenu();
 		popup.add("Eliminar");
-		return (JLabel) addManejadorBorrarPublicacion(addPublicacion(publi), popup, publi);
+		return (JLabel) addManejadorBorrarPublicacion(addPublicacion(publi), publi);
 	}
 	
-	private Component addManejadorBorrarPublicacion(JLabel label, PopupMenu popup, Publicacion p) {
+	private Component addManejadorBorrarPublicacion(JLabel label, Publicacion p) {
+		JPopupMenu popupMenu = new JPopupMenu();
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(SwingUtilities.isRightMouseButton(e)) {
-					crearPopUpMenu(label, e, p);
+					popupMenu.show(e.getComponent(), e.getX(), e.getY());
+					super.mouseClicked(e);
 				}
-				super.mouseClicked(e);
 			}
 		});
-		
-		return label;
-	}
-	
-	private void crearPopUpMenu(JLabel label, MouseEvent e, Publicacion p) {
-		JPopupMenu popupMenu = new JPopupMenu();
-		popupMenu.show(e.getComponent(), e.getX(), e.getY());
 		addPopup(label, popupMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Eliminar");
@@ -124,6 +118,9 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 			}
 		});
 		popupMenu.add(mntmNewMenuItem);
+		
+		
+		return label;
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
