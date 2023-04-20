@@ -47,10 +47,12 @@ public class Controlador implements IFotosListener {
 	
 	//Cargador de fotos
 	ComponenteCargadorFotos c;
+	String rutaXml;
 	
 	private Controlador() {
 		usuarioActual = null;
 		portadaSeleccionada = null;
+		rutaXml = null;
 		seleccionados = new ArrayList<Publicacion>();
 		//Añadimos el controlador como listener
 		c = new ComponenteCargadorFotos();
@@ -68,11 +70,13 @@ public class Controlador implements IFotosListener {
 	public void notificaNuevasFotos(EventObject e) {
 		List<umu.tds.fotos.Foto> fotos = ((FotosEvent) e).getFotos().getFoto();
 		fotos.stream()
-			 .forEach(f -> añadirFoto(f.getTitulo(), f.getDescripcion(), f.getPath()));
+			 .forEach(f -> añadirFoto(f.getTitulo(), f.getDescripcion(), FileSystems.getDefault().getPath(rutaXml+f.getPath()).toString()));
 		
 	}
 	
 	public void cargarFotos(String rutaXml) {
+		//Quitamos /nombre.xml de la ruta para poder leer las imagenes a continuacion
+		this.rutaXml = rutaXml.substring(0, rutaXml.lastIndexOf('\\'));
 		c.setArchivoFotos(rutaXml);
 	}
 	
@@ -246,7 +250,9 @@ public class Controlador implements IFotosListener {
 			e.printStackTrace();
 		}
 		publicacionDAO.borrarPublicacion(publicacion);
-
+		
+		//Ahora comprobamos si la publicacion está contenida en un album
+		
 		RepoPublicaciones.getUnicaInstancia().removePublicacion(publicacion);
 		return true;
 	}

@@ -108,8 +108,8 @@ abstract class PanelCuadriculaPublicaciones extends JPanel {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int seleccion = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres eliminar esta publicacion?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-				if (seleccion == 1) {
-					Controlador.getInstancia().borrarPublicacion(p);
+				if (seleccion == 0) {
+					boolean a = Controlador.getInstancia().borrarPublicacion(p);
 					//MALENIA
 					//FALTA ACTUALIZAR EL PANEL
 				}

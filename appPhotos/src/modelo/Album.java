@@ -66,4 +66,10 @@ public class Album extends Publicacion {
 		this.portada = portada;
 	}
 	
+	public boolean eliminarFoto(Foto foto) {
+		if (foto.equals(portada)) {
+			
+		}
+	}
+	
 }
