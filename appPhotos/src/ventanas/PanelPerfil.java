@@ -46,15 +46,14 @@ public class PanelPerfil extends JPanel {
 		panelCabeceraPerfil = new PanelCabeceraPerfil(home, usuario);
 		GridBagConstraints gbc_panelCabeceraPerfil = new GridBagConstraints();
 		gbc_panelCabeceraPerfil.insets = new Insets(0, 0, 5, 5);
-		gbc_panelCabeceraPerfil.fill = GridBagConstraints.BOTH;
+		gbc_panelCabeceraPerfil.fill = GridBagConstraints.VERTICAL;
 		gbc_panelCabeceraPerfil.gridx = 1;
 		gbc_panelCabeceraPerfil.gridy = 1;
 		add(panelCabeceraPerfil, gbc_panelCabeceraPerfil);
 		
 		panelFotoAlbum = new PanelFotoAlbum(home, usuario);
 		GridBagConstraints gbc_panelFotoAlbum = new GridBagConstraints();
-		gbc_panelFotoAlbum.gridwidth = 2;
-		gbc_panelFotoAlbum.fill = GridBagConstraints.BOTH;
+		gbc_panelFotoAlbum.fill = GridBagConstraints.VERTICAL;
 		gbc_panelFotoAlbum.gridx = 1;
 		gbc_panelFotoAlbum.gridy = 3;
 		add(panelFotoAlbum, gbc_panelFotoAlbum);

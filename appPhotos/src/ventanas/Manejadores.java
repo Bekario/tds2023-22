@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import modelo.Publicacion;
 
@@ -153,8 +154,10 @@ public class Manejadores {
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPublicacion v = new VentanaPublicacion(p);
-				v.mostrarVentana();
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					VentanaPublicacion v = new VentanaPublicacion(p);
+					v.mostrarVentana();
+				}
 			}
 		});
 	}

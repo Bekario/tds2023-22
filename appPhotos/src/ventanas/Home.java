@@ -339,7 +339,8 @@ public class Home {
 	}
 	
 	public void recargarPanelInicio() {
-		panelInicio = new PanelInicio(this);		
+		panelInicio = new PanelInicio(this);	
+		setPanelPublicaciones();
 	}
 	
 	public void setPanelBusqueda() {
