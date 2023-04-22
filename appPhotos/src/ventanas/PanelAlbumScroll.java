@@ -3,7 +3,6 @@ package ventanas;
 import javax.swing.JPanel;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import modelo.Publicacion;
 import modelo.Foto;

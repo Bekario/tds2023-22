@@ -15,19 +15,23 @@ public class VentanaPublicacion extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-
-
 	/**
 	 * Create the frame.
 	 */
 	public VentanaPublicacion(Publicacion p) {
+		crearVentana(p);
+		setSize(getPreferredSize());
+		setLocationRelativeTo(null);
+	}
+	
+	private void crearVentana(Publicacion p) {
 		setTitle(p.getTitulo());
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPublicacion.class.getResource("/imagenes/camara-de-fotos.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 800, 420);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{0, 0};
@@ -61,6 +65,7 @@ public class VentanaPublicacion extends JFrame {
 		gbc_panelComentario.gridy = 0;
 		getContentPane().add(panelComentario, gbc_panelComentario);
 	}
+	
 	/**
 	 * Muestra la ventana
 	 */
