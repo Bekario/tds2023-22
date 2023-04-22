@@ -2,6 +2,7 @@ package ventanas;
 
 import javax.swing.JPanel;
 
+import java.util.List;
 import java.util.ListIterator;
 
 import modelo.Publicacion;
@@ -20,7 +21,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import java.awt.Cursor;
-import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 
 public class PanelAlbumScroll extends PanelPublicacionScroll {
@@ -28,20 +29,21 @@ public class PanelAlbumScroll extends PanelPublicacionScroll {
 	private static final long serialVersionUID = 1L;
 	private JButton btnIzquierda;
 	private JButton btnDerecha;
+	private JLabel lblNombreFoto;
 	private static final int IZQUIERDA = 0;
 	private static final int DERECHA = 1;
-	private ListIterator<Foto> iterador;
+	private int indice;
 
 	public PanelAlbumScroll(Publicacion publicacion) {
 		super(publicacion);
-		iterador = ((Album) publicacion).getFotos().listIterator();
-		establecerPanelScroll();
+		indice = 0;
+		establecerPanelScroll(publicacion);
 		
-		addManejadorClickBoton(btnIzquierda, IZQUIERDA);
-		addManejadorClickBoton(btnDerecha, DERECHA);
+		addManejadorClickBoton(btnIzquierda, IZQUIERDA, (Album) publicacion);
+		addManejadorClickBoton(btnDerecha, DERECHA, (Album) publicacion);
 	}
 	
-	private void establecerPanelScroll() {
+	private void establecerPanelScroll(Publicacion publicacion) {
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -64,12 +66,13 @@ public class PanelAlbumScroll extends PanelPublicacionScroll {
 		btnIzquierda.setContentAreaFilled(false);
 		btnIzquierda.setIcon(new ImageIcon(PanelAlbumScroll.class.getResource("/imagenes/proximo izq.png")));
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 0, 5);
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 0;
-		panel.add(comboBox, gbc_comboBox);
+		lblNombreFoto = new JLabel(((Album) publicacion).getPortada().getTitulo());
+		GridBagConstraints gbc_lblNombreFoto = new GridBagConstraints();
+		gbc_lblNombreFoto.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNombreFoto.gridx = 1;
+		gbc_lblNombreFoto.gridy = 0;
+		panel.add(lblNombreFoto, gbc_lblNombreFoto);
+		
 		
 		btnDerecha = new JButton("");
 		GridBagConstraints gbc_btnDerecha = new GridBagConstraints();
@@ -81,28 +84,40 @@ public class PanelAlbumScroll extends PanelPublicacionScroll {
 		btnDerecha.setIcon(new ImageIcon(PanelAlbumScroll.class.getResource("/imagenes/proximo.png")));
 	}
 	
-	private void addManejadorClickBoton(JButton boton, int direccion) {
+	private void addManejadorClickBoton(JButton boton, int direccion, Album album) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Comprobamos la direccion y movemos el iterador
+				List<Foto> fotos = album.getFotos();
+				
+				//Comprobamos la direccion y movemos el indice
 				Foto foto = null;
 				if(direccion == IZQUIERDA) {
-					if(iterador.hasPrevious()) {
-						foto = iterador.previous();
+					if(indice > 0) {
+						indice--;
 					}
-				} else {
-					if(iterador.hasNext()) {
-						foto = iterador.next();						
+				} else if (direccion == DERECHA) {
+					if (indice < fotos.size()) {
+						indice++;
 					}
 				}
-				
-				//Cambiamos el icono
-				ImageIcon imagen = new ImageIcon(foto.getPath());
-				Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
-				lblFoto.setIcon(icono);
-				
-				//Refrescamos
-				updateUI();
+
+				//Si el indice es 0 es la portada, sino es el resto
+				if(indice == 0) {
+					foto = album.getPortada();
+				} else {
+					foto = fotos.get(indice-1);
+				}
+
+				//Cambiamos el icono si es necesario
+				if(foto != null) {
+					ImageIcon imagen = new ImageIcon(foto.getPath());
+					Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
+					lblFoto.setIcon(icono);
+					lblNombreFoto.setText(foto.getTitulo());
+					
+					//Refrescamos
+					updateUI();
+				}
 			}
 		});
 	}
