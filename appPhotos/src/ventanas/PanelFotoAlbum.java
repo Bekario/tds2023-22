@@ -65,13 +65,13 @@ public class PanelFotoAlbum extends JPanel {
 	
 	private void crearBotones(Usuario usuario) {
 		btnFotos = new JButton("Fotos");
+		btnFotos.setContentAreaFilled(false);
 		GridBagConstraints gbc_btnFotos = new GridBagConstraints();
 		gbc_btnFotos.anchor = GridBagConstraints.EAST;
 		gbc_btnFotos.insets = new Insets(0, 0, 5, 5);
 		gbc_btnFotos.gridx = 1;
 		gbc_btnFotos.gridy = 0;
 		add(btnFotos, gbc_btnFotos);
-		btnFotos.setBackground(new Color(66, 61, 67));
 		btnFotos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnFotos.setBorder(null);
 		
@@ -88,8 +88,8 @@ public class PanelFotoAlbum extends JPanel {
 		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		btnAlbum = new JButton("Album");
+		btnAlbum.setContentAreaFilled(false);
 		panel_2.add(btnAlbum);
-		btnAlbum.setBackground(new Color(42, 45, 46));
 		btnAlbum.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAlbum.setBorder(null);
 		addManejadorBotonPaneles(btnAlbum, panelAlbum, ALBUM);
@@ -101,10 +101,11 @@ public class PanelFotoAlbum extends JPanel {
 			panel_2.add(btnAlbum_add);
 			ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/add.png"));
 			Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+			btnAlbum_add.setContentAreaFilled(false);
 			btnAlbum_add.setIcon(icono);
 			btnAlbum_add.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnAlbum_add.setBorder(null);
-			btnAlbum_add.setBackground(new Color(42, 45, 46));
+	
 			
 			addManejadorBotonAñadirAlbum(btnAlbum_add);			
 		}

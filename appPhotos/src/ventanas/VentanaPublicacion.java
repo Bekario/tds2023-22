@@ -9,6 +9,19 @@ import modelo.Publicacion;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
+
 public class VentanaPublicacion extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -20,6 +33,8 @@ public class VentanaPublicacion extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPublicacion(Publicacion p) {
+		setTitle(p.getTitulo());
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPublicacion.class.getResource("/imagenes/camara-de-fotos.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 420);
 		contentPane = new JPanel();
