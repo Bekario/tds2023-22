@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 
 import controlador.Controlador;
 import modelo.Usuario;
+import umu.tds.fotos.HashTag;
 
 import java.awt.Insets;
 import javax.swing.ImageIcon;
@@ -122,9 +123,14 @@ public class PanelBuscar extends JPanel {
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelListaUsuarios.quitarUsuarios();
-				List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
-				panelListaUsuarios.addListaUsuario(lista);
-				panelListaUsuarios.updateUI();
+				if(txtBarraBusqueda.getText().startsWith("#")) {
+					List<String> lista = Controlador.getInstancia().obtenerHashTagsBuscados(txtBarraBusqueda.getText());
+					
+				}else {
+					List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
+					panelListaUsuarios.addListaUsuario(lista);
+					panelListaUsuarios.updateUI();
+				}
 			}
 		});
 	}

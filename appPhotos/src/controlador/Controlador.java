@@ -31,6 +31,7 @@ import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
 import umu.tds.fotos.ComponenteCargadorFotos;
 import umu.tds.fotos.FotosEvent;
+import umu.tds.fotos.HashTag;
 import umu.tds.fotos.IFotosListener;
 
 
@@ -587,5 +588,41 @@ public class Controlador implements IFotosListener {
 	
 	public void setPortadaSeleccionada(Publicacion portadaSeleccionada) {
 		this.portadaSeleccionada = portadaSeleccionada;
-	}		
+	}
+
+	public List<String> obtenerHashTagsBuscados(String nombre) {
+		//Lo convertimos a minuscula para no distinguir
+		nombre = nombre.toLowerCase();
+		List<String> listaBuscada =  new ArrayList<String>();
+		List<String> listaTotal = getHashTagsTotales();
+		// MALENIA STREAM
+		for (String hashtag : listaTotal) {
+			// Comprobamos que el usuario coincida en sus primeras letras y que no sea el mismo
+			if(hashtag.toLowerCase().startsWith(nombre)) {
+				listaBuscada.add(hashtag);
+			}
+		}
+		
+		return listaBuscada;
+	}
+
+	private List<String> getHashTagsTotales() {
+		HashSet<String> a = new HashSet<String>();
+		RepoPublicaciones.getUnicaInstancia().getPublicaciones().stream()
+							.forEach(h -> a.addAll(h.getHashtags()));
+		List<String> lista= new ArrayList<String>(a);
+		return lista;
+	}	
+	public int getNumPublicacionesHashTags(String s) {
+		int num=0;
+		List<Publicacion> list = RepoPublicaciones.getUnicaInstancia().getPublicaciones();
+		for (Publicacion publicacion : list) {
+			if(publicacion.getHashtags().contains("#"+s)) {
+				num++;
+			}
+		}
+		return num;
+			
+
+	}
 }
