@@ -45,8 +45,9 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 	 * Añade una lista de publicaciones al panel
 	 * @param publicaciones publicaciones que se van a añadir
 	 * @param borrable indica si la publicacion puede ser borrable o no
+	 * @param clickable indica si al hacer click se abre una ventana publicacion
 	 */
-	public void addAlbums(List<Album> albums, boolean borrable) {
+	public void addAlbums(List<Album> albums, boolean borrable, boolean clickable) {
 		//Comprobamos si ha que quitar la imagen por defecto
 		if (estado == NO_ALBUM && albums.size() > 0) {
 			estado = SI_ALBUM;
@@ -56,7 +57,10 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 		if (borrable) {
 			albums.stream()
 			.forEachOrdered(f -> addPublicacionBorrable(f));			
-		} else {
+		} else if(clickable) {
+			albums.stream()
+			.forEachOrdered(f -> addPublicacionConManejador(f));		
+		} else if(!borrable && !clickable) {
 			albums.stream()
 			.forEachOrdered(f -> addPublicacion(f));		
 		}

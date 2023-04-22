@@ -46,8 +46,9 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 	 * Añade una lista de publicaciones al panel
 	 * @param publicaciones publicaciones que se van a añadir
 	 * @param borrable indica si la publicacion puede ser borrable o no
+	 * @param clickable indica si al hacer click se abre una ventana publicacion
 	 */
-	public List<JLabel> addFotos(List<Foto> fotos, boolean borrable) {
+	public List<JLabel> addFotos(List<Foto> fotos, boolean borrable, boolean clickable) {
 		List<JLabel> labels = new ArrayList<JLabel>();
 		//Comprobamos si ha de quitar la imagen por defecto
 		if (estado == NO_FOTOS && fotos.size() > 0) {
@@ -58,7 +59,10 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 		if (borrable) {
 			fotos.stream()
 			.forEachOrdered(f -> labels.add(addPublicacionBorrable(f)));			
-		} else {
+		} else if (clickable) {
+			fotos.stream()
+			.forEachOrdered(f -> labels.add(addPublicacionConManejador(f)));		
+		} else if (!borrable && !clickable) {
 			fotos.stream()
 			.forEachOrdered(f -> labels.add(addPublicacion(f)));		
 		}
