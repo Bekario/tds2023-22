@@ -7,20 +7,8 @@ import javax.swing.border.EmptyBorder;
 import modelo.Publicacion;
 
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.GridBagConstraints;
-
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
 
 public class VentanaPublicacion extends JFrame {
 
