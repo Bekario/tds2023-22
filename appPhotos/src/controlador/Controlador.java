@@ -428,6 +428,8 @@ public class Controlador implements IFotosListener {
 			}
 		}
 		List<Usuario> list= new ArrayList<Usuario>(listaBuscada);
+		Collections.sort(list, (x, y) -> x.getUsuario().compareToIgnoreCase(y.getUsuario()));
+
 		
 		return list;
 	}

@@ -81,9 +81,9 @@ public class PanelBuscar extends JPanel {
 		txtBarraBusqueda.setColumns(10);
 		
 		btnBuscar = new JButton("");
+		btnBuscar.setContentAreaFilled(false);
+		btnBuscar.setBorderPainted(false);
 		btnBuscar.setFocusable(false);
-
-		btnBuscar.setBackground(new Color(45, 42, 46));
 		btnBuscar.setIcon(new ImageIcon(PanelBuscar.class.getResource("/imagenes/buscar.png")));
 		GridBagConstraints gbc_btnBuscar = new GridBagConstraints();
 		gbc_btnBuscar.insets = new Insets(0, 0, 5, 5);

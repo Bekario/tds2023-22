@@ -83,6 +83,7 @@ public class PanelPerfil extends JPanel {
 		panelCabeceraPerfil.actualizarCampos(usuario);
 		this.updateUI();
 	}
+
 	
 		
 

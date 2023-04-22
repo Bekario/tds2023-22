@@ -282,12 +282,15 @@ public class PanelSubir extends JPanel {
 		
 		String info = "";
 		
-		//Comprobamos si es un correo basico
+		//Comprobamos si se ha editado y su longitud es menor a 25
 		if(txtTitulo.getText().equals("Título")) {
 			estado = false;
 			info = "¡Este título no es válido!";
 		}
-		
+		if(txtTitulo.getText().length()>25) {
+			estado = false;
+			info = "¡Longitud máxima de 25 caracteres!";
+		}
 		if(txtDescripcion.getText().equals("Descripción") || txtDescripcion.getText().length() >= 200) {
 			estado = false;
 			info = "¡Introduce una descripción válida de menos de 200 caracteres!";

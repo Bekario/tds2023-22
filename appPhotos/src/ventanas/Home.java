@@ -102,7 +102,7 @@ public class Home {
 		barraInferior.setLayout(gbl_barraInferior);
 		
 		JButton btnPrincipal = new JButton("");
-		btnPrincipal.setBackground(new Color(192, 192, 192));
+		btnPrincipal.setContentAreaFilled(false);
 		btnPrincipal.setIcon(new ImageIcon(Home.class.getResource("/imagenes/casa.png")));
 		GridBagConstraints gbc_btnPrincipal = new GridBagConstraints();
 		gbc_btnPrincipal.insets = new Insets(0, 0, 0, 5);
@@ -112,7 +112,7 @@ public class Home {
 		btnPrincipal.setBorder(null);
 		
 		JButton btnSearch = new JButton("");
-		btnSearch.setBackground(new Color(192, 192, 192));
+		btnSearch.setContentAreaFilled(false);
 		btnSearch.setIcon(new ImageIcon(Home.class.getResource("/imagenes/lupa.png")));
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.fill = GridBagConstraints.VERTICAL;
@@ -123,7 +123,7 @@ public class Home {
 		btnSearch.setBorder(null);
 		
 		JButton btnSubirFoto = new JButton("");
-		btnSubirFoto.setBackground(new Color(192, 192, 192));
+		btnSubirFoto.setContentAreaFilled(false);
 		btnSubirFoto.setIcon(new ImageIcon(Home.class.getResource("/imagenes/add.png")));
 		GridBagConstraints gbc_btnSubirFoto = new GridBagConstraints();
 		gbc_btnSubirFoto.fill = GridBagConstraints.VERTICAL;
@@ -134,7 +134,7 @@ public class Home {
 		btnSubirFoto.setBorder(null);
 		
 		JButton btnPerfil = new JButton("");
-		btnPerfil.setBackground(new Color(192, 192, 192));
+		btnPerfil.setContentAreaFilled(false);
 		btnPerfil.setIcon(new ImageIcon(Home.class.getResource("/imagenes/usuario.png")));
 		GridBagConstraints gbc_btnPerfil = new GridBagConstraints();
 		gbc_btnPerfil.insets = new Insets(0, 0, 0, 5);
@@ -342,6 +342,9 @@ public class Home {
 		panelInicio = new PanelInicio(this);	
 		setPanelPublicaciones();
 	}
+	public void recargarPanelPerfil() {
+		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().obtenerUsuarioActual());	
+	}
 	
 	public void setPanelBusqueda() {
 		panelBusqueda.limpiarPanel();
@@ -439,6 +442,8 @@ public class Home {
 					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, ejecutamos cargarfotos
 						Controlador.getInstancia().cargarFotos(fichero.getAbsolutePath());
 						recargarPanelInicio();
+						recargarPanelPerfil();
+						
 					}
 				}
 			}
