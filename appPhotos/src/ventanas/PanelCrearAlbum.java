@@ -50,9 +50,9 @@ public class PanelCrearAlbum extends JPanel {
 	private void crearPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 285, 15, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 15, 450, 15, 0, 0, 15, 50, 15, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 15, 0, 15, 0, 0, 15, 50, 15, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		crearTextoYBotones();

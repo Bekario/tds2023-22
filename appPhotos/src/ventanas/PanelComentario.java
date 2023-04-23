@@ -19,6 +19,7 @@ import modelo.Publicacion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JTextField;
@@ -47,6 +48,7 @@ public class PanelComentario extends JPanel {
 	private JLabel comentario;
 	private int y;
 	private JButton lblEnviar;
+	private JLabel lblNewLabel;
 	/**
 	 * Create the panel.
 	 */
@@ -60,7 +62,7 @@ public class PanelComentario extends JPanel {
 		this.setSize(400, 400);
 		crearPanelEImagen();
 		crearBarraInferior(String.valueOf(publicacion.getMegusta()));
-		crearBarraSuperior(publicacion.getUsuario().getUsuario(), publicacion.getTitulo(), publicacion.getDescripcion(), publicacion.getUsuario().getPerfil());
+		crearBarraSuperior(publicacion.getUsuario().getUsuario(), publicacion.getTitulo(), publicacion.getDescripcion(), publicacion.getUsuario().getPerfil(), publicacion.getFecha().format(DateTimeFormatter.ISO_DATE).toString());
 		addComentario(publicacion.getComentarios());
 		
 		addManejadorComentarioTextfield(textField, publicacion);
@@ -194,7 +196,7 @@ public class PanelComentario extends JPanel {
 
 	}
 	
-	private void crearBarraSuperior(String usuario, String titulo, String descripcion, String perfil) {
+	private void crearBarraSuperior(String usuario, String titulo, String descripcion, String perfil, String fecha) {
 		JPanel panelSuperior = new JPanel();
 		GridBagConstraints gbc_panelSuperior = new GridBagConstraints();
 		gbc_panelSuperior.insets = new Insets(0, 0, 5, 0);
@@ -203,9 +205,9 @@ public class PanelComentario extends JPanel {
 		gbc_panelSuperior.gridy = 0;
 		add(panelSuperior, gbc_panelSuperior);
 		GridBagLayout gbl_panelSuperior = new GridBagLayout();
-		gbl_panelSuperior.columnWidths = new int[]{20, 0, 0, 5};
+		gbl_panelSuperior.columnWidths = new int[]{20, 0, 0, 0, 5};
 		gbl_panelSuperior.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panelSuperior.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE, 0.0};
+		gbl_panelSuperior.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE, 0.0, 0.0};
 		gbl_panelSuperior.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelSuperior.setLayout(gbl_panelSuperior);
 		
@@ -231,13 +233,20 @@ public class PanelComentario extends JPanel {
 		gbc_lblFotoPerfil.gridy = 0;
 		panelSuperior.add(lblFotoPerfil, gbc_lblFotoPerfil);
 		
+		lblNewLabel = new JLabel(fecha);
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 3;
+		gbc_lblNewLabel.gridy = 0;
+		panelSuperior.add(lblNewLabel, gbc_lblNewLabel);
+		
 		
 		lblTitulo_1 = new JLabel("<html><p style=\"width:300px\">"+titulo+"</p></html>");
 		lblTitulo_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		GridBagConstraints gbc_lblTitulo_1 = new GridBagConstraints();
 		gbc_lblTitulo_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTitulo_1.anchor = GridBagConstraints.WEST;
-		gbc_lblTitulo_1.gridwidth = 2;
+		gbc_lblTitulo_1.gridwidth = 3;
 		gbc_lblTitulo_1.gridx = 1;
 		gbc_lblTitulo_1.gridy = 1;
 		panelSuperior.add(lblTitulo_1, gbc_lblTitulo_1);
@@ -249,7 +258,7 @@ public class PanelComentario extends JPanel {
 		lblTitulo_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblTitulo_2 = new GridBagConstraints();
 		gbc_lblTitulo_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblTitulo_2.gridwidth = 2;
+		gbc_lblTitulo_2.gridwidth = 3;
 		gbc_lblTitulo_2.insets = new Insets(0, 0, 0, 5);
 		gbc_lblTitulo_2.gridx = 1;
 		gbc_lblTitulo_2.gridy = 2;
