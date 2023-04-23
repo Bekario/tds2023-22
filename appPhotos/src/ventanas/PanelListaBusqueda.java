@@ -10,9 +10,11 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import controlador.Controlador;
+import modelo.Publicacion;
 import modelo.Usuario;
 
-public class PanelListaUsuarios extends JPanel {
+public class PanelListaBusqueda extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private int y;
@@ -23,7 +25,7 @@ public class PanelListaUsuarios extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelListaUsuarios(Home home) {
+	public PanelListaBusqueda(Home home) {
 		this.home = home;
 		this.setSize(450, 490);
 		paneles = new ArrayList<JPanel>();
@@ -41,7 +43,7 @@ public class PanelListaUsuarios extends JPanel {
 		setLayout(gridBagLayout);
 	}
 	
-	public void addUsuario(Usuario usuario) {
+	public void addPanel(Usuario usuario) {
 		PanelUsuario panelUsuario = new PanelUsuario(usuario);
 		GridBagConstraints gbc_panelUsuario = new GridBagConstraints();
 		gbc_panelUsuario.insets = new Insets(0, 0, 5, 0);
@@ -54,29 +56,31 @@ public class PanelListaUsuarios extends JPanel {
 		
 		addManejadorClickUsuario(panelUsuario, usuario);
 	}
-	public void addUsuario(String hashtag) {
-		PanelHashTag panelUsuario = new PanelHashTag(hashtag);
-		GridBagConstraints gbc_panelUsuario = new GridBagConstraints();
-		gbc_panelUsuario.insets = new Insets(0, 0, 5, 0);
-		gbc_panelUsuario.fill = GridBagConstraints.BOTH;
-		gbc_panelUsuario.gridx = 0;
-		gbc_panelUsuario.gridy = y;
-		add(panelUsuario, gbc_panelUsuario);
-		paneles.add(panelUsuario);
+	public void addPanel(String hashtag) {
+		List<Publicacion> l = Controlador.getInstancia().getPublicacionesHashTags(hashtag);
+		String num = String.valueOf(l.size()+" publicaciones");
+		PanelHashTag panelHashTag = new PanelHashTag(hashtag, num);
+		GridBagConstraints gbc_panelHashTag = new GridBagConstraints();
+		gbc_panelHashTag.insets = new Insets(0, 0, 5, 0);
+		gbc_panelHashTag.fill = GridBagConstraints.BOTH;
+		gbc_panelHashTag.gridx = 0;
+		gbc_panelHashTag.gridy = y;
+		add(panelHashTag, gbc_panelHashTag);
+		paneles.add(panelHashTag);
 		y++;
 		
-//		addManejadorClickUsuario(panelUsuario, hashtag);
+		addManejadorClickHashTag(panelHashTag, l);
 	}
 	
 	public void addListaUsuario(List<Usuario> usuarios) {
 		for (Usuario usuario : usuarios) {
-			addUsuario(usuario);
+			addPanel(usuario);
 		}
 	}
 
 	public void addListaHashTag(List<String> hashtags) {
 		for (String hashtag: hashtags) {
-			addUsuario(hashtag);
+			addPanel(hashtag);
 		}
 	}
 	
@@ -93,6 +97,18 @@ public class PanelListaUsuarios extends JPanel {
 			}
 		});
 
+	}
+	private void addManejadorClickHashTag(PanelHashTag u, List<Publicacion> pub) {
+		u.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				PanelCuadriculaPublicaciones p= new PanelCuadriculaPublicaciones();
+				pub.stream()
+					.forEach(pub -> p.addPublicacionConManejador(pub));
+				
+				home.setPanel(p);
+			}
+		});
 	}
 
 }

@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import controlador.Controlador;
-import modelo.Foto;
 import modelo.Publicacion;
 
 import javax.swing.JLabel;

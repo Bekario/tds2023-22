@@ -9,12 +9,10 @@ import javax.swing.JTextField;
 
 import controlador.Controlador;
 import modelo.Usuario;
-import umu.tds.fotos.HashTag;
 
 import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -25,7 +23,7 @@ public class PanelBuscar extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtBarraBusqueda;
-	private PanelListaUsuarios panelListaUsuarios;
+	private PanelListaBusqueda panelListaUsuarios;
 	private JButton btnBuscar;
 	private Home home;
 
@@ -67,9 +65,16 @@ public class PanelBuscar extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode()==KeyEvent.VK_ENTER){
 					panelListaUsuarios.quitarUsuarios();
-					List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
-					panelListaUsuarios.addListaUsuario(lista);
-					panelListaUsuarios.updateUI();
+					if(txtBarraBusqueda.getText().startsWith("#")) {
+						List<String> lista = Controlador.getInstancia().obtenerHashTagsBuscados(txtBarraBusqueda.getText().substring(1));
+						panelListaUsuarios.addListaHashTag(lista);
+						panelListaUsuarios.updateUI();
+					}else {
+						List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
+						panelListaUsuarios.addListaUsuario(lista);
+						panelListaUsuarios.updateUI();
+					}
+
 				}
 			}
 		});
@@ -99,7 +104,7 @@ public class PanelBuscar extends JPanel {
 	}
 	
 	private void crearPanelLista() {
-		panelListaUsuarios = new PanelListaUsuarios(home);
+		panelListaUsuarios = new PanelListaBusqueda(home);
 		GridBagConstraints gbc_panelListaUsuarios = new GridBagConstraints();
 		gbc_panelListaUsuarios.gridwidth = 2;
 		gbc_panelListaUsuarios.insets = new Insets(0, 0, 0, 5);

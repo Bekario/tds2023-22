@@ -27,7 +27,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-abstract class PanelCuadriculaPublicaciones extends JPanel {
+public class PanelCuadriculaPublicaciones extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static final int RESOLUCION_PUBLICACION = 125;

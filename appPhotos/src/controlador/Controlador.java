@@ -612,15 +612,15 @@ public class Controlador implements IFotosListener {
 		List<String> lista= new ArrayList<String>(a);
 		return lista;
 	}	
-	public int getNumPublicacionesHashTags(String s) {
-		int num=0;
+	public List<Publicacion> getPublicacionesHashTags(String s) {
+		List<Publicacion> l = new ArrayList<Publicacion>(); 
 		List<Publicacion> list = RepoPublicaciones.getUnicaInstancia().getPublicaciones();
 		for (Publicacion publicacion : list) {
 			if(publicacion.getHashtags().contains(s)) {
-				num++;
+				l.add(publicacion);
 			}
 		}
-		return num;
+		return l;
 			
 
 	}
