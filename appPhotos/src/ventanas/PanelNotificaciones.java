@@ -2,34 +2,29 @@ package ventanas;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
-
-import java.awt.GridBagConstraints;
-import modelo.Variables;
-
-import java.awt.Insets;
-
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
+import java.awt.GridBagConstraints;
 import java.awt.Font;
-import javax.swing.JEditorPane;
-import javax.swing.JButton;
-import javax.swing.UIManager;
+import java.awt.Insets;
+import java.time.LocalDateTime;
+import java.awt.GridLayout;
 
-import controlador.Controlador;
-
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
+import modelo.Foto;
+import modelo.Notificacion;
+import modelo.Publicacion;
+import modelo.Usuario;
 
 public class PanelNotificaciones extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	private JPanel panel;
+	
+	private int y;
 	/**
 	 * Create the panel.
 	 */
 	public PanelNotificaciones() {
+		y=0;
 		crearPanel();
 		
 	}
@@ -38,75 +33,42 @@ public class PanelNotificaciones extends JPanel {
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 0, 15, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 15, 15, 15, 0, 15, 15, 50, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 15, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblPremium = new JLabel("PREMIUM");
-		lblPremium.setFont(new Font("Segoe UI", Font.BOLD, 19));
-		GridBagConstraints gbc_lblPremium = new GridBagConstraints();
-		gbc_lblPremium.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPremium.gridx = 1;
-		gbc_lblPremium.gridy = 1;
-		add(lblPremium, gbc_lblPremium);
+		JLabel lblNotificaciones = new JLabel("NOTIFICACIONES");
+		lblNotificaciones.setFont(new Font("Segoe UI", Font.BOLD, 19));
+		GridBagConstraints gbc_lblNotificaciones = new GridBagConstraints();
+		gbc_lblNotificaciones.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNotificaciones.gridx = 1;
+		gbc_lblNotificaciones.gridy = 1;
+		add(lblNotificaciones, gbc_lblNotificaciones);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(PanelNotificaciones.class.getResource("/imagenes/premium.png")));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 3;
-		add(lblNewLabel, gbc_lblNewLabel);
-		
-		JEditorPane dtrpnquieresConocerTus = new JEditorPane();
-		dtrpnquieresConocerTus.setEditable(false);
-		dtrpnquieresConocerTus.setContentType("text/html");
-		dtrpnquieresConocerTus.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		dtrpnquieresConocerTus.setText("<center>¿Quieres conocer tus mejores publicaciones?<br>¿Te interesa conocer al detalle todos tus seguidores?<br>Consigue Premium y podras disfrutar de todas estas ventajas:<br></center><ul>\r\n  <li>Exporta en formato PDF tu lista de seguidores.</li>\r\n  <li>Exporta en formato Excel tu lista de seguidores.</li>\r\n  <li>Visualiza tus 10 fotos que más me gustas han recibido.</li>\r\n</ul>");
-		
-		GridBagConstraints gbc_dtrpnquieresConocerTus = new GridBagConstraints();
-		gbc_dtrpnquieresConocerTus.insets = new Insets(0, 0, 5, 5);
-		gbc_dtrpnquieresConocerTus.fill = GridBagConstraints.BOTH;
-		gbc_dtrpnquieresConocerTus.gridx = 1;
-		gbc_dtrpnquieresConocerTus.gridy = 5;
-		add(dtrpnquieresConocerTus, gbc_dtrpnquieresConocerTus);
-		
-		JLabel lblSoloPor = new JLabel("¡SOLO POR "+String.valueOf(precio)+"€!");
-		lblSoloPor.setForeground(new Color(218, 200, 41));
-		lblSoloPor.setFont(new Font("Segoe UI", Font.BOLD, 19));
-		GridBagConstraints gbc_lblSoloPor = new GridBagConstraints();
-		gbc_lblSoloPor.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSoloPor.gridx = 1;
-		gbc_lblSoloPor.gridy = 6;
-		add(lblSoloPor, gbc_lblSoloPor);
-		
-		JButton btnPagar = new JButton("PAGAR");
-		btnPagar.setForeground(new Color(218, 200, 41));
-		btnPagar.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnPagar.setBorderPainted(false);
-		btnPagar.setBackground(UIManager.getColor("Button.background"));
-		GridBagConstraints gbc_btnPagar = new GridBagConstraints();
-		gbc_btnPagar.fill = GridBagConstraints.VERTICAL;
-		gbc_btnPagar.insets = new Insets(0, 0, 5, 5);
-		gbc_btnPagar.gridx = 1;
-		gbc_btnPagar.gridy = 8;
-		add(btnPagar, gbc_btnPagar);
-		
-		Manejadores.addManejadorBotonColor(btnPagar);
-		
-		if(!Controlador.getInstancia().comprobarPremium()) {
-			addManejadorBotonPagar(btnPagar);
-			
-		}else btnPagar.setText("PAGADO");
+		panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 3;
+		add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{0};
+		gbl_panel.rowHeights = new int[]{0, 0};
+		gbl_panel.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0};
+		panel.setLayout(gbl_panel);
 	}
 	
-	private void addManejadorBotonPagar(JButton boton) {
-		boton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				home.setPanel(new PanelTarjeta(home, precio));
-			}
-		});
+	public void addNotificacion(Notificacion n) {
+		PanelNotificacion panelNotificacion = new PanelNotificacion(n);
+		GridBagConstraints gbc_panelNotificacion = new GridBagConstraints();
+		gbc_panelNotificacion.insets = new Insets(0, 0, 5, 0);
+		gbc_panelNotificacion.gridx = 0;
+		gbc_panelNotificacion.gridy = y;
+		panel.add(panelNotificacion, gbc_panelNotificacion);
+		y++;
 	}
 
 }

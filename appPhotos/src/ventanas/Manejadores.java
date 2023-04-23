@@ -7,12 +7,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.LineBorder;
 
 import modelo.Publicacion;
 
@@ -158,6 +160,18 @@ public class Manejadores {
 					VentanaPublicacion v = new VentanaPublicacion(p);
 					v.mostrarVentana();
 				}
+			}
+		});
+	}
+	public static void addManejadorResaltar(JComponent c) {
+		c.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				c.setBorder(new LineBorder(new Color(218, 200, 41), 2, true));	
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				c.setBorder(new LineBorder(new Color(45, 42, 46), 2, true));		
 			}
 		});
 	}

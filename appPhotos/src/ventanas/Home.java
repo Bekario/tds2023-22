@@ -255,6 +255,12 @@ public class Home implements IEncendidoListener{
 		gbc_Titulo.gridy = 0;
 		barraSuperior.add(Titulo, gbc_Titulo);
 		
+		Titulo.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				setPanelNotificaciones();
+			}
+		});
+		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -377,6 +383,10 @@ public class Home implements IEncendidoListener{
 	}
 	public void setPanelPremium() {
 		cambiarScrollPane(new PanelPremium(this));
+	}
+	
+	public void setPanelNotificaciones() {
+		cambiarScrollPane(new PanelNotificaciones());
 	}
 	
 	public void setPanel(JPanel panel) {
