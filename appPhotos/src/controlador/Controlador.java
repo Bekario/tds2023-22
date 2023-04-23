@@ -616,7 +616,7 @@ public class Controlador implements IFotosListener {
 		int num=0;
 		List<Publicacion> list = RepoPublicaciones.getUnicaInstancia().getPublicaciones();
 		for (Publicacion publicacion : list) {
-			if(publicacion.getHashtags().contains("#"+s)) {
+			if(publicacion.getHashtags().contains(s)) {
 				num++;
 			}
 		}

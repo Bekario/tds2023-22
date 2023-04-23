@@ -10,13 +10,13 @@ import javax.swing.JPanel;
 import controlador.Controlador;
 
 
-public class PanelListaHashTags extends JPanel {
+public class PanelHashTag extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelListaHashTags (String s) {
+	public PanelHashTag (String s) {
 		crearPanel(s);
 	}
 	

@@ -124,8 +124,9 @@ public class PanelBuscar extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				panelListaUsuarios.quitarUsuarios();
 				if(txtBarraBusqueda.getText().startsWith("#")) {
-					List<String> lista = Controlador.getInstancia().obtenerHashTagsBuscados(txtBarraBusqueda.getText());
-					
+					List<String> lista = Controlador.getInstancia().obtenerHashTagsBuscados(txtBarraBusqueda.getText().substring(1));
+					panelListaUsuarios.addListaHashTag(lista);
+					panelListaUsuarios.updateUI();
 				}else {
 					List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
 					panelListaUsuarios.addListaUsuario(lista);

@@ -17,7 +17,7 @@ public class PanelListaUsuarios extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int y;
 	
-	private List<PanelUsuario> paneles;
+	private List<JPanel> paneles;
 	private Home home;
 	
 	/**
@@ -26,7 +26,7 @@ public class PanelListaUsuarios extends JPanel {
 	public PanelListaUsuarios(Home home) {
 		this.home = home;
 		this.setSize(450, 490);
-		paneles = new ArrayList<PanelUsuario>();
+		paneles = new ArrayList<JPanel>();
 		y=0;
 		
 		crearPanel();
@@ -54,6 +54,19 @@ public class PanelListaUsuarios extends JPanel {
 		
 		addManejadorClickUsuario(panelUsuario, usuario);
 	}
+	public void addUsuario(String hashtag) {
+		PanelHashTag panelUsuario = new PanelHashTag(hashtag);
+		GridBagConstraints gbc_panelUsuario = new GridBagConstraints();
+		gbc_panelUsuario.insets = new Insets(0, 0, 5, 0);
+		gbc_panelUsuario.fill = GridBagConstraints.BOTH;
+		gbc_panelUsuario.gridx = 0;
+		gbc_panelUsuario.gridy = y;
+		add(panelUsuario, gbc_panelUsuario);
+		paneles.add(panelUsuario);
+		y++;
+		
+//		addManejadorClickUsuario(panelUsuario, hashtag);
+	}
 	
 	public void addListaUsuario(List<Usuario> usuarios) {
 		for (Usuario usuario : usuarios) {
@@ -61,6 +74,11 @@ public class PanelListaUsuarios extends JPanel {
 		}
 	}
 
+	public void addListaHashTag(List<String> hashtags) {
+		for (String hashtag: hashtags) {
+			addUsuario(hashtag);
+		}
+	}
 	
 	public void quitarUsuarios() {
 		removeAll();
