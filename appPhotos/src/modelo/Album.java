@@ -26,6 +26,7 @@ public class Album extends Publicacion {
 		for (Foto f : fotos ) {
 			f.darMeGusta();
 		}
+		portada.darMeGusta();
 		super.darMeGusta();
 	}
 	
@@ -35,6 +36,7 @@ public class Album extends Publicacion {
 		for (Foto f : fotos ) {
 			f.quitarMeGusta();
 		}
+		portada.quitarMeGusta();
 		super.quitarMeGusta();
 	}
 	

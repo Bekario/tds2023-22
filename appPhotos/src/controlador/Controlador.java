@@ -625,18 +625,56 @@ public class Controlador implements IFotosListener {
 		return l;
 	}
 	
+	/**
+	 * Notifica a todos los seguidores del usuario sobre la publicacion subida
+	 * @param publicacion sobre la que se va a notificar
+	 */
+	public void notificarSeguidores(Publicacion publicacion) {
+		Notificacion n = new Notificacion(LocalDate.now(), publicacion);
+		IAdaptadorNotificacionDAO adaptadorNotificacion= null;
+		
+		//Preparamos el DAO
+		try {
+			adaptadorNotificacion = FactoriaDAO.getInstancia().getNotificacionDAO();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		
+		//Registramos la notificacion
+		adaptadorNotificacion.registrarNotificacion(n);
+		
+		//Añadimos la notificacion a cada usuario y guardamos los cambios en el DAO y repositorio
+		usuarioActual.getUsuariosSeguidoresOb().stream().parallel()
+											   			.forEach(u -> {u.addNotificacion(n);
+											   			try {
+															FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(u);
+														} catch (DAOException e) {
+															e.printStackTrace();
+														}
+											   			RepoUsuarios.getUnicaInstancia().removeUsuario(u);
+											   			RepoUsuarios.getUnicaInstancia().addUsuario(u);
+											   			});
+	}
+	
+	/**
+	 * Elimina la notificacion de la lista del usuarioActual
+	 * @param n notificacion que se va a borrar
+	 */
 	public void eliminarNotificacion(Notificacion n) {
 		//Eliminamos la notificacion del usuario
 		usuarioActual.removeNotificacion(n);
 		
 		//Persistimos la notificacion y modificamos el usuario
-		IAdaptadorNotificacionDAO comentarioDAO = null;
+		IAdaptadorNotificacionDAO notificacionDAO = null;
+		IAdaptadorUsuarioDAO usuarioDAO = null;
 		try {
-			comentarioDAO = FactoriaDAO.getInstancia().getComentarioDAO();
+			notificacionDAO = FactoriaDAO.getInstancia().getNotificacionDAO();
+			usuarioDAO = FactoriaDAO.getInstancia().getUsuarioDAO();
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		comentarioDAO.registrarComentario(c);
 		
+		notificacionDAO.borrarNotificacion(n);
+		usuarioDAO.modificarUsuario(usuarioActual);
 	}
 }

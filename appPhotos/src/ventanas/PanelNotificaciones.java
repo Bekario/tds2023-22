@@ -1,8 +1,10 @@
 package ventanas;
 
 import javax.swing.JPanel;
-import java.awt.GridBagLayout;
+import javax.swing.SwingUtilities;
 
+import controlador.Controlador;
+import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -10,14 +12,12 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.awt.GridLayout;
+import java.util.List;
 
-import modelo.Foto;
 import modelo.Notificacion;
-import modelo.Publicacion;
-import modelo.Usuario;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelNotificaciones extends JPanel {
 
@@ -28,9 +28,10 @@ public class PanelNotificaciones extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelNotificaciones() {
+	public PanelNotificaciones(List<Notificacion> notificaciones) {
 		y=0;
 		crearPanel();
+		addNotificaciones(notificaciones);
 	}
 	
 	private void crearPanel() {
@@ -66,6 +67,11 @@ public class PanelNotificaciones extends JPanel {
 		panel.setLayout(gbl_panel);
 	}
 	
+	public void addNotificaciones(List<Notificacion> notificaciones) {
+		notificaciones.stream()
+					  .forEachOrdered(n -> addNotificacion(n));
+	}
+	
 	public void addNotificacion(Notificacion n) {
 		PanelNotificacion panelNotificacion = new PanelNotificacion(n);
 		GridBagConstraints gbc_panelNotificacion = new GridBagConstraints();
@@ -74,15 +80,34 @@ public class PanelNotificaciones extends JPanel {
 		gbc_panelNotificacion.gridy = y;
 		panel.add(panelNotificacion, gbc_panelNotificacion);
 		y++;
+		
+		addManejadorEliminarNotificacion(panelNotificacion.getBtnEliminar(), panelNotificacion, n);
+		addManejadorClickNotificacion(panelNotificacion, n);
 	}
 	
-	private void addManejadorEliminarNotificacion(JButton boton, PanelNotificacion p) {
+	private void addManejadorEliminarNotificacion(JButton boton, PanelNotificacion p, Notificacion n) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				p.setVisible(false);
-				
+				Controlador.getInstancia().eliminarNotificacion(n);
 			}
 		});
 	}
-
+	
+	private void addManejadorClickNotificacion(PanelNotificacion panel, Notificacion n) {
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(SwingUtilities.isLeftMouseButton(e)) {
+					//Creamos la ventana
+					new VentanaPublicacion(n.getPublicacion()).mostrarVentana();
+					
+					//Eliminamos la notificacion
+					panel.setVisible(false);
+					Controlador.getInstancia().eliminarNotificacion(n);
+				}
+			}
+		});
+	}
+	
 }

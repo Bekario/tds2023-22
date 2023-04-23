@@ -46,6 +46,7 @@ public class Home implements IEncendidoListener{
 	private PanelInicio panelInicio;
 	private PanelPerfil panelPerfil;
 	private PanelSubir panelSubir;
+	private PanelNotificaciones panelNotificaciones;
 
 	/**
 	 * Create the application.
@@ -305,6 +306,7 @@ public class Home implements IEncendidoListener{
 		panelInicio = new PanelInicio(this);
 		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().obtenerUsuarioActual());
 		panelSubir = new PanelSubir(this);
+		panelNotificaciones = new PanelNotificaciones(Controlador.getInstancia().obtenerUsuarioActual().getNotificaciones());
 	}
 	
 	private void addManejadorBotonInicio(JButton boton) {
@@ -349,7 +351,6 @@ public class Home implements IEncendidoListener{
 		cambiarScrollPane(new PanelEditar(panelPerfil));
 	}
 	
-	
 	public void setPanelPublicaciones() {
 		cambiarScrollPane(panelInicio);
 	}
@@ -386,7 +387,7 @@ public class Home implements IEncendidoListener{
 	}
 	
 	public void setPanelNotificaciones() {
-		cambiarScrollPane(new PanelNotificaciones());
+		cambiarScrollPane(panelNotificaciones);
 	}
 	
 	public void setPanel(JPanel panel) {
@@ -432,6 +433,7 @@ public class Home implements IEncendidoListener{
 	public void subirFoto(Publicacion publicacion) {
 		//Esta publicacion se puede borrar, ya que es subida por el usuario
 		panelPerfil.addFoto(publicacion, true);
+		Controlador.getInstancia().notificarSeguidores(publicacion);
 	}
 	
 	/**
@@ -440,6 +442,7 @@ public class Home implements IEncendidoListener{
 	public void subirAlbum(Publicacion publicacion) {
 		//Esta publicacion se puede borrar, ya que es subida por el usuario
 		panelPerfil.addAlbum(publicacion, true);
+		Controlador.getInstancia().notificarSeguidores(publicacion);
 	}
 	
 	@Override
@@ -462,7 +465,6 @@ public class Home implements IEncendidoListener{
 				Controlador.getInstancia().cargarFotos(fichero.getAbsolutePath());
 				recargarPanelInicio();
 				recargarPanelPerfil();
-				
 			}
 		}
 		

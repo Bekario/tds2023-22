@@ -58,7 +58,7 @@ public class PanelNotificacion extends JPanel {
 		gbc_lblTexto.gridy = 0;
 		add(lblTexto, gbc_lblTexto);
 		
-		JButton btnEliminar = new JButton("");
+		btnEliminar = new JButton("");
 		btnEliminar.setContentAreaFilled(false);
 		btnEliminar.setIcon(new ImageIcon(PanelNotificacion.class.getResource("/imagenes/eliminar.png")));
 		GridBagConstraints gbc_btnEliminar = new GridBagConstraints();
