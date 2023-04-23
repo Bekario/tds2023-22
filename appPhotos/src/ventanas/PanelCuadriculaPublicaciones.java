@@ -120,7 +120,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 				int seleccion = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres eliminar esta publicacion?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (seleccion == 0) {
 					Controlador.getInstancia().borrarPublicacion(p);
-					//MALENIA
+					//zNIA
 					//FALTA ACTUALIZAR EL PANEL
 				}
 				

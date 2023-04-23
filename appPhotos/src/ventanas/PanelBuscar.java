@@ -141,18 +141,6 @@ public class PanelBuscar extends JPanel {
 		});
 	}
 	
-	/*Este funciona cuando escribes en campo de texto, muy ineficiente
-	 * private void addManejadorBuscar2(JTextField txt) {
-		txt.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				panelListaUsuarios.quitarUsuarios();
-				List<Usuario> lista = Controlador.getInstancia().obtenerUsuariosBuscados(txtBarraBusqueda.getText());
-				panelListaUsuarios.addListaUsuario(lista);
-				panelListaUsuarios.updateUI();
-			}
-		});
-
-	}*/
 	
 
 }
