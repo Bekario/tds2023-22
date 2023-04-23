@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
 import modelo.Album;
@@ -70,8 +71,11 @@ public class Controlador implements IFotosListener {
 	public void notificaNuevasFotos(EventObject e) {
 		List<umu.tds.fotos.Foto> fotos = ((FotosEvent) e).getFotos().getFoto();
 		fotos.stream()
-			 .forEach(f -> añadirFoto(f.getTitulo(), f.getDescripcion(), FileSystems.getDefault().getPath(rutaXml+f.getPath()).toString()));
-		
+			 .forEach(f -> {f.getHashTags().stream()
+						.flatMap(h -> h.getHashTag().stream())
+						.forEachOrdered(h -> f.setDescripcion(f.getDescripcion()+" #"+h));
+				 añadirFoto(f.getTitulo(), f.getDescripcion(), FileSystems.getDefault().getPath(rutaXml+f.getPath()).toString());
+			 });
 	}
 	
 	public void cargarFotos(String rutaXml) {
@@ -174,9 +178,6 @@ public class Controlador implements IFotosListener {
 	
 	public Foto añadirFoto(String titulo, String descripcion, String path) {
 		List<String> hashtags = procesarHashtags(descripcion);
-		
-		//MALENIA
-		//QUITAR LOS HASH DE LA DESCRIPCION
 		
 		Foto publi = new Foto(titulo, descripcion, LocalDateTime.now(), hashtags, usuarioActual, path);
 		
@@ -282,7 +283,6 @@ public class Controlador implements IFotosListener {
 		while (mat.find()) {
 		  hash.add(mat.group(1));
 		}
-		
 		return hash;
 	}
 	

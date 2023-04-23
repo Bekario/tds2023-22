@@ -186,7 +186,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 			Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);			
 			foto.setCodigo(codigo);
 			foto.setUsuario(usuario);
-			foto.setHashtags(hashtags);
 			foto.setComentarios(comentarios);
 			foto.setMegusta(megusta);
 			
@@ -198,7 +197,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 			
 			album.setCodigo(codigo);
 			album.setUsuario(usuario);
-			album.setHashtags(hashtags);
 			album.setComentarios(comentarios);
 			album.setMegusta(megusta);
 			
