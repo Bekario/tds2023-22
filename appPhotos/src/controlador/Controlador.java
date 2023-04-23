@@ -31,7 +31,6 @@ import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
 import umu.tds.fotos.ComponenteCargadorFotos;
 import umu.tds.fotos.FotosEvent;
-import umu.tds.fotos.HashTag;
 import umu.tds.fotos.IFotosListener;
 
 

@@ -30,13 +30,16 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.EventObject;
 import java.util.regex.Pattern;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+
+import pulsador.IEncendidoListener;
 import pulsador.Luz;
 
-public class Home {
+public class Home implements IEncendidoListener{
 	private JFrame frame;
 	private JScrollPane scrollPane;
 	private PanelBuscar panelBusqueda;
@@ -223,8 +226,6 @@ public class Home {
 		gbc_btnAjustes.gridy = 0;
 		barraInferior.add(btnAjustes, gbc_btnAjustes);
 		btnAjustes.setBorder(null);
-		
-
 	}
 	
 
@@ -254,8 +255,6 @@ public class Home {
 		gbc_Titulo.gridy = 0;
 		barraSuperior.add(Titulo, gbc_Titulo);
 		
-		addManejadorBotonXml(Titulo);
-		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -265,6 +264,9 @@ public class Home {
 		});
 		
 		Luz luz = new Luz();
+		luz.setColor(new Color(218, 200, 41));
+		//Añadimos Home como listener
+		luz.addEncendidoListener(this);
 		GridBagConstraints gbc_luz = new GridBagConstraints();
 		gbc_luz.insets = new Insets(0, 0, 0, 5);
 		gbc_luz.gridx = 2;
@@ -430,32 +432,30 @@ public class Home {
 		panelPerfil.addAlbum(publicacion, true);
 	}
 	
-	private void addManejadorBotonXml(JLabel label) {
-		label.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				Pattern regexpXml = Pattern.compile(".+\\.xml", Pattern.CASE_INSENSITIVE);
+	@Override
+	public void enteradoCambioEncendido(EventObject arg0) {
+		Pattern regexpXml = Pattern.compile(".+\\.xml", Pattern.CASE_INSENSITIVE);
+		
+		//Creamos el selector de archivos con su filtro
+		JFileChooser selector = new JFileChooser();
+		FileNameExtensionFilter filtro = new FileNameExtensionFilter("xml", "xml");
+		selector.setFileFilter(filtro);
+		selector.removeChoosableFileFilter(null);
+		
+		int resp = selector.showOpenDialog(selector);
+		File fichero = selector.getSelectedFile();
+		if (fichero != null) {
+			//Comprobamos que la extension sea correcta
+			if(!regexpXml.matcher(fichero.getName()).matches()) {
+				JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
+			} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, ejecutamos cargarfotos
+				Controlador.getInstancia().cargarFotos(fichero.getAbsolutePath());
+				recargarPanelInicio();
+				recargarPanelPerfil();
 				
-				//Creamos el selector de archivos con su filtro
-				JFileChooser selector = new JFileChooser();
-				FileNameExtensionFilter filtro = new FileNameExtensionFilter("xml", "xml");
-				selector.setFileFilter(filtro);
-				selector.removeChoosableFileFilter(null);
-				
-				int resp = selector.showOpenDialog(selector);
-				File fichero = selector.getSelectedFile();
-				if (fichero != null) {
-					//Comprobamos que la extension sea correcta
-					if(!regexpXml.matcher(fichero.getName()).matches()) {
-						JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
-					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, ejecutamos cargarfotos
-						Controlador.getInstancia().cargarFotos(fichero.getAbsolutePath());
-						recargarPanelInicio();
-						recargarPanelPerfil();
-						
-					}
-				}
 			}
-		});
+		}
+		
 	}
 	
 }
