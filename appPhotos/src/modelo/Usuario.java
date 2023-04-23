@@ -131,9 +131,16 @@ public class Usuario {
 	public void removeAlbum(Album a) {
 		albums.remove(a);
 	}
+	
 	public void addNotificacion(Notificacion n) {
 		notificaciones.add(n);
 	}
+	
+	public void removeNotificacion(Notificacion n) {
+		notificaciones.remove(n);
+	}
+	
+	
 	
 	//Metodos Get / Set
 	public String getUsuario() {

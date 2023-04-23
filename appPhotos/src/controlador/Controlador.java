@@ -20,6 +20,7 @@ import adaptadores.AdaptadorPDF;
 import modelo.Album;
 import modelo.Comentario;
 import modelo.Foto;
+import modelo.Notificacion;
 import modelo.Publicacion;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
@@ -601,7 +602,7 @@ public class Controlador implements IFotosListener {
 				listaBuscada.add(hashtag);
 			}
 		}
-		
+		Collections.sort(listaBuscada);
 		return listaBuscada;
 	}
 
@@ -621,7 +622,12 @@ public class Controlador implements IFotosListener {
 			}
 		}
 		return l;
-			
+	}
+	
+	public void eliminarNotificacion(Notificacion n) {
+		//Eliminamos la notificacion del usuario
+		usuarioActual.removeNotificacion(n);
 
+		
 	}
 }

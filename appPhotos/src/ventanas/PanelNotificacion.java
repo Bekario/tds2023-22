@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import modelo.Notificacion;
-import modelo.Publicacion;
 
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -30,10 +29,7 @@ public class PanelNotificacion extends JPanel {
 		crearPanel(notificacion);
 		this.setBorder(new LineBorder(new Color(45, 42, 46), 2, true));	
 		Manejadores.addManejadorResaltar(this);
-		
 	}
-	
-	
 	
 	private void crearPanel(Notificacion n) {
 		this.setSize(400, 50);
@@ -50,11 +46,11 @@ public class PanelNotificacion extends JPanel {
 		gbc_lblPerfil.gridx = 1;
 		gbc_lblPerfil.gridy = 0;
 		add(lblPerfil, gbc_lblPerfil);
-		ImageIcon imagen = new ImageIcon(PanelNotificacion.class.getResource("/imagenes/ParticipantImageServlet2.jpeg")/*FotoPersonalizada.redondearFoto(p.getUsuario().getPerfil()*/);
+		ImageIcon imagen = new ImageIcon(FotoPersonalizada.redondearFoto(n.getPublicacion().getUsuario().getPerfil()));
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING));
 		lblPerfil.setIcon(icono);
 		
-		JLabel lblTexto = new JLabel("¡"+n.getPublicacion().getUsuario().getUsuario()+" ha subido una publicacion! ("+n.getFecha().toString()+")");
+		JLabel lblTexto = new JLabel("¡"+n.getPublicacion().getUsuario().getUsuario()+" ha subido una publicacion!");
 		lblTexto.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblTexto = new GridBagConstraints();
 		gbc_lblTexto.insets = new Insets(0, 0, 0, 5);
