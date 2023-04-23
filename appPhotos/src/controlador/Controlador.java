@@ -29,6 +29,7 @@ import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorComentarioDAO;
+import persistencia.IAdaptadorNotificacionDAO;
 import persistencia.IAdaptadorPublicacionDAO;
 import persistencia.IAdaptadorUsuarioDAO;
 import umu.tds.fotos.ComponenteCargadorFotos;
@@ -602,7 +603,7 @@ public class Controlador implements IFotosListener {
 				listaBuscada.add(hashtag);
 			}
 		}
-		Collections.sort(listaBuscada);
+		Collections.sort(listaBuscada, (x, y) -> x.compareToIgnoreCase(y));
 		return listaBuscada;
 	}
 
@@ -627,7 +628,15 @@ public class Controlador implements IFotosListener {
 	public void eliminarNotificacion(Notificacion n) {
 		//Eliminamos la notificacion del usuario
 		usuarioActual.removeNotificacion(n);
-
+		
+		//Persistimos la notificacion y modificamos el usuario
+		IAdaptadorNotificacionDAO comentarioDAO = null;
+		try {
+			comentarioDAO = FactoriaDAO.getInstancia().getComentarioDAO();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		comentarioDAO.registrarComentario(c);
 		
 	}
 }
