@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import pulsador.Luz;
 
 public class Home {
 	private JFrame frame;
@@ -262,6 +263,13 @@ public class Home {
 				recargarPanelInicio();
 			}
 		});
+		
+		Luz luz = new Luz();
+		GridBagConstraints gbc_luz = new GridBagConstraints();
+		gbc_luz.insets = new Insets(0, 0, 0, 5);
+		gbc_luz.gridx = 2;
+		gbc_luz.gridy = 0;
+		barraSuperior.add(luz, gbc_luz);
 		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/imagenes/refresh-page-option.png")));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
