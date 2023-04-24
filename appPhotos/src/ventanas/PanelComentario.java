@@ -186,14 +186,12 @@ public class PanelComentario extends JPanel {
 	
 	
 	private void manejadorAddComentario(Publicacion publicacion) {
-		Controlador.getInstancia().addComentario(publicacion, textField.getText());
-		addComentario(Controlador.getInstancia().obtenerUsuarioActual().getUsuario()+": "+textField.getText());
-		updateUI();
-		textField.setText("");
-		
-		//Bajamos la barra hasta abajo
-		JScrollBar verScrBar= scrollPane.getVerticalScrollBar();
-		verScrBar.setValue(verScrBar.getMaximum());
+		if(!textField.getText().equals("")) {
+			Controlador.getInstancia().addComentario(publicacion, textField.getText());
+			addComentario(Controlador.getInstancia().obtenerUsuarioActual().getUsuario()+": "+textField.getText());
+			updateUI();
+			textField.setText("");
+		}
 
 	}
 	
