@@ -44,10 +44,10 @@ public class PanelBuscar extends JPanel {
 	
 	private void crearPanelBuscar() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{5, 0, 40, 5, 0};
+		gridBagLayout.columnWidths = new int[]{5, 64, 40, 5, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 40, 10, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		JLabel lblTexto = new JLabel("Búsqueda");
 		lblTexto.setFont(new Font("Segoe UI", Font.BOLD, 19));

@@ -46,7 +46,7 @@ public class PanelUsuario extends JPanel {
 		gridBagLayout.columnWidths = new int[]{20, 60, 15, 160, 15, 0, 15, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblFoto = new JLabel("");

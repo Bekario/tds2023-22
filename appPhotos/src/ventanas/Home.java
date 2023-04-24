@@ -240,9 +240,9 @@ public class Home implements IEncendidoListener{
 		gbc_barraSuperior.gridy = 0;
 		frame.getContentPane().add(barraSuperior, gbc_barraSuperior);
 		GridBagLayout gbl_barraSuperior = new GridBagLayout();
-		gbl_barraSuperior.columnWidths = new int[]{10, 0, 0, 0, 10, 0};
+		gbl_barraSuperior.columnWidths = new int[]{10, 0, 0, 5, 0, 5, 0, 10, 0};
 		gbl_barraSuperior.rowHeights = new int[]{0, 0};
-		gbl_barraSuperior.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_barraSuperior.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_barraSuperior.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		barraSuperior.setLayout(gbl_barraSuperior);
 		
@@ -256,11 +256,7 @@ public class Home implements IEncendidoListener{
 		gbc_Titulo.gridy = 0;
 		barraSuperior.add(Titulo, gbc_Titulo);
 		
-		Titulo.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				setPanelNotificaciones();
-			}
-		});
+		
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.addMouseListener(new MouseAdapter() {
@@ -279,10 +275,20 @@ public class Home implements IEncendidoListener{
 		gbc_luz.gridx = 2;
 		gbc_luz.gridy = 0;
 		barraSuperior.add(luz, gbc_luz);
+		
+		JLabel lblCampana = new JLabel("");
+		lblCampana.setIcon(new ImageIcon(Home.class.getResource("/imagenes/campana_sin_movimiento.png")));
+		GridBagConstraints gbc_lblCampana = new GridBagConstraints();
+		gbc_lblCampana.insets = new Insets(0, 0, 0, 5);
+		gbc_lblCampana.gridx = 4;
+		gbc_lblCampana.gridy = 0;
+		barraSuperior.add(lblCampana, gbc_lblCampana);
+		addManejadorBotonCampana(lblCampana);
+		
 		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/imagenes/refresh-page-option.png")));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel.gridx = 3;
+		gbc_lblNewLabel.gridx = 6;
 		gbc_lblNewLabel.gridy = 0;
 		barraSuperior.add(lblNewLabel, gbc_lblNewLabel);
 	}
@@ -337,6 +343,13 @@ public class Home implements IEncendidoListener{
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setPanelSubir();
+			}
+		});
+	}
+	private void addManejadorBotonCampana(JLabel label) {
+		label.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				setPanelNotificaciones();
 			}
 		});
 	}
