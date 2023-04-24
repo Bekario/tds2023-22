@@ -15,6 +15,7 @@ import java.awt.Font;
 
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.UIManager;
@@ -301,7 +302,8 @@ public class PanelTarjeta extends JPanel {
 	 * Establece el boton para procesar el pago
 	 */
 	private void establecerBotones() {
-		btnRegistrarse = new JButton("PROCESAR PAGO ("+ String.valueOf(precio)+"€)");
+		DecimalFormat df = new DecimalFormat("#.##");
+		btnRegistrarse = new JButton("PROCESAR PAGO ("+df.format(precio)+"€)");
 		btnRegistrarse.setForeground(new Color(218, 200, 41));
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBorderPainted(false);

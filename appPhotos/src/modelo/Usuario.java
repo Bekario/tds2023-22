@@ -21,7 +21,6 @@ public class Usuario {
 	private List<Notificacion> notificaciones;
 	private List<Foto> fotos;
 	private List<Album> albums;
-	private Descuento descuento; //Optional malenia
 	
 	//Numero de MGs necesarios para el descuento
 	private final int ME_GUSTAS = 1000;
@@ -47,28 +46,20 @@ public class Usuario {
 		fotos = new ArrayList<Foto>();
 	}
 	
-	//Metodos
-	public float calcularPrecioPremium(float precio){
-		comprobarDescuento(); //MALENIA
-		if (descuento == null) {
-			return precio;
-		}
-		return descuento.aplicarDescuento(precio);
-	}
-	
-	public void comprobarDescuento() {
+	public float comprobarDescuento(float precio) {
 		int edad = Period.between(getFechaNacimiento(), LocalDate.now()).getYears();
 		int numMG = getFotos().stream()
 				.map(mg -> mg.getMegusta())
 				.reduce(0, (accum, mg) -> accum + mg);
 		
 		if(edad >= EDAD_MIN && edad <= EDAD_MAX) {
-			setDescuento(new DescuentoEdad());
+			return new DescuentoEdad().aplicarDescuento(precio);
 		} else if(numMG >= ME_GUSTAS) {
-			setDescuento(new DescuentoPopularidad());
+			return new DescuentoPopularidad().aplicarDescuento(precio);
 		} else {
-			setDescuento(null); //MALENIA
+			return precio;
 		}
+		
 	}
 	
 	/**
@@ -269,9 +260,6 @@ public class Usuario {
 		this.usuariosSeguidos = usuariosSeguidos;
 	}
 	
-	public void setDescuento(Descuento descuento) {
-		this.descuento = descuento;
-	}
 	public int getNumeroSeguidores() {
 		return this.usuariosSeguidores.size();
 	}
@@ -293,7 +281,6 @@ public class Usuario {
 		Usuario other = (Usuario) obj;
 		return Objects.equals(albums, other.albums) && codigo == other.codigo
 				&& Objects.equals(contraseña, other.contraseña) && Objects.equals(descripcion, other.descripcion)
-				&& Objects.equals(descuento, other.descuento) && Objects.equals(email, other.email)
 				&& Objects.equals(fechaNacimiento, other.fechaNacimiento) && Objects.equals(fotos, other.fotos)
 				&& isPremium == other.isPremium
 				&& Objects.equals(nombreCompleto, other.nombreCompleto)

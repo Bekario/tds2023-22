@@ -25,6 +25,7 @@ import modelo.Publicacion;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
+import modelo.Variables;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
@@ -676,5 +677,10 @@ public class Controlador implements IFotosListener {
 		
 		notificacionDAO.borrarNotificacion(n);
 		usuarioDAO.modificarUsuario(usuarioActual);
+	}
+	
+	public float obtenerPrecioPremium() {
+		return usuarioActual.comprobarDescuento(Variables.precioPremium);
+
 	}
 }

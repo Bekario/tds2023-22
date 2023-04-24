@@ -1,6 +1,7 @@
 package ventanas;
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
 
 import java.awt.GridBagConstraints;
@@ -19,6 +20,7 @@ import controlador.Controlador;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 
 
@@ -26,13 +28,14 @@ public class PanelPremium extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Home home;
-	private float precio = Variables.precioPremium;
+	private float precio;
 	
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelPremium(Home home) {
+		precio = Controlador.getInstancia().obtenerPrecioPremium();
 		this.home = home;
 		crearPanel();
 		
@@ -79,14 +82,23 @@ public class PanelPremium extends JPanel {
 		gbc_dtrpnquieresConocerTus.gridy = 5;
 		add(dtrpnquieresConocerTus, gbc_dtrpnquieresConocerTus);
 		
-		JLabel lblSoloPor = new JLabel("¡SOLO POR "+String.valueOf(precio)+"€!");
-		lblSoloPor.setForeground(new Color(218, 200, 41));
-		lblSoloPor.setFont(new Font("Segoe UI", Font.BOLD, 19));
-		GridBagConstraints gbc_lblSoloPor = new GridBagConstraints();
-		gbc_lblSoloPor.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSoloPor.gridx = 1;
-		gbc_lblSoloPor.gridy = 6;
-		add(lblSoloPor, gbc_lblSoloPor);
+		JEditorPane txtSoloPor = new JEditorPane();
+		txtSoloPor.setEditable(false);
+		txtSoloPor.setBackground(null);
+		txtSoloPor.setContentType("text/html");
+		DecimalFormat df = new DecimalFormat("#.##");
+		if(precio != Variables.precioPremium) {
+			txtSoloPor.setText("<p>¡SOLO POR <strike>"+df.format(Variables.precioPremium)+"</strike> "+df.format(precio)+"€!</p>");
+		} else {
+			txtSoloPor.setText("¡SOLO POR "+String.valueOf(precio)+"€!");
+		}
+		txtSoloPor.setForeground(new Color(218, 200, 41));
+		txtSoloPor.setFont(new Font("Segoe UI", Font.BOLD, 19));
+		GridBagConstraints gbc_txtSoloPor = new GridBagConstraints();
+		gbc_txtSoloPor.insets = new Insets(0, 0, 5, 5);
+		gbc_txtSoloPor.gridx = 1;
+		gbc_txtSoloPor.gridy = 6;
+		add(txtSoloPor, gbc_txtSoloPor);
 		
 		JButton btnPagar = new JButton("PAGAR");
 		btnPagar.setForeground(new Color(218, 200, 41));
@@ -103,12 +115,12 @@ public class PanelPremium extends JPanel {
 		Manejadores.addManejadorBotonColor(btnPagar);
 		
 		if(!Controlador.getInstancia().comprobarPremium()) {
-			addManejadorBotonPagar(btnPagar);
+			addManejadorBotonPagar(btnPagar, precio);
 			
 		}else btnPagar.setText("PAGADO");
 	}
 	
-	private void addManejadorBotonPagar(JButton boton) {
+	private void addManejadorBotonPagar(JButton boton, float precio) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				home.setPanel(new PanelTarjeta(home, precio));
