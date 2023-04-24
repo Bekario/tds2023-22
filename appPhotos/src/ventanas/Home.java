@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.event.ActionListener;
@@ -93,7 +94,7 @@ public class Home implements IEncendidoListener{
 	 */
 	private void establecerBarraInferior() {
 		JPanel barraInferior = new JPanel();
-		barraInferior.setBackground(new Color(192, 192, 192));
+		barraInferior.setBackground(Colores.NARANJA);
 		GridBagConstraints gbc_barraInferior = new GridBagConstraints();
 		gbc_barraInferior.fill = GridBagConstraints.BOTH;
 		gbc_barraInferior.gridx = 0;
@@ -155,7 +156,7 @@ public class Home implements IEncendidoListener{
 		addManejadorBotonSubir(btnSubirFoto);
 		
 		JButton btnAjustes = new JButton("");
-		btnAjustes.setBackground(new Color(192, 192, 192));
+		btnAjustes.setContentAreaFilled(false);
 		btnAjustes.setIcon(new ImageIcon(Home.class.getResource("/imagenes/elipsis.png")));
 		
 		JPopupMenu popupMenu = new JPopupMenu();
@@ -247,7 +248,7 @@ public class Home implements IEncendidoListener{
 		barraSuperior.setLayout(gbl_barraSuperior);
 		
 		JLabel Titulo = new JLabel("appPhotos");
-		Titulo.setForeground(new Color(0, 0, 0));
+		Titulo.setForeground(Colores.NARANJA);
 		Titulo.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 18));
 		GridBagConstraints gbc_Titulo = new GridBagConstraints();
 		gbc_Titulo.anchor = GridBagConstraints.WEST;
@@ -267,7 +268,7 @@ public class Home implements IEncendidoListener{
 		});
 		
 		Luz luz = new Luz();
-		luz.setColor(new Color(218, 200, 41));
+		luz.setColor(Colores.NARANJA_CLARO);
 		//Añadimos Home como listener
 		luz.addEncendidoListener(this);
 		GridBagConstraints gbc_luz = new GridBagConstraints();

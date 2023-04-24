@@ -141,13 +141,13 @@ public class Manejadores {
 		boton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				boton.setBackground(new Color(218,200,41));
+				boton.setBackground(Colores.NARANJA);
 				boton.setForeground(new Color(78,80,82));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				boton.setBackground(new Color(78,80,82));
-				boton.setForeground(new Color(218,200,41));
+				boton.setForeground(Colores.NARANJA);
 				
 			}
 		});

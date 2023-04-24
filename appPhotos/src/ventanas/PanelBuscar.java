@@ -49,7 +49,7 @@ public class PanelBuscar extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		JLabel lblTexto = new JLabel("Búsqueda");
+		JLabel lblTexto = new JLabel("BÚSQUEDA");
 		lblTexto.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		GridBagConstraints gbc_lblTexto = new GridBagConstraints();
 		gbc_lblTexto.gridwidth = 2;

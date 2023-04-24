@@ -85,7 +85,7 @@ public class PanelPublicacion extends JPanel {
 	
 	private void crearBarraInferior(int likes, int comentarios, String user, String perfil) {
 		JPanel panelInferior = new JPanel();
-		panelInferior.setBackground(new Color(218, 200, 41));
+		panelInferior.setBackground(new Color(247, 211, 131));
 		GridBagConstraints gbc_panelInferior = new GridBagConstraints();
 		gbc_panelInferior.fill = GridBagConstraints.BOTH;
 		gbc_panelInferior.gridx = 0;
@@ -173,7 +173,7 @@ public class PanelPublicacion extends JPanel {
 	
 	private void crearBarraSuperior(String titulo) {
 		JPanel panelSuperior = new JPanel();
-		panelSuperior.setBackground(new Color(218, 200, 41));
+		panelSuperior.setBackground(new Color(247, 211, 131));
 		GridBagConstraints gbc_panelSuperior = new GridBagConstraints();
 		gbc_panelSuperior.insets = new Insets(0, 0, 5, 0);
 		gbc_panelSuperior.fill = GridBagConstraints.BOTH;
