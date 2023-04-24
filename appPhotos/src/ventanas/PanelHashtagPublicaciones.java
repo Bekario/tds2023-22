@@ -29,7 +29,7 @@ public class PanelHashtagPublicaciones extends JPanel{
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblNotificaciones = new JLabel(hash);
+		JLabel lblNotificaciones = new JLabel("#"+hash);
 		lblNotificaciones.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		GridBagConstraints gbc_lblNotificaciones = new GridBagConstraints();
 		gbc_lblNotificaciones.insets = new Insets(0, 0, 5, 5);
