@@ -64,7 +64,7 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 						// Si la portada está cogida, se mete en la lista de seleccionados
 						Controlador.getInstancia().addSeleccionado(publicacion);
 						
-						foto.setBorder(new LineBorder(new Color(218, 200, 41), 2, true));
+						foto.setBorder(new LineBorder(Colores.NARANJA, 2, true));
 					}
 				}
 				/* DEBUG

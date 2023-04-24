@@ -156,7 +156,7 @@ public class PanelLogin extends JPanel {
 		
 		btnLogin = new JButton("INICIAR SESIÓN");
 		addManejadorLogin(btnLogin);
-		btnLogin.setForeground(new Color(218, 200, 41));
+		btnLogin.setForeground(Colores.NARANJA);
 		btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnLogin.setBorderPainted(false);
 		btnLogin.setBackground(UIManager.getColor("Button.background"));
@@ -170,7 +170,7 @@ public class PanelLogin extends JPanel {
 		btnRegistrarse = new JButton("  REGISTRARSE  ");
 		addManejadorRegistrarse(btnRegistrarse);
 		
-		btnRegistrarse.setForeground(new Color(218, 200, 41));
+		btnRegistrarse.setForeground(Colores.NARANJA);
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBorderPainted(false);
 		btnRegistrarse.setBackground(UIManager.getColor("Button.background"));

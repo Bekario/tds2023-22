@@ -92,7 +92,7 @@ public class PanelPremium extends JPanel {
 		} else {
 			txtSoloPor.setText("¡SOLO POR "+String.valueOf(precio)+"€!");
 		}
-		txtSoloPor.setForeground(new Color(218, 200, 41));
+		txtSoloPor.setForeground(Colores.NARANJA);
 		txtSoloPor.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		GridBagConstraints gbc_txtSoloPor = new GridBagConstraints();
 		gbc_txtSoloPor.insets = new Insets(0, 0, 5, 5);
@@ -101,7 +101,7 @@ public class PanelPremium extends JPanel {
 		add(txtSoloPor, gbc_txtSoloPor);
 		
 		JButton btnPagar = new JButton("PAGAR");
-		btnPagar.setForeground(new Color(218, 200, 41));
+		btnPagar.setForeground(Colores.NARANJA);
 		btnPagar.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnPagar.setBorderPainted(false);
 		btnPagar.setBackground(UIManager.getColor("Button.background"));

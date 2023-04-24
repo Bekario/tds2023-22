@@ -239,7 +239,7 @@ public class PanelEditar extends JPanel {
 	 */
 	private void establecerBotonGuardar() {
 		btnGuardar = new JButton("GUARDAR");
-		btnGuardar.setForeground(new Color(218, 200, 41));
+		btnGuardar.setForeground(Colores.NARANJA);
 		btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnGuardar.setBorderPainted(false);
 		btnGuardar.setBackground(UIManager.getColor("Button.background"));
@@ -260,7 +260,7 @@ public class PanelEditar extends JPanel {
 	 */
 	private void establecerBotonAtras() {
 		btnAtras = new JButton("ATRAS");
-		btnAtras.setForeground(new Color(218, 200, 41));
+		btnAtras.setForeground(Colores.NARANJA);
 		btnAtras.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnAtras.setBorderPainted(false);
 		btnAtras.setBackground(UIManager.getColor("Button.background"));

@@ -36,7 +36,7 @@ public class PanelTarjeta extends JPanel {
 	private JLabel lblTipoTarjeta;
 	private JLabel lblFecha;
 	private JLabel lblCVC;
-	private JButton btnRegistrarse;
+	private JButton btnPagar;
 	private JProgressBar progressBar;
 	private Home padre;
 	
@@ -303,24 +303,24 @@ public class PanelTarjeta extends JPanel {
 	 */
 	private void establecerBotones() {
 		DecimalFormat df = new DecimalFormat("#.##");
-		btnRegistrarse = new JButton("PROCESAR PAGO ("+df.format(precio)+"€)");
-		btnRegistrarse.setForeground(new Color(218, 200, 41));
-		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnRegistrarse.setBorderPainted(false);
-		btnRegistrarse.setBackground(UIManager.getColor("Button.background"));
-		GridBagConstraints gbc_btnRegistrarse = new GridBagConstraints();
-		gbc_btnRegistrarse.fill = GridBagConstraints.VERTICAL;
-		gbc_btnRegistrarse.gridwidth = 2;
-		gbc_btnRegistrarse.insets = new Insets(0, 0, 5, 5);
-		gbc_btnRegistrarse.gridx = 1;
-		gbc_btnRegistrarse.gridy = 9;
-		add(btnRegistrarse, gbc_btnRegistrarse);
+		btnPagar = new JButton("PROCESAR PAGO ("+df.format(precio)+"€)");
+		btnPagar.setForeground(Colores.NARANJA);
+		btnPagar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnPagar.setBorderPainted(false);
+		btnPagar.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnPagar = new GridBagConstraints();
+		gbc_btnPagar.fill = GridBagConstraints.VERTICAL;
+		gbc_btnPagar.gridwidth = 2;
+		gbc_btnPagar.insets = new Insets(0, 0, 5, 5);
+		gbc_btnPagar.gridx = 1;
+		gbc_btnPagar.gridy = 9;
+		add(btnPagar, gbc_btnPagar);
 		
 		//Animacion de color
-		Manejadores.addManejadorBotonColor(btnRegistrarse);
+		Manejadores.addManejadorBotonColor(btnPagar);
 		
 		//Procesamiento del pago
-		addManejadorPago(btnRegistrarse);
+		addManejadorPago(btnPagar);
 	}
 	
 	/**

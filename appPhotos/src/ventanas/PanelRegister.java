@@ -250,7 +250,7 @@ public class PanelRegister extends JPanel {
 	 */
 	private void establecerBotonContinuar() {
 		btnLogin = new JButton("CONTINUAR");
-		btnLogin.setForeground(new Color(218, 200, 41));
+		btnLogin.setForeground(Colores.NARANJA);
 		btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnLogin.setBorderPainted(false);
 		btnLogin.setBackground(UIManager.getColor("Button.background"));
@@ -262,7 +262,7 @@ public class PanelRegister extends JPanel {
 		add(btnLogin, gbc_btnLogin);
 		
 		btnAtras = new JButton("     ATRÁS     ");
-		btnAtras.setForeground(new Color(218, 200, 41));
+		btnAtras.setForeground(Colores.NARANJA);
 		btnAtras.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnAtras.setBorderPainted(false);
 		btnAtras.setBackground(UIManager.getColor("Button.background"));

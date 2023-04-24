@@ -236,7 +236,7 @@ public class PanelSubir extends JPanel {
 			panelFoto.setBackground(new URL("file:/" + ruta));
 			subido = true;
 			btnContinuar = new JButton("CONTINUAR");
-			btnContinuar.setForeground(new Color(218, 200, 41));
+			btnContinuar.setForeground(Colores.NARANJA);
 			btnContinuar.setFont(new Font("Segoe UI", Font.BOLD, 14));
 			btnContinuar.setBorderPainted(false);
 			btnContinuar.setBackground(UIManager.getColor("Button.background"));

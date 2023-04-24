@@ -167,7 +167,7 @@ public class Manejadores {
 		c.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				c.setBorder(new LineBorder(new Color(218, 200, 41), 2, true));	
+				c.setBorder(new LineBorder(Colores.NARANJA, 2, true));	
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
