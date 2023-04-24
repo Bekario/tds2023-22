@@ -232,7 +232,7 @@ public class Home implements IEncendidoListener{
 
 	private void establecerBarraSuperior() {
 		JPanel barraSuperior = new JPanel();
-		barraSuperior.setBackground(Color.LIGHT_GRAY);
+		barraSuperior.setBackground(new Color(45,42,46));
 		GridBagConstraints gbc_barraSuperior = new GridBagConstraints();
 		gbc_barraSuperior.insets = new Insets(0, 0, 5, 0);
 		gbc_barraSuperior.fill = GridBagConstraints.BOTH;

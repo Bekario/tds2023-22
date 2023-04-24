@@ -102,12 +102,6 @@ public class PanelComentario extends JPanel {
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		/*lblNewLabel_1 = new JLabel("New label");
-		panel.add(lblNewLabel_1);
-		
-		lblNewLabel_2 = new JLabel("New label");
-		panel.add(lblNewLabel_2);*/
-		
 		JPanel panelInferior = new JPanel();
 		panelInferior.setBackground(new Color(218, 200, 41));
 		GridBagConstraints gbc_panelInferior = new GridBagConstraints();
