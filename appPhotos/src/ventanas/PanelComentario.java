@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -49,6 +51,8 @@ public class PanelComentario extends JPanel {
 	private int y;
 	private JButton lblEnviar;
 	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
 	/**
 	 * Create the panel.
 	 */
@@ -74,9 +78,9 @@ public class PanelComentario extends JPanel {
 	
 	private void crearPanelEImagen() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0};
+		gridBagLayout.columnWidths = new int[]{5, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 45, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
@@ -85,27 +89,30 @@ public class PanelComentario extends JPanel {
 	private void crearBarraInferior(String likes) {
 		
 		scrollPane = new JScrollPane();
+		scrollPane.setOpaque(false);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridx = 1;
 		gbc_scrollPane.gridy = 1;
 		add(scrollPane, gbc_scrollPane);
 		
 		panel = new JPanel();
 		scrollPane.setViewportView(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{10, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		/*lblNewLabel_1 = new JLabel("New label");
+		panel.add(lblNewLabel_1);
+		
+		lblNewLabel_2 = new JLabel("New label");
+		panel.add(lblNewLabel_2);*/
 		
 		JPanel panelInferior = new JPanel();
 		panelInferior.setBackground(new Color(218, 200, 41));
 		GridBagConstraints gbc_panelInferior = new GridBagConstraints();
 		gbc_panelInferior.fill = GridBagConstraints.BOTH;
-		gbc_panelInferior.gridx = 0;
+		gbc_panelInferior.gridx = 1;
 		gbc_panelInferior.gridy = 2;
 		add(panelInferior, gbc_panelInferior);
 		GridBagLayout gbl_panelInferior = new GridBagLayout();
@@ -199,6 +206,7 @@ public class PanelComentario extends JPanel {
 	private void crearBarraSuperior(String usuario, String titulo, String descripcion, String perfil, String fecha) {
 		JPanel panelSuperior = new JPanel();
 		GridBagConstraints gbc_panelSuperior = new GridBagConstraints();
+		gbc_panelSuperior.gridwidth = 2;
 		gbc_panelSuperior.insets = new Insets(0, 0, 5, 0);
 		gbc_panelSuperior.fill = GridBagConstraints.BOTH;
 		gbc_panelSuperior.gridx = 0;
@@ -272,13 +280,8 @@ public class PanelComentario extends JPanel {
 	}
 	public void addComentario(String texto) {
 		comentario = new JLabel(texto);
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = y; 
-		panel.add(comentario, gbc_lblNewLabel);
-		
+		panel.add(comentario);
+		panel.add(Box.createVerticalStrut(5));
 		y++;
 	}
 	
