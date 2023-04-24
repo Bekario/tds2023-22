@@ -8,6 +8,7 @@ import modelo.Publicacion;
 
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 public class VentanaPublicacion extends JFrame {
@@ -20,7 +21,7 @@ public class VentanaPublicacion extends JFrame {
 	 */
 	public VentanaPublicacion(Publicacion p) {
 		crearVentana(p);
-		pack();
+		this.setSize(new Dimension(800,420));
 		setLocationRelativeTo(null);
 	}
 	
