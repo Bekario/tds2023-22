@@ -97,6 +97,4 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 		super.borrarTodasPublicaciones();
 		
 	}
-
-
 }

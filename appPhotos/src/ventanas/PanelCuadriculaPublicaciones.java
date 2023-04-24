@@ -23,6 +23,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -33,6 +35,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	private static final int RESOLUCION_PUBLICACION = 125;
 	private int x;
 	private int y;
+	private List<JLabel> publicaciones;
 
 	/**
 	 * Create the panel.
@@ -40,6 +43,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	public PanelCuadriculaPublicaciones() {
 		y = 0;
 		x = 0;
+		publicaciones = new ArrayList<JLabel>();
 		crearPanel();
 	}
 	
@@ -78,6 +82,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 			x=0;
 			y++;
 		}
+		publicaciones.add(lblPublicacion);
 		return lblPublicacion;
 	}
 	
@@ -120,8 +125,14 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 				int seleccion = JOptionPane.showConfirmDialog(null, "¿Estas seguro que quieres eliminar esta publicacion?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (seleccion == 0) {
 					Controlador.getInstancia().borrarPublicacion(p);
-					//zNIA
-					//FALTA ACTUALIZAR EL PANEL
+					//Actualizamos el panel
+					borrarTodasPublicaciones();
+					if(p.getClass().getName().equals("modelo.Foto")) {
+						Controlador.getInstancia().obtenerUsuarioActual().getFotos().stream().forEachOrdered(f -> addPublicacionBorrable(f));					
+					} else {
+						Controlador.getInstancia().obtenerUsuarioActual().getAlbums().stream().forEachOrdered(f -> addPublicacionBorrable(f));
+					}
+					updateUI();
 				}
 				
 				
@@ -156,6 +167,9 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		//Reiniciamos las posiciones
 		x = 0;
 		y = 0;
+		publicaciones.stream().parallel()
+							  .forEach(p -> remove(p));
+		publicaciones = new ArrayList<JLabel>();
 	}
 	
 	
