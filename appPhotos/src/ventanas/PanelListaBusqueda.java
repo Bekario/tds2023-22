@@ -69,7 +69,7 @@ public class PanelListaBusqueda extends JPanel {
 		paneles.add(panelHashTag);
 		y++;
 		
-		addManejadorClickHashTag(panelHashTag, l);
+		addManejadorClickHashTag(panelHashTag, l, hashtag);
 	}
 	
 	public void addListaUsuario(List<Usuario> usuarios) {
@@ -98,13 +98,13 @@ public class PanelListaBusqueda extends JPanel {
 		});
 
 	}
-	private void addManejadorClickHashTag(PanelHashTag u, List<Publicacion> pub) {
+	private void addManejadorClickHashTag(PanelHashTag u, List<Publicacion> pub, String hashtag) {
 		u.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PanelCuadriculaPublicaciones p= new PanelCuadriculaPublicaciones(home);
+				PanelHashtagPublicaciones p= new PanelHashtagPublicaciones(home, hashtag);
 				pub.stream().parallel()
-					.forEach(pub -> p.addPublicacionConManejador(pub));
+					.forEach(pub -> p.addPublicacion(pub));
 				
 				home.setPanel(p);
 			}
