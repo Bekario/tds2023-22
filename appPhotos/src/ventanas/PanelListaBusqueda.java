@@ -102,7 +102,7 @@ public class PanelListaBusqueda extends JPanel {
 		u.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PanelCuadriculaPublicaciones p= new PanelCuadriculaPublicaciones();
+				PanelCuadriculaPublicaciones p= new PanelCuadriculaPublicaciones(home);
 				pub.stream().parallel()
 					.forEach(pub -> p.addPublicacionConManejador(pub));
 				

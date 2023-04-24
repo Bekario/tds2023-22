@@ -36,11 +36,13 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	private int x;
 	private int y;
 	private List<JLabel> publicaciones;
+	private Home padre;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelCuadriculaPublicaciones() {
+	public PanelCuadriculaPublicaciones(Home padre) {
+		this.padre = padre;
 		y = 0;
 		x = 0;
 		publicaciones = new ArrayList<JLabel>();
@@ -126,16 +128,10 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 				if (seleccion == 0) {
 					Controlador.getInstancia().borrarPublicacion(p);
 					//Actualizamos el panel
-					borrarTodasPublicaciones();
-					if(p.getClass().getName().equals("modelo.Foto")) {
-						Controlador.getInstancia().obtenerUsuarioActual().getFotos().stream().forEachOrdered(f -> addPublicacionBorrable(f));					
-					} else {
-						Controlador.getInstancia().obtenerUsuarioActual().getAlbums().stream().forEachOrdered(f -> addPublicacionBorrable(f));
-					}
+					padre.recargarPanelPerfil();
+					padre.setPanelPerfil();
 					updateUI();
 				}
-				
-				
 			}
 		});
 		popupMenu.add(mntmNewMenuItem);

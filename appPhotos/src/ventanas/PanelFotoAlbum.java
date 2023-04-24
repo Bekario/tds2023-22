@@ -153,7 +153,7 @@ public class PanelFotoAlbum extends JPanel {
 	
 	private void crearPanelesPublicaciones() {
 		//Creamos el panel de fotos, que es el que se muestra primero por defecto
-		panelFotos = new PanelCuadriculaFotos();
+		panelFotos = new PanelCuadriculaFotos(padre);
 		gbc_panelFotos = new GridBagConstraints();
 		gbc_panelFotos.anchor = GridBagConstraints.EAST;
 		gbc_panelFotos.gridwidth = 3;
@@ -166,7 +166,7 @@ public class PanelFotoAlbum extends JPanel {
 		estadoPanel = FOTO;
 		
 		//Creamos el panel de albums
-		panelAlbum = new PanelCuadriculaAlbums();
+		panelAlbum = new PanelCuadriculaAlbums(padre);
 		GridBagConstraints gbc_panelAlbum = new GridBagConstraints();
 		gbc_panelAlbum.anchor = GridBagConstraints.EAST;
 		gbc_panelAlbum.gridwidth = 3;

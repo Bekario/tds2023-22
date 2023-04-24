@@ -147,7 +147,7 @@ public class PanelCrearAlbum extends JPanel {
 	}
 	
 	private void crearPanelFotos() {
-		panelSeleccionarFotos = new PanelSeleccionarFotos(Controlador.getInstancia().obtenerUsuarioActual().getFotos());
+		panelSeleccionarFotos = new PanelSeleccionarFotos(padre, Controlador.getInstancia().obtenerUsuarioActual().getFotos());
 		GridBagConstraints gbc_panelSeleccionarFotos_1 = new GridBagConstraints();
 		gbc_panelSeleccionarFotos_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panelSeleccionarFotos_1.fill = GridBagConstraints.BOTH;

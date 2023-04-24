@@ -22,8 +22,8 @@ public class PanelCuadriculaFotos extends PanelCuadriculaPublicaciones {
 	/**
 	 * Create the panel.
 	 */
-	public PanelCuadriculaFotos() {
-		super();
+	public PanelCuadriculaFotos(Home padre) {
+		super(padre);
 		estado = NO_FOTOS;
 		crearFotoDefault();
 	}

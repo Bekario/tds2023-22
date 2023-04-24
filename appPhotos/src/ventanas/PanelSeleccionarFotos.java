@@ -20,8 +20,8 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 	/**
 	 * Create the panel.
 	 */
-	public PanelSeleccionarFotos(List<Foto> fotos) {
-		super();
+	public PanelSeleccionarFotos(Home padre, List<Foto> fotos) {
+		super(padre);
 		addFotos(fotos, false, false);
 	}
 	

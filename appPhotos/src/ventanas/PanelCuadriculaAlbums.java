@@ -21,8 +21,8 @@ public class PanelCuadriculaAlbums extends PanelCuadriculaPublicaciones {
 	/**
 	 * Create the panel.
 	 */
-	public PanelCuadriculaAlbums() {
-		super();
+	public PanelCuadriculaAlbums(Home padre) {
+		super(padre);
 		estado = NO_ALBUM;
 		crearAlbumDefault();
 	}
