@@ -45,7 +45,7 @@ public class PanelUsuario extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{20, 60, 15, 160, 15, 0, 15, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -65,6 +65,7 @@ public class PanelUsuario extends JPanel {
 		lblNombreUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblNombreUsuario.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
+		gbc_lblNombreUsuario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNombreUsuario.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNombreUsuario.gridx = 3;
 		gbc_lblNombreUsuario.gridy = 0;
@@ -72,12 +73,13 @@ public class PanelUsuario extends JPanel {
 		
 		//Utilizamos la misma posicion para el boton y para el label
 		GridBagConstraints gbc_btnSeguir_lbl_seguido = new GridBagConstraints();
+		gbc_btnSeguir_lbl_seguido.anchor = GridBagConstraints.EAST;
 		gbc_btnSeguir_lbl_seguido.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSeguir_lbl_seguido.gridx = 5;
 		gbc_btnSeguir_lbl_seguido.gridy = 0;
 		
 		lblSeguido = new JLabel("Seguido");
-		add(lblSeguido, gbc_btnSeguir_lbl_seguido);
+//		add(lblSeguido, gbc_btnSeguir_lbl_seguido);
 		lblSeguido.setVisible(false);
 		
 		btnSeguir = new JButton("Seguir");

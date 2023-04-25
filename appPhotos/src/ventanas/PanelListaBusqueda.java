@@ -48,6 +48,7 @@ public class PanelListaBusqueda extends JPanel {
 		GridBagConstraints gbc_panelUsuario = new GridBagConstraints();
 		gbc_panelUsuario.insets = new Insets(0, 0, 5, 0);
 		gbc_panelUsuario.fill = GridBagConstraints.BOTH;
+		gbc_panelUsuario.anchor= GridBagConstraints.CENTER;
 		gbc_panelUsuario.gridx = 0;
 		gbc_panelUsuario.gridy = y;
 		add(panelUsuario, gbc_panelUsuario);

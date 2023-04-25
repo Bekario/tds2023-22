@@ -21,7 +21,7 @@ public class VentanaPublicacion extends JFrame {
 	 */
 	public VentanaPublicacion(Publicacion p) {
 		crearVentana(p);
-		this.setSize(new Dimension(800,420));
+		this.setSize(new Dimension(800,470));
 		setLocationRelativeTo(null);
 	}
 	

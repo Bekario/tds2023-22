@@ -48,7 +48,6 @@ public class PanelComentario extends JPanel {
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private JLabel comentario;
-	private int y;
 	private JButton lblEnviar;
 	private JLabel lblNewLabel;
 
@@ -57,7 +56,6 @@ public class PanelComentario extends JPanel {
 	 */
 	public PanelComentario(Publicacion publicacion) {
 		likePresionado = false;
-		y=0;
 		crearPanel(publicacion);	
 	}
 
@@ -274,7 +272,7 @@ public class PanelComentario extends JPanel {
 		comentario = new JLabel(texto);
 		panel.add(comentario);
 		panel.add(Box.createVerticalStrut(5));
-		y++;
+
 	}
 	
 	private void addManejadorClickLike(JLabel label, Publicacion publicacion) {

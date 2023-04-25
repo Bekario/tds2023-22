@@ -17,8 +17,6 @@ import javax.swing.JButton;
 import javax.swing.UIManager;
 
 import controlador.Controlador;
-
-import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
