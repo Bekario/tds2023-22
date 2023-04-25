@@ -23,12 +23,14 @@ public class PanelNotificaciones extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panel;
+	private Home padre;
 	
 	private int y;
 	/**
 	 * Create the panel.
 	 */
-	public PanelNotificaciones(List<Notificacion> notificaciones) {
+	public PanelNotificaciones(Home home, List<Notificacion> notificaciones) {
+		padre = home;
 		y=0;
 		crearPanel();
 		addNotificaciones(notificaciones);
@@ -90,6 +92,7 @@ public class PanelNotificaciones extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				p.setVisible(false);
 				Controlador.getInstancia().eliminarNotificacion(n);
+				padre.actualizarIconoNotificacion();
 			}
 		});
 	}
@@ -105,6 +108,7 @@ public class PanelNotificaciones extends JPanel {
 					//Eliminamos la notificacion
 					panel.setVisible(false);
 					Controlador.getInstancia().eliminarNotificacion(n);
+					padre.actualizarIconoNotificacion();
 				}
 			}
 		});
