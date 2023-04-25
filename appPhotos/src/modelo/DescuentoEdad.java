@@ -8,5 +8,15 @@ public class DescuentoEdad implements Descuento{
 	public float aplicarDescuento(float precio) {
 		return (float) (precio - (precio * DESCUENTO));
 	}
+
+	@Override
+	public String getNombre() {
+		return "Edad";
+	}
+
+	@Override
+	public String getCondiciones() {
+		return "Para aplicar este descuento debes tener entre 18 y 25 años.";
+	}
 	
 }

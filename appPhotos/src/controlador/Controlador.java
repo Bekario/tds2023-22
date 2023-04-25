@@ -19,6 +19,9 @@ import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
 import modelo.Album;
 import modelo.Comentario;
+import modelo.Descuento;
+import modelo.DescuentoEdad;
+import modelo.DescuentoPopularidad;
 import modelo.Foto;
 import modelo.Notificacion;
 import modelo.Publicacion;
@@ -691,8 +694,29 @@ public class Controlador implements IFotosListener {
 		usuarioDAO.modificarUsuario(usuarioActual);
 	}
 	
-	public float obtenerPrecioPremium() {
-		return usuarioActual.comprobarDescuento(Variables.precioPremium);
-
+	/**
+	 * Comprueba si el usuarioActual puede aplicar un descuento
+	 * @param descuento el descuento que se va a comprobar
+	 * @return boolean indicando si es posible
+	 */
+	public boolean comprobarDescuento(Descuento descuento) {
+		return usuarioActual.comprobarDescuento(descuento);
+	}
+	
+	public float aplicarDescuento(Descuento descuento) {
+		return descuento.aplicarDescuento(Variables.precioPremium);
+	}
+	
+	/**
+	 * Retorna la lista con los posibles descuentos aplicables
+	 * @return
+	 */
+	public List<Descuento> obtenerDescuentos() {
+		List<Descuento> descuentos = new ArrayList<Descuento>();
+		
+		descuentos.add(new DescuentoEdad());
+		descuentos.add(new DescuentoPopularidad());
+		
+		return descuentos;
 	}
 }

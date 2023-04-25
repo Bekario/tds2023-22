@@ -23,7 +23,7 @@ public class Usuario {
 	private List<Album> albums;
 	
 	//Numero de MGs necesarios para el descuento
-	private final int ME_GUSTAS = 1000;
+	private final int ME_GUSTAS = 20;
 	//Edades entre las que se aplica el descuento
 	private final int EDAD_MIN = 18;
 	private final int EDAD_MAX = 25;
@@ -46,20 +46,22 @@ public class Usuario {
 		fotos = new ArrayList<Foto>();
 	}
 	
-	public float comprobarDescuento(float precio) {
+	public boolean comprobarDescuento(Descuento descuento) {
+		//Comprobamos si se puede aplicar el de edad
 		int edad = Period.between(getFechaNacimiento(), LocalDate.now()).getYears();
+		if(edad >= EDAD_MIN && edad <= EDAD_MAX && descuento.getClass().getName().equals("modelo.DescuentoEdad")) {
+			return true;
+		} 
+		//Comprobamos si se puede aplicar el de popularidad
 		int numMG = getFotos().stream()
 				.map(mg -> mg.getMegusta())
 				.reduce(0, (accum, mg) -> accum + mg);
 		
-		if(edad >= EDAD_MIN && edad <= EDAD_MAX) {
-			return new DescuentoEdad().aplicarDescuento(precio);
-		} else if(numMG >= ME_GUSTAS) {
-			return new DescuentoPopularidad().aplicarDescuento(precio);
-		} else {
-			return precio;
-		}
+		if(numMG >= ME_GUSTAS  && descuento.getClass().getName().equals("modelo.DescuentoPopularidad")) {
+			return true;
+		} 
 		
+		return false;
 	}
 	
 	/**

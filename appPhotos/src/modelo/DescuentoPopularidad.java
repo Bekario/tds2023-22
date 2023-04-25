@@ -8,4 +8,13 @@ public class DescuentoPopularidad implements Descuento{
 	public float aplicarDescuento(float precio) {
 		return (float) (precio - (precio * DESCUENTO));
 	}
+
+	@Override
+	public String getNombre() {
+		return "Popularidad";
+	}
+	
+	public String getCondiciones() {
+		return "Para aplicar este descuento debes tener más de 20 me gustas entre todas tus publicaciones.";
+	}
 }
