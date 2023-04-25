@@ -190,6 +190,11 @@ public class Usuario {
 	public List<Album> getAlbums() {
 		return albums;
 	}
+	public List<Publicacion> getPublicaciones(){
+		List<Publicacion> l = new ArrayList<Publicacion>(fotos);
+		l.addAll(albums);
+		return l;
+	}
 	
 	public String getContraseña() {
 		return contraseña;

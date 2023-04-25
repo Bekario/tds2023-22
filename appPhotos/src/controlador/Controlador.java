@@ -459,11 +459,11 @@ public class Controlador implements IFotosListener {
 	}
 	
 	public List<Publicacion> getPublicacionesSubidasSeguidores(){
-		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
+		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getPublicaciones());			
 		
 		//MALENIA STREAM
 		for (Usuario u : usuarioActual.getUsuariosSeguidosOb()) {
-			pub.addAll(u.getFotos());
+			pub.addAll(u.getPublicaciones());
 		}
 		 Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
 		 return pub;
