@@ -44,7 +44,6 @@ public class PanelEditar extends JPanel {
 	private JButton btnMostrarPass;
 	private JButton btnMostrarPass2;
 	private JButton btnGuardar;
-	private JLabel lblCabecera;
 	private JButton btnAtras;
 	private PanelCabeceraPerfil padre;
 	private JLabel lblFotoPerfil;
@@ -53,6 +52,7 @@ public class PanelEditar extends JPanel {
 	private JTextArea txtDescripcion;
 	
 	private String perfil;
+	private JLabel lblEditarPerfil;
 	
 	/**
 	 * Create the panel.
@@ -91,12 +91,6 @@ public class PanelEditar extends JPanel {
 	 * Crea el titulo
 	 */
 	private void establecerTitulo() {
-		lblCabecera = new JLabel("Editar perfil");
-		GridBagConstraints gbc_lblCabecera = new GridBagConstraints();
-		gbc_lblCabecera.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCabecera.gridx = 2;
-		gbc_lblCabecera.gridy = 1;
-		add(lblCabecera, gbc_lblCabecera);
 	}
 	
 	/**
@@ -105,6 +99,14 @@ public class PanelEditar extends JPanel {
 	
 
 	private void establecerEmail(Usuario usuario) {		
+		
+		lblEditarPerfil = new JLabel("EDITAR PERFIL");
+		lblEditarPerfil.setFont(new Font("Segoe UI", Font.BOLD, 19));
+		GridBagConstraints gbc_lblEditarPerfil = new GridBagConstraints();
+		gbc_lblEditarPerfil.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEditarPerfil.gridx = 2;
+		gbc_lblEditarPerfil.gridy = 1;
+		add(lblEditarPerfil, gbc_lblEditarPerfil);
 		
 		txtEmail = new JTextField();
 		txtEmail.setText(usuario.getEmail());

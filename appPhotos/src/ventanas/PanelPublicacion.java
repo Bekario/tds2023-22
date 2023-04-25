@@ -9,6 +9,7 @@ import java.awt.Insets;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -29,7 +30,7 @@ public class PanelPublicacion extends JPanel {
 	private JLabel lblTitulo;
 	private JLabel lblNombreUsuario;
 	private JLabel lblNumComentarios;
-	private JLabel lblComentario;
+	private JButton btnComentario;
 	private Home home;
 	
 	/**
@@ -49,7 +50,7 @@ public class PanelPublicacion extends JPanel {
 		addManejadorClickUsuario(lblNombreUsuario, p.getUsuario());
 		addManejadorClickUsuario(lblFotoPerfil, p.getUsuario());
 		addManejadorClickLike(lblLike, p);
-		Manejadores.addManejadorClickToFoto(lblComentario, p);
+		Manejadores.addManejadorClickToFotoBoton(btnComentario, p);
 		Manejadores.addManejadorClickToFoto(lblFoto, p);
 
 	}
@@ -119,13 +120,16 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNumLikes.gridy = 0;
 		panelInferior.add(lblNumLikes, gbc_lblNumLikes);
 		
-		lblComentario = new JLabel("");
-		lblComentario.setIcon(new ImageIcon(PanelPublicacion.class.getResource("/imagenes/mensaje.png")));
-		GridBagConstraints gbc_lblComentario = new GridBagConstraints();
-		gbc_lblComentario.insets = new Insets(0, 0, 0, 5);
-		gbc_lblComentario.gridx = 4;
-		gbc_lblComentario.gridy = 0;
-		panelInferior.add(lblComentario, gbc_lblComentario);
+		btnComentario = new JButton("");
+		btnComentario.setContentAreaFilled(false);
+		btnComentario.setIcon(new ImageIcon(PanelPublicacion.class.getResource("/imagenes/mensaje.png")));
+		GridBagConstraints gbc_btnComentario = new GridBagConstraints();
+		gbc_btnComentario.insets = new Insets(0, 0, 0, 5);
+		gbc_btnComentario.gridx = 4;
+		gbc_btnComentario.gridy = 0;
+		panelInferior.add(btnComentario, gbc_btnComentario);
+		
+		Manejadores.addManejadorAnimacionBoton(this, btnComentario, "/imagenes/mensaje.gif", "/imagenes/mensaje.png");
 		
 		lblNumComentarios = new JLabel(String.valueOf(comentarios));
 		lblNumComentarios.setFont(new Font("Segoe UI", Font.BOLD, 14));

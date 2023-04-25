@@ -367,9 +367,9 @@ public class Controlador implements IFotosListener {
 	}
 	
 	public String subirFotoPerfilDefault() {
-		String ruta = "/imagenes/face-detection.png";
+		String ruta = "/imagenes/perfil_default.png";
 		try {
-			Files.copy(Path.of(Controlador.class.getResource("/imagenes/face-detection.png").toString().substring(6)), FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png"), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(Path.of(Controlador.class.getResource(ruta).toString().substring(6)), FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png"), StandardCopyOption.REPLACE_EXISTING);
 			ruta = FileSystems.getDefault().getPath(RUTA_IMAGENES+"perfil_"+usuarioActual.getUsuario()+".png").toString();
 		} catch (IOException e) {
 			e.printStackTrace();

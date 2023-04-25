@@ -64,8 +64,8 @@ public class Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setTitle("Login");
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/camara-de-fotos.png")));
+		frame.setTitle("Bienvenido a appPhotos");
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/icono.png")));
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();

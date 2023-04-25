@@ -79,7 +79,7 @@ public class PanelLogin extends JPanel {
 		add(nombreApp, gbc_nombreApp);
 		
 		foto = new JLabel("");
-		foto.setIcon(new ImageIcon(PanelLogin.class.getResource("/imagenes/61-camera-gradient (1).gif")));
+		foto.setIcon(new ImageIcon(PanelLogin.class.getResource("/imagenes/icono.gif")));
 		GridBagConstraints gbc_foto = new GridBagConstraints();
 		gbc_foto.insets = new Insets(0, 0, 5, 5);
 		gbc_foto.gridx = 2;

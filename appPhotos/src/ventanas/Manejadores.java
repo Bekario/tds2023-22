@@ -2,6 +2,8 @@ package ventanas;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -162,6 +164,14 @@ public class Manejadores {
 					VentanaPublicacion v = new VentanaPublicacion(p);
 					v.mostrarVentana();
 				}
+			}
+		});
+	}
+	public static void addManejadorClickToFotoBoton(JButton boton, Publicacion p) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaPublicacion v = new VentanaPublicacion(p);
+				v.mostrarVentana();
 			}
 		});
 	}

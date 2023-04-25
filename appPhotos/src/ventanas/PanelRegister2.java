@@ -40,7 +40,7 @@ public class PanelRegister2 extends JPanel {
 	private JButton btnRegistrarse;
 	
 	private String fotoActual;
-	private final String FOTO_DEFECTO = "/imagenes/face-detection.png";
+	private final String FOTO_DEFECTO = "/imagenes/perfil_default.png";
 	private JButton btnAtras;
 	
 	private Login padre;
@@ -104,7 +104,7 @@ public class PanelRegister2 extends JPanel {
 		gbc_perfil.gridy = 3;
 		add(perfil, gbc_perfil);
 		
-		fotoActual = "/imagenes/face-detection.png";
+		fotoActual = FOTO_DEFECTO;
 	}
 	
 	/**

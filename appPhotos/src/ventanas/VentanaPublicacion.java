@@ -21,13 +21,17 @@ public class VentanaPublicacion extends JFrame {
 	 */
 	public VentanaPublicacion(Publicacion p) {
 		crearVentana(p);
-		this.setSize(new Dimension(800,470));
+		if(p.getClass().getName().equals("modelo.Foto")) {
+			this.setSize(new Dimension(800,430));			
+		} else {
+			this.setSize(new Dimension(800,480));	
+		}
 		setLocationRelativeTo(null);
 	}
 	
 	private void crearVentana(Publicacion p) {
 		setTitle(p.getTitulo());
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPublicacion.class.getResource("/imagenes/camara-de-fotos.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPublicacion.class.getResource("/imagenes/icono.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		contentPane = new JPanel();

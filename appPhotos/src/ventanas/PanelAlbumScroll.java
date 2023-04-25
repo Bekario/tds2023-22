@@ -20,6 +20,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import java.awt.Cursor;
+import java.awt.Font;
+
 import javax.swing.JLabel;
 
 
@@ -66,6 +68,7 @@ public class PanelAlbumScroll extends PanelPublicacionScroll {
 		btnIzquierda.setIcon(new ImageIcon(PanelAlbumScroll.class.getResource("/imagenes/proximo izq.png")));
 		
 		lblNombreFoto = new JLabel(((Album) publicacion).getPortada().getTitulo());
+		lblNombreFoto.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		GridBagConstraints gbc_lblNombreFoto = new GridBagConstraints();
 		gbc_lblNombreFoto.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNombreFoto.gridx = 1;
