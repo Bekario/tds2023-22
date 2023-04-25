@@ -1,15 +1,18 @@
 package ventanas;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -174,6 +177,22 @@ public class Manejadores {
 				c.setBorder(new LineBorder(new Color(45, 42, 46), 2, true));		
 			}
 		});
+	}
+	
+	public static void addManejadorAnimacionBoton(Component c, JButton boton, String icono_animado, String icono_estatico) {
+		boton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				boton.setIcon(new ImageIcon(Manejadores.class.getResource(icono_animado)));
+				c.repaint();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				boton.setIcon(new ImageIcon(Manejadores.class.getResource(icono_estatico)));
+				c.repaint();
+			}
+		});
+
 	}
 	
 }

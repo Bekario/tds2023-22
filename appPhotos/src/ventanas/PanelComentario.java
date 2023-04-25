@@ -103,7 +103,7 @@ public class PanelComentario extends JPanel {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JPanel panelInferior = new JPanel();
-		panelInferior.setBackground(new Color(218, 200, 41));
+		panelInferior.setBackground(Colores.NARANJA);
 		GridBagConstraints gbc_panelInferior = new GridBagConstraints();
 		gbc_panelInferior.fill = GridBagConstraints.BOTH;
 		gbc_panelInferior.gridx = 1;

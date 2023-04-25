@@ -117,6 +117,8 @@ public class Home implements IEncendidoListener{
 		barraInferior.add(btnPrincipal, gbc_btnPrincipal);
 		btnPrincipal.setBorder(null);
 		
+		Manejadores.addManejadorAnimacionBoton(frame, btnPrincipal, "/imagenes/casa.gif", "/imagenes/casa.png");
+		
 		JButton btnSearch = new JButton("");
 		btnSearch.setContentAreaFilled(false);
 		btnSearch.setIcon(new ImageIcon(Home.class.getResource("/imagenes/lupa.png")));
@@ -127,6 +129,8 @@ public class Home implements IEncendidoListener{
 		gbc_btnSearch.gridy = 0;
 		barraInferior.add(btnSearch, gbc_btnSearch);
 		btnSearch.setBorder(null);
+		
+		Manejadores.addManejadorAnimacionBoton(frame, btnSearch, "/imagenes/lupa.gif", "/imagenes/lupa.png");
 		
 		JButton btnSubirFoto = new JButton("");
 		btnSubirFoto.setContentAreaFilled(false);
@@ -139,6 +143,8 @@ public class Home implements IEncendidoListener{
 		barraInferior.add(btnSubirFoto, gbc_btnSubirFoto);
 		btnSubirFoto.setBorder(null);
 		
+		Manejadores.addManejadorAnimacionBoton(frame, btnSubirFoto, "/imagenes/add.gif", "/imagenes/add.png");
+		
 		JButton btnPerfil = new JButton("");
 		btnPerfil.setContentAreaFilled(false);
 		btnPerfil.setIcon(new ImageIcon(Home.class.getResource("/imagenes/usuario.png")));
@@ -149,6 +155,8 @@ public class Home implements IEncendidoListener{
 		gbc_btnPerfil.gridy = 0;
 		barraInferior.add(btnPerfil, gbc_btnPerfil);
 		btnPerfil.setBorder(null);
+		
+		Manejadores.addManejadorAnimacionBoton(frame, btnPerfil, "/imagenes/usuario.gif", "/imagenes/usuario.png");
 		
 		addManejadorBotonBusqueda(btnSearch);
 		addManejadorBotonInicio(btnPrincipal);
