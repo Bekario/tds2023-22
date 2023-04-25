@@ -150,9 +150,7 @@ public class PanelComentario extends JPanel {
 		btnEnviar = new JButton("");
 		btnEnviar.setContentAreaFilled(false);
 		btnEnviar.setBorder(null);
-		imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/enviar.png"));
-		icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		btnEnviar.setIcon(icono);
+		btnEnviar.setIcon(new ImageIcon(PanelRegister2.class.getResource("/imagenes/enviar.png")));
 		GridBagConstraints gbc_btnEnviar = new GridBagConstraints();
 		gbc_btnEnviar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnEnviar.gridx = 6;
