@@ -36,7 +36,6 @@ public class PanelUsuario extends JPanel {
 		this.setSize(450, 64);
 		crearPanelEImagen(usuario.getPerfil(), usuario.getUsuario());
 		addManejadorBotonSeguir(btnSeguir, usuario);
-		addManejadorDejarDeSeguir(lblSeguido, usuario);
 		// Comprobamos si debemos mostrar que el usuario es seguido o no
 		setVisibilidadBotonSeguir(!Controlador.getInstancia().obtenerUsuarioActual().comprobarSeguido(usuario));
 	}
@@ -65,7 +64,7 @@ public class PanelUsuario extends JPanel {
 		lblNombreUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblNombreUsuario.setForeground(new Color(255, 255, 255));
 		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
-		gbc_lblNombreUsuario.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblNombreUsuario.anchor = GridBagConstraints.WEST;
 		gbc_lblNombreUsuario.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNombreUsuario.gridx = 3;
 		gbc_lblNombreUsuario.gridy = 0;
@@ -78,13 +77,9 @@ public class PanelUsuario extends JPanel {
 		gbc_btnSeguir_lbl_seguido.gridx = 5;
 		gbc_btnSeguir_lbl_seguido.gridy = 0;
 		
-		lblSeguido = new JLabel("Seguido");
-//		add(lblSeguido, gbc_btnSeguir_lbl_seguido);
-		lblSeguido.setVisible(false);
-		
 		btnSeguir = new JButton("Seguir");
 		add(btnSeguir, gbc_btnSeguir_lbl_seguido);
-		btnSeguir.setVisible(false);
+		btnSeguir.setContentAreaFilled(true)
 
 	}
 	
@@ -93,33 +88,28 @@ public class PanelUsuario extends JPanel {
 	 * @param visibilidad
 	 */
 	public void setVisibilidadBotonSeguir(boolean visibilidad) {
-		btnSeguir.setVisible(visibilidad);
-		lblSeguido.setVisible(!visibilidad);
+		if(visibilidad) {
+			btnSeguir.setText("Seguir ");
+		}else {
+			btnSeguir.setText("Seguido");
+		}
+		btnSeguir.setContentAreaFilled(visibilidad);
+
 	}
 	
 	private void addManejadorBotonSeguir(JButton boton, Usuario usuario) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Comprobamos que el boton este visible, esto significa que no este ya seguido por el usuario
-				if(boton.isVisible()) {
+				if(boton.isContentAreaFilled()) {
 					Controlador.getInstancia().seguirUsuario(usuario);
 					setVisibilidadBotonSeguir(false);
-				}
-			}
-		});
-
-	}
-	
-	private void addManejadorDejarDeSeguir(JLabel label, Usuario usuario) {
-		label.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//Comprobamos que el label este visible, si esta visible es porque esta siendo seguido
-				if(label.isVisible()) {
+				}else {
 					Controlador.getInstancia().dejarDeSeguirUsuario(usuario);
 					setVisibilidadBotonSeguir(true);
 				}
 			}
 		});
 	}
+	
 }
