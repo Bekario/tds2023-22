@@ -70,7 +70,7 @@ public class PanelFotoAlbum extends JPanel {
 		gbc_btnFotos.gridx = 1;
 		gbc_btnFotos.gridy = 0;
 		add(btnFotos, gbc_btnFotos);
-		btnFotos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnFotos.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnFotos.setBorder(null);
 		
 		addManejadorBotonPaneles(btnFotos, panelFotos, FOTO);
@@ -88,7 +88,7 @@ public class PanelFotoAlbum extends JPanel {
 		btnAlbum = new JButton("Album");
 		btnAlbum.setContentAreaFilled(false);
 		panel_2.add(btnAlbum);
-		btnAlbum.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAlbum.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		btnAlbum.setBorder(null);
 		addManejadorBotonPaneles(btnAlbum, panelAlbum, ALBUM);
 		
@@ -131,15 +131,15 @@ public class PanelFotoAlbum extends JPanel {
 						estadoPanel = FOTO;
 						remove(panelAlbum);
 						add(panelFotos, gbc_panelFotos);
-						btnAlbum.setBackground(new Color(42, 45, 46));
-						
+						btnFotos.setFont(new Font("Segoe UI", Font.BOLD, 14));
+						btnAlbum.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 						panelFotos.updateUI();
 					} else {
 						estadoPanel = ALBUM;
 						remove(panelFotos);
 						add(panelAlbum, gbc_panelFotos);
-						btnFotos.setBackground(new Color(42, 45, 46));
-						
+						btnFotos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+						btnAlbum.setFont(new Font("Segoe UI", Font.BOLD, 14));
 						panelAlbum.updateUI();
 					}
 					btn.setBackground(new Color(66, 61, 67));

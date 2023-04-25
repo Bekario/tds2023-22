@@ -48,6 +48,8 @@ public class Home implements IEncendidoListener{
 	private PanelPerfil panelPerfil;
 	private PanelSubir panelSubir;
 	private PanelNotificaciones panelNotificaciones;
+	
+	private JButton btnCampana;
 
 	/**
 	 * Create the application.
@@ -277,7 +279,7 @@ public class Home implements IEncendidoListener{
 		gbc_luz.gridy = 0;
 		barraSuperior.add(luz, gbc_luz);
 		
-		JButton btnCampana = new JButton("");
+		btnCampana = new JButton("");
 		btnCampana.setContentAreaFilled(false);
 		if(Controlador.getInstancia().obtenerUsuarioActual().getNotificaciones().size() == 0) {
 			btnCampana.setIcon(new ImageIcon(Home.class.getResource("/imagenes/campana.png")));
@@ -324,7 +326,7 @@ public class Home implements IEncendidoListener{
 		panelInicio = new PanelInicio(this);
 		panelPerfil = new PanelPerfil(this, Controlador.getInstancia().obtenerUsuarioActual());
 		panelSubir = new PanelSubir(this);
-		panelNotificaciones = new PanelNotificaciones(Controlador.getInstancia().obtenerUsuarioActual().getNotificaciones());
+		panelNotificaciones = new PanelNotificaciones(this, Controlador.getInstancia().obtenerUsuarioActual().getNotificaciones());
 	}
 	
 	private void addManejadorBotonInicio(JButton boton) {
@@ -459,6 +461,14 @@ public class Home implements IEncendidoListener{
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	
+	public void actualizarIconoNotificacion() {
+		if(Controlador.getInstancia().obtenerUsuarioActual().getNotificaciones().size() == 0) {
+			btnCampana.setIcon(new ImageIcon(Home.class.getResource("/imagenes/campana.png")));
+		} else {
+			btnCampana.setIcon(new ImageIcon(Home.class.getResource("/imagenes/campana.gif")));
+		}
 	}
 	
 	/**

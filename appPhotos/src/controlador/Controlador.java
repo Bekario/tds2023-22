@@ -250,18 +250,25 @@ public class Controlador implements IFotosListener {
 		RepoPublicaciones repoPublicaciones = RepoPublicaciones.getUnicaInstancia();
 		try {
 			publicacionDAO = FactoriaDAO.getInstancia().getPublicacionDAO();
-			//Ahora comprobamos si la publicacion está contenida en un album y lo borramos
-			List<Album> albums = new ArrayList<Album>(usuarioActual.getAlbums());
 			
-			albums.stream()
-				  .filter(a -> a.comprobarFoto((Foto) publicacion))
-				  .forEach(a -> {publicacionDAO.borrarPublicacion(a); 
-				 				repoPublicaciones.removePublicacion(a);
-				 				usuarioActual.removeAlbum((Album) a);});
+			//Si la publicacion es una foto, hay que borrarla de los albums
+			if(publicacion.getClass().getName().equals("modelo.Foto")) {
+				//Ahora comprobamos si la publicacion está contenida en un album y lo borramos
+				List<Album> albums = new ArrayList<Album>(usuarioActual.getAlbums());
+				
+				albums.stream()
+				.filter(a -> a.comprobarFoto((Foto) publicacion))
+				.forEach(a -> {publicacionDAO.borrarPublicacion(a); 
+				repoPublicaciones.removePublicacion(a);
+				usuarioActual.removeAlbum((Album) a);});	
+				
+				usuarioActual.removeFoto((Foto) publicacion);
+			} else {
+				usuarioActual.removeAlbum((Album) publicacion);
+			}
+			
 			//Borramos la publicacion
 			publicacionDAO.borrarPublicacion(publicacion);
-			usuarioActual.removeFoto((Foto) publicacion);
-			
 			//Actualizamos el usuario
 			IAdaptadorUsuarioDAO u = FactoriaDAO.getInstancia().getUsuarioDAO();
 			u.modificarUsuario(usuarioActual);
@@ -269,7 +276,7 @@ public class Controlador implements IFotosListener {
 			//Eliminamos las notificacion que han podido recibir otros usuario
 			usuarioActual.getUsuariosSeguidoresOb().stream().parallel()
 															.filter(us -> us.removeNotificacion(publicacion))
-															.forEach(us -> u.modificarUsuario(us));;
+															.forEach(us -> u.modificarUsuario(us));
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}

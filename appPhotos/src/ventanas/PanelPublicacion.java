@@ -45,8 +45,8 @@ public class PanelPublicacion extends JPanel {
 	private void crearPanel(Publicacion p) {
 		this.setSize(450, 490);
 		crearPanelEImagen(Controlador.getInstancia().obtenerPortadaPublicacion(p));
-		crearBarraInferior(p.getMegusta(), p.getNumComentarios(), p.getUsuario().getUsuario(), p.getUsuario().getPerfil());
-		crearBarraSuperior(p.getTitulo());
+		crearBarraInferior(p);
+		crearBarraSuperior(p);
 		addManejadorClickUsuario(lblNombreUsuario, p.getUsuario());
 		addManejadorClickUsuario(lblFotoPerfil, p.getUsuario());
 		addManejadorClickLike(lblLike, p);
@@ -84,9 +84,13 @@ public class PanelPublicacion extends JPanel {
 
 	}
 	
-	private void crearBarraInferior(int likes, int comentarios, String user, String perfil) {
+	private void crearBarraInferior(Publicacion p) {
 		JPanel panelInferior = new JPanel();
-		panelInferior.setBackground(new Color(247, 211, 131));
+		if(p.getClass().getName().equals("modelo.Foto")) {		
+			panelInferior.setBackground(Colores.NARANJA_CLARO);
+		} else {
+			panelInferior.setBackground(Colores.ROJO_CLARO);
+		}
 		GridBagConstraints gbc_panelInferior = new GridBagConstraints();
 		gbc_panelInferior.fill = GridBagConstraints.BOTH;
 		gbc_panelInferior.gridx = 0;
@@ -111,7 +115,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblLike.gridy = 0;
 		panelInferior.add(lblLike, gbc_lblLike);
 		
-		lblNumLikes = new JLabel(String.valueOf(likes));
+		lblNumLikes = new JLabel(String.valueOf(p.getMegusta()));
 		lblNumLikes.setForeground(new Color(0, 0, 0));
 		lblNumLikes.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNumLikes = new GridBagConstraints();
@@ -131,7 +135,7 @@ public class PanelPublicacion extends JPanel {
 		
 		Manejadores.addManejadorAnimacionBoton(this, btnComentario, "/imagenes/mensaje.gif", "/imagenes/mensaje.png");
 		
-		lblNumComentarios = new JLabel(String.valueOf(comentarios));
+		lblNumComentarios = new JLabel(String.valueOf(p.getNumComentarios()));
 		lblNumComentarios.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblNumComentarios.setForeground(new Color(0, 0, 0));
 		GridBagConstraints gbc_lblNumComentarios = new GridBagConstraints();
@@ -140,7 +144,7 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNumComentarios.gridy = 0;
 		panelInferior.add(lblNumComentarios, gbc_lblNumComentarios);
 		
-		lblNombreUsuario = new JLabel(user);
+		lblNombreUsuario = new JLabel(p.getUsuario().getUsuario());
 		lblNombreUsuario.setForeground(new Color(0, 0, 0));
 		lblNombreUsuario.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
@@ -150,7 +154,7 @@ public class PanelPublicacion extends JPanel {
 		panelInferior.add(lblNombreUsuario, gbc_lblNombreUsuario);
 		
 		lblFotoPerfil = new JLabel("");
-		lblFotoPerfil.setIcon(new ImageIcon(FotoPersonalizada.redondearFoto(perfil).getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+		lblFotoPerfil.setIcon(new ImageIcon(FotoPersonalizada.redondearFoto(p.getUsuario().getPerfil()).getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
 		gbc_lblFotoPerfil.insets = new Insets(0, 0, 0, 5);
 		gbc_lblFotoPerfil.gridx = 9;
@@ -171,9 +175,13 @@ public class PanelPublicacion extends JPanel {
 
 	}
 	
-	private void crearBarraSuperior(String titulo) {
+	private void crearBarraSuperior(Publicacion p) {
 		JPanel panelSuperior = new JPanel();
-		panelSuperior.setBackground(new Color(247, 211, 131));
+		if(p.getClass().getName().equals("modelo.Foto")) {
+			panelSuperior.setBackground(Colores.NARANJA_CLARO);			
+		} else {
+			panelSuperior.setBackground(Colores.ROJO_CLARO);
+		}
 		GridBagConstraints gbc_panelSuperior = new GridBagConstraints();
 		gbc_panelSuperior.insets = new Insets(0, 0, 5, 0);
 		gbc_panelSuperior.fill = GridBagConstraints.BOTH;
@@ -187,7 +195,7 @@ public class PanelPublicacion extends JPanel {
 		gbl_panelSuperior.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelSuperior.setLayout(gbl_panelSuperior);
 		
-		lblTitulo = new JLabel(titulo);
+		lblTitulo = new JLabel(p.getTitulo());
 		lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblTitulo.setForeground(new Color(0, 0, 0));
 		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();

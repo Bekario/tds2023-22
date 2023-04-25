@@ -66,6 +66,8 @@ public class PanelNotificacion extends JPanel {
 		gbc_btnEliminar.gridx = 5;
 		gbc_btnEliminar.gridy = 0;
 		add(btnEliminar, gbc_btnEliminar);
+		
+		Manejadores.addManejadorAnimacionBoton(this, btnEliminar, "/imagenes/eliminar.gif", "/imagenes/eliminar.png");
 	}
 	
 	public JButton getBtnEliminar() {
