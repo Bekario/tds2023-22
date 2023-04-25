@@ -48,8 +48,8 @@ public class PanelComentario extends JPanel {
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private JLabel comentario;
-	private JButton lblEnviar;
-	private JLabel lblNewLabel;
+	private JButton btnEnviar;
+	private JLabel lblFecha;
 
 	/**
 	 * Create the panel.
@@ -67,7 +67,7 @@ public class PanelComentario extends JPanel {
 		addComentario(publicacion.getComentarios());
 		
 		addManejadorComentarioTextfield(textField, publicacion);
-		addManejadorComentarioBoton(lblEnviar, publicacion);
+		addManejadorComentarioBoton(btnEnviar, publicacion);
 		addManejadorClickLike(lblLike, publicacion);
 		
 		updateUI();
@@ -147,18 +147,19 @@ public class PanelComentario extends JPanel {
 		panelInferior.add(textField, gbc_textField);
 		textField.setColumns(10);
 		
-		lblEnviar = new JButton("");
-		lblEnviar.setContentAreaFilled(false);
-		lblEnviar.setBorder(null);
-		
+		btnEnviar = new JButton("");
+		btnEnviar.setContentAreaFilled(false);
+		btnEnviar.setBorder(null);
 		imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/enviar.png"));
 		icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		lblEnviar.setIcon(icono);
-		GridBagConstraints gbc_lblEnviar = new GridBagConstraints();
-		gbc_lblEnviar.insets = new Insets(0, 0, 0, 5);
-		gbc_lblEnviar.gridx = 6;
-		gbc_lblEnviar.gridy = 0;
-		panelInferior.add(lblEnviar, gbc_lblEnviar);
+		btnEnviar.setIcon(icono);
+		GridBagConstraints gbc_btnEnviar = new GridBagConstraints();
+		gbc_btnEnviar.insets = new Insets(0, 0, 0, 5);
+		gbc_btnEnviar.gridx = 6;
+		gbc_btnEnviar.gridy = 0;
+		panelInferior.add(btnEnviar, gbc_btnEnviar);
+		
+		Manejadores.addManejadorAnimacionBoton(this, btnEnviar, "/imagenes/enviar.gif", "/imagenes/enviar.png");
 	}
 	
 	private void addManejadorComentarioBoton(JButton boton, Publicacion publicacion) {
@@ -218,12 +219,9 @@ public class PanelComentario extends JPanel {
 		gbc_lblNombreUsuario.gridx = 2;
 		gbc_lblNombreUsuario.gridy = 0;
 		panelSuperior.add(lblNombreUsuario, gbc_lblNombreUsuario);
-				
-		ImageIcon imagen = new ImageIcon(perfil);
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		
 		lblFotoPerfil = new JLabel("");
-		lblFotoPerfil.setIcon(icono);
+		lblFotoPerfil.setIcon(new ImageIcon(FotoPersonalizada.redondearFoto(perfil).getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
 		gbc_lblFotoPerfil.anchor = GridBagConstraints.WEST;
 		gbc_lblFotoPerfil.insets = new Insets(0, 0, 5, 5);
@@ -231,12 +229,12 @@ public class PanelComentario extends JPanel {
 		gbc_lblFotoPerfil.gridy = 0;
 		panelSuperior.add(lblFotoPerfil, gbc_lblFotoPerfil);
 		
-		lblNewLabel = new JLabel(fecha);
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 3;
-		gbc_lblNewLabel.gridy = 0;
-		panelSuperior.add(lblNewLabel, gbc_lblNewLabel);
+		lblFecha = new JLabel(fecha);
+		GridBagConstraints gbc_lblFecha = new GridBagConstraints();
+		gbc_lblFecha.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFecha.gridx = 3;
+		gbc_lblFecha.gridy = 0;
+		panelSuperior.add(lblFecha, gbc_lblFecha);
 		
 		
 		lblTitulo_1 = new JLabel("<html><p style=\"width:300px\">"+titulo+"</p></html>");

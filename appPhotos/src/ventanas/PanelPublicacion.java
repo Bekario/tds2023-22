@@ -145,12 +145,8 @@ public class PanelPublicacion extends JPanel {
 		gbc_lblNombreUsuario.gridy = 0;
 		panelInferior.add(lblNombreUsuario, gbc_lblNombreUsuario);
 		
-		
-		imagen = new ImageIcon(perfil);
-		icono = new ImageIcon(imagen.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-		
 		lblFotoPerfil = new JLabel("");
-		lblFotoPerfil.setIcon(icono);
+		lblFotoPerfil.setIcon(new ImageIcon(FotoPersonalizada.redondearFoto(perfil).getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
 		gbc_lblFotoPerfil.insets = new Insets(0, 0, 0, 5);
 		gbc_lblFotoPerfil.gridx = 9;

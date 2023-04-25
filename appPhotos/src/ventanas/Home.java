@@ -267,14 +267,6 @@ public class Home implements IEncendidoListener{
 		
 		
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				recargarPanelInicio();
-			}
-		});
-		
 		Luz luz = new Luz();
 		luz.setColor(Colores.NARANJA_CLARO);
 		//Añadimos Home como listener
@@ -285,21 +277,32 @@ public class Home implements IEncendidoListener{
 		gbc_luz.gridy = 0;
 		barraSuperior.add(luz, gbc_luz);
 		
-		JLabel lblCampana = new JLabel("");
-		lblCampana.setIcon(new ImageIcon(Home.class.getResource("/imagenes/campana_sin_movimiento.png")));
-		GridBagConstraints gbc_lblCampana = new GridBagConstraints();
-		gbc_lblCampana.insets = new Insets(0, 0, 0, 5);
-		gbc_lblCampana.gridx = 4;
-		gbc_lblCampana.gridy = 0;
-		barraSuperior.add(lblCampana, gbc_lblCampana);
-		addManejadorBotonCampana(lblCampana);
+		JButton btnCampana = new JButton("");
+		btnCampana.setContentAreaFilled(false);
+		if(Controlador.getInstancia().obtenerUsuarioActual().getNotificaciones().size() == 0) {
+			btnCampana.setIcon(new ImageIcon(Home.class.getResource("/imagenes/campana.png")));
+		} else {
+			btnCampana.setIcon(new ImageIcon(Home.class.getResource("/imagenes/campana.gif")));
+		}
+		GridBagConstraints gbc_btnCampana = new GridBagConstraints();
+		gbc_btnCampana.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCampana.gridx = 4;
+		gbc_btnCampana.gridy = 0;
+		barraSuperior.add(btnCampana, gbc_btnCampana);
+		addManejadorBotonCampana(btnCampana);
 		
-		lblNewLabel.setIcon(new ImageIcon(Home.class.getResource("/imagenes/refresh-page-option.png")));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel.gridx = 6;
-		gbc_lblNewLabel.gridy = 0;
-		barraSuperior.add(lblNewLabel, gbc_lblNewLabel);
+		
+		JButton btnRecargar = new JButton("");
+		btnRecargar.setContentAreaFilled(false);
+		btnRecargar.setIcon(new ImageIcon(Home.class.getResource("/imagenes/recargar.png")));
+		GridBagConstraints gbc_btnRecargar = new GridBagConstraints();
+		gbc_btnRecargar.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRecargar.gridx = 6;
+		gbc_btnRecargar.gridy = 0;
+		barraSuperior.add(btnRecargar, gbc_btnRecargar);
+		
+		addManejadorBotonRecargar(btnRecargar);
+		Manejadores.addManejadorAnimacionBoton(frame, btnRecargar, "/imagenes/recargar.gif", "/imagenes/recargar.png");
 	}
 	
 	private void establecerPanelMedio() {
@@ -355,12 +358,21 @@ public class Home implements IEncendidoListener{
 			}
 		});
 	}
-	private void addManejadorBotonCampana(JLabel label) {
-		label.addMouseListener(new MouseAdapter() {
+	private void addManejadorBotonCampana(JButton boton) {
+		boton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				setPanelNotificaciones();
 			}
 		});
+	}
+	
+	private void addManejadorBotonRecargar(JButton boton) {
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				recargarPanelInicio();
+			}
+		});
+
 	}
 	
 	private void cambiarScrollPane(JPanel panel) {

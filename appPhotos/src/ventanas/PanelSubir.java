@@ -70,11 +70,11 @@ public class PanelSubir extends JPanel {
 	private void crearPanelSubir() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 285, 15, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 15, 20, 10, 285, 15, 0, 80, 15, 50, 15, 0, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 15, 20, 10, 285, 15, 0, 80, 15, 50, 15, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		JLabel lblTitulo = new JLabel("Subir foto");
+		JLabel lblTitulo = new JLabel("SUBIR FOTO");
 		lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
 		gbc_lblTitulo.insets = new Insets(0, 0, 5, 5);

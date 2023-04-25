@@ -7,7 +7,6 @@ import modelo.Publicacion;
 import modelo.Usuario;
 
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 
@@ -17,7 +16,6 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
 
@@ -99,14 +97,13 @@ public class PanelFotoAlbum extends JPanel {
 			btnAlbum_add = new JButton("");
 			
 			panel_2.add(btnAlbum_add);
-			ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/add.png"));
-			Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+			ImageIcon imagen = new ImageIcon(PanelRegister2.class.getResource("/imagenes/add_album.png"));
 			btnAlbum_add.setContentAreaFilled(false);
-			btnAlbum_add.setIcon(icono);
+			btnAlbum_add.setIcon(imagen);
 			btnAlbum_add.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			btnAlbum_add.setBorder(null);
 	
-			
+			Manejadores.addManejadorAnimacionBoton(this, btnAlbum_add, "/imagenes/add_album.gif", "/imagenes/add_album.png");
 			addManejadorBotonAñadirAlbum(btnAlbum_add);			
 		}
 	}

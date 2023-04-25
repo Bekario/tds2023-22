@@ -20,7 +20,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.time.LocalDate;
@@ -376,7 +375,7 @@ public class PanelEditar extends JPanel {
 		}
 		
 		//Comprobamos si es un correo basico
-		if(txtEmail.getText().equals("Email") /*|| !match.matches()*/) {
+		if(txtEmail.getText().equals("Email") || !match.matches()) {
 			estado = false;
 			info = "¡El email no es valido!";
 		}
