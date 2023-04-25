@@ -63,6 +63,23 @@ public class Usuario {
 	}
 	
 	/**
+	 * Elimina una notificacion
+	 * @param p publicacion que esta asociada a la notificacion
+	 */
+	public boolean removeNotificacion(Publicacion p) {
+		Notificacion notificacion = notificaciones.stream().parallel()
+							   .filter(n -> n.getPublicacion().equals(p))
+							   .findAny()
+							   .orElse(null);
+		if (notificacion == null) {
+			return false;
+		} else {
+			removeNotificacion(notificacion);
+			return true;
+		}
+	}
+	
+	/**
 	 * Comprueba si este usuario sigue a otro usuario
 	 * @param usuario que se va a comprobar
 	 * @return booleano indicando si esta seguido o no

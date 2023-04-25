@@ -251,7 +251,7 @@ public class Controlador implements IFotosListener {
 		try {
 			publicacionDAO = FactoriaDAO.getInstancia().getPublicacionDAO();
 			//Ahora comprobamos si la publicacion está contenida en un album y lo borramos
-			List<Album> albums = new ArrayList<Album>(usuarioActual.getAlbums()); //Hacemos una copia para evitar concurrent modification exception
+			List<Album> albums = new ArrayList<Album>(usuarioActual.getAlbums());
 			
 			albums.stream()
 				  .filter(a -> a.comprobarFoto((Foto) publicacion))
@@ -265,6 +265,11 @@ public class Controlador implements IFotosListener {
 			//Actualizamos el usuario
 			IAdaptadorUsuarioDAO u = FactoriaDAO.getInstancia().getUsuarioDAO();
 			u.modificarUsuario(usuarioActual);
+			
+			//Eliminamos las notificacion que han podido recibir otros usuario
+			usuarioActual.getUsuariosSeguidoresOb().stream().parallel()
+															.filter(us -> us.removeNotificacion(publicacion))
+															.forEach(us -> u.modificarUsuario(us));;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}

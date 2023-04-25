@@ -103,8 +103,18 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	}
 
 	public void borrarPublicacion(Publicacion publicacion) {
+		//No comprobamos integridad con notificaciones y usuario
 		Entidad ePublicacion= servPersistencia.recuperarEntidad(publicacion.getCodigo());
 		servPersistencia.borrarEntidad(ePublicacion);
+		
+		//Borramos todos los comentarios asociados a la publicacion
+		try {
+			IAdaptadorComentarioDAO adaptadorComentario = FactoriaDAO.getInstancia().getComentarioDAO();
+			publicacion.getComentarios().stream().parallel()
+												 .forEach(c -> adaptadorComentario.borrarComentario(c));
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void modificarPublicacion(Publicacion publicacion) {

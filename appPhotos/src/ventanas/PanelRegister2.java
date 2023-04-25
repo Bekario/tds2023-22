@@ -162,7 +162,7 @@ public class PanelRegister2 extends JPanel {
 		btnRegistrarse.setBorderPainted(false);
 		btnRegistrarse.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnRegistrarse.setBackground(new Color(78,80,82));
-		btnRegistrarse.setForeground(new Color(218, 200, 41));
+		btnRegistrarse.setForeground(Colores.NARANJA);
 		GridBagConstraints gbc_btnRegistrarse = new GridBagConstraints();
 		gbc_btnRegistrarse.fill = GridBagConstraints.VERTICAL;
 		gbc_btnRegistrarse.gridwidth = 2;
@@ -173,7 +173,7 @@ public class PanelRegister2 extends JPanel {
 		
 		//Boton atras
 		btnAtras = new JButton("      ATRÁS      ");
-		btnAtras.setForeground(new Color(218, 200, 41));
+		btnAtras.setForeground(Colores.NARANJA);
 		btnAtras.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnAtras.setBorderPainted(false);
 		btnAtras.setBackground(UIManager.getColor("Button.background"));

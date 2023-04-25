@@ -35,21 +35,17 @@ public class AdaptadorComentarioTDS implements IAdaptadorComentarioDAO {
 			eComentario = servPersistencia.recuperarEntidad(comentario.getCodigo());
 		} catch (NullPointerException e) {}
 		if (eComentario != null) return;
-		
-		// crear entidad producto
+
 		eComentario = new Entidad();
 		eComentario.setNombre("comentario");
 		eComentario.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad("texto", comentario.getTexto()))));
-		
-		// registrar entidad producto
+
 		eComentario = servPersistencia.registrarEntidad(eComentario);
-		// asignar identificador unico
-		// Se aprovecha el que genera el servicio de persistencia
 		comentario.setCodigo(eComentario.getId());  
 	}
 
 	public void borrarComentario(Comentario comentario) {
-		// No se comprueba integridad con lineas de venta
+		// No se comprueba integridad con publicacion
 		Entidad eComentario = servPersistencia.recuperarEntidad(comentario.getCodigo());
 		servPersistencia.borrarEntidad(eComentario);
 	}
