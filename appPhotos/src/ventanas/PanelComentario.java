@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Point;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,7 +14,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 
 import controlador.Controlador;
 import modelo.Comentario;
@@ -51,8 +51,7 @@ public class PanelComentario extends JPanel {
 	private int y;
 	private JButton lblEnviar;
 	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
+
 	/**
 	 * Create the panel.
 	 */
@@ -191,6 +190,7 @@ public class PanelComentario extends JPanel {
 			addComentario(Controlador.getInstancia().obtenerUsuarioActual().getUsuario()+": "+textField.getText());
 			updateUI();
 			textField.setText("");
+			scrollPane.getViewport().setViewPosition(new Point(0, panel.getHeight()));
 		}
 
 	}
