@@ -79,7 +79,7 @@ public class PanelUsuario extends JPanel {
 		
 		btnSeguir = new JButton("Seguir");
 		add(btnSeguir, gbc_btnSeguir_lbl_seguido);
-		btnSeguir.setContentAreaFilled(true)
+		btnSeguir.setContentAreaFilled(true);
 
 	}
 	
