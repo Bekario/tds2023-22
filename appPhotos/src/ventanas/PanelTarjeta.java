@@ -44,7 +44,6 @@ public class PanelTarjeta extends JPanel {
 	private final String NUMEROTARJETA = "Numero de tarjeta";
 	private final String CVV = "CVV / CVC";
 	private final String FECHACADUCIDAD = "Fecha de caducidad";
-	private float precio;
 	
 	//Para determinar el tipo de tarjeta
 	private final String MASTERCARD = "5";
@@ -60,15 +59,14 @@ public class PanelTarjeta extends JPanel {
 	 */
 	public PanelTarjeta(Home home, float precio) {
 		padre = home;
-		this.precio = precio;
 		this.setSize(450, 600);
-		crearPanel();
+		crearPanel(precio);
 	}
 	
 	/**
 	 * Inicializa el frame y el layout
 	 */
-	private void crearPanel() {
+	private void crearPanel(float precio) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 128, 128, 50, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 30, 180, 0, 0, 0, 0, 30, 50, 0, 0};
@@ -76,7 +74,7 @@ public class PanelTarjeta extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		establecerBotones();
+		establecerBotones(precio);
 		establecerTitulo();
 		establecerDatosTarjeta();
 		establecerPanelTarjeta();
@@ -301,7 +299,7 @@ public class PanelTarjeta extends JPanel {
 	/**
 	 * Establece el boton para procesar el pago
 	 */
-	private void establecerBotones() {
+	private void establecerBotones(float precio) {
 		DecimalFormat df = new DecimalFormat("#.##");
 		btnPagar = new JButton("PROCESAR PAGO ("+df.format(precio)+"€)");
 		btnPagar.setForeground(Colores.NARANJA);

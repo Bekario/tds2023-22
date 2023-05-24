@@ -1,6 +1,7 @@
 package controlador;
 
 import java.io.IOException;
+import java.lang.reflect.AnnotatedType;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -713,6 +714,7 @@ public class Controlador implements IFotosListener {
 	 */
 	public List<Descuento> obtenerDescuentos() {
 		List<Descuento> descuentos = new ArrayList<Descuento>();
+		System.out.println("a");
 		
 		descuentos.add(new DescuentoEdad());
 		descuentos.add(new DescuentoPopularidad());
