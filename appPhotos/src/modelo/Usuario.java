@@ -5,6 +5,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Usuario {
 	private int codigo;
@@ -232,12 +233,17 @@ public class Usuario {
 	}
 	
 	public List<Usuario> getUsuariosSeguidoresOb() {
-		List<Usuario> Usuarios = new ArrayList<Usuario>();
+		return usuariosSeguidores.stream()
+								.map(u -> RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)))
+								.collect(Collectors.toList());
+				/*
+				new ArrayList<Usuario>();
 		//MALENIA STREAM
 		for(String u: usuariosSeguidores) {
 			Usuarios.add(RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)));
 		}
 		return Usuarios;
+				 */
 	}
 	
 	public List<String> getUsuariosSeguidos() {
@@ -248,20 +254,30 @@ public class Usuario {
 	 * Obtiene los usuarios que este usuario sigue
 	 */
 	public List<String> getUsuariosSeguidosNombre() {
-		List<String> nombresUsuarios = new ArrayList<String>();
+		return usuariosSeguidos.stream()
+				.map(u -> RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)).getUsuario())
+				.collect(Collectors.toList());
+				/*
+				new ArrayList<String>();
 		//MALENIA STREAM
 		for(String u: usuariosSeguidos) {
 			nombresUsuarios.add(RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)).getUsuario());
 		}
 		return nombresUsuarios;
+				 */
 	}
 	public List<Usuario> getUsuariosSeguidosOb() {
+		return usuariosSeguidos.stream()
+				.map(u -> RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)))
+				.collect(Collectors.toList());
+		/*
 		List<Usuario> Usuarios = new ArrayList<Usuario>();
 		//MALENIA STREAM
 		for(String u: usuariosSeguidos) {
 			Usuarios.add(RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)));
 		}
 		return Usuarios;
+		*/
 	}
 	
 	
