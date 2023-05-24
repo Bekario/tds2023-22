@@ -166,7 +166,6 @@ public class Controlador implements IFotosListener {
 		try {
 			FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(usuarioActual);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -180,7 +179,6 @@ public class Controlador implements IFotosListener {
 		try {
 			usuarioDAO = FactoriaDAO.getInstancia().getUsuarioDAO();
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		usuarioDAO.borrarUsuario(usuario);
@@ -445,19 +443,7 @@ public class Controlador implements IFotosListener {
 						   .filter(u -> u.getNombreCompleto().toLowerCase().startsWith(nombre) && !u.getNombreCompleto().equals(usuarioActual.getNombreCompleto()))
 						   .filter(u -> u.getEmail().toLowerCase().startsWith(nombre) && !u.getEmail().equals(usuarioActual.getEmail()))
 						   .collect(Collectors.toSet());
-		/*// MALENIA STREAM
-		for (Usuario usuario : listaTotal) {
-			// Comprobamos que el usuario coincida en sus primeras letras y que no sea el mismo
-			if(usuario.getUsuario().toLowerCase().startsWith(nombre) && !usuario.getUsuario().equals(usuarioActual.getUsuario())) {
-				listaBuscada.add(usuario);
-			}
-			if(usuario.getNombreCompleto().toLowerCase().startsWith(nombre) && !usuario.getNombreCompleto().equals(usuarioActual.getNombreCompleto())) {
-				listaBuscada.add(usuario);
-			}
-			if(usuario.getEmail().toLowerCase().startsWith(nombre) && !usuario.getEmail().equals(usuarioActual.getEmail())) {
-				listaBuscada.add(usuario);
-			}
-		}*/
+	
 		List<Usuario> list= new ArrayList<Usuario>(listaBuscada);
 		Collections.sort(list, (x, y) -> x.getUsuario().compareToIgnoreCase(y.getUsuario()));
 
@@ -484,13 +470,9 @@ public class Controlador implements IFotosListener {
 	public List<Publicacion> getPublicacionesSubidasSeguidores(){
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getPublicaciones());			
 		
-		//MALENIA STREAM
 		usuarioActual.getUsuariosSeguidos().stream().parallel()
 														.forEach(u -> pub.addAll(u.getPublicaciones()));
 		
-		/*for (Usuario u : usuarioActual.getUsuariosSeguidosOb()) {
-			pub.addAll(u.getPublicaciones());
-		}*/
 		 Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
 		 return pub;
 	}
@@ -500,15 +482,21 @@ public class Controlador implements IFotosListener {
 		actualizarUsuario(usuarioActual);
 
 	}
-
+	
+	/**
+	 * Obtiene las 10 publicacion con mas me gustas
+	 * @return
+	 */
 	public List<Publicacion> getPublicacionesTop() {
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
-		 Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
-		 if(pub.size()>10) {
-			 pub= pub.subList(0, 9);
-			 
-		 }
-		 return pub;
+		
+		//Ordenamos por numero de me gustas
+		Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
+		//Obtenemos una lista de 10 o menos
+		if(pub.size()>10) {
+			pub= pub.subList(0, 9);	 
+		}
+		return pub;
 	}
 	
 	public void generarPDF() {
@@ -635,13 +623,6 @@ public class Controlador implements IFotosListener {
 						   .sorted((x, y) -> x.compareToIgnoreCase(y))
 						   .collect(Collectors.toList());
 		
-		/*// MALENIA STREAM
-		for (String hashtag : listaTotal) {
-			if(hashtag.toLowerCase().startsWith(nombre)) {
-				listaBuscada.add(hashtag);
-			}
-		}
-		Collections.sort(listaBuscada, (x, y) -> x.compareToIgnoreCase(y));*/
 		return listaBuscada;
 	}
 
