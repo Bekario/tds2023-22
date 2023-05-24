@@ -62,7 +62,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		AdaptadorUsuarioTDS adaptadorUsuario= AdaptadorUsuarioTDS.getUnicaInstancia();
 		adaptadorUsuario.registrarUsuario(publicacion.getUsuario());
 		
-		// registrar primero los atributos que son objetos MALENIA
+		// registrar primero los atributos que son objetos
 		AdaptadorComentarioTDS adaptadorComentario = AdaptadorComentarioTDS.getUnicaInstancia();
 		for (Comentario c : publicacion.getComentarios())
 			adaptadorComentario.registrarComentario(c);
