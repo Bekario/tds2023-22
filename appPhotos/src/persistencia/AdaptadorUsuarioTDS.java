@@ -265,10 +265,13 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	private List<Usuario> obtenerSeguidores(String seguidores) {
 		List<Usuario> listaSeguidores = new ArrayList<Usuario>();
 		StringTokenizer strTok = new StringTokenizer(seguidores, " ");
-		IAdaptadorUsuarioDAO adaptadorU = (IAdaptadorUsuarioDAO) AdaptadorPublicacionTDS.getUnicaInstancia();
-		while (strTok.hasMoreTokens()) {
-			listaSeguidores.add(adaptadorU.recuperarUsuario(Integer.valueOf((String) strTok.nextElement())));
-		}
+		IAdaptadorUsuarioDAO adaptadorU;
+		try {
+			adaptadorU = FactoriaDAO.getInstancia().getUsuarioDAO();
+			while (strTok.hasMoreTokens()) {
+				listaSeguidores.add(adaptadorU.recuperarUsuario(Integer.valueOf((String) strTok.nextElement())));
+			}
+		} catch (DAOException e) {}
 		return listaSeguidores;
 	}
 	
