@@ -1,7 +1,6 @@
 package controlador;
 
 import java.io.IOException;
-import java.lang.reflect.AnnotatedType;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,8 +19,9 @@ import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
 import modelo.Album;
 import modelo.Comentario;
-import modelo.Descuento;
+import modelo.IDescuento;
 import modelo.DescuentoEdad;
+import modelo.DescuentoNull;
 import modelo.DescuentoPopularidad;
 import modelo.Foto;
 import modelo.Notificacion;
@@ -30,6 +30,7 @@ import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
 import modelo.Variables;
+import modelo.Venta;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
@@ -50,6 +51,9 @@ public class Controlador implements IFotosListener {
 	private List<Publicacion> seleccionados;
 	private Publicacion portadaSeleccionada;
 	
+	//Venta
+	private Venta venta;
+	
 	//Ruta imagenes
 	private final String RUTA_IMAGENES = System.getProperty("user.dir")+"/fotosSubidas/";
 	
@@ -62,6 +66,7 @@ public class Controlador implements IFotosListener {
 		portadaSeleccionada = null;
 		rutaXml = null;
 		seleccionados = new ArrayList<Publicacion>();
+		venta = new Venta(Variables.precioPremium);
 		//Añadimos el controlador como listener
 		c = new ComponenteCargadorFotos();
 		c.addListener(this);
@@ -700,21 +705,22 @@ public class Controlador implements IFotosListener {
 	 * @param descuento el descuento que se va a comprobar
 	 * @return boolean indicando si es posible
 	 */
-	public boolean comprobarDescuento(Descuento descuento) {
+	public boolean comprobarDescuento(IDescuento descuento) {
 		return usuarioActual.comprobarDescuento(descuento);
 	}
 	
-	public float aplicarDescuento(Descuento descuento) {
-		return descuento.aplicarDescuento(Variables.precioPremium);
+	public Venta getVenta() {
+		return venta;
 	}
 	
 	/**
 	 * Retorna la lista con los posibles descuentos aplicables
 	 * @return
 	 */
-	public List<Descuento> obtenerDescuentos() {
-		List<Descuento> descuentos = new ArrayList<Descuento>();
+	public List<IDescuento> obtenerDescuentos() {
+		List<IDescuento> descuentos = new ArrayList<IDescuento>();
 		
+		descuentos.add(new DescuentoNull());
 		descuentos.add(new DescuentoEdad());
 		descuentos.add(new DescuentoPopularidad());
 		

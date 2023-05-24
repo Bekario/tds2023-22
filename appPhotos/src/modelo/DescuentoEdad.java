@@ -1,6 +1,6 @@
 package modelo;
 
-public class DescuentoEdad implements Descuento{
+public class DescuentoEdad implements IDescuento{
 	//Descuento aplicado por edad
 	private final double DESCUENTO = 0.4;
 	
@@ -11,7 +11,7 @@ public class DescuentoEdad implements Descuento{
 
 	@Override
 	public String getNombre() {
-		return "Edad";
+		return "Descuento de Edad";
 	}
 
 	@Override

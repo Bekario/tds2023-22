@@ -3,7 +3,7 @@ package ventanas;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import modelo.Descuento;
+import modelo.IDescuento;
 
 import java.awt.GridBagLayout;
 import javax.swing.ImageIcon;
@@ -21,7 +21,7 @@ public class PanelDescuento extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelDescuento(Descuento descuento) {
+	public PanelDescuento(IDescuento descuento) {
 		this.setSize(262, 32);
 		crearPanel(descuento);
 		this.setBorder(new LineBorder(new Color(45, 42, 46), 2, true));	
@@ -30,7 +30,7 @@ public class PanelDescuento extends JPanel {
 		
 	}
 	
-	private void crearPanel(Descuento d) {
+	private void crearPanel(IDescuento d) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{5, 200, 10, 0, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0};
@@ -38,7 +38,7 @@ public class PanelDescuento extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblDescuento = new JLabel("Descuento de "+d.getNombre());
+		JLabel lblDescuento = new JLabel(d.getNombre());
 		lblDescuento.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblDescuento = new GridBagConstraints();
 		gbc_lblDescuento.anchor = GridBagConstraints.WEST;

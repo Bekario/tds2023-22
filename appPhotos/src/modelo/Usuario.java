@@ -46,7 +46,7 @@ public class Usuario {
 		fotos = new ArrayList<Foto>();
 	}
 	
-	public boolean comprobarDescuento(Descuento descuento) {
+	public boolean comprobarDescuento(IDescuento descuento) {
 		//Comprobamos si se puede aplicar el de edad
 		int edad = Period.between(getFechaNacimiento(), LocalDate.now()).getYears();
 		if(edad >= EDAD_MIN && edad <= EDAD_MAX && descuento.getClass().getName().equals("modelo.DescuentoEdad")) {
@@ -60,6 +60,11 @@ public class Usuario {
 		if(numMG >= ME_GUSTAS  && descuento.getClass().getName().equals("modelo.DescuentoPopularidad")) {
 			return true;
 		} 
+		
+		//El precio sin descuento siempre se puede aplicar
+		if (descuento.getClass().getName().equals("modelo.DescuentoNull")) {
+			return true;
+		}
 		
 		return false;
 	}

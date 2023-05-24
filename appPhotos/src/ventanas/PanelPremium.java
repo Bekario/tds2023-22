@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 
 import java.awt.GridBagConstraints;
 import modelo.Variables;
+import modelo.Venta;
 
 import java.awt.Insets;
 
@@ -23,14 +24,13 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-import modelo.Descuento;
+import modelo.IDescuento;
 
 
 public class PanelPremium extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Home home;
-	private float precio;
 	private JPanel panelDescuentos;
 	private int y;
 	
@@ -43,15 +43,14 @@ public class PanelPremium extends JPanel {
 	public PanelPremium(Home home) {
 		y = 2;
 		this.home = home;
-		precio = Variables.precioPremium;
-		crearPanel();
-		addDescuentos(Controlador.getInstancia().obtenerDescuentos());
+		crearPanel(Controlador.getInstancia().getVenta());
+		addDescuentos(Controlador.getInstancia().obtenerDescuentos(), Controlador.getInstancia().getVenta());
 	}
 	public Home getHome() {
 		return home;
 	}
 	
-	private void crearPanel() {
+	private void crearPanel(Venta venta) {
 		this.setSize(450, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 0, 15, 0};
@@ -93,8 +92,15 @@ public class PanelPremium extends JPanel {
 		txtSoloPor.setEditable(false);
 		txtSoloPor.setBackground(null);
 		txtSoloPor.setContentType("text/html");
-		txtSoloPor.setText("¡SOLO POR "+String.valueOf(precio)+"€!");
 		
+		if(venta.obtenerPrecio()!= Variables.precioPremium) {
+			DecimalFormat df = new DecimalFormat("#.##");
+			txtSoloPor.setText("<p>¡SOLO POR <strike>"+df.format(Variables.precioPremium)+"</strike> "+df.format(venta.obtenerPrecio())+"€!</p>");
+		} else {	
+			txtSoloPor.setText("¡SOLO POR "+String.valueOf(venta.obtenerPrecio())+"€!");
+		
+		}
+			
 		txtSoloPor.setForeground(Colores.NARANJA);
 		txtSoloPor.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		GridBagConstraints gbc_txtSoloPor = new GridBagConstraints();
@@ -140,27 +146,31 @@ public class PanelPremium extends JPanel {
 		Manejadores.addManejadorBotonColor(btnPagar);
 		
 		if(!Controlador.getInstancia().comprobarPremium()) {
-			addManejadorBotonPagar(btnPagar);
+			addManejadorBotonPagar(btnPagar, venta);
 			
 		}else btnPagar.setText("PAGADO");
 	}
 	
-	private void addManejadorBotonPagar(JButton boton) {
+	private void addManejadorBotonPagar(JButton boton, Venta venta) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				home.setPanel(new PanelTarjeta(home, precio));
+				home.setPanel(new PanelTarjeta(home, venta));
 			}
 		});
 	}
 	
-	private void addManejadorAplicarDescuento(JButton boton, Descuento d) {
+	private void addManejadorAplicarDescuento(JButton boton, IDescuento d, Venta venta) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Comprobamos si el descuento es aplicable
 				if(Controlador.getInstancia().comprobarDescuento(d)) {
-					precio = Controlador.getInstancia().aplicarDescuento(d);
-					DecimalFormat df = new DecimalFormat("#.##");
-					txtSoloPor.setText("<p>¡SOLO POR <strike>"+df.format(Variables.precioPremium)+"</strike> "+df.format(precio)+"€!</p>");
+					venta.setReglaDescuento(d);
+					if(venta.obtenerPrecio()!=Variables.precioPremium) {
+						DecimalFormat df = new DecimalFormat("#.##");
+						txtSoloPor.setText("<p>¡SOLO POR <strike>"+df.format(Variables.precioPremium)+"</strike> "+df.format(venta.obtenerPrecio())+"€!</p>");						
+					} else {
+						txtSoloPor.setText("¡SOLO POR "+String.valueOf(venta.obtenerPrecio())+"€!");
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, d.getCondiciones(), "¡No puedes aplicar este descuento!", 0);
 				}
@@ -169,12 +179,12 @@ public class PanelPremium extends JPanel {
 
 	}
 	
-	private void addDescuentos(List<Descuento> descuentos) {
+	private void addDescuentos(List<IDescuento> descuentos, Venta venta) {
 		descuentos.stream()
-				  .forEach(d -> addDescuento(d));
+				  .forEach(d -> addDescuento(d, venta));
 	}
 	
-	private void addDescuento(Descuento descuento) {
+	private void addDescuento(IDescuento descuento, Venta venta) {
 		PanelDescuento panelDescuento = new PanelDescuento(descuento);
 		GridBagConstraints gbc_panelDescuento = new GridBagConstraints();
 		gbc_panelDescuento.insets = new Insets(0, 0, 0, 5);
@@ -184,7 +194,7 @@ public class PanelPremium extends JPanel {
 		panelDescuentos.add(panelDescuento, gbc_panelDescuento);
 		y++;
 		
-		addManejadorAplicarDescuento(panelDescuento.getBtnDescuento(), descuento);
+		addManejadorAplicarDescuento(panelDescuento.getBtnDescuento(), descuento, venta);
 	}
 
 }

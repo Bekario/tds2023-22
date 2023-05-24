@@ -1,6 +1,6 @@
 package modelo;
 
-public interface Descuento {	
+public interface IDescuento {	
 	public float aplicarDescuento(float precio);
 	public String getNombre();
 	public String getCondiciones();
