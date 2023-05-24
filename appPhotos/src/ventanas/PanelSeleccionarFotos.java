@@ -58,7 +58,7 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 					if(Controlador.getInstancia().getPortadaSeleccionada() == null) {
 						// Si la portada esta libre, la imagen es la portada
 						Controlador.getInstancia().setPortadaSeleccionada(publicacion);		
-						foto.setBorder(new LineBorder(new Color(249, 100, 100), 2, true));
+						foto.setBorder(new LineBorder(Colores.ROJO_CLARO, 2, true));
 
 					} else {
 						// Si la portada está cogida, se mete en la lista de seleccionados

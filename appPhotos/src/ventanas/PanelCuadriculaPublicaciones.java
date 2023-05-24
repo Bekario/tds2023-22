@@ -129,6 +129,7 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 					Controlador.getInstancia().borrarPublicacion(p);
 					//Actualizamos el panel
 					padre.recargarPanelPerfil();
+					padre.recargarPanelInicio();
 					padre.setPanelPerfil();
 					updateUI();
 				}
