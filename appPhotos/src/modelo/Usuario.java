@@ -17,8 +17,8 @@ public class Usuario {
 	private boolean isPremium;
 	private String perfil;
 	private String descripcion;
-	private List<Usuario> usuariosSeguidores; //Los seguidores estan representados con su codigo
-	private List<Usuario> usuariosSeguidos; //Los seguidos estan representados con su codigo
+	private List<Usuario> usuariosSeguidores;
+	private List<Usuario> usuariosSeguidos;
 	private List<Notificacion> notificaciones;
 	private List<Foto> fotos;
 	private List<Album> albums;
@@ -93,9 +93,8 @@ public class Usuario {
 	 * @return booleano indicando si esta seguido o no
 	 */
 	public boolean comprobarSeguido(Usuario usuario) {
-		String codigo = String.valueOf(usuario.getCodigo());
 		 return usuariosSeguidos.stream()
-						.anyMatch(u -> String.valueOf(u.getCodigo()).equals(codigo));
+						.anyMatch(u -> u.equals(usuario));
 	}
 	
 	/**

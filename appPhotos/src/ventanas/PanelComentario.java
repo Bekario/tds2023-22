@@ -209,7 +209,7 @@ public class PanelComentario extends JPanel {
 		panelSuperior.setLayout(gbl_panelSuperior);
 		
 		lblNombreUsuario = new JLabel("<html><p style=\"width:300px\">"+usuario+"</p></html>");
-		lblNombreUsuario.setForeground(new Color(0, 0, 0));
+		lblNombreUsuario.setForeground(new Color(255, 255, 255));
 		lblNombreUsuario.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNombreUsuario = new GridBagConstraints();
 		gbc_lblNombreUsuario.insets = new Insets(0, 0, 5, 5);

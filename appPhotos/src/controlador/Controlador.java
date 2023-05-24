@@ -485,7 +485,7 @@ public class Controlador implements IFotosListener {
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getPublicaciones());			
 		
 		//MALENIA STREAM
-		usuarioActual.getUsuariosSeguidores().stream().parallel()
+		usuarioActual.getUsuariosSeguidos().stream().parallel()
 														.forEach(u -> pub.addAll(u.getPublicaciones()));
 		
 		/*for (Usuario u : usuarioActual.getUsuariosSeguidosOb()) {
