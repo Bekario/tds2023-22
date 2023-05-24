@@ -157,7 +157,6 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	}
 
 	public Usuario recuperarUsuario(int codigo) {
-
 		// Si la entidad está en el pool la devuelve directamente
 		if (PoolDAO.getUnicaInstancia().contiene(codigo))
 			return (Usuario) PoolDAO.getUnicaInstancia().getObjeto(codigo);
@@ -176,8 +175,8 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		List<Foto> fotos = new ArrayList<Foto>();
 		List<Album> albums = new ArrayList<Album>();
 		List<Notificacion> notificaciones = new ArrayList<Notificacion>();
-		List<String> seguidores = new ArrayList<String>();
-		List<String> seguidos = new ArrayList<String>();
+		List<Usuario> seguidores = new ArrayList<Usuario>();
+		List<Usuario> seguidos = new ArrayList<Usuario>();
 		
 		// recuperar entidad
 		eUsuario = servPersistencia.recuperarEntidad(codigo);
@@ -198,8 +197,7 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 		user.setCodigo(codigo);
 		user.setPremium(premium);
 
-		// IMPORTANTE:añadir el cliente al pool antes de llamar a otros
-		// adaptadores
+		// Añadimos el usario a la pool
 		PoolDAO.getUnicaInstancia().addObjeto(codigo, user);
 
 		// recuperar propiedades que son objetos llamando a adaptadores
@@ -251,10 +249,10 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	 * @param listaSeguidores
 	 * @return
 	 */
-	private String obtenerStringSeguidores(List<String> listaSeguidores) {
+	private String obtenerStringSeguidores(List<Usuario> listaSeguidores) {
 		String aux = "";
-		for (String s : listaSeguidores) {
-			aux+=s+" ";
+		for (Usuario u : listaSeguidores) {
+			aux+=u.getCodigo()+" ";
 		}
 		return aux.trim();
 	}
@@ -264,11 +262,12 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	 * @param seguidores
 	 * @return
 	 */
-	private List<String> obtenerSeguidores(String seguidores) {
-		List<String> listaSeguidores = new ArrayList<String>();
+	private List<Usuario> obtenerSeguidores(String seguidores) {
+		List<Usuario> listaSeguidores = new ArrayList<Usuario>();
 		StringTokenizer strTok = new StringTokenizer(seguidores, " ");
+		IAdaptadorUsuarioDAO adaptadorU = (IAdaptadorUsuarioDAO) AdaptadorPublicacionTDS.getUnicaInstancia();
 		while (strTok.hasMoreTokens()) {
-			listaSeguidores.add((String) strTok.nextElement());
+			listaSeguidores.add(adaptadorU.recuperarUsuario(Integer.valueOf((String) strTok.nextElement())));
 		}
 		return listaSeguidores;
 	}

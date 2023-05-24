@@ -284,7 +284,7 @@ public class Controlador implements IFotosListener {
 			u.modificarUsuario(usuarioActual);
 			
 			//Eliminamos las notificacion que han podido recibir otros usuario
-			usuarioActual.getUsuariosSeguidoresOb().stream().parallel()
+			usuarioActual.getUsuariosSeguidores().stream().parallel()
 															.filter(us -> us.removeNotificacion(publicacion))
 															.forEach(us -> u.modificarUsuario(us));
 		} catch (DAOException e) {
@@ -485,7 +485,7 @@ public class Controlador implements IFotosListener {
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getPublicaciones());			
 		
 		//MALENIA STREAM
-		usuarioActual.getUsuariosSeguidoresOb().stream().parallel()
+		usuarioActual.getUsuariosSeguidores().stream().parallel()
 														.forEach(u -> pub.addAll(u.getPublicaciones()));
 		
 		/*for (Usuario u : usuarioActual.getUsuariosSeguidosOb()) {
@@ -513,12 +513,12 @@ public class Controlador implements IFotosListener {
 	
 	public void generarPDF() {
 		AdaptadorPDF a = new AdaptadorPDF();
-		a.crearArchivo(usuarioActual.getUsuariosSeguidoresOb(), usuarioActual.getUsuario()+"_seguidores");
+		a.crearArchivo(usuarioActual.getUsuariosSeguidores(), usuarioActual.getUsuario()+"_seguidores");
 	}
 	
 	public void generarEXCEL() {
 		AdaptadorEXCEL a = new AdaptadorEXCEL();
-		a.crearArchivo(usuarioActual.getUsuariosSeguidoresOb(), usuarioActual.getUsuario()+"_seguidores");
+		a.crearArchivo(usuarioActual.getUsuariosSeguidores(), usuarioActual.getUsuario()+"_seguidores");
 	}
 	
 	
@@ -683,7 +683,7 @@ public class Controlador implements IFotosListener {
 		adaptadorNotificacion.registrarNotificacion(n);
 		
 		//Añadimos la notificacion a cada usuario y guardamos los cambios en el DAO y repositorio
-		usuarioActual.getUsuariosSeguidoresOb().stream().parallel()
+		usuarioActual.getUsuariosSeguidores().stream().parallel()
 											   			.forEach(u -> {u.addNotificacion(n);
 											   			try {
 															FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(u);

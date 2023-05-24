@@ -17,8 +17,8 @@ public class Usuario {
 	private boolean isPremium;
 	private String perfil;
 	private String descripcion;
-	private List<String> usuariosSeguidores; //Los seguidores estan representados con su codigo
-	private List<String> usuariosSeguidos; //Los seguidos estan representados con su codigo
+	private List<Usuario> usuariosSeguidores; //Los seguidores estan representados con su codigo
+	private List<Usuario> usuariosSeguidos; //Los seguidos estan representados con su codigo
 	private List<Notificacion> notificaciones;
 	private List<Foto> fotos;
 	private List<Album> albums;
@@ -40,8 +40,8 @@ public class Usuario {
 		this.descripcion = descripcion;
 		isPremium = false; //Inicialmente un usuario no es Premium
 		codigo = 0;
-		usuariosSeguidores = new ArrayList<String>();
-		usuariosSeguidos = new ArrayList<String>();
+		usuariosSeguidores = new ArrayList<Usuario>();
+		usuariosSeguidos = new ArrayList<Usuario>();
 		notificaciones = new ArrayList<Notificacion>();
 		albums = new ArrayList<Album>();
 		fotos = new ArrayList<Foto>();
@@ -95,7 +95,7 @@ public class Usuario {
 	public boolean comprobarSeguido(Usuario usuario) {
 		String codigo = String.valueOf(usuario.getCodigo());
 		 return usuariosSeguidos.stream()
-						.anyMatch(u -> u.equals(codigo));
+						.anyMatch(u -> String.valueOf(u.getCodigo()).equals(codigo));
 	}
 	
 	/**
@@ -103,12 +103,11 @@ public class Usuario {
 	 * @param usuario al que se va a seguir
 	 */
 	public void seguirA(Usuario usuario) {
-		String codigo = String.valueOf(usuario.getCodigo());
 		//Añadimos a la lista de usuarios seguidos
-		usuariosSeguidos.add(codigo);
+		usuariosSeguidos.add(usuario);
 		
 		//Añadimos en la la lista de usuarios seguidores a este usuario
-		usuario.addSeguidores(this.codigo);
+		usuario.addSeguidores(this);
 	}
 	
 	/**
@@ -116,20 +115,19 @@ public class Usuario {
 	 * @param usuario al que se va a dejar de seguir
 	 */
 	public void dejarDeSeguirA(Usuario usuario) {
-		String codigo = String.valueOf(usuario.getCodigo());
 		//Quitamos de la lista de usuarios seguidos
-		usuariosSeguidos.remove(codigo);
+		usuariosSeguidos.remove(usuario);
 		
 		//Quitamos de la la lista de usuarios seguidores a este usuario
-		usuario.removeSeguidores(this.codigo);
+		usuario.removeSeguidores(this);
 	}
 	
-	private void addSeguidores(int codigo) {
-		usuariosSeguidores.add(String.valueOf(codigo));
+	private void addSeguidores(Usuario usuario) {
+		usuariosSeguidores.add(usuario);
 	}
 	
-	private void removeSeguidores(int codigo) {
-		usuariosSeguidores.remove(String.valueOf(codigo));
+	private void removeSeguidores(Usuario usuario) {
+		usuariosSeguidores.remove(usuario);
 	}
 	
 	public void addFoto(Foto p) {
@@ -228,34 +226,20 @@ public class Usuario {
 		return notificaciones;
 	}
 	
-	public List<String> getUsuariosSeguidores() {
+	public List<Usuario> getUsuariosSeguidores() {
 		return usuariosSeguidores;
 	}
 	
-	public List<Usuario> getUsuariosSeguidoresOb() {
-		return usuariosSeguidores.stream()
-								.map(u -> RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)))
-								.collect(Collectors.toList());
-				/*
-				new ArrayList<Usuario>();
-		//MALENIA STREAM
-		for(String u: usuariosSeguidores) {
-			Usuarios.add(RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)));
-		}
-		return Usuarios;
-				 */
-	}
-	
-	public List<String> getUsuariosSeguidos() {
+	public List<Usuario> getUsuariosSeguidos() {
 		return usuariosSeguidos;
 	}
 	
 	/*
 	 * Obtiene los usuarios que este usuario sigue
 	 */
-	public List<String> getUsuariosSeguidosNombre() {
+	public List<Usuario> getUsuariosSeguidosNombre() {
 		return usuariosSeguidos.stream()
-				.map(u -> RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)).getUsuario())
+				.map(u -> RepoUsuarios.getUnicaInstancia().getUsuario(u.getCodigo()))
 				.collect(Collectors.toList());
 				/*
 				new ArrayList<String>();
@@ -266,20 +250,6 @@ public class Usuario {
 		return nombresUsuarios;
 				 */
 	}
-	public List<Usuario> getUsuariosSeguidosOb() {
-		return usuariosSeguidos.stream()
-				.map(u -> RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)))
-				.collect(Collectors.toList());
-		/*
-		List<Usuario> Usuarios = new ArrayList<Usuario>();
-		//MALENIA STREAM
-		for(String u: usuariosSeguidos) {
-			Usuarios.add(RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)));
-		}
-		return Usuarios;
-		*/
-	}
-	
 	
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
@@ -297,11 +267,11 @@ public class Usuario {
 		this.nombreCompleto = nombreCompleto;
 	}
 	
-	public void setUsuariosSeguidores(List<String> usuariosSeguidores) {
+	public void setUsuariosSeguidores(List<Usuario> usuariosSeguidores) {
 		this.usuariosSeguidores = usuariosSeguidores;
 	}
 
-	public void setUsuariosSeguidos(List<String> usuariosSeguidos) {
+	public void setUsuariosSeguidos(List<Usuario> usuariosSeguidos) {
 		this.usuariosSeguidos = usuariosSeguidos;
 	}
 	
