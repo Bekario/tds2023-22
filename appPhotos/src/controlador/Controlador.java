@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import adaptadores.AdaptadorEXCEL;
 import adaptadores.AdaptadorPDF;
@@ -435,10 +436,16 @@ public class Controlador implements IFotosListener {
 	
 	public List<Usuario> obtenerUsuariosBuscados(String nombre){
 		//Lo convertimos a minuscula para no distinguir
-		nombre = nombre.toLowerCase();
+		String nombreF = nombre.toLowerCase();
 		HashSet<Usuario> listaBuscada =  new HashSet<Usuario>();
 		List<Usuario> listaTotal = RepoUsuarios.getUnicaInstancia().getUsuarios();
-		// MALENIA STREAM
+		
+		listaBuscada = (HashSet<Usuario>) listaTotal.stream().parallel()
+						   .filter(u -> u.getUsuario().toLowerCase().startsWith(nombreF) && !u.getUsuario().equals(usuarioActual.getUsuario()))
+						   .filter(u -> u.getNombreCompleto().toLowerCase().startsWith(nombre) && !u.getNombreCompleto().equals(usuarioActual.getNombreCompleto()))
+						   .filter(u -> u.getEmail().toLowerCase().startsWith(nombre) && !u.getEmail().equals(usuarioActual.getEmail()))
+						   .collect(Collectors.toSet());
+		/*// MALENIA STREAM
 		for (Usuario usuario : listaTotal) {
 			// Comprobamos que el usuario coincida en sus primeras letras y que no sea el mismo
 			if(usuario.getUsuario().toLowerCase().startsWith(nombre) && !usuario.getUsuario().equals(usuarioActual.getUsuario())) {
@@ -450,7 +457,7 @@ public class Controlador implements IFotosListener {
 			if(usuario.getEmail().toLowerCase().startsWith(nombre) && !usuario.getEmail().equals(usuarioActual.getEmail())) {
 				listaBuscada.add(usuario);
 			}
-		}
+		}*/
 		List<Usuario> list= new ArrayList<Usuario>(listaBuscada);
 		Collections.sort(list, (x, y) -> x.getUsuario().compareToIgnoreCase(y.getUsuario()));
 
@@ -478,9 +485,12 @@ public class Controlador implements IFotosListener {
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getPublicaciones());			
 		
 		//MALENIA STREAM
-		for (Usuario u : usuarioActual.getUsuariosSeguidosOb()) {
+		usuarioActual.getUsuariosSeguidoresOb().stream().parallel()
+														.forEach(u -> pub.addAll(u.getPublicaciones()));
+		
+		/*for (Usuario u : usuarioActual.getUsuariosSeguidosOb()) {
 			pub.addAll(u.getPublicaciones());
-		}
+		}*/
 		 Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
 		 return pub;
 	}
@@ -615,17 +625,23 @@ public class Controlador implements IFotosListener {
 
 	public List<String> obtenerHashTagsBuscados(String nombre) {
 		//Lo convertimos a minuscula para no distinguir
-		nombre = nombre.toLowerCase();
+		String nombreF = nombre.toLowerCase();
 		List<String> listaBuscada =  new ArrayList<String>();
 		List<String> listaTotal = getHashTagsTotales();
-		// MALENIA STREAM
+		
+		// Comprobamos que el usuario coincida en sus primeras letras y que no sea el mismo
+		listaBuscada = listaTotal.stream().parallel()
+						   .filter(h -> h.toLowerCase().startsWith(nombreF))
+						   .sorted((x, y) -> x.compareToIgnoreCase(y))
+						   .collect(Collectors.toList());
+		
+		/*// MALENIA STREAM
 		for (String hashtag : listaTotal) {
-			// Comprobamos que el usuario coincida en sus primeras letras y que no sea el mismo
 			if(hashtag.toLowerCase().startsWith(nombre)) {
 				listaBuscada.add(hashtag);
 			}
 		}
-		Collections.sort(listaBuscada, (x, y) -> x.compareToIgnoreCase(y));
+		Collections.sort(listaBuscada, (x, y) -> x.compareToIgnoreCase(y));*/
 		return listaBuscada;
 	}
 
@@ -635,7 +651,8 @@ public class Controlador implements IFotosListener {
 							.forEach(h -> a.addAll(h.getHashtags()));
 		List<String> lista= new ArrayList<String>(a);
 		return lista;
-	}	
+	}
+	
 	public List<Publicacion> getPublicacionesHashTags(String s) {
 		List<Publicacion> l = new ArrayList<Publicacion>(); 
 		List<Publicacion> list = RepoPublicaciones.getUnicaInstancia().getPublicaciones();

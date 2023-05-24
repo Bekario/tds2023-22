@@ -169,7 +169,7 @@ public class PanelSubir extends JPanel {
 		txtDescripcion.setText("Descripción");
 		txtTitulo.setText("Título");
 	}
-	//MALENIA lo usamos 3 4 veces en todo el programa, unificar?
+	
 	private void addManejadorDragAndDrop(JEditorPane editor) {
 		editor.setDropTarget(new DropTarget() {
 			private static final long serialVersionUID = 1L;
@@ -197,7 +197,6 @@ public class PanelSubir extends JPanel {
 	
 	/**
 	 * Encargado de seleccionar la imagen del sistema con un JFileChooser
-	 * MALENIA lo usamos 3 4 veces en todo el programa, unificar?
 	 */
 	private void addManejadorBotonInsertarImagen(JEditorPane editor) {
 		editor.addMouseListener(new MouseAdapter() {

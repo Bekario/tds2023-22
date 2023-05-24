@@ -221,7 +221,6 @@ public class PanelRegister2 extends JPanel {
 	
 	/**
 	 * Encargado de seleccionar la imagen del sistema con un JFileChooser 
-	 * MALENIA lo usamos 3 4 veces en todo el programa, unificar?
 	 */
 	private void addManejadorBotonInsertarImagen(JButton boton) {
 		boton.addActionListener(new ActionListener() {

@@ -41,7 +41,6 @@ public class AdaptadorEXCEL implements IAdaptadorSeguidores {
             cell.setCellValue(headers[i]);
         }
         
-        //MALENIA MEJORAR ESTO
        for (int i = 0; i < seguidores.size(); ++i) {
             //Creamos la fila
     	   	HSSFRow dataRow = sheet.createRow(i + 1);

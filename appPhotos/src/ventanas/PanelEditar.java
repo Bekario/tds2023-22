@@ -323,7 +323,6 @@ public class PanelEditar extends JPanel {
 		addManejadorBotonInsertarImagen(btnCambiarFoto);
 	}
 	
-	//MALENIA lo usamos 3 4 veces en todo el programa, unificar?
 	private void addManejadorBotonInsertarImagen(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
