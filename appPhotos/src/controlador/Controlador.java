@@ -714,7 +714,6 @@ public class Controlador implements IFotosListener {
 	 */
 	public List<Descuento> obtenerDescuentos() {
 		List<Descuento> descuentos = new ArrayList<Descuento>();
-		System.out.println("a");
 		
 		descuentos.add(new DescuentoEdad());
 		descuentos.add(new DescuentoPopularidad());

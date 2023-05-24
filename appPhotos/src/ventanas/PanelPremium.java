@@ -140,12 +140,12 @@ public class PanelPremium extends JPanel {
 		Manejadores.addManejadorBotonColor(btnPagar);
 		
 		if(!Controlador.getInstancia().comprobarPremium()) {
-			addManejadorBotonPagar(btnPagar, precio);
+			addManejadorBotonPagar(btnPagar);
 			
 		}else btnPagar.setText("PAGADO");
 	}
 	
-	private void addManejadorBotonPagar(JButton boton, float precio) {
+	private void addManejadorBotonPagar(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				home.setPanel(new PanelTarjeta(home, precio));
