@@ -1,5 +1,6 @@
 package ventanas;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,14 +12,11 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
-public class VentanaPublicacion extends JFrame {
+public class VentanaPublicacion extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Create the frame.
-	 */
 	public VentanaPublicacion(Publicacion p) {
 		crearVentana(p);
 		if(p.getClass().getName().equals("modelo.Foto")) {
@@ -27,6 +25,7 @@ public class VentanaPublicacion extends JFrame {
 			this.setSize(new Dimension(800,480));	
 		}
 		setLocationRelativeTo(null);
+		setModal(true);
 	}
 	
 	private void crearVentana(Publicacion p) {
