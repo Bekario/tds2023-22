@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import persistencia.DAOException;
-import persistencia.FactoriaDAO;
-
 public abstract class Publicacion {
 	private Usuario usuario;
 	private int codigo;
@@ -31,33 +28,15 @@ public abstract class Publicacion {
 	}
 	
 	public void darMeGusta() {
-		megusta++;
-		// Ahora hay que actualizar los DAO y repos
-		RepoPublicaciones.getUnicaInstancia().removePublicacion(this);
-		RepoPublicaciones.getUnicaInstancia().addPublicacion(this);
-		try {
-			FactoriaDAO.getInstancia().getPublicacionDAO().modificarPublicacion(this);
-		} catch (DAOException e) {e.printStackTrace();}		
+		megusta++;	
 	}
 	
 	public void quitarMeGusta() {
-		megusta--;
-		// Ahora hay que actualizar los DAO y repos
-		RepoPublicaciones.getUnicaInstancia().removePublicacion(this);
-		RepoPublicaciones.getUnicaInstancia().addPublicacion(this);
-		try {
-			FactoriaDAO.getInstancia().getPublicacionDAO().modificarPublicacion(this);
-		} catch (DAOException e) {e.printStackTrace();}		
+		megusta--;	
 	}
 	
 	public void addComentario(Comentario c) {
-		// Ahora hay que actualizar los DAO y repos
-		RepoPublicaciones.getUnicaInstancia().removePublicacion(this);
 		comentarios.add(c);
-		RepoPublicaciones.getUnicaInstancia().addPublicacion(this);
-		try {
-			FactoriaDAO.getInstancia().getPublicacionDAO().modificarPublicacion(this);
-		} catch (DAOException e) {e.printStackTrace();}		
 	}
 	
 	// Metodos get / set
@@ -104,9 +83,11 @@ public abstract class Publicacion {
 	public Usuario getUsuario() {
 		return usuario;
 	}
+	
 	public int getNumComentarios() {
 		return comentarios.size();
 	}
+	
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}

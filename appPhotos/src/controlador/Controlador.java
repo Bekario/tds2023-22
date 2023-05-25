@@ -68,11 +68,16 @@ public class Controlador implements IFotosListener {
 		rutaXml = null;
 		seleccionados = new ArrayList<Publicacion>();
 		venta = new Venta(Variables.precioPremium);
+		
 		//Añadimos el controlador como listener
 		c = new ComponenteCargadorFotos();
 		c.addListener(this);
 	}
 	
+	/**
+	 * Retorna una instancia del controlador
+	 * @return
+	 */
 	public static Controlador getInstancia() {
 		if (unicaInstancia == null) { 
 			unicaInstancia = new Controlador();
@@ -97,13 +102,18 @@ public class Controlador implements IFotosListener {
 		c.setArchivoFotos(rutaXml);
 	}
 	
+	//Cierra la sesion actual
 	public void cerrarSesion() {
 		usuarioActual = null;
 	}
 	
+	//Realiza el login del usuario
 	public boolean loginUsuario(String nombre, String password) {
 		Usuario usuario = RepoUsuarios.getUnicaInstancia().getUsuario(nombre);
+		//Si no ha encontrado un usuario con ese nombre, probamos con el correo
 		if (usuario == null) usuario = RepoUsuarios.getUnicaInstancia().getEmail(nombre);
+		
+		//Si existe un usuario con ese nombre o email comprobamos la contraseña
 		if (usuario != null && usuario.getContraseña().equals(password)) {
 			this.usuarioActual = usuario;
 			return true;
@@ -170,22 +180,6 @@ public class Controlador implements IFotosListener {
 		}
 		
 	}
-
-	public boolean borrarUsuario(Usuario usuario) {
-		if (!esUsuarioRegistrado(usuario.getUsuario()))
-			return false;
-
-		IAdaptadorUsuarioDAO usuarioDAO=null;
-		try {
-			usuarioDAO = FactoriaDAO.getInstancia().getUsuarioDAO();
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		usuarioDAO.borrarUsuario(usuario);
-
-		RepoUsuarios.getUnicaInstancia().removeUsuario(usuario);
-		return true;
-	}
 	
 	public Foto añadirFoto(String titulo, String descripcion, String path) {
 		List<String> hashtags = procesarHashtags(descripcion);
@@ -212,7 +206,6 @@ public class Controlador implements IFotosListener {
 		
 		// A continuacion, guardamos los cambios en el usuario y la publicacion
 		actualizarUsuario(usuarioActual);
-		
 		
 		return publi;	
 	}
@@ -261,6 +254,9 @@ public class Controlador implements IFotosListener {
 			
 			//Si la publicacion es una foto, hay que borrarla de los albums
 			if(publicacion.getClass().getName().equals("modelo.Foto")) {
+				//Eliminamos la foto de la carpeta fotos subidas
+				eliminarFotoSubida(((Foto) publicacion).getPath());
+				
 				//Ahora comprobamos si la publicacion está contenida en un album y lo borramos
 				List<Album> albums = new ArrayList<Album>(usuarioActual.getAlbums());
 				
@@ -272,6 +268,7 @@ public class Controlador implements IFotosListener {
 				
 				usuarioActual.removeFoto((Foto) publicacion);
 			} else {
+				//Si es un album, lo borramos directamente
 				usuarioActual.removeAlbum((Album) publicacion);
 			}
 			
@@ -285,20 +282,29 @@ public class Controlador implements IFotosListener {
 			usuarioActual.getUsuariosSeguidores().stream().parallel()
 															.filter(us -> us.removeNotificacion(publicacion))
 															.forEach(us -> u.modificarUsuario(us));
+			
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 		
 		repoPublicaciones.removePublicacion(publicacion);
-		
-		
 		return true;
 	}
 	
+	/**
+	 * Comprueba si una publicacion existe
+	 * @param codigo de la publicacion
+	 * @return true si existe
+	 */
 	public boolean esPublicacionRegistrada(int codigo) {
 		return RepoPublicaciones.getUnicaInstancia().getPublicacion(codigo) != null;
 	}
 	
+	/**
+	 * Dada una cadena de texto, obtiene todos los hashtags
+	 * @param texto
+	 * @return array con los hashtags
+	 */
 	private List<String> procesarHashtags(String texto) {
 		Pattern MY_PATTERN = Pattern.compile("#(\\S{1,15})\\b");
 		Matcher mat = MY_PATTERN.matcher(texto);
@@ -381,6 +387,10 @@ public class Controlador implements IFotosListener {
 		return ruta;
 	}
 	
+	/**
+	 * Sube la foto por defecto como la foto de usuario
+	 * @return
+	 */
 	public String subirFotoPerfilDefault() {
 		String ruta = "/imagenes/perfil_default.png";
 		try {
@@ -453,10 +463,12 @@ public class Controlador implements IFotosListener {
 	
 	public void darMeGusta(Publicacion publicacion) {
 		publicacion.darMeGusta();
+		actualizarPublicacion(publicacion);
 	}	
 	
 	public void quitarMeGusta(Publicacion publicacion) {
 		publicacion.quitarMeGusta();
+		actualizarPublicacion(publicacion);
 	}
 	
 	public boolean esUsuarioRegistrado(String usuario) {
@@ -472,6 +484,7 @@ public class Controlador implements IFotosListener {
 		
 		usuarioActual.getUsuariosSeguidos().stream().parallel()
 													.forEach(u -> pub.addAll(u.getPublicaciones()));
+		
 		//Ordenamos la lista de todas las publicaciones del ususario y sus seguidos por fecha
 		Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
 		
@@ -497,6 +510,7 @@ public class Controlador implements IFotosListener {
 		
 		//Ordenamos por numero de me gustas
 		Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
+		
 		//Obtenemos una lista de 10 o menos
 		if(pub.size()>10) {
 			pub= pub.subList(0, 10);	 
@@ -514,7 +528,6 @@ public class Controlador implements IFotosListener {
 		a.crearArchivo(usuarioActual.getUsuariosSeguidores(), usuarioActual.getUsuario()+"_seguidores");
 	}
 	
-	
 	/**
 	 * Actualiza los datos del usuario en el repositorio y en el DAO
 	 * @param usuario
@@ -531,7 +544,11 @@ public class Controlador implements IFotosListener {
 		}
 
 	}
-
+	
+	/**
+	 * Actualiza los datos de la publicacion en el repositorio y en el DAO
+	 * @param p
+	 */
 	private void actualizarPublicacion(Publicacion p) {
 		RepoPublicaciones.getUnicaInstancia().removePublicacion(p);
 		RepoPublicaciones.getUnicaInstancia().addPublicacion(p);
@@ -580,26 +597,24 @@ public class Controlador implements IFotosListener {
 	public Usuario obtenerUsuarioActual() {
 		return usuarioActual;
 	}
-	
-	public List<Album> obtenerAlbums(String usuario) {
-		//Devolvemos la lista de albumes 
-		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getAlbums();
-	}
-	
-	public List<Foto> obtenerFotos(String usuario) {
-		//Devolvemos la lista de fotos
-		return RepoUsuarios.getUnicaInstancia().getUsuario(usuario).getFotos();
-	}
 		
 	public boolean comprobarPremium() {
 		return usuarioActual.getIsPremium();
 	}
 	
-	
+	/**
+	 * Retorna la lista de publicaciones seleccionadas para crear un album
+	 * @return
+	 */
 	public List<Publicacion> getSeleccionados() {
 		return seleccionados;
 	}
 	
+	/**
+	 * Añade a la lista de publicaciones seleccionadas para crear el album
+	 * @param p
+	 * @return true si es posible añadirla
+	 */
 	public boolean addSeleccionado(Publicacion p) {
 		//Comprobamos que la lista de seleccionados solo tenga 15
 		if (seleccionados.size() < 15) {
@@ -609,6 +624,10 @@ public class Controlador implements IFotosListener {
 		return false;
 	}
 	
+	/**
+	 * Elimina una publicacion de la lista seleccionados
+	 * @param p
+	 */
 	public void removeSeleccionado(Publicacion p) {
 		seleccionados.remove(p);
 	}
@@ -635,7 +654,11 @@ public class Controlador implements IFotosListener {
 		
 		return listaBuscada;
 	}
-
+	
+	/**
+	 * Retorna una lista con todos los hashtags
+	 * @return
+	 */
 	private List<String> getHashTagsTotales() {
 		HashSet<String> a = new HashSet<String>();
 		RepoPublicaciones.getUnicaInstancia().getPublicaciones().stream()
@@ -644,6 +667,11 @@ public class Controlador implements IFotosListener {
 		return lista;
 	}
 	
+	/**
+	 * Dada un string, obtiene las publicaciones cuyo hashtag sea igual al string
+	 * @param s
+	 * @return
+	 */
 	public List<Publicacion> getPublicacionesHashTags(String s) {
 		List<Publicacion> l = new ArrayList<Publicacion>(); 
 		List<Publicacion> list = RepoPublicaciones.getUnicaInstancia().getPublicaciones();

@@ -23,12 +23,18 @@ public class Foto extends Publicacion{
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(path);
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
-		if (super.equals(obj) == false)
-			return false;
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;

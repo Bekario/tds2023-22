@@ -45,11 +45,16 @@ public class Album extends Publicacion {
 		return fotos;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(fotos, portada);
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (super.equals(obj) == false)
-			return false;
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
@@ -57,7 +62,7 @@ public class Album extends Publicacion {
 		if (getClass() != obj.getClass())
 			return false;
 		Album other = (Album) obj;
-		return Objects.equals(fotos, other.fotos);
+		return Objects.equals(fotos, other.fotos) && Objects.equals(portada, other.portada);
 	}
 
 	public Foto getPortada() {

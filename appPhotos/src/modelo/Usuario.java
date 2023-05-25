@@ -5,7 +5,6 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Usuario {
 	private int codigo;
@@ -233,23 +232,6 @@ public class Usuario {
 		return usuariosSeguidos;
 	}
 	
-	/*
-	 * Obtiene los usuarios que este usuario sigue
-	 */
-	public List<Usuario> getUsuariosSeguidosNombre() {
-		return usuariosSeguidos.stream()
-				.map(u -> RepoUsuarios.getUnicaInstancia().getUsuario(u.getCodigo()))
-				.collect(Collectors.toList());
-				/*
-				new ArrayList<String>();
-		//MALENIA STREAM
-		for(String u: usuariosSeguidos) {
-			nombresUsuarios.add(RepoUsuarios.getUnicaInstancia().getUsuario(Integer.valueOf(u)).getUsuario());
-		}
-		return nombresUsuarios;
-				 */
-	}
-	
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
@@ -285,6 +267,13 @@ public class Usuario {
 	}
 	
 	@Override
+	public int hashCode() {
+		return Objects.hash(albums, codigo, contraseña, descripcion, email,
+				fechaNacimiento, fotos, isPremium, nombreCompleto, notificaciones, perfil, usuario, usuariosSeguidores,
+				usuariosSeguidos);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -293,17 +282,15 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return Objects.equals(albums, other.albums) && codigo == other.codigo
+		return EDAD_MAX == other.EDAD_MAX && EDAD_MIN == other.EDAD_MIN && ME_GUSTAS == other.ME_GUSTAS
+				&& Objects.equals(albums, other.albums) && codigo == other.codigo
 				&& Objects.equals(contraseña, other.contraseña) && Objects.equals(descripcion, other.descripcion)
-				&& Objects.equals(fechaNacimiento, other.fechaNacimiento) && Objects.equals(fotos, other.fotos)
-				&& isPremium == other.isPremium
+				&& Objects.equals(email, other.email) && Objects.equals(fechaNacimiento, other.fechaNacimiento)
+				&& Objects.equals(fotos, other.fotos) && isPremium == other.isPremium
 				&& Objects.equals(nombreCompleto, other.nombreCompleto)
 				&& Objects.equals(notificaciones, other.notificaciones) && Objects.equals(perfil, other.perfil)
 				&& Objects.equals(usuario, other.usuario)
 				&& Objects.equals(usuariosSeguidores, other.usuariosSeguidores)
 				&& Objects.equals(usuariosSeguidos, other.usuariosSeguidos);
 	}
-	
-	
-	
 }
