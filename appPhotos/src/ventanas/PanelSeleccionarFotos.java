@@ -18,11 +18,38 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 
 	
 	/**
-	 * Create the panel.
+	 * Crea un panel sin fotos seleccionadas
+	 * @param padre
+	 * @param fotos
 	 */
 	public PanelSeleccionarFotos(Home padre, List<Foto> fotos) {
 		super(padre);
 		addFotos(fotos, false, false);
+	}
+	
+	/**
+	 * Crea un panel con fotos previamente seleccionadas
+	 * @param padre
+	 * @param fotos
+	 * @param fotosSeleccionadas
+	 */
+	public PanelSeleccionarFotos(Home padre, List<Foto> fotos, Foto portadaSeleccionada, List<Foto> fotosSeleccionadas) {
+		super(padre);
+		seleccionarFotos(fotos, addFotos(fotos, false, false), portadaSeleccionada, fotosSeleccionadas);
+	}
+	
+	private void seleccionarFotos(List<Foto> fotos, List<JLabel> labels, Foto portadaSeleccionada, List<Foto> fotosSeleccionadas) {
+		//Comprobamos que fotos estan seleccionadas
+		for(int i = 0; i < fotos.size(); i++) {
+			//Si la foto esta seleccionada
+			if(fotosSeleccionadas.contains(fotos.get(i))) {
+				Controlador.getInstancia().addSeleccionado(fotos.get(i));
+				labels.get(i).setBorder(new LineBorder(Colores.NARANJA, 2, true));							
+			} else if(portadaSeleccionada.equals(fotos.get(i))) { //Si es la portada
+				Controlador.getInstancia().setPortadaSeleccionada(fotos.get(i));		
+				labels.get(i).setBorder(new LineBorder(Colores.ROJO_CLARO, 2, true));
+			}
+		}
 	}
 	
 	@Override
@@ -44,7 +71,7 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 		foto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				List<Publicacion> seleccionados = Controlador.getInstancia().getSeleccionados();
+				List<Foto> seleccionados = Controlador.getInstancia().getSeleccionados();
 				if(seleccionados.contains(publicacion)) {
 					// Si la publicación esta contenida en seleccionados la quitamos
 					Controlador.getInstancia().removeSeleccionado(publicacion);			

@@ -26,13 +26,13 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
 
-public class PanelCrearAlbum extends JPanel {
+public class PanelEditarAlbum extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private JButton btnContinuar_1;
+	private JButton btnGuardar;
 	private Home padre;
 	private PanelSeleccionarFotos panelSeleccionarFotos;
-	private JTextField textField;
+	private JTextField txtTitulo;
 	private JTextArea txtDescripcion;
 	
 	private final String TITULO = "Título";
@@ -41,13 +41,13 @@ public class PanelCrearAlbum extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelCrearAlbum(Home home) {
+	public PanelEditarAlbum(Home home, Album album) {
 		padre = home;
 		this.setSize(450, 800);
-		crearPanel();
+		crearPanel(album);
 		
 	}
-	private void crearPanel() {
+	private void crearPanel(Album album) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 285, 15, 0};
 		gridBagLayout.rowHeights = new int[]{15, 0, 15, 20, 15, 0, 15, 0, 0, 15, 50, 15, 0};
@@ -55,12 +55,12 @@ public class PanelCrearAlbum extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		crearTextoYBotones();
-		crearPanelFotos();
+		crearTextoYBotones(album);
+		crearPanelFotos(album);
 	}
 	
-	private void crearTextoYBotones() {
-		JLabel lblTitulo = new JLabel("Crear Álbum");
+	private void crearTextoYBotones(Album album) {
+		JLabel lblTitulo = new JLabel("Editar Álbum: "+album.getTitulo());
 		lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
 		gbc_lblTitulo.insets = new Insets(0, 0, 5, 5);
@@ -79,25 +79,25 @@ public class PanelCrearAlbum extends JPanel {
 		add(editorInfo, gbc_editorInfo);
 		
 		editorInfo.setContentType("text/html");
-		editorInfo.setText("<center>¡Crea un álbum con tus mejores fotos!<br>La imagen seleccionada en color rojo es la portada.<br>Haz click sobre las imagenes y serán seleccionadas.</center>");
+		editorInfo.setText("<center>¡Recuerda!<br>La imagen seleccionada en color rojo es la portada.<br>Haz click sobre las imagenes y serán seleccionadas.</center>");
 		editorInfo.setEditable(false);
 		
-		textField = new JTextField();
-		textField.setToolTipText("");
-		textField.setText(TITULO);
-		textField.setColumns(10);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 7;
-		add(textField, gbc_textField);
+		txtTitulo = new JTextField();
+		txtTitulo.setToolTipText("");
+		txtTitulo.setText(album.getTitulo());
+		txtTitulo.setColumns(10);
+		GridBagConstraints gbc_txtTitulo = new GridBagConstraints();
+		gbc_txtTitulo.insets = new Insets(0, 0, 5, 5);
+		gbc_txtTitulo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTitulo.gridx = 1;
+		gbc_txtTitulo.gridy = 7;
+		add(txtTitulo, gbc_txtTitulo);
 		
-		Manejadores.addManejadorTextos(textField, TITULO);
+		Manejadores.addManejadorTextos(txtTitulo, TITULO);
 		
 		txtDescripcion = new JTextArea(3, 20);
 		txtDescripcion.setWrapStyleWord(true);
-		txtDescripcion.setText(DESCRIPCION);
+		txtDescripcion.setText(album.getDescripcion());
 		txtDescripcion.setLineWrap(true);
 		
 		Manejadores.addManejadorArea(txtDescripcion, DESCRIPCION);
@@ -112,31 +112,31 @@ public class PanelCrearAlbum extends JPanel {
 		gbc_scrollPane.gridy = 8;
 		add(scrollPane, gbc_scrollPane);
 		
-		btnContinuar_1 = new JButton("CONTINUAR");
-		btnContinuar_1.setForeground(new Color(218, 200, 41));
-		btnContinuar_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnContinuar_1.setBorderPainted(false);
-		btnContinuar_1.setBackground(UIManager.getColor("Button.background"));
-		GridBagConstraints gbc_btnContinuar_1 = new GridBagConstraints();
-		gbc_btnContinuar_1.fill = GridBagConstraints.VERTICAL;
-		gbc_btnContinuar_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnContinuar_1.gridx = 1;
-		gbc_btnContinuar_1.gridy = 10;
-		add(btnContinuar_1, gbc_btnContinuar_1);
+		btnGuardar = new JButton("GUARDAR");
+		btnGuardar.setForeground(new Color(218, 200, 41));
+		btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnGuardar.setBorderPainted(false);
+		btnGuardar.setBackground(UIManager.getColor("Button.background"));
+		GridBagConstraints gbc_btnGuardar = new GridBagConstraints();
+		gbc_btnGuardar.fill = GridBagConstraints.VERTICAL;
+		gbc_btnGuardar.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGuardar.gridx = 1;
+		gbc_btnGuardar.gridy = 10;
+		add(btnGuardar, gbc_btnGuardar);
 		
-		addManejadorBotonContinuar(btnContinuar_1);
-		Manejadores.addManejadorBotonColor(btnContinuar_1);
+		addManejadorBotonGuardar(btnGuardar, album);
+		Manejadores.addManejadorBotonColor(btnGuardar);
 		
 	}
 	
-	private void addManejadorBotonContinuar(JButton boton) {
+	private void addManejadorBotonGuardar(JButton boton, Album album) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Comprobamos que exista como minimo una portada
-				if (checkFields()) {
-					Album album = Controlador.getInstancia().añadirAlbum(textField.getText(), txtDescripcion.getText());
-					//Subimos el album al perfil
-					padre.subirAlbum(album);
+				if (checkFields(album)) {
+					Controlador.getInstancia().modificarAlbum(album, txtTitulo.getText(), txtDescripcion.getText());
+					//Recargamos el panel perfil
+					padre.recargarPanelPerfil();
 					
 					//Mostramos el panelPerfil
 					padre.setPanelPerfil();					
@@ -146,8 +146,8 @@ public class PanelCrearAlbum extends JPanel {
 		});
 	}
 	
-	private void crearPanelFotos() {
-		panelSeleccionarFotos = new PanelSeleccionarFotos(padre, Controlador.getInstancia().obtenerUsuarioActual().getFotos());
+	private void crearPanelFotos(Album album) {
+		panelSeleccionarFotos = new PanelSeleccionarFotos(padre, Controlador.getInstancia().obtenerUsuarioActual().getFotos(), album.getPortada(), album.getFotos());
 		GridBagConstraints gbc_panelSeleccionarFotos_1 = new GridBagConstraints();
 		gbc_panelSeleccionarFotos_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panelSeleccionarFotos_1.fill = GridBagConstraints.BOTH;
@@ -167,11 +167,11 @@ public class PanelCrearAlbum extends JPanel {
 	 * Comprueba que todos los campos tengan un dato valido
 	 * @return booleano indicando si estan correctos los campos
 	 */
-	private boolean checkFields() {
+	private boolean checkFields(Album album) {
 		boolean estado = true;
 		String info = "";
 		
-		if(textField.getText().equals(TITULO)) {
+		if(txtTitulo.getText().equals(TITULO)) {
 			estado = false;
 			info = "¡Debes introducir un título al álbum!";
 		}
@@ -181,9 +181,11 @@ public class PanelCrearAlbum extends JPanel {
 			estado = false;
 		}
 		
-		if (Controlador.getInstancia().comprobarAlbum(textField.getText())) {
-			info = "¡Ya has creado un album con este nombre, prueba con otro!";
-			estado = false;
+		if (Controlador.getInstancia().comprobarAlbum(txtTitulo.getText())) {
+			if(!album.getTitulo().equals(txtTitulo.getText())) {
+				info = "¡Ya has creado un album con este nombre, prueba con otro!";
+				estado = false;				
+			}
 		}
 		
 		if(!estado) {

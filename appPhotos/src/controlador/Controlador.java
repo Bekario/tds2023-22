@@ -49,7 +49,7 @@ public class Controlador implements IFotosListener {
 	private Usuario usuarioActual;
 	
 	//Panel Seleccionar
-	private List<Publicacion> seleccionados;
+	private List<Foto> seleccionados;
 	private Publicacion portadaSeleccionada;
 	
 	//Venta
@@ -66,7 +66,7 @@ public class Controlador implements IFotosListener {
 		usuarioActual = null;
 		portadaSeleccionada = null;
 		rutaXml = null;
-		seleccionados = new ArrayList<Publicacion>();
+		seleccionados = new ArrayList<Foto>();
 		venta = new Venta(Variables.precioPremium);
 		
 		//Añadimos el controlador como listener
@@ -242,10 +242,19 @@ public class Controlador implements IFotosListener {
 		actualizarUsuario(usuarioActual);
 		
 		//Limpiamos seleccionados para el proximo album
-		seleccionados = new ArrayList<Publicacion>();
+		seleccionados = new ArrayList<Foto>();
 		portadaSeleccionada = null;
 		
 		return publi;	
+	}
+	
+	public void modificarAlbum(Album album, String titulo, String descripcion) {
+		album.setTitulo(titulo);
+		album.setDescripcion(descripcion);
+		album.setPortada((Foto) portadaSeleccionada);
+		album.setFotos(seleccionados);
+		
+		actualizarPublicacion(album);
 	}
 	
 	public boolean borrarPublicacion(Publicacion publicacion) {
@@ -612,7 +621,7 @@ public class Controlador implements IFotosListener {
 	 * Retorna la lista de publicaciones seleccionadas para crear un album
 	 * @return
 	 */
-	public List<Publicacion> getSeleccionados() {
+	public List<Foto> getSeleccionados() {
 		return seleccionados;
 	}
 	
@@ -624,7 +633,7 @@ public class Controlador implements IFotosListener {
 	public boolean addSeleccionado(Publicacion p) {
 		//Comprobamos que la lista de seleccionados solo tenga 15
 		if (seleccionados.size() < 15) {
-			seleccionados.add(p);
+			seleccionados.add((Foto) p);
 			return true;
 		}
 		return false;

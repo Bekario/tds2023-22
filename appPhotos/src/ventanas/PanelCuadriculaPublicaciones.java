@@ -5,6 +5,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import controlador.Controlador;
+import modelo.Album;
 import modelo.Publicacion;
 
 import java.awt.GridBagLayout;
@@ -18,7 +19,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 
 import java.awt.Insets;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -103,8 +103,6 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 	 * @param publi
 	 */
 	protected JLabel addPublicacionBorrable(Publicacion publi) {
-		PopupMenu popup = new PopupMenu();
-		popup.add("Eliminar");
 		return (JLabel) addManejadorBorrarPublicacion(addPublicacionConManejador(publi), publi);
 	}
 	
@@ -137,6 +135,18 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 		});
 		popupMenu.add(mntmNewMenuItem);
 		
+		if(p.getClass().getName().equals("modelo.Album")) {
+			JMenuItem mntmNewMenuItem2 = new JMenuItem("Modificar");
+			mntmNewMenuItem2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//Establecemos el panel seleccionar fotos con la foto anterior
+					padre.setPanel(new PanelEditarAlbum(padre, (Album) p));
+					//Actualizamos el panel
+					updateUI();	
+				}
+			});
+			popupMenu.add(mntmNewMenuItem2);
+		}
 		
 		return label;
 	}

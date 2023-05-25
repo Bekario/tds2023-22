@@ -40,11 +40,39 @@ public class Album extends Publicacion {
 		super.quitarMeGusta();
 	}
 	
+	/**
+	 * Comprueba si una foto es la portada del album o parte del mismo
+	 * @param foto
+	 */
+	public boolean comprobarFoto(Foto foto) {
+		if(fotos.contains(foto) || foto.equals(portada)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	//Metodos get / set
 	public List<Foto> getFotos() {
 		return fotos;
 	}
+	
+	public void setFotos(List<Foto> seleccionados) {
+		this.fotos = seleccionados;
+	}
 
+	public Foto getPortada() {
+		return portada;
+	}
+	
+	public void setPortada(Foto portada) {
+		this.portada = portada;
+	}
+	
+	public boolean eliminarFoto(Foto foto) {
+		return fotos.remove(foto);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -63,30 +91,6 @@ public class Album extends Publicacion {
 			return false;
 		Album other = (Album) obj;
 		return Objects.equals(fotos, other.fotos) && Objects.equals(portada, other.portada);
-	}
-
-	public Foto getPortada() {
-		return portada;
-	}
-	
-	public void setPortada(Foto portada) {
-		this.portada = portada;
-	}
-	
-	public boolean eliminarFoto(Foto foto) {
-		return fotos.remove(foto);
-	}
-	
-	/**
-	 * Comprueba si una foto es la portada del album o parte del mismo
-	 * @param foto
-	 */
-	public boolean comprobarFoto(Foto foto) {
-		if(fotos.contains(foto) || foto.equals(portada)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
 }
