@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
@@ -414,8 +415,16 @@ public class Home implements IEncendidoListener{
 		cambiarScrollPane(panelPerfil);
 	}
 	
-	protected void setPanelTop() {		
-		setPanel(new PanelInicio(this, Controlador.getInstancia().getPublicacionesTop()));
+	protected void setPanelTop() {
+		JOptionPane pane = new JOptionPane();
+		JDialog dialog = pane.createDialog("Publicaciones populares");
+		dialog.setSize(440,510);
+		JScrollPane s = new JScrollPane(new PanelInicio(this, Controlador.getInstancia().getPublicacionesTop()));
+		s.getVerticalScrollBar().setUnitIncrement(16);
+		dialog.setContentPane(s);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
 		
 	}
 	public void setPanelPremium() {

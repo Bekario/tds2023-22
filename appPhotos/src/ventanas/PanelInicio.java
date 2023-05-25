@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public class PanelInicio extends JPanel {
+public class PanelInicio extends JPanel{
 	private static final String NO_PUBLI = "no";
 	private static final String SI_PUBLI = "si";
 	
