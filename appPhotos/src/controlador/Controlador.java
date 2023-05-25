@@ -471,10 +471,16 @@ public class Controlador implements IFotosListener {
 		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getPublicaciones());			
 		
 		usuarioActual.getUsuariosSeguidos().stream().parallel()
-														.forEach(u -> pub.addAll(u.getPublicaciones()));
+													.forEach(u -> pub.addAll(u.getPublicaciones()));
+		//Ordenamos la lista de todas las publicaciones del ususario y sus seguidos por fecha
+		Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
 		
-		 Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
-		 return pub;
+		//Retornamos una lista de 20 o menos
+		if(pub.size() > 20) {
+			return pub.subList(0, 19);	 
+		} 
+		 
+		return pub;
 	}
 	
 	public void convertirUsuarioPremium() {

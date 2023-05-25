@@ -328,7 +328,7 @@ public class PanelRegister extends JPanel {
 		String info = "";
 		
 		//Comprobamos si es un correo basico
-		if(txtEmail.getText().equals("Email") /*|| !match.matches()*/) {
+		if(txtEmail.getText().equals("Email") || !match.matches()) {
 			estado = false;
 			info = "¡El email no es valido!";
 		}

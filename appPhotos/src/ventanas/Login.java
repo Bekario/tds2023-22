@@ -1,11 +1,7 @@
 package ventanas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 
 import controlador.Controlador;
 
@@ -22,29 +18,11 @@ public class Login {
 	private PanelLogin panelLogin;
 	private PanelRegister panelRegister;
 	private PanelRegister2 panelRegister2;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		FlatMonokaiProIJTheme.setup();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login window = new Login();
-					window.frame.setVisible(true);
-					window.frame.getRootPane().requestFocus(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
 	public Login() {
-		panelLogin = null;
 		initialize();
 		prepararPaneles();
 		setPanel(panelLogin);
