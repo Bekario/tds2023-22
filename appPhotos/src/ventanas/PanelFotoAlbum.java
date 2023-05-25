@@ -164,14 +164,6 @@ public class PanelFotoAlbum extends JPanel {
 		
 		//Creamos el panel de albums
 		panelAlbum = new PanelCuadriculaAlbums(padre);
-		GridBagConstraints gbc_panelAlbum = new GridBagConstraints();
-		gbc_panelAlbum.anchor = GridBagConstraints.EAST;
-		gbc_panelAlbum.gridwidth = 3;
-		gbc_panelAlbum.insets = new Insets(0, 0, 0, 5);
-		gbc_panelAlbum.fill = GridBagConstraints.VERTICAL;
-		gbc_panelAlbum.gridx = 1;
-		gbc_panelAlbum.gridy = 2;
-		add(panelAlbum, gbc_panelAlbum);
 	}
 	
 	private void cargarPublicaciones(Usuario usuario) {

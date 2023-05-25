@@ -241,6 +241,10 @@ public class Controlador implements IFotosListener {
 		// A continuacion, guardamos los cambios
 		actualizarUsuario(usuarioActual);
 		
+		//Limpiamos seleccionados para el proximo album
+		seleccionados = new ArrayList<Publicacion>();
+		portadaSeleccionada = null;
+		
 		return publi;	
 	}
 	

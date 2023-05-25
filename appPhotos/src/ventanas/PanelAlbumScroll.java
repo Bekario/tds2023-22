@@ -67,7 +67,7 @@ public class PanelAlbumScroll extends PanelPublicacionScroll {
 		btnIzquierda.setContentAreaFilled(false);
 		btnIzquierda.setIcon(new ImageIcon(PanelAlbumScroll.class.getResource("/imagenes/proximo izq.png")));
 		
-		lblNombreFoto = new JLabel(((Album) publicacion).getPortada().getTitulo());
+		lblNombreFoto = new JLabel(((Album) publicacion).getPortada().getTitulo()+" ("+1+"/"+(((Album) publicacion).getFotos().size()+1)+")");
 		lblNombreFoto.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		GridBagConstraints gbc_lblNombreFoto = new GridBagConstraints();
 		gbc_lblNombreFoto.insets = new Insets(0, 0, 0, 5);
@@ -115,7 +115,7 @@ public class PanelAlbumScroll extends PanelPublicacionScroll {
 					ImageIcon imagen = new ImageIcon(foto.getPath());
 					Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(380, 380, Image.SCALE_SMOOTH));
 					lblFoto.setIcon(icono);
-					lblNombreFoto.setText(foto.getTitulo());
+					lblNombreFoto.setText(foto.getTitulo()+" ("+(indice+1)+"/"+(album.getFotos().size()+1)+")");
 					
 					//Refrescamos
 					updateUI();
