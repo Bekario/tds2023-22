@@ -477,7 +477,7 @@ public class Controlador implements IFotosListener {
 		
 		//Retornamos una lista de 20 o menos
 		if(pub.size() > 20) {
-			return pub.subList(0, 19);	 
+			return pub.subList(0, 20);	 
 		} 
 		 
 		return pub;
@@ -499,7 +499,7 @@ public class Controlador implements IFotosListener {
 		Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
 		//Obtenemos una lista de 10 o menos
 		if(pub.size()>10) {
-			pub= pub.subList(0, 9);	 
+			pub= pub.subList(0, 10);	 
 		}
 		return pub;
 	}
