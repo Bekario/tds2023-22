@@ -272,8 +272,7 @@ public class Usuario {
 	@Override
 	public int hashCode() {
 		return Objects.hash(albums, codigo, contraseña, descripcion, email,
-				fechaNacimiento, fotos, isPremium, nombreCompleto, notificaciones, perfil, usuario, usuariosSeguidores,
-				usuariosSeguidos);
+				fechaNacimiento, fotos, isPremium, nombreCompleto, notificaciones, perfil, usuario);
 	}
 
 	@Override
