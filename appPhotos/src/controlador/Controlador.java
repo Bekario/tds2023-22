@@ -30,8 +30,6 @@ import modelo.Publicacion;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
-import modelo.Variables;
-import modelo.Venta;
 import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
@@ -52,9 +50,6 @@ public class Controlador implements IFotosListener {
 	private List<Foto> seleccionados;
 	private Publicacion portadaSeleccionada;
 	
-	//Venta
-	private Venta venta;
-	
 	//Ruta imagenes
 	private final String RUTA_IMAGENES = System.getProperty("user.dir")+"/fotosSubidas/";
 	
@@ -67,7 +62,6 @@ public class Controlador implements IFotosListener {
 		portadaSeleccionada = null;
 		rutaXml = null;
 		seleccionados = new ArrayList<Foto>();
-		venta = new Venta(Variables.precioPremium);
 		
 		//Añadimos el controlador como listener
 		c = new ComponenteCargadorFotos();
@@ -105,8 +99,6 @@ public class Controlador implements IFotosListener {
 	//Cierra la sesion actual
 	public void cerrarSesion() {
 		usuarioActual = null;
-		//Reiniciamos la venta
-		venta = new Venta(Variables.precioPremium);
 	}
 	
 	//Realiza el login del usuario
@@ -758,10 +750,6 @@ public class Controlador implements IFotosListener {
 	 */
 	public boolean comprobarDescuento(IDescuento descuento) {
 		return usuarioActual.comprobarDescuento(descuento);
-	}
-	
-	public Venta getVenta() {
-		return venta;
 	}
 	
 	/**

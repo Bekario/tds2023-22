@@ -1,8 +1,6 @@
 package ventanas;
 
-
 import controlador.Controlador;
-import modelo.Venta;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -58,10 +56,10 @@ public class PanelTarjeta extends JPanel {
 	/**
 	 * Create the application.
 	 */
-	public PanelTarjeta(Home home, Venta venta) {
+	public PanelTarjeta(Home home, float precio) {
 		padre = home;
 		this.setSize(450, 600);
-		crearPanel(venta.obtenerPrecio());
+		crearPanel(precio);
 	}
 	
 	/**

@@ -22,6 +22,9 @@ public class Usuario {
 	private List<Foto> fotos;
 	private List<Album> albums;
 	
+	private float precio;
+	private IDescuento reglaDescuento;
+	
 	//Numero de MGs necesarios para el descuento
 	private final int ME_GUSTAS = 20;
 	//Edades entre las que se aplica el descuento
@@ -45,6 +48,9 @@ public class Usuario {
 		notificaciones = new ArrayList<Notificacion>();
 		albums = new ArrayList<Album>();
 		fotos = new ArrayList<Foto>();
+		
+		reglaDescuento = new DescuentoNull();
+		precio = Variables.precioPremium;
 	}
 	
 	public boolean comprobarDescuento(IDescuento descuento) {
@@ -70,6 +76,10 @@ public class Usuario {
 		}
 		
 		return false;
+	}
+	
+	public float obtenerPrecio() {
+		return reglaDescuento.aplicarDescuento(precio);
 	}
 	
 	/**
@@ -154,8 +164,6 @@ public class Usuario {
 	public void removeNotificacion(Notificacion n) {
 		notificaciones.remove(n);
 	}
-	
-	
 	
 	//Metodos Get / Set
 	public String getUsuario() {
@@ -267,6 +275,14 @@ public class Usuario {
 	}
 	public int getNumeroPublicaciones() {
 		return this.albums.size()+this.fotos.size();
+	}
+	
+	public void setReglaDescuento(IDescuento reglaDescuento) {
+		this.reglaDescuento = reglaDescuento;
+	}
+	
+	public IDescuento getReglaDescuento() {
+		return reglaDescuento;
 	}
 	
 	@Override
