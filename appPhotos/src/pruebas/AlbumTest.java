@@ -37,6 +37,8 @@ public class AlbumTest {
 		
 		// Verificamos que la foto se haya agregado correctamente
 		assertTrue(album.getFotos().contains(foto1));
+		
+		System.out.println("Test basico AddFoto superado!");
 	}
 	
 	@Test
@@ -57,6 +59,8 @@ public class AlbumTest {
 		assertEquals(foto2.getMegusta(), mg2 + 1);
 		assertEquals(portada.getMegusta(), mgP + 1);
 		assertEquals(album.getMegusta(), mgA + 1);
+		
+		System.out.println("Test basico DarMeGusta superado!");
 	}
 	
 	@Test
@@ -77,6 +81,8 @@ public class AlbumTest {
 		assertEquals(foto2.getMegusta(), mg2 - 1);
 		assertEquals(portada.getMegusta(), mgP - 1);
 		assertEquals(album.getMegusta(), mgA - 1);
+		
+		System.out.println("Test basico QuitarMeGusta superado!");
 	}
 	
 	@Test
@@ -90,6 +96,8 @@ public class AlbumTest {
 		// Verificamos que la foto se haya eliminado correctamente
 		assertTrue(eliminada);
 		assertFalse(album.getFotos().contains(foto1));
+		
+		System.out.println("Test basico EliminarFoto superado!");
 	}
 	
 	@Test
@@ -103,5 +111,7 @@ public class AlbumTest {
 		
 		// Verificamos que la foto 2 no esté en el álbum
 		assertFalse(album.getFotos().contains(foto2));
+		
+		System.out.println("Test basico ComprobarFoto superado!");
 	}
 }

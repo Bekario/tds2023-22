@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Notificacion {
 	private int codigo;
@@ -30,4 +31,24 @@ public class Notificacion {
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codigo, fecha, publicacion);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Notificacion other = (Notificacion) obj;
+		return codigo == other.codigo && Objects.equals(fecha, other.fecha)
+				&& Objects.equals(publicacion, other.publicacion);
+	}
+	
+	
 }

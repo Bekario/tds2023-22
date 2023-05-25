@@ -42,6 +42,7 @@ public class UsuarioTest {
         DescuentoEdad descuentoEdad = new DescuentoEdad();
 
         assertTrue(usuario.comprobarDescuento(descuentoEdad));
+        System.out.println("Test basico ComprobarDescuentoEdadMayor superado!");
     }
     
     @Test
@@ -49,6 +50,7 @@ public class UsuarioTest {
         DescuentoEdad descuentoEdad = new DescuentoEdad();
 
         assertTrue(usuario2.comprobarDescuento(descuentoEdad));
+        System.out.println("Test basico ComprobarDescuentoEdadJoven superado!");
     }
 
     @Test
@@ -64,8 +66,7 @@ public class UsuarioTest {
 
         assertTrue(usuario.comprobarDescuento(descuentoPopularidad));
         
-        usuario.removeFoto(foto);
-        usuario.removeFoto(foto2);
+        System.out.println("Test basico ComprobarDescuentoPopularidad superado!");
     }
 
     @Test
@@ -73,6 +74,8 @@ public class UsuarioTest {
         DescuentoNull descuentoNull = new DescuentoNull();
 
         assertTrue(usuario.comprobarDescuento(descuentoNull));
+        
+        System.out.println("Test basico ComprobarDescuentoNull superado!");
     }
 
     @Test
@@ -83,6 +86,8 @@ public class UsuarioTest {
         usuario.addNotificacion(notificacion);
 
         assertTrue(usuario.getNotificaciones().contains(notificacion));
+        
+        System.out.println("Test basico CompruebaNotificacion superado!");
     }
 
     @Test
@@ -94,6 +99,8 @@ public class UsuarioTest {
         usuario.dejarDeSeguirA(usuario2);
 
         assertFalse(usuario2.getUsuariosSeguidores().contains(usuario) && usuario.getUsuariosSeguidos().contains(usuario2));
+        
+        System.out.println("Test basico SeguirYDejarDeSeguir superado!");
     }
 
     @Test
@@ -105,6 +112,8 @@ public class UsuarioTest {
         usuario.removeFoto(foto);
 
         assertFalse(usuario.getFotos().contains(foto));
+        
+        System.out.println("Test basico AddYRemoveFoto superado!");
     }
 
     @Test
@@ -116,6 +125,8 @@ public class UsuarioTest {
         usuario.removeAlbum(album);
 
         assertFalse(usuario.getAlbums().contains(album));
+        
+        System.out.println("Test basico AddYRemoveAlbum superado!");
     }
 
     @Test
@@ -127,6 +138,8 @@ public class UsuarioTest {
         usuario.removeNotificacion(notificacion);
 
         assertFalse(usuario.getNotificaciones().contains(notificacion));
+        
+        System.out.println("Test basico AddYRemoveNotificacion superado!");
     }
 
 }
