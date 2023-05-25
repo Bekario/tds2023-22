@@ -171,7 +171,6 @@ public class PanelCrearAlbum extends JPanel {
 		boolean estado = true;
 		String info = "";
 		
-		//Comprobamos si es un correo basico
 		if(textField.getText().equals(TITULO)) {
 			estado = false;
 			info = "¡Debes introducir un título al álbum!";
@@ -179,6 +178,11 @@ public class PanelCrearAlbum extends JPanel {
 		
 		if (Controlador.getInstancia().getPortadaSeleccionada() == null) {
 			info = "¡Debes seleccionar como minimo una portada (resaltada en rojo)!";
+			estado = false;
+		}
+		
+		if (Controlador.getInstancia().comprobarAlbum(textField.getText())) {
+			info = "¡Ya has creado un album con este nombre, prueba con otro!";
 			estado = false;
 		}
 		

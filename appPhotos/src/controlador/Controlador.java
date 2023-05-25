@@ -480,7 +480,6 @@ public class Controlador implements IFotosListener {
 	public void convertirUsuarioPremium() {
 		usuarioActual.setPremium(true);
 		actualizarUsuario(usuarioActual);
-
 	}
 	
 	/**
@@ -595,8 +594,13 @@ public class Controlador implements IFotosListener {
 		return seleccionados;
 	}
 	
-	public void addSeleccionado(Publicacion p) {
-		seleccionados.add(p);
+	public boolean addSeleccionado(Publicacion p) {
+		//Comprobamos que la lista de seleccionados solo tenga 15
+		if (seleccionados.size() < 15) {
+			seleccionados.add(p);
+			return true;
+		}
+		return false;
 	}
 	
 	public void removeSeleccionado(Publicacion p) {
@@ -724,4 +728,17 @@ public class Controlador implements IFotosListener {
 		
 		return descuentos;
 	}
+	
+	/**
+	 * Retorna un booleano indicando si ya existe un album con ese nombre
+	 * @param nombre nombre del album que se va a comprobar
+	 * @return true si ya existe, false en caso contrario
+	 */
+	public boolean comprobarAlbum(String nombre) {
+		return RepoPublicaciones.getUnicaInstancia().getPublicaciones().stream().parallel()
+																		 .filter(p -> p.getClass().getName().equals("modelo.Album"))
+																		 .anyMatch(a -> a.getTitulo().equals(nombre));
+
+	}
+	
 }

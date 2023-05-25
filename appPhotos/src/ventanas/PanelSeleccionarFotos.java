@@ -59,21 +59,14 @@ public class PanelSeleccionarFotos extends PanelCuadriculaFotos {
 						// Si la portada esta libre, la imagen es la portada
 						Controlador.getInstancia().setPortadaSeleccionada(publicacion);		
 						foto.setBorder(new LineBorder(Colores.ROJO_CLARO, 2, true));
-
 					} else {
 						// Si la portada está cogida, se mete en la lista de seleccionados
-						Controlador.getInstancia().addSeleccionado(publicacion);
-						
-						foto.setBorder(new LineBorder(Colores.NARANJA, 2, true));
+						if (Controlador.getInstancia().addSeleccionado(publicacion)) {
+							//Si ha sido posible seleccionarlo, lo marcamos con color
+							foto.setBorder(new LineBorder(Colores.NARANJA, 2, true));							
+						}
 					}
 				}
-				/* DEBUG
-				if(portada == null) {
-					System.out.println("No portada");
-				} else {
-					System.out.println("portada = "+ portada.getTitulo());
-				}
-				System.out.println("seleccionados = "+ seleccionados.size());*/
 			}
 		});
 
