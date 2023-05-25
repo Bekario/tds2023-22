@@ -75,10 +75,7 @@ public class Album extends Publicacion {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(fotos, portada);
-		return result;
+		return Objects.hash(getCodigo(), getComentarios(), getDescripcion(), getFecha(), getHashtags(), getMegusta(), getTitulo(), portada, fotos);
 	}
 
 	@Override
