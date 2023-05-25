@@ -38,8 +38,8 @@ public class PersistenciaTest {
 		usuario = new Usuario("pepe", "1234", "pepepepe@gmail.com", "Pepe Pepito Pepe", LocalDate.now(), "foto", "Hola soy pepe");
 		comentario = new Comentario("Muy buena foto crack. Saludos desde chile!!");
 		hashtags = new ArrayList<String>();
-		hashtags.add("Familia");
-		hashtags.add("Buenrollo");	
+		hashtags.add("#Familia");
+		hashtags.add("#Buenrollo");	
 		foto = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), hashtags, usuario, "foto"); 
 		album = new Album("Paris", "Viaje familiar a paris", LocalDateTime.of(2023, 1, 1, 12, 14, 33), hashtags, usuario, foto);
 		notificacion = new Notificacion(LocalDate.of(2023, 1, 1), foto);
@@ -95,7 +95,7 @@ public class PersistenciaTest {
 		
 		//Recuperamos foto
 		Foto recuperado = (Foto) p.recuperarPublicacion(foto.getCodigo());
-		assertEquals("El titulo no coincide",foto.getTitulo(), recuperado.getTitulo());
+		assertEquals("El titulo no coincide", foto.getTitulo(), recuperado.getTitulo());
 		assertEquals("La descripcion no coincide",foto.getDescripcion(), recuperado.getDescripcion());
 		assertEquals("La fecha no coincide",foto.getFecha(), recuperado.getFecha());
 		assertEquals("Los hashtags no coinciden",foto.getHashtags(), recuperado.getHashtags());
