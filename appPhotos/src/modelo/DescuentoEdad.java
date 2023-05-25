@@ -16,7 +16,7 @@ public class DescuentoEdad implements IDescuento{
 
 	@Override
 	public String getCondiciones() {
-		return "Para aplicar este descuento debes tener entre 18 y 25 años.";
+		return "Para aplicar este descuento debes tener entre 18 y 25 años o ser mayor de 65 años.";
 	}
 	
 }

@@ -25,8 +25,9 @@ public class Usuario {
 	//Numero de MGs necesarios para el descuento
 	private final int ME_GUSTAS = 20;
 	//Edades entre las que se aplica el descuento
-	private final int EDAD_MIN = 18;
-	private final int EDAD_MAX = 25;
+	private final int EDAD_MIN_JOVEN = 18;
+	private final int EDAD_MAX_JOVEN = 25;
+	private final int EDAD_MIN_MAYOR = 65;
 	
 	//Constructor
 	public Usuario(String usuario, String contraseña, String email, String nombreCompleto, LocalDate fechaNacimiento, String perfil, String descripcion) {
@@ -49,9 +50,11 @@ public class Usuario {
 	public boolean comprobarDescuento(IDescuento descuento) {
 		//Comprobamos si se puede aplicar el de edad
 		int edad = Period.between(getFechaNacimiento(), LocalDate.now()).getYears();
-		if(edad >= EDAD_MIN && edad <= EDAD_MAX && descuento.getClass().getName().equals("modelo.DescuentoEdad")) {
+
+		if(((edad >= EDAD_MIN_JOVEN && edad <= EDAD_MAX_JOVEN) || (edad >= EDAD_MIN_MAYOR)) && descuento.getClass().getName().equals("modelo.DescuentoEdad")) {
 			return true;
-		} 
+		}
+		
 		//Comprobamos si se puede aplicar el de popularidad
 		int numMG = getFotos().stream()
 				.map(mg -> mg.getMegusta())
@@ -282,7 +285,7 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return EDAD_MAX == other.EDAD_MAX && EDAD_MIN == other.EDAD_MIN && ME_GUSTAS == other.ME_GUSTAS
+		return EDAD_MAX_JOVEN == other.EDAD_MAX_JOVEN && EDAD_MIN_JOVEN == other.EDAD_MIN_JOVEN && ME_GUSTAS == other.ME_GUSTAS
 				&& Objects.equals(albums, other.albums) && codigo == other.codigo
 				&& Objects.equals(contraseña, other.contraseña) && Objects.equals(descripcion, other.descripcion)
 				&& Objects.equals(email, other.email) && Objects.equals(fechaNacimiento, other.fechaNacimiento)

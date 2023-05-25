@@ -105,6 +105,8 @@ public class Controlador implements IFotosListener {
 	//Cierra la sesion actual
 	public void cerrarSesion() {
 		usuarioActual = null;
+		//Reiniciamos la venta
+		venta = new Venta(Variables.precioPremium);
 	}
 	
 	//Realiza el login del usuario
