@@ -34,7 +34,7 @@ public class Notificacion {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigo, fecha, publicacion);
+		return Objects.hash(codigo, fecha);
 	}
 
 	@Override
