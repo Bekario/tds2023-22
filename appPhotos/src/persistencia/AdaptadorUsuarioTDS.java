@@ -103,10 +103,9 @@ public class AdaptadorUsuarioTDS implements IAdaptadorUsuarioDAO {
 	}
 
 	public void borrarUsuario(Usuario usuario) {
-		// No se comprueban restricciones de integridad con Venta
-		Entidad eCliente = servPersistencia.recuperarEntidad(usuario.getCodigo());
+		Entidad eUsuario = servPersistencia.recuperarEntidad(usuario.getCodigo());
 
-		servPersistencia.borrarEntidad(eCliente);
+		servPersistencia.borrarEntidad(eUsuario);
 	}
 
 	public void modificarUsuario(Usuario usuario) {
