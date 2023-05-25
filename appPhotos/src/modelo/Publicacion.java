@@ -102,7 +102,7 @@ public abstract class Publicacion {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigo, comentarios, descripcion, fecha, hashtags, megusta, titulo, usuario);
+		return Objects.hash(codigo, comentarios, descripcion, fecha, hashtags, megusta, titulo);
 	}
 
 	@Override
