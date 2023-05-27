@@ -94,7 +94,7 @@ public class Usuario {
 		return reglaDescuento.aplicarDescuento(precio);
 	}
 	
-	/**MALENIA OPTIONAL
+	/**
 	 * Elimina una notificacion
 	 * @param p publicacion que esta asociada a la notificacion
 	 */
