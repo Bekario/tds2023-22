@@ -19,7 +19,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.time.LocalDate;
@@ -35,7 +34,6 @@ import javax.swing.ScrollPaneConstants;
 public class PanelEditar extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JFrame frame;
 	private JTextField txtEmail;
 	private JTextField txtNombre;
 	private JTextField txtUsuario;
@@ -342,7 +340,7 @@ public class PanelEditar extends JPanel {
 				if (fichero != null) {
 					//Comprobamos que la extension sea correcta
 					if(!regexpPng.matcher(fichero.getName()).matches() && !regexpJpg.matcher(fichero.getName()).matches() && !regexpJpeg.matcher(fichero.getName()).matches()) {
-						JOptionPane.showMessageDialog(frame, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
+						JOptionPane.showMessageDialog(null, "¡El fichero debe tener una extensión válida!", "Rellene correctamente los campos", 0);
 					} else if(resp == JFileChooser.APPROVE_OPTION) { //En caso de ser valida, introducimos la imagen temporalmente
 						perfil = fichero.getAbsolutePath();
 						remove(lblFotoPerfil);
@@ -404,7 +402,7 @@ public class PanelEditar extends JPanel {
 	
 		
 		if(!estado) {
-			JOptionPane.showMessageDialog(frame, info, "Rellene correctamente los campos", 0);
+			JOptionPane.showMessageDialog(null, info, "Rellene correctamente los campos", 0);
 		}
 		
 		return estado;
