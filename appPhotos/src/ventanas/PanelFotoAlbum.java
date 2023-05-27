@@ -111,6 +111,8 @@ public class PanelFotoAlbum extends JPanel {
 	private void addManejadorBotonAñadirAlbum(JButton boton) {
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Borramos los seleccionados por si habían albumes seleccionados
+				Controlador.getInstancia().borrarSeleccionados();
 				padre.setPanel(new PanelCrearAlbum(padre));
 			}
 		});

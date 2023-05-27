@@ -249,6 +249,12 @@ public class Controlador implements IFotosListener {
 		actualizarPublicacion(album);
 	}
 	
+	//Elimina las publicaciones seleccionadas
+	public void borrarSeleccionados() {
+		portadaSeleccionada = null;
+		seleccionados.clear();
+	}
+	
 	public boolean borrarPublicacion(Publicacion publicacion) {
 		//Comprobamos si la publicacion esta registrada
 		if (!esPublicacionRegistrada(publicacion.getCodigo()))

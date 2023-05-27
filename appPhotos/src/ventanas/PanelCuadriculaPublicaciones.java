@@ -139,6 +139,8 @@ public class PanelCuadriculaPublicaciones extends JPanel {
 			JMenuItem mntmNewMenuItem2 = new JMenuItem("Modificar");
 			mntmNewMenuItem2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					//Eliminamos los seleccionados
+					Controlador.getInstancia().borrarSeleccionados();
 					//Establecemos el panel seleccionar fotos con la foto anterior
 					padre.setPanel(new PanelEditarAlbum(padre, (Album) p));
 					//Actualizamos el panel
