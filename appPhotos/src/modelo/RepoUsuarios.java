@@ -61,7 +61,7 @@ public class RepoUsuarios {
 		usuarios.remove(usuario.getUsuario());
 	}
 	
-	/*Recupera todos los clientes para trabajar con ellos en memoria*/
+	/*Recupera todos los usuarios para trabajar con ellos en memoria*/
 	private void cargarRepositorio() throws DAOException {
 		 List<Usuario> usuariosBD = adaptadorUsuario.recuperarTodosUsuarios();
 		 for (Usuario u: usuariosBD) 

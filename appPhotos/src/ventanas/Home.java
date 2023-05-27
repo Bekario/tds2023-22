@@ -486,7 +486,6 @@ public class Home implements IEncendidoListener{
 	public void subirFoto(Publicacion publicacion) {
 		//Esta publicacion se puede borrar, ya que es subida por el usuario
 		panelPerfil.addFoto(publicacion, true);
-		Controlador.getInstancia().notificarSeguidores(publicacion);
 	}
 	
 	/**
@@ -495,7 +494,6 @@ public class Home implements IEncendidoListener{
 	public void subirAlbum(Publicacion publicacion) {
 		//Esta publicacion se puede borrar, ya que es subida por el usuario
 		panelPerfil.addAlbum(publicacion, true);
-		Controlador.getInstancia().notificarSeguidores(publicacion);
 	}
 	
 	@Override

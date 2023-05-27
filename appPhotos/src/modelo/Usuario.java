@@ -1,10 +1,14 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import controlador.Controlador;
 
 public class Usuario {
 	private int codigo;
@@ -22,8 +26,13 @@ public class Usuario {
 	private List<Foto> fotos;
 	private List<Album> albums;
 	
+	//Descuentos
 	private float precio;
 	private IDescuento reglaDescuento;
+	
+	//Panel Seleccionar
+	private List<Foto> seleccionados;
+	private Publicacion portadaSeleccionada;
 	
 	//Numero de MGs necesarios para el descuento
 	private final int ME_GUSTAS = 20;
@@ -51,6 +60,9 @@ public class Usuario {
 		
 		reglaDescuento = new DescuentoNull();
 		precio = Variables.precioPremium;
+		
+		portadaSeleccionada = null;
+		seleccionados = new ArrayList<Foto>();
 	}
 	
 	public boolean comprobarDescuento(IDescuento descuento) {
@@ -82,7 +94,7 @@ public class Usuario {
 		return reglaDescuento.aplicarDescuento(precio);
 	}
 	
-	/**
+	/**MALENIA OPTIONAL
 	 * Elimina una notificacion
 	 * @param p publicacion que esta asociada a la notificacion
 	 */
@@ -91,6 +103,7 @@ public class Usuario {
 							   .filter(n -> n.getPublicacion().equals(p))
 							   .findAny()
 							   .orElse(null);
+		
 		if (notificacion == null) {
 			return false;
 		} else {
@@ -141,6 +154,43 @@ public class Usuario {
 		usuariosSeguidores.remove(usuario);
 	}
 	
+	public Foto subirFoto(String titulo, String descripcion, String path) {
+		Foto publi = new Foto(titulo, descripcion, LocalDateTime.now(), this, path);
+		addFoto(publi);
+		
+		notificarSeguidores(publi);
+		
+		return publi;
+	}
+	
+	public Album subirAlbum(String titulo, String descripcion) {
+		//Creamos el album
+		Album publi = new Album(titulo, descripcion, LocalDateTime.now(), this, (Foto)portadaSeleccionada);
+		
+		//Introducimos las fotos en el album
+		seleccionados.stream()
+			 .forEachOrdered(f -> publi.addFoto((Foto) f));
+		
+		//Añadimos el album al usuario
+		addAlbum(publi);
+		
+		//Limpiamos seleccionados para el proximo album
+		borrarSeleccionados();
+		
+		notificarSeguidores(publi);
+		
+		return publi;
+	}
+	
+	public Album modificarAlbum(Album album, String titulo, String descripcion) {
+		album.setTitulo(titulo);
+		album.setDescripcion(descripcion);
+		album.setPortada((Foto) portadaSeleccionada);
+		album.setFotos(seleccionados);
+		
+		return album;
+	}
+	
 	public void addFoto(Foto p) {
 		fotos.add(p);
 	}
@@ -165,7 +215,100 @@ public class Usuario {
 		notificaciones.remove(n);
 	}
 	
+	//Elimina las publicaciones seleccionadas
+	public void borrarSeleccionados() {
+		portadaSeleccionada = null;
+		seleccionados.clear();
+	}
+	
+	/**
+	 * Añade a la lista de publicaciones seleccionadas para crear el album
+	 * @param p
+	 * @return true si es posible añadirla
+	 */
+	public boolean addSeleccionado(Publicacion p) {
+		//Comprobamos que la lista de seleccionados solo tenga 15
+		if (seleccionados.size() < 15) {
+			seleccionados.add((Foto) p);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Elimina una publicacion de la lista seleccionados
+	 * @param p
+	 */
+	public void removeSeleccionado(Publicacion p) {
+		seleccionados.remove(p);
+	}
+	
+	public List<Publicacion> getPublicacionesSubidasSeguidores(){
+		List<Publicacion> pub= new ArrayList<Publicacion>(getPublicaciones());			
+		
+		usuariosSeguidos.stream().parallel()
+						.forEach(u -> pub.addAll(u.getPublicaciones()));
+		
+		//Ordenamos la lista de todas las publicaciones del ususario y sus seguidos por fecha
+		Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
+		
+		//Retornamos una lista de 20 o menos
+		if(pub.size() > 20) {
+			return pub.subList(0, 20);	 
+		} 
+		 
+		return pub;
+	}
+	
+	/**
+	 * Obtiene las 10 publicacion con mas me gustas
+	 * @return
+	 */
+	public List<Publicacion> getPublicacionesTop() {
+		List<Publicacion> pub= new ArrayList<Publicacion>(fotos);			
+		
+		//Ordenamos por numero de me gustas
+		Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
+		
+		//Obtenemos una lista de 10 o menos
+		if(pub.size()>10) {
+			pub= pub.subList(0, 10);	 
+		}
+		return pub;
+	}
+	
+	/**
+	 * Notifica a todos los seguidores del usuario sobre la publicacion subida
+	 * @param publicacion sobre la que se va a notificar
+	 */
+	public void notificarSeguidores(Publicacion publicacion) {
+		Notificacion n = new Notificacion(LocalDate.now(), publicacion);
+		
+		Controlador.getInstancia().persistirNotificacion(n);
+		
+		//Añadimos la notificacion a cada usuario y guardamos los cambios en el DAO y repositorio
+		getUsuariosSeguidores().stream().parallel()
+							   			.forEach(u -> {u.addNotificacion(n); Controlador.getInstancia().actualizarUsuario(u);});
+
+	}
+	
 	//Metodos Get / Set
+	public Publicacion getPortadaSeleccionada() {
+		return portadaSeleccionada;
+	}
+	
+	public void setPortadaSeleccionada(Publicacion portadaSeleccionada) {
+		this.portadaSeleccionada = portadaSeleccionada;
+	}
+	
+	/**
+	 * Retorna la lista de publicaciones seleccionadas para crear un album
+	 * @return
+	 */
+	public List<Foto> getSeleccionados() {
+		return seleccionados;
+	}
+	
 	public String getUsuario() {
 		return usuario;
 	}

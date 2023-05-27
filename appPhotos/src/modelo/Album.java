@@ -10,8 +10,8 @@ public class Album extends Publicacion {
 	private Foto portada;
 	
 	//Constructor
-	public Album(String titulo, String descipcion, LocalDateTime fecha, List<String> hastags, Usuario usuario, Foto portada) {
-		super(titulo, descipcion, fecha, hastags, usuario);
+	public Album(String titulo, String descipcion, LocalDateTime fecha, Usuario usuario, Foto portada) {
+		super(titulo, descipcion, fecha, usuario);
 		this.fotos = new ArrayList<Foto>();
 		this.portada = portada;
 	}
@@ -50,6 +50,17 @@ public class Album extends Publicacion {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Obtiene la portada de una publicacion sin importar si es un album o foto
+	 * @param codigo de la publicacion
+	 * @return
+	 */
+	@Override
+	public String obtenerPortadaPublicacion() {
+		//Si es un album, devolvemos el path de la portada
+		return portada.getPath();
 	}
 	
 	//Metodos get / set

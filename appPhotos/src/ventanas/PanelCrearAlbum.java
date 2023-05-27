@@ -139,7 +139,8 @@ public class PanelCrearAlbum extends JPanel {
 					padre.subirAlbum(album);
 					
 					//Mostramos el panelPerfil
-					padre.setPanelPerfil();					
+					padre.recargarPanelInicio();
+					padre.setPanelPerfil();			
 				}
 				
 			}

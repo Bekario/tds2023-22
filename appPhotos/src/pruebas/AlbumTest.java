@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import modelo.Album;
@@ -22,12 +21,12 @@ public class AlbumTest {
 	public void setUp() {
 		// Creamos las fotos y la portada
 		usuario = new Usuario("pepe", "1234", "pepepepe@gmail.com", "Pepe Pepito Pepe", LocalDate.now(), "foto", "Hola soy pepe");
-		foto1 = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), new ArrayList<>(), usuario, "foto"); 
-		foto2 = new Foto("Prueba 2","P2",LocalDateTime.of(2023, 1, 1, 12, 14, 33), new ArrayList<>(), usuario, "foto");
-		portada = new Foto("Prueba 3","P3",LocalDateTime.of(2023, 1, 1, 12, 14, 33), new ArrayList<>(), usuario, "foto");
+		foto1 = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), usuario, "foto"); 
+		foto2 = new Foto("Prueba 2","P2",LocalDateTime.of(2023, 1, 1, 12, 14, 33), usuario, "foto");
+		portada = new Foto("Prueba 3","P3",LocalDateTime.of(2023, 1, 1, 12, 14, 33), usuario, "foto");
 		
 		// Creamos el álbum
-		album = new Album("Mi álbum", "Descripción del álbum", LocalDateTime.now(), new ArrayList<>(), usuario, portada);
+		album = new Album("Mi álbum", "Descripción del álbum", LocalDateTime.now(), usuario, portada);
 	}
 	
 	@Test

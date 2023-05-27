@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class Publicacion {
 	private Usuario usuario;
@@ -12,14 +14,12 @@ public abstract class Publicacion {
 	private LocalDateTime fecha;
 	private String descripcion;
 	private int megusta;
-	private List<String> hashtags;
 	private List<Comentario> comentarios;
 	
 	// Constructor
-	public Publicacion(String titulo, String descripcion, LocalDateTime fecha, List<String> hastags, Usuario usuario) {
+	public Publicacion(String titulo, String descripcion, LocalDateTime fecha, Usuario usuario) {
 		this.titulo=titulo;
 		this.descripcion=descripcion;
-		this.hashtags=hastags;
 		this.usuario=usuario;
 		this.fecha=fecha;
 		megusta=0;
@@ -35,9 +35,41 @@ public abstract class Publicacion {
 		megusta--;	
 	}
 	
+	public Comentario publicarComentario(Usuario usuario, String text) {
+		//Creamos un objeto comentario
+		Comentario c= new Comentario(usuario.getUsuario()+": "+text);
+		
+		//Añadimos a la publicacion el comentario
+		addComentario(c);
+		return c;
+	}
+	
+	
 	public void addComentario(Comentario c) {
 		comentarios.add(c);
 	}
+	
+	/**
+	 * Dada una cadena de texto, obtiene todos los hashtags
+	 * @param texto
+	 * @return array con los hashtags
+	 */
+	public List<String> procesarHashtags(String texto) {
+		Pattern MY_PATTERN = Pattern.compile("#(\\S{1,15})\\b");
+		Matcher mat = MY_PATTERN.matcher(texto);
+		List<String> hash = new ArrayList<String>();
+		while (mat.find()) {
+		  hash.add(mat.group(1));
+		}
+		return hash;
+	}
+	
+	/**
+	 * Obtiene la portada de una publicacion sin importar si es un album o foto
+	 * @param codigo de la publicacion
+	 * @return
+	 */
+	abstract public String obtenerPortadaPublicacion();
 	
 	// Metodos get / set
 	public String getTitulo() {
@@ -69,7 +101,7 @@ public abstract class Publicacion {
 	}
 	
 	public List<String> getHashtags() {
-		return hashtags;
+		return procesarHashtags(descripcion);
 	}
 
 	public int getCodigo() {
@@ -102,7 +134,7 @@ public abstract class Publicacion {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codigo, comentarios, descripcion, fecha, hashtags, megusta, titulo);
+		return Objects.hash(codigo, comentarios, descripcion, fecha, megusta, titulo);
 	}
 
 	@Override
@@ -116,7 +148,7 @@ public abstract class Publicacion {
 		Publicacion other = (Publicacion) obj;
 		return codigo == other.codigo && Objects.equals(comentarios, other.comentarios)
 				&& Objects.equals(descripcion, other.descripcion) && Objects.equals(fecha, other.fecha)
-				&& Objects.equals(hashtags, other.hashtags) && megusta == other.megusta
+				&& megusta == other.megusta
 				&& Objects.equals(titulo, other.titulo) && Objects.equals(usuario, other.usuario);
 	}
 	

@@ -6,14 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import adaptadores.AdaptadorEXCEL;
@@ -30,7 +27,6 @@ import modelo.Publicacion;
 import modelo.RepoPublicaciones;
 import modelo.RepoUsuarios;
 import modelo.Usuario;
-import persistencia.AdaptadorUsuarioTDS;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorComentarioDAO;
@@ -46,10 +42,6 @@ public class Controlador implements IFotosListener {
 	private static Controlador unicaInstancia = null;
 	private Usuario usuarioActual;
 	
-	//Panel Seleccionar
-	private List<Foto> seleccionados;
-	private Publicacion portadaSeleccionada;
-	
 	//Ruta imagenes
 	private final String RUTA_IMAGENES = System.getProperty("user.dir")+"/fotosSubidas/";
 	
@@ -59,9 +51,7 @@ public class Controlador implements IFotosListener {
 	
 	private Controlador() {
 		usuarioActual = null;
-		portadaSeleccionada = null;
 		rutaXml = null;
-		seleccionados = new ArrayList<Foto>();
 		
 		//Añadimos el controlador como listener
 		c = new ComponenteCargadorFotos();
@@ -133,11 +123,10 @@ public class Controlador implements IFotosListener {
 		usuarioActual = new Usuario(usuario, contraseña, email, nombreCompleto, fechaNacimiento, perfil, descripcion);
 		
 		//Obtenemos el adaptador de usuario
-		AdaptadorUsuarioTDS usuarioDAO=null;
+		IAdaptadorUsuarioDAO usuarioDAO=null;
 		try {
-			usuarioDAO = (AdaptadorUsuarioTDS) FactoriaDAO.getInstancia().getUsuarioDAO();
+			usuarioDAO = FactoriaDAO.getInstancia().getUsuarioDAO();
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -176,10 +165,7 @@ public class Controlador implements IFotosListener {
 	}
 	
 	public Foto añadirFoto(String titulo, String descripcion, String path) {
-		List<String> hashtags = procesarHashtags(descripcion);
-		
-		Foto publi = new Foto(titulo, descripcion, LocalDateTime.now(), hashtags, usuarioActual, path);
-		
+		Foto publi = usuarioActual.subirFoto(titulo, descripcion, path);
 		
 		IAdaptadorPublicacionDAO publicacionDAO = null;
 		try {
@@ -188,15 +174,11 @@ public class Controlador implements IFotosListener {
 			e.printStackTrace();
 		}
 		publicacionDAO.registrarPublicacion(publi);
-
 		RepoPublicaciones.getUnicaInstancia().addPublicacion(publi);
-		
-		usuarioActual.addFoto(publi);
 
 		//Subimos la foto a la carpeta fotos subidas
 		publi.setPath(subirPublicacion(path, publi.getCodigo()));
-		System.out.println();
-		publicacionDAO.modificarPublicacion(publi);
+		actualizarPublicacion(publi);
 		
 		// A continuacion, guardamos los cambios en el usuario y la publicacion
 		actualizarUsuario(usuarioActual);
@@ -205,15 +187,8 @@ public class Controlador implements IFotosListener {
 	}
 	
 	public Album añadirAlbum(String titulo, String descripcion) {
-		List<String> hashtags = procesarHashtags(descripcion);
-		
-		
 		//Creamos el album
-		Album publi = new Album(titulo, descripcion, LocalDateTime.now(), hashtags, usuarioActual, (Foto)portadaSeleccionada);
-		
-		//Introducimos las fotos en el album
-		seleccionados.stream()
-			 .forEachOrdered(f -> publi.addFoto((Foto) f));
+		Album publi = usuarioActual.subirAlbum(titulo, descripcion);
 		
 		//Almacenamos el nuevo album en el DAO
 		IAdaptadorPublicacionDAO publicacionDAO = null;
@@ -227,32 +202,19 @@ public class Controlador implements IFotosListener {
 		//Almacenamos el album en el repositorio
 		RepoPublicaciones.getUnicaInstancia().addPublicacion(publi);
 		
-		//Añadimos el album al usuario
-		usuarioActual.addAlbum(publi);
-		
 		// A continuacion, guardamos los cambios
 		actualizarUsuario(usuarioActual);
-		
-		//Limpiamos seleccionados para el proximo album
-		seleccionados = new ArrayList<Foto>();
-		portadaSeleccionada = null;
 		
 		return publi;	
 	}
 	
 	public void modificarAlbum(Album album, String titulo, String descripcion) {
-		album.setTitulo(titulo);
-		album.setDescripcion(descripcion);
-		album.setPortada((Foto) portadaSeleccionada);
-		album.setFotos(seleccionados);
-		
-		actualizarPublicacion(album);
+		actualizarPublicacion(usuarioActual.modificarAlbum(album, titulo, descripcion));
 	}
 	
 	//Elimina las publicaciones seleccionadas
 	public void borrarSeleccionados() {
-		portadaSeleccionada = null;
-		seleccionados.clear();
+		usuarioActual.borrarSeleccionados();
 	}
 	
 	public boolean borrarPublicacion(Publicacion publicacion) {
@@ -275,9 +237,7 @@ public class Controlador implements IFotosListener {
 				
 				albums.stream()
 				.filter(a -> a.comprobarFoto((Foto) publicacion))
-				.forEach(a -> {publicacionDAO.borrarPublicacion(a); 
-				repoPublicaciones.removePublicacion(a);
-				usuarioActual.removeAlbum((Album) a);});	
+				.forEach(a -> borrarPublicacion(a));	
 				
 				usuarioActual.removeFoto((Foto) publicacion);
 			} else {
@@ -287,6 +247,7 @@ public class Controlador implements IFotosListener {
 			
 			//Borramos la publicacion
 			publicacionDAO.borrarPublicacion(publicacion);
+			
 			//Actualizamos el usuario
 			IAdaptadorUsuarioDAO u = FactoriaDAO.getInstancia().getUsuarioDAO();
 			u.modificarUsuario(usuarioActual);
@@ -311,21 +272,6 @@ public class Controlador implements IFotosListener {
 	 */
 	public boolean esPublicacionRegistrada(int codigo) {
 		return RepoPublicaciones.getUnicaInstancia().getPublicacion(codigo) != null;
-	}
-	
-	/**
-	 * Dada una cadena de texto, obtiene todos los hashtags
-	 * @param texto
-	 * @return array con los hashtags
-	 */
-	private List<String> procesarHashtags(String texto) {
-		Pattern MY_PATTERN = Pattern.compile("#(\\S{1,15})\\b");
-		Matcher mat = MY_PATTERN.matcher(texto);
-		List<String> hash = new ArrayList<String>();
-		while (mat.find()) {
-		  hash.add(mat.group(1));
-		}
-		return hash;
 	}
 	
 	/**
@@ -365,7 +311,6 @@ public class Controlador implements IFotosListener {
 		}
 		return false;
 	}
-	
 	
 	/**
 	 * Compruba si el usuarioActual sigue al usuario
@@ -492,21 +437,12 @@ public class Controlador implements IFotosListener {
 		return RepoPublicaciones.getUnicaInstancia().getPublicaciones();
 	}
 	
+	/**
+	 * Retorna la lista de publicaciones de los usuarios a los que sigue el usuarioActual
+	 * @return
+	 */
 	public List<Publicacion> getPublicacionesSubidasSeguidores(){
-		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getPublicaciones());			
-		
-		usuarioActual.getUsuariosSeguidos().stream().parallel()
-													.forEach(u -> pub.addAll(u.getPublicaciones()));
-		
-		//Ordenamos la lista de todas las publicaciones del ususario y sus seguidos por fecha
-		Collections.sort(pub, (p1, p2) -> p2.getFecha().compareTo(p1.getFecha()));
-		
-		//Retornamos una lista de 20 o menos
-		if(pub.size() > 20) {
-			return pub.subList(0, 20);	 
-		} 
-		 
-		return pub;
+		return usuarioActual.getPublicacionesSubidasSeguidores();
 	}
 	
 	public void convertirUsuarioPremium() {
@@ -519,16 +455,7 @@ public class Controlador implements IFotosListener {
 	 * @return
 	 */
 	public List<Publicacion> getPublicacionesTop() {
-		List<Publicacion> pub= new ArrayList<Publicacion>(usuarioActual.getFotos());			
-		
-		//Ordenamos por numero de me gustas
-		Collections.sort(pub, (p1, p2) -> (Integer.compare(p2.getMegusta(), p1.getMegusta())));
-		
-		//Obtenemos una lista de 10 o menos
-		if(pub.size()>10) {
-			pub= pub.subList(0, 10);	 
-		}
-		return pub;
+		return usuarioActual.getPublicacionesTop();
 	}
 	
 	public void generarPDF() {
@@ -545,7 +472,7 @@ public class Controlador implements IFotosListener {
 	 * Actualiza los datos del usuario en el repositorio y en el DAO
 	 * @param usuario
 	 */
-	private void actualizarUsuario(Usuario usuario) {
+	public void actualizarUsuario(Usuario usuario) {
 		RepoUsuarios.getUnicaInstancia().removeUsuario(usuario);
 		RepoUsuarios.getUnicaInstancia().addUsuario(usuario);
 		
@@ -556,6 +483,16 @@ public class Controlador implements IFotosListener {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void persistirNotificacion(Notificacion notificacion) {
+		IAdaptadorNotificacionDAO notificacionDAO= null;
+		try {
+			notificacionDAO = FactoriaDAO.getInstancia().getNotificacionDAO();
+			notificacionDAO.registrarNotificacion(notificacion);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -577,7 +514,7 @@ public class Controlador implements IFotosListener {
 
 	public void addComentario(Publicacion publicacion, String text) {
 		//Creamos un objeto comentario
-		Comentario c= new Comentario(usuarioActual.getUsuario()+": "+text);
+		Comentario c= publicacion.publicarComentario(usuarioActual, text);
 		
 		//Persistimos el comentario
 		IAdaptadorComentarioDAO comentarioDAO = null;
@@ -588,8 +525,6 @@ public class Controlador implements IFotosListener {
 		}
 		comentarioDAO.registrarComentario(c);
 		
-		//Añadimos a la publicacion el comentario
-		publicacion.addComentario(c);
 		actualizarPublicacion(publicacion);
 	}
 	
@@ -599,12 +534,7 @@ public class Controlador implements IFotosListener {
 	 * @return
 	 */
 	public String obtenerPortadaPublicacion(Publicacion publicacion) {
-		//Si es una foto, devolvemos el path
-		if (publicacion.getClass().getName() == "modelo.Foto") {
-			return ((Foto) publicacion).getPath();			
-		} else { //Si es un album, devolvemos el path de la portada
-			return ((Album) publicacion).getPortada().getPath();	
-		}
+		return publicacion.obtenerPortadaPublicacion();
 	}
 	
 	public Usuario obtenerUsuarioActual() {
@@ -620,7 +550,7 @@ public class Controlador implements IFotosListener {
 	 * @return
 	 */
 	public List<Foto> getSeleccionados() {
-		return seleccionados;
+		return usuarioActual.getSeleccionados();
 	}
 	
 	/**
@@ -629,12 +559,7 @@ public class Controlador implements IFotosListener {
 	 * @return true si es posible añadirla
 	 */
 	public boolean addSeleccionado(Publicacion p) {
-		//Comprobamos que la lista de seleccionados solo tenga 15
-		if (seleccionados.size() < 15) {
-			seleccionados.add((Foto) p);
-			return true;
-		}
-		return false;
+		return usuarioActual.addSeleccionado(p);
 	}
 	
 	/**
@@ -642,15 +567,15 @@ public class Controlador implements IFotosListener {
 	 * @param p
 	 */
 	public void removeSeleccionado(Publicacion p) {
-		seleccionados.remove(p);
+		usuarioActual.removeSeleccionado(p);
 	}
 	
 	public Publicacion getPortadaSeleccionada() {
-		return portadaSeleccionada;
+		return usuarioActual.getPortadaSeleccionada();
 	}
 	
 	public void setPortadaSeleccionada(Publicacion portadaSeleccionada) {
-		this.portadaSeleccionada = portadaSeleccionada;
+		usuarioActual.setPortadaSeleccionada(portadaSeleccionada);
 	}
 
 	public List<String> obtenerHashTagsBuscados(String nombre) {
@@ -697,37 +622,6 @@ public class Controlador implements IFotosListener {
 	}
 	
 	/**
-	 * Notifica a todos los seguidores del usuario sobre la publicacion subida
-	 * @param publicacion sobre la que se va a notificar
-	 */
-	public void notificarSeguidores(Publicacion publicacion) {
-		Notificacion n = new Notificacion(LocalDate.now(), publicacion);
-		IAdaptadorNotificacionDAO adaptadorNotificacion= null;
-		
-		//Preparamos el DAO
-		try {
-			adaptadorNotificacion = FactoriaDAO.getInstancia().getNotificacionDAO();
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		
-		//Registramos la notificacion
-		adaptadorNotificacion.registrarNotificacion(n);
-		
-		//Añadimos la notificacion a cada usuario y guardamos los cambios en el DAO y repositorio
-		usuarioActual.getUsuariosSeguidores().stream().parallel()
-											   			.forEach(u -> {u.addNotificacion(n);
-											   			try {
-															FactoriaDAO.getInstancia().getUsuarioDAO().modificarUsuario(u);
-														} catch (DAOException e) {
-															e.printStackTrace();
-														}
-											   			RepoUsuarios.getUnicaInstancia().removeUsuario(u);
-											   			RepoUsuarios.getUnicaInstancia().addUsuario(u);
-											   			});
-	}
-	
-	/**
 	 * Elimina la notificacion de la lista del usuarioActual
 	 * @param n notificacion que se va a borrar
 	 */
@@ -735,18 +629,16 @@ public class Controlador implements IFotosListener {
 		//Eliminamos la notificacion del usuario
 		usuarioActual.removeNotificacion(n);
 		
-		//Persistimos la notificacion y modificamos el usuario
+		//Persistimos la notificacion y actualizamos el usuario
 		IAdaptadorNotificacionDAO notificacionDAO = null;
-		IAdaptadorUsuarioDAO usuarioDAO = null;
 		try {
 			notificacionDAO = FactoriaDAO.getInstancia().getNotificacionDAO();
-			usuarioDAO = FactoriaDAO.getInstancia().getUsuarioDAO();
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 		
 		notificacionDAO.borrarNotificacion(n);
-		usuarioDAO.modificarUsuario(usuarioActual);
+		actualizarUsuario(usuarioActual);
 	}
 	
 	/**

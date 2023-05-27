@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,6 @@ public class UsuarioTest {
 
     private static Usuario usuario, usuario2;
 	private static Foto foto, foto2;
-	private static ArrayList<String> hashtags;
 	private static Album album;
 	private static Notificacion notificacion;
     
@@ -29,12 +27,9 @@ public class UsuarioTest {
     public void setUp() {
     	usuario = new Usuario("pepe", "1234", "pepepepe@gmail.com", "Pepe Pepito Pepe", LocalDate.of(1900, 5, 22), "foto", "Hola soy pepe");
     	usuario2 = new Usuario("usuario2", "contraseña", "email@example.com", "Nombre Completo", LocalDate.of(2002, 5, 22), "perfil", "descripcion");
-    	hashtags = new ArrayList<String>();
-		hashtags.add("#Familia");
-		hashtags.add("#Buenrollo");	
-		foto = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), hashtags, usuario, "foto");
-		foto2 = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), hashtags, usuario, "foto");
-		album = new Album("titulo", "descripcion", LocalDateTime.now(), hashtags, usuario, foto);
+		foto = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), usuario, "foto");
+		foto2 = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), usuario, "foto");
+		album = new Album("titulo", "descripcion", LocalDateTime.now(), usuario, foto);
     }
 
     @Test

@@ -27,7 +27,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 	private final String FECHA="fecha";
 	private final String DESCRIPCION="descripcion";
 	private final String MEGUSTA="megusta";
-	private final String HASHTAGS="hashtags";
 	private final String COMENTARIOS="comentarios";
 	private final String USUARIO="usuario";	
 	private final String PATH="path";
@@ -78,7 +77,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 				new Propiedad(MEGUSTA, String.valueOf(publicacion.getMegusta())),
 				new Propiedad(USUARIO, String.valueOf(publicacion.getUsuario().getCodigo())),
-				new Propiedad(HASHTAGS, obtenerStringDeHashtags(publicacion.getHashtags())),
 				new Propiedad(COMENTARIOS, obtenerStringDeComentarios(publicacion.getComentarios()))));
 		
 		
@@ -131,8 +129,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 				prop.setValor(publicacion.getDescripcion());
 			} else if (prop.getNombre().equals(MEGUSTA)) {
 				prop.setValor(String.valueOf(publicacion.getMegusta()));
-			} else if (prop.getNombre().equals(HASHTAGS)) {
-				prop.setValor(obtenerStringDeHashtags(publicacion.getHashtags()));
 			} else if (prop.getNombre().equals(COMENTARIOS)) {
 				prop.setValor(obtenerStringDeComentarios(publicacion.getComentarios()));
 			} else if (prop.getNombre().equals(USUARIO)) {
@@ -162,7 +158,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		String descipcion;
 		int megusta;
 		Usuario usuario;
-		List<String> hashtags = new ArrayList<String>(); 
 		LocalDateTime fecha;
 		List<Comentario> comentarios= new ArrayList<Comentario>();
 		
@@ -177,7 +172,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		descipcion = servPersistencia.recuperarPropiedadEntidad(ePublicacion, DESCRIPCION);
 		megusta = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTA));
 		fecha = obtenerFechaDesdeString(servPersistencia.recuperarPropiedadEntidad(ePublicacion, FECHA));
-		hashtags = obtenerHashtagsDesdeString(servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS));
 
 		// recuperar propiedades que son objetos llamando a adaptadores
 		usuario = obtenerUsuarioDesdeCodigo(servPersistencia.recuperarPropiedadEntidad(ePublicacion, USUARIO));
@@ -188,7 +182,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		
 		//Comprobamos si se trata de foto o album viendo si path vale VACIO
 		if (!path.equals(VACIO)) {
-			Foto foto = new Foto(titulo, descipcion, fecha, hashtags, usuario, path);			
+			Foto foto = new Foto(titulo, descipcion, fecha, usuario, path);			
 			foto.setCodigo(codigo);
 			foto.setUsuario(usuario);
 			foto.setComentarios(comentarios);
@@ -198,7 +192,7 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		} else {
 			// Obtenemos la foto de portada
 			Foto portada = obtenerFotoDesdeString(servPersistencia.recuperarPropiedadEntidad(ePublicacion, PORTADA));
-			Album album = new Album(titulo, descipcion, fecha, hashtags, usuario, portada);
+			Album album = new Album(titulo, descipcion, fecha, usuario, portada);
 			
 			album.setCodigo(codigo);
 			album.setUsuario(usuario);
@@ -231,35 +225,6 @@ public class AdaptadorPublicacionTDS implements IAdaptadorPublicacionDAO {
 		AdaptadorPublicacionTDS adaptadorP = AdaptadorPublicacionTDS.getUnicaInstancia();
 		return (Foto) adaptadorP.recuperarPublicacion(Integer.valueOf(foto));
 	}
-	
-	/**
-	 * Obtiene un string con los hashtags separados con espacios
-	 * @param listaHashtags
-	 * @return
-	 */
-	private String obtenerStringDeHashtags(List<String> listaHashtags) {
-		String aux = "";
-		for (String s : listaHashtags) {
-			aux+=s+" ";
-		}
-		return aux.trim();
-	}
-	
-	/**
-	 * Retorna una lista con los hashtags
-	 * @param comentarios
-	 * @return
-	 */
-	 private List<String> obtenerHashtagsDesdeString(String hashtags){
-		 ArrayList<String> listaHashtags = new ArrayList<String>();
-		 StringTokenizer strTok = new StringTokenizer(hashtags, " ");
-		 
-		 while (strTok.hasMoreTokens()) {
-			 listaHashtags.add((String) strTok.nextElement());
-		 }
-		 
-		 return listaHashtags;
-	 }
 	
 	 /**
 		 * Obtiene un string con los codigos de los comentarios

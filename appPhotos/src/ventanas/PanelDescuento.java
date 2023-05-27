@@ -25,9 +25,6 @@ public class PanelDescuento extends JPanel {
 		this.setSize(262, 32);
 		crearPanel(descuento);
 		this.setBorder(new LineBorder(new Color(45, 42, 46), 2, true));	
-		Manejadores.addManejadorResaltar(this);
-		
-		
 	}
 	
 	private void crearPanel(IDescuento d) {

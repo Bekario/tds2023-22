@@ -3,7 +3,6 @@ package pruebas;
 import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,7 +22,6 @@ public class PersistenciaTest {
 	private static Usuario usuario;
 	private static Comentario comentario;
 	private static Foto foto;
-	private static ArrayList<String> hashtags;
 	private static Album album;
 	private static Notificacion notificacion;
 	
@@ -32,11 +30,8 @@ public class PersistenciaTest {
 		//Iniciamos objetos comunes para los tests
 		usuario = new Usuario("pepe", "1234", "pepepepe@gmail.com", "Pepe Pepito Pepe", LocalDate.now(),  PersistenciaTest.class.getResource("/imagenes/perfil_default.png").toString().substring(6), "Hola soy pepe");
 		comentario = new Comentario("Muy buena foto crack. Saludos desde chile!!");
-		hashtags = new ArrayList<String>();
-		hashtags.add("#Familia");
-		hashtags.add("#Buenrollo");	
-		foto = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), hashtags, usuario, PersistenciaTest.class.getResource("/imagenes/perfil_default.png").toString().substring(6));
-		album = new Album("Paris", "Viaje familiar a paris", LocalDateTime.of(2023, 1, 1, 12, 14, 33), hashtags, usuario, foto);
+		foto = new Foto("Mi tio","Foto con mi tio",LocalDateTime.of(2023, 1, 1, 12, 14, 33), usuario, PersistenciaTest.class.getResource("/imagenes/perfil_default.png").toString().substring(6));
+		album = new Album("Paris", "Viaje familiar a paris", LocalDateTime.of(2023, 1, 1, 12, 14, 33), usuario, foto);
 		notificacion = new Notificacion(LocalDate.of(2023, 1, 1), foto);
 	}
 	
